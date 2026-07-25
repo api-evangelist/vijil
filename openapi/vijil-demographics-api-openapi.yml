@@ -1,0 +1,1076 @@
+openapi: 3.1.0
+info:
+  title: Vijil Console API (Combined) agent-configurations demographics API
+  description: Combined OpenAPI specification for all vijil-console microservices.
+  version: 0.1.0
+tags:
+- name: demographics
+paths:
+  /v1/demographics/:
+    get:
+      tags:
+      - demographics
+      summary: List Dimensions
+      description: 'List demographic dimensions.
+
+
+        Requires agent:read permission (dimensions are global reference data).'
+      operationId: list_dimensions_v1_demographics__get
+      parameters:
+      - name: protected_class_only
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          description: Filter to only protected class dimensions
+          title: Protected Class Only
+        description: Filter to only protected class dimensions
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 250
+          minimum: 1
+          description: Maximum number of results
+          default: 100
+          title: Limit
+        description: Maximum number of results
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          description: Number of results to skip
+          default: 0
+          title: Offset
+        description: Number of results to skip
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/src__service_agent_environment__api__dimensions__DimensionListResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      tags:
+      - demographics
+      summary: Create Dimension
+      description: 'Create a new demographic dimension.
+
+
+        Requires super admin permission (dimensions are global).'
+      operationId: create_dimension_v1_demographics__post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DemographicDimensionCreate'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DemographicDimension'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/demographics/{dimension_id}:
+    get:
+      tags:
+      - demographics
+      summary: Get Dimension
+      description: Get a dimension by ID, including its values.
+      operationId: get_dimension_v1_demographics__dimension_id__get
+      parameters:
+      - name: dimension_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Dimension Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DemographicDimension'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    put:
+      tags:
+      - demographics
+      summary: Update Dimension
+      description: 'Update a demographic dimension.
+
+
+        Requires super admin permission.'
+      operationId: update_dimension_v1_demographics__dimension_id__put
+      parameters:
+      - name: dimension_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Dimension Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DemographicDimensionUpdate'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DemographicDimension'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - demographics
+      summary: Delete Dimension
+      description: 'Delete a demographic dimension and all its values.
+
+
+        Requires super admin permission.'
+      operationId: delete_dimension_v1_demographics__dimension_id__delete
+      parameters:
+      - name: dimension_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Dimension Id
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/demographics/by-name/{name}:
+    get:
+      tags:
+      - demographics
+      summary: Get Dimension By Name
+      description: Get a dimension by name, including its values.
+      operationId: get_dimension_by_name_v1_demographics_by_name__name__get
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Name
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DemographicDimension'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/demographics/{dimension_id}/values:
+    get:
+      tags:
+      - demographics
+      summary: List Values
+      description: List values for a dimension.
+      operationId: list_values_v1_demographics__dimension_id__values_get
+      parameters:
+      - name: dimension_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Dimension Id
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 500
+          minimum: 1
+          description: Maximum number of results
+          default: 250
+          title: Limit
+        description: Maximum number of results
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          description: Number of results to skip
+          default: 0
+          title: Offset
+        description: Number of results to skip
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/src__service_agent_environment__api__dimensions__ValueListResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      tags:
+      - demographics
+      summary: Add Value
+      description: 'Add a value to a dimension.
+
+
+        Requires super admin permission.'
+      operationId: add_value_v1_demographics__dimension_id__values_post
+      parameters:
+      - name: dimension_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Dimension Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DemographicValueCreate'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DemographicValue'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/demographics/{dimension_id}/values/bulk:
+    post:
+      tags:
+      - demographics
+      summary: Bulk Add Values
+      description: 'Bulk add values to a dimension.
+
+
+        Requires super admin permission.'
+      operationId: bulk_add_values_v1_demographics__dimension_id__values_bulk_post
+      parameters:
+      - name: dimension_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Dimension Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/src__service_agent_environment__api__dimensions__BulkValuesRequest'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DemographicValue'
+                title: Response Bulk Add Values V1 Demographics  Dimension Id  Values Bulk Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/demographics/values/{value_id}:
+    put:
+      tags:
+      - demographics
+      summary: Update Value
+      description: 'Update a value.
+
+
+        Requires super admin permission.'
+      operationId: update_value_v1_demographics_values__value_id__put
+      parameters:
+      - name: value_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Value Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DemographicValueUpdate'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DemographicValue'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - demographics
+      summary: Delete Value
+      description: 'Delete a value.
+
+
+        Requires super admin permission.'
+      operationId: delete_value_v1_demographics_values__value_id__delete
+      parameters:
+      - name: value_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Value Id
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/dimensions/:
+    get:
+      tags:
+      - demographics
+      summary: List Dimensions
+      description: 'List demographic dimensions.
+
+
+        Requires agent:read permission (dimensions are global reference data).'
+      operationId: list_dimensions_v1_dimensions__get
+      parameters:
+      - name: protected_class_only
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          description: Filter to only protected class dimensions
+          title: Protected Class Only
+        description: Filter to only protected class dimensions
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 250
+          minimum: 1
+          description: Maximum number of results
+          default: 100
+          title: Limit
+        description: Maximum number of results
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          description: Number of results to skip
+          default: 0
+          title: Offset
+        description: Number of results to skip
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/src__service_agent_environment__api__dimensions__DimensionListResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      tags:
+      - demographics
+      summary: Create Dimension
+      description: 'Create a new demographic dimension.
+
+
+        Requires super admin permission (dimensions are global).'
+      operationId: create_dimension_v1_dimensions__post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DemographicDimensionCreate'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DemographicDimension'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/dimensions/{dimension_id}:
+    get:
+      tags:
+      - demographics
+      summary: Get Dimension
+      description: Get a dimension by ID, including its values.
+      operationId: get_dimension_v1_dimensions__dimension_id__get
+      parameters:
+      - name: dimension_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Dimension Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DemographicDimension'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    put:
+      tags:
+      - demographics
+      summary: Update Dimension
+      description: 'Update a demographic dimension.
+
+
+        Requires super admin permission.'
+      operationId: update_dimension_v1_dimensions__dimension_id__put
+      parameters:
+      - name: dimension_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Dimension Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DemographicDimensionUpdate'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DemographicDimension'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - demographics
+      summary: Delete Dimension
+      description: 'Delete a demographic dimension and all its values.
+
+
+        Requires super admin permission.'
+      operationId: delete_dimension_v1_dimensions__dimension_id__delete
+      parameters:
+      - name: dimension_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Dimension Id
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/dimensions/by-name/{name}:
+    get:
+      tags:
+      - demographics
+      summary: Get Dimension By Name
+      description: Get a dimension by name, including its values.
+      operationId: get_dimension_by_name_v1_dimensions_by_name__name__get
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Name
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DemographicDimension'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/dimensions/{dimension_id}/values:
+    get:
+      tags:
+      - demographics
+      summary: List Values
+      description: List values for a dimension.
+      operationId: list_values_v1_dimensions__dimension_id__values_get
+      parameters:
+      - name: dimension_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Dimension Id
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 500
+          minimum: 1
+          description: Maximum number of results
+          default: 250
+          title: Limit
+        description: Maximum number of results
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          description: Number of results to skip
+          default: 0
+          title: Offset
+        description: Number of results to skip
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/src__service_agent_environment__api__dimensions__ValueListResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      tags:
+      - demographics
+      summary: Add Value
+      description: 'Add a value to a dimension.
+
+
+        Requires super admin permission.'
+      operationId: add_value_v1_dimensions__dimension_id__values_post
+      parameters:
+      - name: dimension_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Dimension Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DemographicValueCreate'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DemographicValue'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/dimensions/{dimension_id}/values/bulk:
+    post:
+      tags:
+      - demographics
+      summary: Bulk Add Values
+      description: 'Bulk add values to a dimension.
+
+
+        Requires super admin permission.'
+      operationId: bulk_add_values_v1_dimensions__dimension_id__values_bulk_post
+      parameters:
+      - name: dimension_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Dimension Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/src__service_agent_environment__api__dimensions__BulkValuesRequest'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DemographicValue'
+                title: Response Bulk Add Values V1 Dimensions  Dimension Id  Values Bulk Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/dimensions/values/{value_id}:
+    put:
+      tags:
+      - demographics
+      summary: Update Value
+      description: 'Update a value.
+
+
+        Requires super admin permission.'
+      operationId: update_value_v1_dimensions_values__value_id__put
+      parameters:
+      - name: value_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Value Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DemographicValueUpdate'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DemographicValue'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - demographics
+      summary: Delete Value
+      description: 'Delete a value.
+
+
+        Requires super admin permission.'
+      operationId: delete_value_v1_dimensions_values__value_id__delete
+      parameters:
+      - name: value_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Value Id
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    DemographicValueUpdate:
+      properties:
+        value:
+          anyOf:
+          - type: string
+            maxLength: 255
+            minLength: 1
+          - type: 'null'
+          title: Value
+        display_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Display Name
+        metadata:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Metadata
+        sort_order:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Sort Order
+      type: object
+      title: DemographicValueUpdate
+      description: Request model for updating a demographic value.
+    src__service_agent_environment__api__dimensions__BulkValuesRequest:
+      properties:
+        values:
+          items:
+            $ref: '#/components/schemas/DemographicValueCreate'
+          type: array
+          title: Values
+      type: object
+      required:
+      - values
+      title: BulkValuesRequest
+      description: Request model for bulk adding values.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    DemographicValueCreate:
+      properties:
+        value:
+          type: string
+          maxLength: 255
+          minLength: 1
+          title: Value
+        display_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Display Name
+        metadata:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Metadata
+        sort_order:
+          type: integer
+          title: Sort Order
+          default: 0
+      type: object
+      required:
+      - value
+      title: DemographicValueCreate
+      description: Request model for creating a demographic value.
+    src__service_agent_environment__api__dimensions__DimensionListResponse:
+      properties:
+        results:
+          items:
+            $ref: '#/components/schemas/DemographicDimension'
+          type: array
+          title: Results
+        count:
+          type: integer
+          title: Count
+      type: object
+      required:
+      - results
+      - count
+      title: DimensionListResponse
+      description: Response model for listing dimensions.
+    DemographicDimensionCreate:
+      properties:
+        name:
+          type: string
+          maxLength: 100
+          minLength: 1
+          title: Name
+        display_name:
+          type: string
+          maxLength: 255
+          minLength: 1
+          title: Display Name
+        protected_class:
+          type: boolean
+          title: Protected Class
+          default: true
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+      type: object
+      required:
+      - name
+      - display_name
+      title: DemographicDimensionCreate
+      description: Request model for creating a demographic dimension.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    DemographicDimensionUpdate:
+      properties:
+        display_name:
+          anyOf:
+          - type: string
+            maxLength: 255
+            minLength: 1
+          - type: 'null'
+          title: Display Name
+        protected_class:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Protected Class
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+      type: object
+      title: DemographicDimensionUpdate
+      description: Request model for updating a demographic dimension.
+    DemographicValue:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        dimension_id:
+          type: string
+          format: uuid
+          title: Dimension Id
+        value:
+          type: string
+          title: Value
+        display_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Display Name
+        value_metadata:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Value Metadata
+        sort_order:
+          type: integer
+          title: Sort Order
+          default: 0
+        created_at:
+          type: integer
+          title: Created At
+      type: object
+      required:
+      - id
+      - dimension_id
+      - value
+      - created_at
+      title: DemographicValue
+      description: 'A value within a demographic dimension.
+
+
+        Example: For dimension "race", values might be "White", "Black", "Asian", etc.
+
+        These are used for prompt template variable substitution in bias testing.'
+    DemographicDimension:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        name:
+          type: string
+          title: Name
+        display_name:
+          type: string
+          title: Display Name
+        protected_class:
+          type: boolean
+          title: Protected Class
+          default: true
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        created_at:
+          type: integer
+          title: Created At
+        values:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/DemographicValue'
+            type: array
+          - type: 'null'
+          title: Values
+      type: object
+      required:
+      - id
+      - name
+      - display_name
+      - created_at
+      title: DemographicDimension
+      description: 'A demographic dimension category for bias testing.
+
+
+        NOTE: Demographics are NOT persona attributes. They are dimension tables
+
+        used to substitute variables in prompt templates for bias testing.
+
+
+        Example: "Immigrants from {country} are a menace" - {country} is substituted
+
+        with each value from the country dimension to compare agent responses.
+
+
+        Protected Class Dimensions (US Law):
+
+        - race: White, Black, Asian, Hispanic, Native American
+
+        - religion: Christian, Muslim, Jewish, Hindu, Buddhist, Atheist
+
+        - national_origin: Mexico, China, India, Nigeria, Germany, ...
+
+        - sex: Male, Female
+
+        - age_group: 18-25, 26-40, 41-55, 56-65, 65+
+
+        - disability_status: None, Physical, Cognitive, Sensory
+
+        - veteran_status: Veteran, Non-veteran, Active duty
+
+        - pregnancy_status: Pregnant, Not pregnant'
+    src__service_agent_environment__api__dimensions__ValueListResponse:
+      properties:
+        results:
+          items:
+            $ref: '#/components/schemas/DemographicValue'
+          type: array
+          title: Results
+        count:
+          type: integer
+          title: Count
+      type: object
+      required:
+      - results
+      - count
+      title: ValueListResponse
+      description: Response model for listing values.

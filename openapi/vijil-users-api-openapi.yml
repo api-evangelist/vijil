@@ -1,0 +1,341 @@
+openapi: 3.1.0
+info:
+  title: Vijil Console API (Combined) agent-configurations users API
+  description: Combined OpenAPI specification for all vijil-console microservices.
+  version: 0.1.0
+tags:
+- name: users
+paths:
+  /v1/users/:
+    post:
+      tags:
+      - users
+      summary: Create User
+      description: 'Create a new user.
+
+
+        Requires team:write_user permission for the specified team (team owners and admins) or
+
+        team:write_user_all permission (super admin).'
+      operationId: create_user_v1_users__post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUserRequest'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserRead'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    get:
+      tags:
+      - users
+      summary: Get User
+      description: 'Get a user by query parameters.
+
+
+        Currently supports:
+
+        - email: Get user by email address
+
+
+        Additional query parameters can be added in the future.'
+      operationId: get_user_v1_users__get
+      parameters:
+      - name: email
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Email address of the user to retrieve
+          title: Email
+        description: Email address of the user to retrieve
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserRead'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/users/me:
+    get:
+      tags:
+      - users
+      summary: Get Current User
+      description: 'Get the current authenticated user''s information.
+
+
+        Returns the user information for the authenticated user based on JWT claims.'
+      operationId: get_current_user_v1_users_me_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserRead'
+  /v1/users/me/teams:
+    get:
+      tags:
+      - users
+      summary: Get My Teams
+      description: 'Get the current user''s team memberships.
+
+
+        Returns all teams the authenticated user is a member of, along with
+
+        their role, name, and description.'
+      operationId: get_my_teams_v1_users_me_teams_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/MembershipWithTeam'
+                type: array
+                title: Response Get My Teams V1 Users Me Teams Get
+  /v1/users/{user_id}:
+    get:
+      tags:
+      - users
+      summary: Get User By Id
+      description: Get a user by ID.
+      operationId: get_user_by_id_v1_users__user_id__get
+      parameters:
+      - name: user_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: User Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserRead'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    TeamRole:
+      type: string
+      enum:
+      - OWNER
+      - ADMIN
+      - MEMBER
+      title: TeamRole
+      description: Team membership roles.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    UserRead:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        email:
+          type: string
+          format: email
+          title: Email
+        is_active:
+          type: boolean
+          title: Is Active
+          default: true
+        is_superuser:
+          type: boolean
+          title: Is Superuser
+          default: false
+        is_verified:
+          type: boolean
+          title: Is Verified
+          default: false
+        given_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Given Name
+        family_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Family Name
+        external_user_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: External User Id
+        profile_image:
+          anyOf:
+          - type: string
+            maxLength: 2083
+            minLength: 1
+            format: uri
+          - type: 'null'
+          title: Profile Image
+        password_change_required:
+          type: boolean
+          title: Password Change Required
+          default: false
+        is_super_admin:
+          type: boolean
+          title: Is Super Admin
+          default: false
+      type: object
+      required:
+      - id
+      - email
+      title: UserRead
+      description: Returned to clients when reading user info.
+    MembershipWithTeam:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        team_id:
+          type: string
+          format: uuid
+          title: Team Id
+        user_id:
+          type: string
+          format: uuid
+          title: User Id
+        role:
+          $ref: '#/components/schemas/TeamRole'
+        created_at:
+          type: integer
+          title: Created At
+        updated_at:
+          type: integer
+          title: Updated At
+        team_name:
+          type: string
+          title: Team Name
+        team_description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Team Description
+      type: object
+      required:
+      - id
+      - team_id
+      - user_id
+      - role
+      - created_at
+      - updated_at
+      - team_name
+      - team_description
+      title: MembershipWithTeam
+      description: Team membership with team name and description.
+    CreateUserRequest:
+      properties:
+        email:
+          type: string
+          format: email
+          title: Email
+          description: User email address
+        password:
+          type: string
+          minLength: 8
+          title: Password
+          description: User password
+        given_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Given Name
+          description: User's given name
+        family_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Family Name
+          description: User's family name
+        external_user_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: External User Id
+          description: External user identifier
+        profile_image:
+          anyOf:
+          - type: string
+            maxLength: 2083
+            minLength: 1
+            format: uri
+          - type: 'null'
+          title: Profile Image
+          description: URL to user's profile image
+        team_id:
+          type: string
+          format: uuid
+          title: Team Id
+          description: ID of the team to assign the user to
+        password_change_required:
+          type: boolean
+          title: Password Change Required
+          description: Whether the user must change their password on first login
+          default: true
+      type: object
+      required:
+      - email
+      - password
+      - team_id
+      title: CreateUserRequest
+      description: Request model for creating a user with team assignment.

@@ -1,0 +1,203 @@
+openapi: 3.1.0
+info:
+  title: Vijil Console API (Combined) agent-configurations dashboard API
+  description: Combined OpenAPI specification for all vijil-console microservices.
+  version: 0.1.0
+tags:
+- name: dashboard
+paths:
+  /v1/dashboard/trust:
+    get:
+      tags:
+      - dashboard
+      summary: Get Trust Dashboard
+      description: 'Return the Trust Dashboard for the authenticated user''s team.
+
+
+        Aggregates:
+
+        - Agent list from Agent Registry (DB)
+
+        - Latest evaluation scores from Diamond (S3)
+
+        - Darwin proposal stats (DB)
+
+        - Dome attack status (V1: stub)'
+      operationId: get_trust_dashboard_v1_dashboard_trust_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DashboardResponse'
+components:
+  schemas:
+    DashboardResponse:
+      properties:
+        time_to_trust:
+          $ref: '#/components/schemas/TimeToTrustMetrics'
+        fleet_health:
+          $ref: '#/components/schemas/FleetHealthMetrics'
+        adaptivity:
+          $ref: '#/components/schemas/AdaptivityMetrics'
+        agents:
+          items:
+            $ref: '#/components/schemas/AgentTrustCard'
+          type: array
+          title: Agents
+      type: object
+      title: DashboardResponse
+      description: Full dashboard API response.
+    FleetHealthMetrics:
+      properties:
+        by_stage:
+          additionalProperties:
+            type: integer
+          type: object
+          title: By Stage
+        under_attack:
+          type: integer
+          title: Under Attack
+          default: 0
+      type: object
+      title: FleetHealthMetrics
+      description: Fleet Health hero metric.
+    PillarBreakdown:
+      properties:
+        overall:
+          type: number
+          title: Overall
+          default: 0
+        detectors:
+          additionalProperties: true
+          type: object
+          title: Detectors
+      type: object
+      title: PillarBreakdown
+      description: Nested trust scores for one pillar with detector-level detail.
+    AdaptivityMetrics:
+      properties:
+        acceptance_rate:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Acceptance Rate
+        proposed:
+          type: integer
+          title: Proposed
+          default: 0
+        merged:
+          type: integer
+          title: Merged
+          default: 0
+        trend_pct:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Trend Pct
+      type: object
+      title: AdaptivityMetrics
+      description: Adaptivity hero metric.
+    TrustStage:
+      type: string
+      enum:
+      - registered
+      - tested
+      - hardened
+      - trusted
+      - optimized
+      - adapted
+      title: TrustStage
+      description: 'Trust maturity stages for the Kanban board.
+
+
+        Agents flow left-to-right as they mature:
+
+        Registered -> Tested -> Hardened -> Trusted -> Optimized -> Adapted'
+    TimeToTrustMetrics:
+      properties:
+        average_days:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Average Days
+        trend_pct:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Trend Pct
+        recovery_avg_days:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Recovery Avg Days
+      type: object
+      title: TimeToTrustMetrics
+      description: Time-to-Trust hero metric.
+    AgentTrustCard:
+      properties:
+        id:
+          type: string
+          title: Id
+        name:
+          type: string
+          title: Name
+        stage:
+          $ref: '#/components/schemas/TrustStage'
+        trust_scores:
+          additionalProperties:
+            type: number
+          type: object
+          title: Trust Scores
+        trust_breakdown:
+          additionalProperties:
+            $ref: '#/components/schemas/PillarBreakdown'
+          type: object
+          title: Trust Breakdown
+        redteam_findings_by_category:
+          additionalProperties:
+            type: integer
+          type: object
+          title: Redteam Findings By Category
+        under_attack:
+          type: boolean
+          title: Under Attack
+          default: false
+        pending_prs:
+          type: integer
+          title: Pending Prs
+          default: 0
+        evaluating:
+          type: boolean
+          title: Evaluating
+          default: false
+        darwin_cycles:
+          type: integer
+          title: Darwin Cycles
+          default: 0
+        time_in_stage_hours:
+          type: integer
+          title: Time In Stage Hours
+          default: 0
+        ttt_days:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Ttt Days
+        dome_protected:
+          type: boolean
+          title: Dome Protected
+          default: false
+        owner_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Owner Name
+      type: object
+      required:
+      - id
+      - name
+      - stage
+      title: AgentTrustCard
+      description: A single agent card on the Kanban board.

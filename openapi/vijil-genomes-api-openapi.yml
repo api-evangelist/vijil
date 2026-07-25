@@ -1,0 +1,559 @@
+openapi: 3.1.0
+info:
+  title: Vijil Console API (Combined) agent-configurations genomes API
+  description: Combined OpenAPI specification for all vijil-console microservices.
+  version: 0.1.0
+tags:
+- name: genomes
+paths:
+  /v1/genomes/:
+    post:
+      tags:
+      - genomes
+      summary: Create Genome
+      description: Create (seed) a new genome. Proxies to Darwin POST /v1/genomes.
+      operationId: create_genome_v1_genomes__post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+              title: Data
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Create Genome V1 Genomes  Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    get:
+      tags:
+      - genomes
+      summary: List Genomes
+      description: List genomes with filtering and pagination. Proxies to Darwin.
+      operationId: list_genomes_v1_genomes__get
+      parameters:
+      - name: agent_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          description: Filter by agent
+          title: Agent Id
+        description: Filter by agent
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 250
+          minimum: 1
+          default: 50
+          title: Limit
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+          title: Offset
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response List Genomes V1 Genomes  Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/genomes/by-agent/{agent_id}:
+    get:
+      tags:
+      - genomes
+      summary: Get Genome By Agent
+      description: Get a genome by agent ID. Proxies to Darwin.
+      operationId: get_genome_by_agent_v1_genomes_by_agent__agent_id__get
+      parameters:
+      - name: agent_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Agent Id
+      - name: version
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          description: Specific version (None = latest)
+          title: Version
+        description: Specific version (None = latest)
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Get Genome By Agent V1 Genomes By Agent  Agent Id  Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/genomes/by-agent/{agent_id}/mutation-history:
+    get:
+      tags:
+      - genomes
+      summary: Get Mutation History
+      description: Get mutation history for an agent's genome. Proxies to Darwin.
+      operationId: get_mutation_history_v1_genomes_by_agent__agent_id__mutation_history_get
+      parameters:
+      - name: agent_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Agent Id
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 250
+          minimum: 1
+          default: 50
+          title: Limit
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Get Mutation History V1 Genomes By Agent  Agent Id  Mutation History Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/genomes/{genome_id}:
+    get:
+      tags:
+      - genomes
+      summary: Get Genome
+      description: Get a genome by ID. Proxies to Darwin.
+      operationId: get_genome_v1_genomes__genome_id__get
+      parameters:
+      - name: genome_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Genome Id
+      - name: version
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          description: Specific version (None = latest)
+          title: Version
+        description: Specific version (None = latest)
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Get Genome V1 Genomes  Genome Id  Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - genomes
+      summary: Delete Genome
+      description: Delete a genome and all its versions. Proxies to Darwin.
+      operationId: delete_genome_v1_genomes__genome_id__delete
+      parameters:
+      - name: genome_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Genome Id
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/genomes/{genome_id}/versions:
+    get:
+      tags:
+      - genomes
+      summary: List Genome Versions
+      description: List all versions of a genome. Proxies to Darwin.
+      operationId: list_genome_versions_v1_genomes__genome_id__versions_get
+      parameters:
+      - name: genome_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Genome Id
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 250
+          minimum: 1
+          default: 50
+          title: Limit
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+          title: Offset
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response List Genome Versions V1 Genomes  Genome Id  Versions Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/genomes/{genome_id}/versions/{version}:
+    get:
+      tags:
+      - genomes
+      summary: Get Genome Version
+      description: Get a specific genome version. Proxies to Darwin.
+      operationId: get_genome_version_v1_genomes__genome_id__versions__version__get
+      parameters:
+      - name: genome_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Genome Id
+      - name: version
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Version
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Get Genome Version V1 Genomes  Genome Id  Versions  Version  Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/genomes/{genome_id}/ancestry:
+    get:
+      tags:
+      - genomes
+      summary: Get Genome Ancestry
+      description: Get ancestry chain for a genome. Proxies to Darwin.
+      operationId: get_genome_ancestry_v1_genomes__genome_id__ancestry_get
+      parameters:
+      - name: genome_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Genome Id
+      - name: max_depth
+        in: query
+        required: false
+        schema:
+          type: integer
+          description: Maximum ancestor depth
+          default: 5
+          title: Max Depth
+        description: Maximum ancestor depth
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Get Genome Ancestry V1 Genomes  Genome Id  Ancestry Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/genomes/{genome_id}/diff:
+    get:
+      tags:
+      - genomes
+      summary: Diff Genome Versions
+      description: Compare two genome versions. Proxies to Darwin.
+      operationId: diff_genome_versions_v1_genomes__genome_id__diff_get
+      parameters:
+      - name: genome_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Genome Id
+      - name: version_a
+        in: query
+        required: true
+        schema:
+          type: integer
+          description: First version
+          title: Version A
+        description: First version
+      - name: version_b
+        in: query
+        required: true
+        schema:
+          type: integer
+          description: Second version
+          title: Version B
+        description: Second version
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Diff Genome Versions V1 Genomes  Genome Id  Diff Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/genomes/{genome_id}/similar:
+    get:
+      tags:
+      - genomes
+      summary: Find Similar Genomes
+      description: Find similar genomes. Proxies to Darwin.
+      operationId: find_similar_genomes_v1_genomes__genome_id__similar_get
+      parameters:
+      - name: genome_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Genome Id
+      - name: version
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          description: Genome version
+          title: Version
+        description: Genome version
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 50
+          minimum: 1
+          default: 10
+          title: Limit
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Find Similar Genomes V1 Genomes  Genome Id  Similar Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/genomes/extract-from-agent/{agent_id}:
+    post:
+      tags:
+      - genomes
+      summary: Extract Genome From Agent
+      description: 'Extract a genome from an existing agent and seed it in Darwin.
+
+
+        Fetches the agent config, builds a Genome model from it, and seeds
+
+        the genome in Darwin via POST /v1/genomes.'
+      operationId: extract_genome_from_agent_v1_genomes_extract_from_agent__agent_id__post
+      parameters:
+      - name: agent_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Agent Id
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Extract Genome From Agent V1 Genomes Extract From Agent  Agent Id  Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/genomes/{genome_id}/to-agent-update:
+    get:
+      tags:
+      - genomes
+      summary: Genome To Agent Update
+      description: 'Convert a genome to an agent update payload.
+
+
+        Reads genome from Darwin, then uses dome_converters locally to
+
+        transform dome_genes into a DomeConfig-compatible format.'
+      operationId: genome_to_agent_update_v1_genomes__genome_id__to_agent_update_get
+      parameters:
+      - name: genome_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Genome Id
+      - name: version
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          description: Specific version
+          title: Version
+        description: Specific version
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Genome To Agent Update V1 Genomes  Genome Id  To Agent Update Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError

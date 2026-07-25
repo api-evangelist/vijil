@@ -1,0 +1,87 @@
+openapi: 3.1.0
+info:
+  title: Vijil Console API (Combined) agent-configurations harnesses API
+  description: Combined OpenAPI specification for all vijil-console microservices.
+  version: 0.1.0
+tags:
+- name: harnesses
+paths:
+  /v1/harnesses/:
+    get:
+      tags:
+      - harnesses
+      summary: List Harnesses
+      description: "List all standard harnesses (global resources).\n\nStandard harnesses are global and not scoped to a team.\nThey are read-only and managed externally.\n\nArgs:\n    team_id: Team ID (required for permission checks)\n    claims: JWT claims with user and team info\n    harness_service: Harness service instance\n    \nReturns:\n    List of harness items, ordered by updated_at descending\n    \nRaises:\n    HTTPException: 422 if team_id is missing, 403 if user lacks permission, 500 on server errors"
+      operationId: list_harnesses_v1_harnesses__get
+      parameters:
+      - name: team_id
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+          description: Team ID (required)
+          title: Team Id
+        description: Team ID (required)
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/HarnessListItem'
+                title: Response List Harnesses V1 Harnesses  Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    HarnessListItem:
+      properties:
+        name:
+          type: string
+          title: Name
+        updated_at:
+          type: integer
+          title: Updated At
+      type: object
+      required:
+      - name
+      - updated_at
+      title: HarnessListItem
+      description: "Domain model for a harness list item (S3-based standard harnesses).\n\nAttributes:\n    name: Harness name/identifier\n    updated_at: Unix epoch timestamp in seconds (not milliseconds)"
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError

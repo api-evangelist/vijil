@@ -1,0 +1,608 @@
+openapi: 3.1.0
+info:
+  title: Vijil Console API (Combined) agent-configurations evolution API
+  description: Combined OpenAPI specification for all vijil-console microservices.
+  version: 0.1.0
+tags:
+- name: evolution
+paths:
+  /v1/agents/{agent_id}/evolutions:
+    post:
+      tags:
+      - evolution
+      summary: Trigger Evolution
+      description: 'Trigger evolution for an agent.
+
+
+        Sends the agent''s configuration/identifiers to Darwin to start an
+
+        evolution job. Optional config overrides (sample_size, target_dimensions,
+
+        etc.) are forwarded to Darwin when provided.
+
+        Returns 201 Created with a Location header for the new job resource.'
+      operationId: trigger_evolution_v1_agents__agent_id__evolutions_post
+      parameters:
+      - name: agent_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Agent Id
+      requestBody:
+        content:
+          application/json:
+            schema:
+              anyOf:
+              - $ref: '#/components/schemas/TriggerEvolutionRequest'
+              - type: 'null'
+              title: Body
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EvolutionJob'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    get:
+      tags:
+      - evolution
+      summary: List Evolution Jobs
+      description: 'List evolution jobs for an agent (paginated).
+
+
+        Proxies to Darwin''s GET /v1/evolutions with team_id and agent_id.'
+      operationId: list_evolution_jobs_v1_agents__agent_id__evolutions_get
+      parameters:
+      - name: agent_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Agent Id
+      - name: status
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Status
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 200
+          minimum: 1
+          default: 50
+          title: Limit
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+          title: Offset
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EvolutionJobList'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/agents/{agent_id}/evolutions/{evolution_id}:
+    get:
+      tags:
+      - evolution
+      summary: Get Evolution Job Status
+      description: 'Poll evolution status.
+
+
+        Delegates to EvolutionService which proxies to Darwin''s
+
+        GET /v1/evolutions/{evolution_id} with team_id for access control.'
+      operationId: get_evolution_job_status_v1_agents__agent_id__evolutions__evolution_id__get
+      parameters:
+      - name: agent_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Agent Id
+      - name: evolution_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Evolution Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EvolutionJob'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/agents/{agent_id}/evolution/proposals:
+    get:
+      tags:
+      - evolution
+      summary: List Proposals
+      description: 'List mutation proposals for an agent.
+
+
+        Read-only view for business owners and risk owners to see what Darwin
+
+        has proposed, evaluated, and whether improvements were verified.'
+      operationId: list_proposals_v1_agents__agent_id__evolution_proposals_get
+      parameters:
+      - name: agent_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Agent Id
+      - name: status
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Status
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 200
+          minimum: 1
+          default: 50
+          title: Limit
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+          title: Offset
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProposalList'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/agents/{agent_id}/evolution/proposals/{proposal_id}:
+    get:
+      tags:
+      - evolution
+      summary: Get Proposal
+      description: 'Get a single mutation proposal.
+
+
+        Returns the full proposal including proposed mutations, fitness deltas,
+
+        evaluation results, and review status. Read-only for visibility.'
+      operationId: get_proposal_v1_agents__agent_id__evolution_proposals__proposal_id__get
+      parameters:
+      - name: agent_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Agent Id
+      - name: proposal_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Proposal Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Proposal'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/evolution/status/{agent_id}:
+    get:
+      tags:
+      - evolution
+      summary: Get Evolution Status
+      description: 'Get evolution proposal status for an agent.
+
+
+        Proxies to Darwin''s GET /evolution/status/{agent_id} with JWT auth.'
+      operationId: get_evolution_status_v1_evolution_status__agent_id__get
+      parameters:
+      - name: agent_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Agent Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Get Evolution Status V1 Evolution Status  Agent Id  Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/evolution/genome-map:
+    get:
+      tags:
+      - evolution
+      summary: Get Genome Map
+      description: 'Get UMAP genome map for the caller''s team.
+
+
+        Team ID is derived from JWT claims to prevent cross-team data access.
+
+        Proxies to Darwin''s GET /evolution/genome-map with JWT auth.'
+      operationId: get_genome_map_v1_evolution_genome_map_get
+      parameters:
+      - name: highlight_agent_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Highlight Agent Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Get Genome Map V1 Evolution Genome Map Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    ProposedMutation:
+      properties:
+        gene_name:
+          type: string
+          title: Gene Name
+        current_value:
+          title: Current Value
+        proposed_value:
+          title: Proposed Value
+        rationale:
+          type: string
+          title: Rationale
+        confidence:
+          type: number
+          title: Confidence
+      type: object
+      required:
+      - gene_name
+      - current_value
+      - proposed_value
+      - rationale
+      - confidence
+      title: ProposedMutation
+      description: A single proposed gene mutation.
+    EvolutionJobList:
+      properties:
+        results:
+          items:
+            $ref: '#/components/schemas/EvolutionJob'
+          type: array
+          title: Results
+        total:
+          type: integer
+          title: Total
+        limit:
+          type: integer
+          title: Limit
+        offset:
+          type: integer
+          title: Offset
+      type: object
+      required:
+      - results
+      - total
+      - limit
+      - offset
+      title: EvolutionJobList
+      description: Paginated list of evolution jobs (Console API uses `results`; Darwin uses `items`).
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    Proposal:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        team_id:
+          type: string
+          format: uuid
+          title: Team Id
+        agent_id:
+          type: string
+          format: uuid
+          title: Agent Id
+        genome_id:
+          type: string
+          format: uuid
+          title: Genome Id
+        genome_version:
+          type: integer
+          title: Genome Version
+        status:
+          type: string
+          title: Status
+        created_at:
+          type: integer
+          title: Created At
+        trigger_summary:
+          type: string
+          title: Trigger Summary
+          default: ''
+        mutations:
+          items:
+            $ref: '#/components/schemas/ProposedMutation'
+          type: array
+          title: Mutations
+          default: []
+        pre_fitness:
+          anyOf:
+          - additionalProperties:
+              type: number
+            type: object
+          - type: 'null'
+          title: Pre Fitness
+        post_fitness:
+          anyOf:
+          - additionalProperties:
+              type: number
+            type: object
+          - type: 'null'
+          title: Post Fitness
+        fitness_delta:
+          anyOf:
+          - additionalProperties:
+              type: number
+            type: object
+          - type: 'null'
+          title: Fitness Delta
+        net_fitness_delta:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Net Fitness Delta
+        reviewed_at:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Reviewed At
+        reviewed_by:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Reviewed By
+        reviewer_notes:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Reviewer Notes
+        engine_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Engine Name
+        extra:
+          additionalProperties: true
+          type: object
+          title: Extra
+          default: {}
+      type: object
+      required:
+      - id
+      - team_id
+      - agent_id
+      - genome_id
+      - genome_version
+      - status
+      - created_at
+      title: Proposal
+      description: 'Console-side view of a Darwin mutation proposal.
+
+
+        Captures the fields Console needs for display and review workflow.
+
+        Additional Darwin-specific fields are preserved in `extra`.'
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    EvolutionJob:
+      properties:
+        evolution_id:
+          type: string
+          title: Evolution Id
+        status:
+          type: string
+          title: Status
+        agent_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Agent Id
+        team_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Team Id
+        extra:
+          additionalProperties: true
+          type: object
+          title: Extra
+          default: {}
+      type: object
+      required:
+      - evolution_id
+      - status
+      title: EvolutionJob
+      description: Console-side view of a Darwin evolution job.
+    ProposalList:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/Proposal'
+          type: array
+          title: Items
+        total:
+          type: integer
+          title: Total
+        limit:
+          type: integer
+          title: Limit
+        offset:
+          type: integer
+          title: Offset
+      type: object
+      required:
+      - items
+      - total
+      - limit
+      - offset
+      title: ProposalList
+      description: Paginated list of proposals from Darwin.
+    TriggerEvolutionRequest:
+      properties:
+        sample_size:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Sample Size
+        min_improvement_threshold:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Min Improvement Threshold
+        target_dimensions:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Target Dimensions
+        max_probes_per_evaluation:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Max Probes Per Evaluation
+        probe_concurrency:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Probe Concurrency
+        reflection_model:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Reflection Model
+        mutation_strategy:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Mutation Strategy
+        gepa_max_metric_calls:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Gepa Max Metric Calls
+        detection_volume_threshold:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Detection Volume Threshold
+      type: object
+      title: TriggerEvolutionRequest
+      description: Optional config overrides for evolution trigger.

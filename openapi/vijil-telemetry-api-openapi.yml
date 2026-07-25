@@ -1,0 +1,921 @@
+openapi: 3.1.0
+info:
+  title: Vijil Console API (Combined) agent-configurations Telemetry API
+  description: Combined OpenAPI specification for all vijil-console microservices.
+  version: 0.1.0
+tags:
+- name: Telemetry
+paths:
+  /v1/telemetry/counters/{metric_name}/total:
+    get:
+      tags:
+      - Telemetry
+      summary: Get Counter Total
+      description: Get total counter value.
+      operationId: get_counter_total_v1_telemetry_counters__metric_name__total_get
+      parameters:
+      - name: metric_name
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Metric Name
+      - name: time_range
+        in: query
+        required: false
+        schema:
+          enum:
+          - 15m
+          - 30m
+          - 1h
+          - 2h
+          - 6h
+          - 1d
+          - 7d
+          - 30d
+          type: string
+          description: 'Time range: 15m, 30m, 1h, 2h, 6h, 1d, 7d, 30d'
+          default: 1d
+          title: Time Range
+        description: 'Time range: 15m, 30m, 1h, 2h, 6h, 1d, 7d, 30d'
+      - name: evaluation_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Filter by evaluation ID
+          title: Evaluation Id
+        description: Filter by evaluation ID
+      - name: test_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Filter by test ID
+          title: Test Id
+        description: Filter by test ID
+      - name: probe_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Filter by probe ID
+          title: Probe Id
+        description: Filter by probe ID
+      - name: agent_configuration_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Filter by agent configuration ID
+          title: Agent Configuration Id
+        description: Filter by agent configuration ID
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CounterTotalResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/telemetry/counters/{metric_name}/time_series:
+    get:
+      tags:
+      - Telemetry
+      summary: Get Counter Time Series
+      description: Get counter time series.
+      operationId: get_counter_time_series_v1_telemetry_counters__metric_name__time_series_get
+      parameters:
+      - name: metric_name
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Metric Name
+      - name: time_range
+        in: query
+        required: false
+        schema:
+          enum:
+          - 15m
+          - 30m
+          - 1h
+          - 2h
+          - 6h
+          - 1d
+          - 7d
+          - 30d
+          type: string
+          description: 'Time range: 15m, 30m, 1h, 2h, 6h, 1d, 7d, 30d'
+          default: 1d
+          title: Time Range
+        description: 'Time range: 15m, 30m, 1h, 2h, 6h, 1d, 7d, 30d'
+      - name: evaluation_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Filter by evaluation ID
+          title: Evaluation Id
+        description: Filter by evaluation ID
+      - name: agent_configuration_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Filter by agent configuration ID
+          title: Agent Configuration Id
+        description: Filter by agent configuration ID
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MetricQueryResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/telemetry/latency/{metric_name}:
+    get:
+      tags:
+      - Telemetry
+      summary: Get Latency Over Time
+      description: Get latency over time.
+      operationId: get_latency_over_time_v1_telemetry_latency__metric_name__get
+      parameters:
+      - name: metric_name
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Metric Name
+      - name: time_range
+        in: query
+        required: false
+        schema:
+          enum:
+          - 15m
+          - 30m
+          - 1h
+          - 2h
+          - 6h
+          - 1d
+          - 7d
+          - 30d
+          type: string
+          description: 'Time range: 15m, 30m, 1h, 2h, 6h, 1d, 7d, 30d'
+          default: 1h
+          title: Time Range
+        description: 'Time range: 15m, 30m, 1h, 2h, 6h, 1d, 7d, 30d'
+      - name: time_window
+        in: query
+        required: false
+        schema:
+          type: string
+          description: Time window for aggregation (e.g., '1m', '5m', '15m')
+          default: 1m
+          title: Time Window
+        description: Time window for aggregation (e.g., '1m', '5m', '15m')
+      - name: percentiles
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Comma-separated list of percentiles to query (e.g., '0.5,0.95'). If not specified, defaults to [0.5, 0.9, 0.95, 0.99]
+          title: Percentiles
+        description: Comma-separated list of percentiles to query (e.g., '0.5,0.95'). If not specified, defaults to [0.5, 0.9, 0.95, 0.99]
+      - name: evaluation_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Filter by evaluation ID
+          title: Evaluation Id
+        description: Filter by evaluation ID
+      - name: test_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Filter by test ID
+          title: Test Id
+        description: Filter by test ID
+      - name: probe_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Filter by probe ID
+          title: Probe Id
+        description: Filter by probe ID
+      - name: agent_configuration_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Filter by agent configuration ID
+          title: Agent Configuration Id
+        description: Filter by agent configuration ID
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LatencyOverTimeResponse'
+                title: Response Get Latency Over Time V1 Telemetry Latency  Metric Name  Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/telemetry/logs:
+    get:
+      tags:
+      - Telemetry
+      summary: Get Logs
+      description: Get logs.
+      operationId: get_logs_v1_telemetry_logs_get
+      parameters:
+      - name: time_range
+        in: query
+        required: false
+        schema:
+          enum:
+          - 15m
+          - 30m
+          - 1h
+          - 2h
+          - 6h
+          - 1d
+          - 7d
+          - 30d
+          type: string
+          description: Window to pull logs for
+          default: 1h
+          title: Time Range
+        description: Window to pull logs for
+      - name: service_name
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Filter by service_name label
+          title: Service Name
+        description: Filter by service_name label
+      - name: level
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Filter by level label
+          title: Level
+        description: Filter by level label
+      - name: job
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Filter by job label
+          title: Job
+        description: Filter by job label
+      - name: exporter
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Filter by exporter label
+          title: Exporter
+        description: Filter by exporter label
+      - name: agent_configuration_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Restrict to a specific agent configuration id
+          title: Agent Configuration Id
+        description: Restrict to a specific agent configuration id
+      - name: evaluation_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Restrict logs to an evaluation id
+          title: Evaluation Id
+        description: Restrict logs to an evaluation id
+      - name: test_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Restrict logs to a test id
+          title: Test Id
+        description: Restrict logs to a test id
+      - name: probe_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Restrict logs to a probe id
+          title: Probe Id
+        description: Restrict logs to a probe id
+      - name: search
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Substring search applied via LogQL pipeline
+          title: Search
+        description: Substring search applied via LogQL pipeline
+      - name: logql
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Advanced LogQL expression (overrides generated selector when provided)
+          title: Logql
+        description: Advanced LogQL expression (overrides generated selector when provided)
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 5000
+          minimum: 1
+          description: Maximum log lines to return
+          default: 200
+          title: Limit
+        description: Maximum log lines to return
+      - name: direction
+        in: query
+        required: false
+        schema:
+          enum:
+          - forward
+          - backward
+          type: string
+          description: Return order for log entries
+          default: backward
+          title: Direction
+        description: Return order for log entries
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LogsQueryResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/telemetry/traces:
+    get:
+      tags:
+      - Telemetry
+      summary: Search Traces
+      description: Search traces.
+      operationId: search_traces_v1_telemetry_traces_get
+      parameters:
+      - name: time_range
+        in: query
+        required: false
+        schema:
+          enum:
+          - 15m
+          - 30m
+          - 1h
+          - 2h
+          - 6h
+          - 1d
+          - 7d
+          - 30d
+          type: string
+          description: Window to search for traces
+          default: 1h
+          title: Time Range
+        description: Window to search for traces
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 200
+          minimum: 1
+          description: Maximum number of traces to return
+          default: 20
+          title: Limit
+        description: Maximum number of traces to return
+      - name: service_name
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Filter by root service
+          title: Service Name
+        description: Filter by root service
+      - name: agent_configuration_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Filter by agent id
+          title: Agent Configuration Id
+        description: Filter by agent id
+      - name: min_duration_ms
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          description: Lower bound on trace duration (ms)
+          title: Min Duration Ms
+        description: Lower bound on trace duration (ms)
+      - name: max_duration_ms
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          description: Upper bound on trace duration (ms)
+          title: Max Duration Ms
+        description: Upper bound on trace duration (ms)
+      - name: query
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Advanced TraceQL query
+          title: Query
+        description: Advanced TraceQL query
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TraceSearchResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/telemetry/traces/{trace_id}:
+    get:
+      tags:
+      - Telemetry
+      summary: Get Trace By Id
+      description: Get trace by ID.
+      operationId: get_trace_by_id_v1_telemetry_traces__trace_id__get
+      parameters:
+      - name: trace_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Trace Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TraceDetailResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    TraceSearchMetricsResponse:
+      properties:
+        inspectedTraces:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Inspectedtraces
+        inspectedBytes:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Inspectedbytes
+        completedJobs:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Completedjobs
+        totalJobs:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Totaljobs
+      type: object
+      title: TraceSearchMetricsResponse
+    LogsQueryResponse:
+      properties:
+        query:
+          type: string
+          title: Query
+          description: Executed LogQL query
+        direction:
+          type: string
+          enum:
+          - forward
+          - backward
+          title: Direction
+          description: Result ordering
+        start_ns:
+          type: integer
+          title: Start Ns
+          description: Start window in nanoseconds
+        end_ns:
+          type: integer
+          title: End Ns
+          description: End window in nanoseconds
+        streams:
+          items:
+            $ref: '#/components/schemas/LogStreamResponse'
+          type: array
+          title: Streams
+        next_timestamp:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Next Timestamp
+          description: Bookmark timestamp for pagination
+      type: object
+      required:
+      - query
+      - direction
+      - start_ns
+      - end_ns
+      title: LogsQueryResponse
+    LatencyOverTimeResponse:
+      properties:
+        metric_name:
+          type: string
+          title: Metric Name
+          description: Name of the latency metric
+        time_window:
+          type: string
+          title: Time Window
+          description: Time window used for aggregation (e.g., '1m')
+        percentile:
+          type: string
+          title: Percentile
+          description: Percentile value (e.g., 'P50', 'P95')
+        values:
+          items:
+            $ref: '#/components/schemas/TimeSeriesPoint'
+          type: array
+          title: Values
+          description: Latency data points over time
+      type: object
+      required:
+      - metric_name
+      - time_window
+      - percentile
+      - values
+      title: LatencyOverTimeResponse
+      description: Response model for latency over time
+    MetricLabels:
+      properties:
+        agent_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Agent Id
+          description: Agent ID (same as agent_configuration_id)
+        deployment_environment:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Deployment Environment
+          description: Deployment environment (e.g., production, staging)
+        exported_job:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Exported Job
+          description: Exported job identifier
+        job:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Job
+          description: Job name (e.g., otel-collector)
+        service_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Service Name
+          description: Service name (e.g., vijil.dome)
+        service_namespace:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Service Namespace
+          description: Service namespace
+        service_version:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Service Version
+          description: Service version
+        team_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Team Id
+          description: Team ID
+        user_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: User Id
+          description: User ID
+        evaluation_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Evaluation Id
+          description: Evaluation ID filter
+      type: object
+      title: MetricLabels
+      description: Structured metric labels for telemetry data
+    TraceSearchResponse:
+      properties:
+        traces:
+          items:
+            $ref: '#/components/schemas/TraceSummaryResponse'
+          type: array
+          title: Traces
+        metrics:
+          anyOf:
+          - $ref: '#/components/schemas/TraceSearchMetricsResponse'
+          - type: 'null'
+      type: object
+      title: TraceSearchResponse
+    MetricQueryResponse:
+      properties:
+        metric:
+          type: string
+          title: Metric
+          description: chat_completions_total
+        series:
+          items:
+            $ref: '#/components/schemas/TimeSeries'
+          type: array
+          title: Series
+          description: List of time series data
+        labels:
+          $ref: '#/components/schemas/MetricLabels'
+          description: Structured metric labels
+      type: object
+      required:
+      - metric
+      - series
+      title: MetricQueryResponse
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    LogStreamResponse:
+      properties:
+        labels:
+          additionalProperties:
+            type: string
+          type: object
+          title: Labels
+        entries:
+          items:
+            $ref: '#/components/schemas/LogEntryResponse'
+          type: array
+          title: Entries
+      type: object
+      title: LogStreamResponse
+    TimeSeriesPoint:
+      properties:
+        timestamp:
+          type: integer
+          title: Timestamp
+          description: Unix timestamp of the data point
+        value:
+          type: number
+          title: Value
+          description: Value at this timestamp
+      type: object
+      required:
+      - timestamp
+      - value
+      title: TimeSeriesPoint
+      description: Response model for time series data points
+    LogEntryResponse:
+      properties:
+        timestamp:
+          type: integer
+          title: Timestamp
+          description: Unix timestamp in nanoseconds
+        line:
+          type: string
+          title: Line
+          description: Log message
+      type: object
+      required:
+      - timestamp
+      - line
+      title: LogEntryResponse
+    TraceDetailResponse:
+      properties:
+        trace_id:
+          type: string
+          title: Trace Id
+          description: Hex encoded trace identifier
+        trace_id_base64:
+          type: string
+          title: Trace Id Base64
+          description: Base64 identifier returned by Tempo
+        batches:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+          title: Batches
+          description: Raw OTLP batches returned by Tempo
+      type: object
+      required:
+      - trace_id
+      - trace_id_base64
+      title: TraceDetailResponse
+    TimeSeries:
+      properties:
+        labels:
+          $ref: '#/components/schemas/MetricLabels'
+          description: Structured metric labels for this series
+        points:
+          items:
+            $ref: '#/components/schemas/DataPoint'
+          type: array
+          title: Points
+          description: Time-ordered bucket values
+      type: object
+      required:
+      - points
+      title: TimeSeries
+    CounterTotalResponse:
+      properties:
+        metric:
+          type: string
+          title: Metric
+          description: Metric name
+        total_count:
+          type: number
+          title: Total Count
+          description: Total counter value
+        labels:
+          $ref: '#/components/schemas/MetricLabels'
+          description: Structured metric labels
+      type: object
+      required:
+      - metric
+      - total_count
+      title: CounterTotalResponse
+      description: Response model for counter total with metric and label information
+    TraceSummaryResponse:
+      properties:
+        trace_id:
+          type: string
+          title: Trace Id
+          description: Hex encoded trace identifier
+        root_service_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Root Service Name
+        root_trace_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Root Trace Name
+        start_time_unix_nano:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Start Time Unix Nano
+        duration_ms:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Duration Ms
+      type: object
+      required:
+      - trace_id
+      title: TraceSummaryResponse
+    DataPoint:
+      properties:
+        timestamp:
+          type: integer
+          title: Timestamp
+          description: Bucket end timestamp as Unix timestamp (seconds since epoch)
+        value:
+          type: number
+          title: Value
+          description: Sum of completions in this bucket
+      type: object
+      required:
+      - timestamp
+      - value
+      title: DataPoint

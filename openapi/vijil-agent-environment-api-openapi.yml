@@ -1,0 +1,6209 @@
+openapi: 3.1.0
+info:
+  title: Vijil Console API (Combined) agent-configurations Agent Environment API
+  description: Combined OpenAPI specification for all vijil-console microservices.
+  version: 0.1.0
+tags:
+- name: Agent Environment
+  description: Agent, persona, policy, and harness management
+paths:
+  /v1/agent-configurations/:
+    post:
+      tags:
+      - Agent Environment
+      summary: Create Agent Configuration
+      description: 'Create a new agent configuration.
+
+
+        This endpoint accepts AgentConfigRequest format from the frontend and transforms it
+
+        to the internal AgentCreate format. The agent_url field is preserved.
+
+
+        Requires agent:write permission.'
+      operationId: create_agent_configuration_v1_agent_configurations__post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AgentConfigRequest'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Agent'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    get:
+      tags:
+      - Agent Environment
+      summary: Get Agent Configurations
+      description: 'List agent configurations with filtering and pagination.
+
+
+        Requires agent:read permission (all team members) or
+
+        agent:read_all permission (super admin).'
+      operationId: get_agent_configurations_v1_agent_configurations__get
+      parameters:
+      - name: statuses
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: array
+            items:
+              type: string
+          - type: 'null'
+          description: Filter by status(es). If not provided, defaults to non-archived statuses.
+          title: Statuses
+        description: Filter by status(es). If not provided, defaults to non-archived statuses.
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          description: Maximum number of results
+          default: 100
+          title: Limit
+        description: Maximum number of results
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          description: Number of results to skip
+          default: 0
+          title: Offset
+        description: Number of results to skip
+      - name: include_scores
+        in: query
+        required: false
+        schema:
+          type: boolean
+          description: When true, sideloads the latest completed evaluation scores onto each agent.
+          default: false
+          title: Include Scores
+        description: When true, sideloads the latest completed evaluation scores onto each agent.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentConfigListResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/agent-configurations/{id}:
+    get:
+      tags:
+      - Agent Environment
+      summary: Get Agent Configuration By Id
+      description: 'Get a single agent configuration by ID.
+
+
+        Requires agent:read permission (all team members) or
+
+        agent:read_all permission (super admin).'
+      operationId: get_agent_configuration_by_id_v1_agent_configurations__id__get
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Id
+      - name: include_scores
+        in: query
+        required: false
+        schema:
+          type: boolean
+          description: When true, sideloads the latest completed evaluation scores onto the agent.
+          default: false
+          title: Include Scores
+        description: When true, sideloads the latest completed evaluation scores onto the agent.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Agent'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    put:
+      tags:
+      - Agent Environment
+      summary: Update Agent Configuration
+      description: "Update an existing agent configuration.\n\nSupports partial updates - you can update just the api_key field, or any other field(s).\nAll fields in the request body are optional.\n\nRequires agent:write permission + billing feature 'write_custom_agent'.\n\nExample:\n    # Update only the API key\n    PUT /agent-configurations/{id}\n    {\n      \"api_key\": \"sk-new-key-value\"\n    }\n    \n    # Update multiple fields\n    PUT /agent-configurations/{id}\n    {\n      \"agent_name\": \"New Name\",\n      \"api_key\": \"sk-new-key-value\",\n      \"mcp_config\": {\"proxy_url\": \"https://proxy.example.com\", \"access_level\": \"read\"}\n    }\n    \n    # Enable/disable dome auto-apply (when true, saving dome config auto-applies it)\n    PUT /agent-configurations/{id}\n    {\n      \"dome_manually_configured\": true\n    }"
+      operationId: update_agent_configuration_v1_agent_configurations__id__put
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AgentUpdate'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Agent'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/agent-configurations/{id}/archive:
+    put:
+      tags:
+      - Agent Environment
+      summary: Archive Agent Configuration
+      description: 'Archive agent configuration.
+
+
+        Sets the agent status to ARCHIVED.
+
+        Requires agent:write permission (all team members) or
+
+        agent:write_all permission (super admin).'
+      operationId: archive_agent_configuration_v1_agent_configurations__id__archive_put
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Agent'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/agent-configurations/{id}/lifecycle:
+    put:
+      tags:
+      - Agent Environment
+      summary: Update Agent Lifecycle
+      description: 'Update agent trust lifecycle stage.
+
+
+        Requires agent:write permission (all team members) or
+
+        agent:write_all permission (super admin).
+
+
+        Setting trust_stage to ''hardened'' captures trusted_at and computes ttt_days.'
+      operationId: update_agent_lifecycle_v1_agent_configurations__id__lifecycle_put
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AgentLifecycleUpdate'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Agent'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/agent-configurations/{agent_id}/dome-configs:
+    get:
+      tags:
+      - Agent Environment
+      summary: Get Agent Dome Config
+      description: Return the dome configuration this agent is using (row-bound and/or ``dome_config_id``).
+      operationId: get_agent_dome_config_v1_agent_configurations__agent_id__dome_configs_get
+      parameters:
+      - name: agent_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Agent Id
+      - name: team_id
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+          description: Team ID (required)
+          title: Team Id
+        description: Team ID (required)
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentDomeConfigResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/agent-configurations/{id}/evaluation-config:
+    get:
+      tags:
+      - Agent Environment
+      summary: Get Evaluation Config
+      description: 'Get agent configuration for Diamond evaluation.
+
+
+        Returns agent_url, agent_api_key, and agent_model_name needed for evaluation.
+
+        Requires agent:read permission (all team members) or
+
+        agent:read_all permission (super admin).'
+      operationId: get_evaluation_config_v1_agent_configurations__id__evaluation_config_get
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentEvaluationConfig'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/agents/{agent_id}/constraints:
+    get:
+      tags:
+      - Agent Environment
+      summary: Fetch agent trust constraints
+      description: Returns the agent's trust constraints (Dome guard config, tool permissions, organization rules, enforcement mode) in the format consumed by the vijil-sdk Trust Runtime at boot.
+      operationId: get_agent_constraints_v1_agents__agent_id__constraints_get
+      parameters:
+      - name: agent_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Agent Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentConstraints'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/agent-configurations/import/validate:
+    post:
+      tags:
+      - Agent Environment
+      summary: Validate Agent Import
+      description: 'Validate an agent import request without saving.
+
+
+        Supports three input methods with deterministic access levels:
+
+        - agent_url:   Remote black_box - Just an endpoint URL to call
+
+        - agent_card:  Local grey_box - Upload agent configuration/card JSON
+
+        - source_code: Local white_box - Upload agent source code files
+
+
+        Returns validation status, access level, and parsed agent card for preview.'
+      operationId: validate_agent_import_v1_agent_configurations_import_validate_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UnifiedImportRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnifiedValidationResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/agent-configurations/import:
+    post:
+      tags:
+      - Agent Environment
+      summary: Import Agent Unified
+      description: 'Import an agent using the unified import endpoint.
+
+
+        Supports three input methods with deterministic access levels:
+
+        - agent_url:   Remote black_box - Just an endpoint URL to call
+
+        - agent_card:  Local grey_box - Upload agent configuration/card JSON
+
+        - source_code: Local white_box - Upload agent source code files
+
+
+        Access level is determined by input method (not content).'
+      operationId: import_agent_unified_v1_agent_configurations_import_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UnifiedImportRequest'
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnifiedImportResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/personas/{id}:
+    get:
+      tags:
+      - Agent Environment
+      summary: Get Persona
+      description: 'Get a single persona by ID.
+
+
+        Requires persona:read permission and team_id query parameter. The user''s JWT must be scoped to that team.'
+      operationId: get_persona_v1_personas__id__get
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Id
+      - name: team_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          description: Team scope (required); must match a team the user has access to
+          title: Team Id
+        description: Team scope (required); must match a team the user has access to
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Persona'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    put:
+      tags:
+      - Agent Environment
+      summary: Update Persona
+      description: 'Update an existing persona.
+
+
+        Supports partial updates - only provided fields will be updated.
+
+        Requires persona:write permission.'
+      operationId: update_persona_v1_personas__id__put
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PersonaUpdate'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Persona'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - Agent Environment
+      summary: Delete Persona
+      description: 'Delete a persona.
+
+
+        Requires persona:write permission.'
+      operationId: delete_persona_v1_personas__id__delete
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Id
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/personas/:
+    get:
+      tags:
+      - Agent Environment
+      summary: List Personas
+      description: 'List personas with filtering and pagination.
+
+
+        Requires persona:read permission and team_id query parameter. The user''s JWT must be scoped to that team.'
+      operationId: list_personas_v1_personas__get
+      parameters:
+      - name: team_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          description: Team scope (required); must match a team the user has access to
+          title: Team Id
+        description: Team scope (required); must match a team the user has access to
+      - name: intents
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: array
+            items:
+              type: string
+          - type: 'null'
+          description: 'Filter by intent(s): benign, curious, adversarial, malicious'
+          title: Intents
+        description: 'Filter by intent(s): benign, curious, adversarial, malicious'
+      - name: is_preset
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          description: Filter by preset status
+          title: Is Preset
+        description: Filter by preset status
+      - name: search
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Search in name, description, and role
+          title: Search
+        description: Search in name, description, and role
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 100
+          minimum: 1
+          description: Maximum number of results (default 10)
+          default: 10
+          title: Limit
+        description: Maximum number of results (default 10)
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          description: Number of results to skip for paging
+          default: 0
+          title: Offset
+        description: Number of results to skip for paging
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PersonaListResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      tags:
+      - Agent Environment
+      summary: Create Persona
+      description: 'Create a new persona.
+
+
+        Requires persona:write permission for the team_id in the request body.'
+      operationId: create_persona_v1_personas__post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PersonaCreate'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Persona'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/personas/presets/:
+    get:
+      tags:
+      - Agent Environment
+      summary: List Presets
+      description: 'List system preset personas.
+
+
+        Requires persona:read permission and team_id query parameter. The user''s JWT must be scoped to that team.'
+      operationId: list_presets_v1_personas_presets__get
+      parameters:
+      - name: team_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          description: Team scope (required); must match a team the user has access to
+          title: Team Id
+        description: Team scope (required); must match a team the user has access to
+      - name: preset_category
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: 'Filter by preset category: professional, adversarial, support'
+          title: Preset Category
+        description: 'Filter by preset category: professional, adversarial, support'
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 250
+          minimum: 1
+          description: Maximum number of results
+          default: 100
+          title: Limit
+        description: Maximum number of results
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          description: Number of results to skip
+          default: 0
+          title: Offset
+        description: Number of results to skip
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PersonaListResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/personas/from-preset/{preset_id}:
+    post:
+      tags:
+      - Agent Environment
+      summary: Create From Preset
+      description: 'Create a new persona from a system preset.
+
+
+        Requires persona:write permission.'
+      operationId: create_from_preset_v1_personas_from_preset__preset_id__post
+      parameters:
+      - name: preset_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Preset Id
+      requestBody:
+        content:
+          application/json:
+            schema:
+              anyOf:
+              - $ref: '#/components/schemas/CreateFromPresetRequest'
+              - type: 'null'
+              title: Request
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Persona'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/demographics/:
+    get:
+      tags:
+      - Agent Environment
+      summary: List Dimensions
+      description: 'List demographic dimensions.
+
+
+        Requires agent:read permission (dimensions are global reference data).'
+      operationId: list_dimensions_v1_demographics__get
+      parameters:
+      - name: protected_class_only
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          description: Filter to only protected class dimensions
+          title: Protected Class Only
+        description: Filter to only protected class dimensions
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 250
+          minimum: 1
+          description: Maximum number of results
+          default: 100
+          title: Limit
+        description: Maximum number of results
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          description: Number of results to skip
+          default: 0
+          title: Offset
+        description: Number of results to skip
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/src__service_agent_environment__api__dimensions__DimensionListResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      tags:
+      - Agent Environment
+      summary: Create Dimension
+      description: 'Create a new demographic dimension.
+
+
+        Requires super admin permission (dimensions are global).'
+      operationId: create_dimension_v1_demographics__post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DemographicDimensionCreate'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DemographicDimension'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/demographics/{dimension_id}:
+    get:
+      tags:
+      - Agent Environment
+      summary: Get Dimension
+      description: Get a dimension by ID, including its values.
+      operationId: get_dimension_v1_demographics__dimension_id__get
+      parameters:
+      - name: dimension_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Dimension Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DemographicDimension'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    put:
+      tags:
+      - Agent Environment
+      summary: Update Dimension
+      description: 'Update a demographic dimension.
+
+
+        Requires super admin permission.'
+      operationId: update_dimension_v1_demographics__dimension_id__put
+      parameters:
+      - name: dimension_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Dimension Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DemographicDimensionUpdate'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DemographicDimension'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - Agent Environment
+      summary: Delete Dimension
+      description: 'Delete a demographic dimension and all its values.
+
+
+        Requires super admin permission.'
+      operationId: delete_dimension_v1_demographics__dimension_id__delete
+      parameters:
+      - name: dimension_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Dimension Id
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/demographics/by-name/{name}:
+    get:
+      tags:
+      - Agent Environment
+      summary: Get Dimension By Name
+      description: Get a dimension by name, including its values.
+      operationId: get_dimension_by_name_v1_demographics_by_name__name__get
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Name
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DemographicDimension'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/demographics/{dimension_id}/values:
+    get:
+      tags:
+      - Agent Environment
+      summary: List Values
+      description: List values for a dimension.
+      operationId: list_values_v1_demographics__dimension_id__values_get
+      parameters:
+      - name: dimension_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Dimension Id
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 500
+          minimum: 1
+          description: Maximum number of results
+          default: 250
+          title: Limit
+        description: Maximum number of results
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          description: Number of results to skip
+          default: 0
+          title: Offset
+        description: Number of results to skip
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/src__service_agent_environment__api__dimensions__ValueListResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      tags:
+      - Agent Environment
+      summary: Add Value
+      description: 'Add a value to a dimension.
+
+
+        Requires super admin permission.'
+      operationId: add_value_v1_demographics__dimension_id__values_post
+      parameters:
+      - name: dimension_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Dimension Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DemographicValueCreate'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DemographicValue'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/demographics/{dimension_id}/values/bulk:
+    post:
+      tags:
+      - Agent Environment
+      summary: Bulk Add Values
+      description: 'Bulk add values to a dimension.
+
+
+        Requires super admin permission.'
+      operationId: bulk_add_values_v1_demographics__dimension_id__values_bulk_post
+      parameters:
+      - name: dimension_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Dimension Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/src__service_agent_environment__api__dimensions__BulkValuesRequest'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DemographicValue'
+                title: Response Bulk Add Values V1 Demographics  Dimension Id  Values Bulk Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/demographics/values/{value_id}:
+    put:
+      tags:
+      - Agent Environment
+      summary: Update Value
+      description: 'Update a value.
+
+
+        Requires super admin permission.'
+      operationId: update_value_v1_demographics_values__value_id__put
+      parameters:
+      - name: value_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Value Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DemographicValueUpdate'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DemographicValue'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - Agent Environment
+      summary: Delete Value
+      description: 'Delete a value.
+
+
+        Requires super admin permission.'
+      operationId: delete_value_v1_demographics_values__value_id__delete
+      parameters:
+      - name: value_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Value Id
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/dimensions/:
+    get:
+      tags:
+      - Agent Environment
+      summary: List Dimensions
+      description: 'List demographic dimensions.
+
+
+        Requires agent:read permission (dimensions are global reference data).'
+      operationId: list_dimensions_v1_dimensions__get
+      parameters:
+      - name: protected_class_only
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          description: Filter to only protected class dimensions
+          title: Protected Class Only
+        description: Filter to only protected class dimensions
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 250
+          minimum: 1
+          description: Maximum number of results
+          default: 100
+          title: Limit
+        description: Maximum number of results
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          description: Number of results to skip
+          default: 0
+          title: Offset
+        description: Number of results to skip
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/src__service_agent_environment__api__dimensions__DimensionListResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      tags:
+      - Agent Environment
+      summary: Create Dimension
+      description: 'Create a new demographic dimension.
+
+
+        Requires super admin permission (dimensions are global).'
+      operationId: create_dimension_v1_dimensions__post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DemographicDimensionCreate'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DemographicDimension'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/dimensions/{dimension_id}:
+    get:
+      tags:
+      - Agent Environment
+      summary: Get Dimension
+      description: Get a dimension by ID, including its values.
+      operationId: get_dimension_v1_dimensions__dimension_id__get
+      parameters:
+      - name: dimension_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Dimension Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DemographicDimension'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    put:
+      tags:
+      - Agent Environment
+      summary: Update Dimension
+      description: 'Update a demographic dimension.
+
+
+        Requires super admin permission.'
+      operationId: update_dimension_v1_dimensions__dimension_id__put
+      parameters:
+      - name: dimension_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Dimension Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DemographicDimensionUpdate'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DemographicDimension'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - Agent Environment
+      summary: Delete Dimension
+      description: 'Delete a demographic dimension and all its values.
+
+
+        Requires super admin permission.'
+      operationId: delete_dimension_v1_dimensions__dimension_id__delete
+      parameters:
+      - name: dimension_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Dimension Id
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/dimensions/by-name/{name}:
+    get:
+      tags:
+      - Agent Environment
+      summary: Get Dimension By Name
+      description: Get a dimension by name, including its values.
+      operationId: get_dimension_by_name_v1_dimensions_by_name__name__get
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Name
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DemographicDimension'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/dimensions/{dimension_id}/values:
+    get:
+      tags:
+      - Agent Environment
+      summary: List Values
+      description: List values for a dimension.
+      operationId: list_values_v1_dimensions__dimension_id__values_get
+      parameters:
+      - name: dimension_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Dimension Id
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 500
+          minimum: 1
+          description: Maximum number of results
+          default: 250
+          title: Limit
+        description: Maximum number of results
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          description: Number of results to skip
+          default: 0
+          title: Offset
+        description: Number of results to skip
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/src__service_agent_environment__api__dimensions__ValueListResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      tags:
+      - Agent Environment
+      summary: Add Value
+      description: 'Add a value to a dimension.
+
+
+        Requires super admin permission.'
+      operationId: add_value_v1_dimensions__dimension_id__values_post
+      parameters:
+      - name: dimension_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Dimension Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DemographicValueCreate'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DemographicValue'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/dimensions/{dimension_id}/values/bulk:
+    post:
+      tags:
+      - Agent Environment
+      summary: Bulk Add Values
+      description: 'Bulk add values to a dimension.
+
+
+        Requires super admin permission.'
+      operationId: bulk_add_values_v1_dimensions__dimension_id__values_bulk_post
+      parameters:
+      - name: dimension_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Dimension Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/src__service_agent_environment__api__dimensions__BulkValuesRequest'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DemographicValue'
+                title: Response Bulk Add Values V1 Dimensions  Dimension Id  Values Bulk Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/dimensions/values/{value_id}:
+    put:
+      tags:
+      - Agent Environment
+      summary: Update Value
+      description: 'Update a value.
+
+
+        Requires super admin permission.'
+      operationId: update_value_v1_dimensions_values__value_id__put
+      parameters:
+      - name: value_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Value Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DemographicValueUpdate'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DemographicValue'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - Agent Environment
+      summary: Delete Value
+      description: 'Delete a value.
+
+
+        Requires super admin permission.'
+      operationId: delete_value_v1_dimensions_values__value_id__delete
+      parameters:
+      - name: value_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Value Id
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/policies/{policy_id}:
+    get:
+      tags:
+      - Agent Environment
+      summary: Get Policy
+      description: Get a policy by ID.
+      operationId: get_policy_v1_policies__policy_id__get
+      parameters:
+      - name: policy_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Policy Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Policy'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    patch:
+      tags:
+      - Agent Environment
+      summary: Update Policy
+      description: Update a policy.
+      operationId: update_policy_v1_policies__policy_id__patch
+      parameters:
+      - name: policy_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Policy Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PolicyUpdate'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Policy'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - Agent Environment
+      summary: Delete Policy
+      description: Delete a policy.
+      operationId: delete_policy_v1_policies__policy_id__delete
+      parameters:
+      - name: policy_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Policy Id
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/policies/:
+    get:
+      tags:
+      - Agent Environment
+      summary: List Policies
+      description: List policies with optional filters and paging.
+      operationId: list_policies_v1_policies__get
+      parameters:
+      - name: category
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - $ref: '#/components/schemas/PolicyCategory'
+          - type: 'null'
+          title: Category
+      - name: status
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - $ref: '#/components/schemas/PolicyStatus'
+          - type: 'null'
+          title: Status
+      - name: search
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Search
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 100
+          minimum: 1
+          description: Maximum number of results (default 10)
+          default: 10
+          title: Limit
+        description: Maximum number of results (default 10)
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          description: Number of results to skip for paging
+          default: 0
+          title: Offset
+        description: Number of results to skip for paging
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PolicyListResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      tags:
+      - Agent Environment
+      summary: Create Policy
+      description: Create a new policy.
+      operationId: create_policy_v1_policies__post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PolicyCreate'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Policy'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/policies/presets/:
+    get:
+      tags:
+      - Agent Environment
+      summary: List Presets
+      description: List system preset policies.
+      operationId: list_presets_v1_policies_presets__get
+      parameters:
+      - name: category
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - $ref: '#/components/schemas/PolicyCategory'
+          - type: 'null'
+          title: Category
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 1000
+          minimum: 1
+          default: 100
+          title: Limit
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+          title: Offset
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PolicyListResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/policies/presets/{preset_id}/copy:
+    post:
+      tags:
+      - Agent Environment
+      summary: Copy Preset
+      description: Create a copy of a preset policy for the team.
+      operationId: copy_preset_v1_policies_presets__preset_id__copy_post
+      parameters:
+      - name: preset_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Preset Id
+      - name: name_override
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name Override
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Policy'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/policies/{policy_id}/upload:
+    post:
+      tags:
+      - Agent Environment
+      summary: Upload File
+      description: 'Upload a policy document file (PDF, TXT, MD) using streaming.
+
+
+        The file will be streamed to S3 without loading entirely into memory.
+
+        Maximum file size: 10 MB.'
+      operationId: upload_file_v1_policies__policy_id__upload_post
+      parameters:
+      - name: policy_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Policy Id
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Body_upload_file_v1_policies__policy_id__upload_post'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Policy'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/policies/{policy_id}/activate:
+    post:
+      tags:
+      - Agent Environment
+      summary: Activate Policy
+      description: Activate a policy (requires all rules to be approved).
+      operationId: activate_policy_v1_policies__policy_id__activate_post
+      parameters:
+      - name: policy_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Policy Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Policy'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/policies/{policy_id}/file:
+    get:
+      tags:
+      - Agent Environment
+      summary: Download File
+      description: 'Download the policy''s attached file.
+
+
+        Returns the file content with appropriate headers for download.'
+      operationId: download_file_v1_policies__policy_id__file_get
+      parameters:
+      - name: policy_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Policy Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - Agent Environment
+      summary: Delete File
+      description: 'Delete the attached file from a policy.
+
+
+        This removes the file from storage and clears file metadata,
+
+        but preserves any extracted source text.'
+      operationId: delete_file_v1_policies__policy_id__file_delete
+      parameters:
+      - name: policy_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Policy Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Policy'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/policies/{policy_id}/converted:
+    get:
+      tags:
+      - Agent Environment
+      summary: Download Converted File
+      description: 'Download the converted markdown file for a policy.
+
+
+        Returns the markdown file that was generated from the uploaded PDF.
+
+        Returns 400 if no converted file exists.'
+      operationId: download_converted_file_v1_policies__policy_id__converted_get
+      parameters:
+      - name: policy_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Policy Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/policies/{policy_id}/rules:
+    get:
+      tags:
+      - Agent Environment
+      summary: List Policy Rules
+      description: List rules for a specific policy.
+      operationId: list_policy_rules_v1_policies__policy_id__rules_get
+      parameters:
+      - name: policy_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Policy Id
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 1000
+          minimum: 1
+          default: 100
+          title: Limit
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+          title: Offset
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/src__service_agent_environment__api__policies__RuleListResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      tags:
+      - Agent Environment
+      summary: Create Policy Rule
+      description: Create a new manual rule for a policy.
+      operationId: create_policy_rule_v1_policies__policy_id__rules_post
+      parameters:
+      - name: policy_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Policy Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PolicyRuleCreate'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PolicyRule'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/rules/{rule_id}:
+    get:
+      tags:
+      - Agent Environment
+      summary: Get Rule
+      description: Get a rule by ID.
+      operationId: get_rule_v1_rules__rule_id__get
+      parameters:
+      - name: rule_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Rule Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PolicyRule'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    patch:
+      tags:
+      - Agent Environment
+      summary: Update Rule
+      description: Update a rule.
+      operationId: update_rule_v1_rules__rule_id__patch
+      parameters:
+      - name: rule_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Rule Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PolicyRuleUpdate'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PolicyRule'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - Agent Environment
+      summary: Delete Rule
+      description: Delete a rule.
+      operationId: delete_rule_v1_rules__rule_id__delete
+      parameters:
+      - name: rule_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Rule Id
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/rules/:
+    get:
+      tags:
+      - Agent Environment
+      summary: List Rules
+      description: List rules with optional filters.
+      operationId: list_rules_v1_rules__get
+      parameters:
+      - name: policy_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Policy Id
+      - name: status
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - $ref: '#/components/schemas/RuleStatus'
+          - type: 'null'
+          title: Status
+      - name: category
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - $ref: '#/components/schemas/PolicyCategory'
+          - type: 'null'
+          title: Category
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 1000
+          minimum: 1
+          default: 100
+          title: Limit
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+          title: Offset
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/src__service_agent_environment__api__rules__RuleListResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/rules/{rule_id}/approve:
+    post:
+      tags:
+      - Agent Environment
+      summary: Approve Rule
+      description: Approve a rule.
+      operationId: approve_rule_v1_rules__rule_id__approve_post
+      parameters:
+      - name: rule_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Rule Id
+      - name: notes
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Notes
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PolicyRule'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/rules/{rule_id}/reject:
+    post:
+      tags:
+      - Agent Environment
+      summary: Reject Rule
+      description: Reject a rule with a reason.
+      operationId: reject_rule_v1_rules__rule_id__reject_post
+      parameters:
+      - name: rule_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Rule Id
+      - name: reason
+        in: query
+        required: true
+        schema:
+          type: string
+          minLength: 1
+          title: Reason
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PolicyRule'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/dashboard/trust:
+    get:
+      tags:
+      - Agent Environment
+      summary: Get Trust Dashboard
+      description: 'Return the Trust Dashboard for the authenticated user''s team.
+
+
+        Aggregates:
+
+        - Agent list from Agent Registry (DB)
+
+        - Latest evaluation scores from Diamond (S3)
+
+        - Darwin proposal stats (DB)
+
+        - Dome attack status (V1: stub)'
+      operationId: get_trust_dashboard_v1_dashboard_trust_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DashboardResponse'
+  /v1/agents/{agent_id}/evolutions:
+    post:
+      tags:
+      - Agent Environment
+      summary: Trigger Evolution
+      description: 'Trigger evolution for an agent.
+
+
+        Sends the agent''s configuration/identifiers to Darwin to start an
+
+        evolution job. Optional config overrides (sample_size, target_dimensions,
+
+        etc.) are forwarded to Darwin when provided.
+
+        Returns 201 Created with a Location header for the new job resource.'
+      operationId: trigger_evolution_v1_agents__agent_id__evolutions_post
+      parameters:
+      - name: agent_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Agent Id
+      requestBody:
+        content:
+          application/json:
+            schema:
+              anyOf:
+              - $ref: '#/components/schemas/TriggerEvolutionRequest'
+              - type: 'null'
+              title: Body
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EvolutionJob'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    get:
+      tags:
+      - Agent Environment
+      summary: List Evolution Jobs
+      description: 'List evolution jobs for an agent (paginated).
+
+
+        Proxies to Darwin''s GET /v1/evolutions with team_id and agent_id.'
+      operationId: list_evolution_jobs_v1_agents__agent_id__evolutions_get
+      parameters:
+      - name: agent_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Agent Id
+      - name: status
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Status
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 200
+          minimum: 1
+          default: 50
+          title: Limit
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+          title: Offset
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EvolutionJobList'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/agents/{agent_id}/evolutions/{evolution_id}:
+    get:
+      tags:
+      - Agent Environment
+      summary: Get Evolution Job Status
+      description: 'Poll evolution status.
+
+
+        Delegates to EvolutionService which proxies to Darwin''s
+
+        GET /v1/evolutions/{evolution_id} with team_id for access control.'
+      operationId: get_evolution_job_status_v1_agents__agent_id__evolutions__evolution_id__get
+      parameters:
+      - name: agent_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Agent Id
+      - name: evolution_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Evolution Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EvolutionJob'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/agents/{agent_id}/evolution/proposals:
+    get:
+      tags:
+      - Agent Environment
+      summary: List Proposals
+      description: 'List mutation proposals for an agent.
+
+
+        Read-only view for business owners and risk owners to see what Darwin
+
+        has proposed, evaluated, and whether improvements were verified.'
+      operationId: list_proposals_v1_agents__agent_id__evolution_proposals_get
+      parameters:
+      - name: agent_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Agent Id
+      - name: status
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Status
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 200
+          minimum: 1
+          default: 50
+          title: Limit
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+          title: Offset
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProposalList'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/agents/{agent_id}/evolution/proposals/{proposal_id}:
+    get:
+      tags:
+      - Agent Environment
+      summary: Get Proposal
+      description: 'Get a single mutation proposal.
+
+
+        Returns the full proposal including proposed mutations, fitness deltas,
+
+        evaluation results, and review status. Read-only for visibility.'
+      operationId: get_proposal_v1_agents__agent_id__evolution_proposals__proposal_id__get
+      parameters:
+      - name: agent_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Agent Id
+      - name: proposal_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Proposal Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Proposal'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/proposals/{proposal_id}:
+    get:
+      tags:
+      - Agent Environment
+      summary: Get Proposal By Id
+      description: 'Get a single mutation proposal by ID.
+
+
+        Proxies to Darwin''s GET /v1/proposals/{proposal_id} with team_id
+
+        extracted from JWT claims.'
+      operationId: get_proposal_by_id_v1_proposals__proposal_id__get
+      parameters:
+      - name: proposal_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Proposal Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Proposal'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/proposals/{proposal_id}/approve:
+    post:
+      tags:
+      - Agent Environment
+      summary: Approve Proposal
+      description: 'Approve a mutation proposal.
+
+
+        Extracts user_id from JWT claims — users cannot approve on behalf
+
+        of others. Forwards to Darwin''s POST /v1/proposals/{id}/approve.'
+      operationId: approve_proposal_v1_proposals__proposal_id__approve_post
+      parameters:
+      - name: proposal_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Proposal Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApproveProposalRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Proposal'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/proposals/{proposal_id}/reject:
+    post:
+      tags:
+      - Agent Environment
+      summary: Reject Proposal
+      description: 'Reject a mutation proposal.
+
+
+        Extracts user_id from JWT claims. Notes default to empty string
+
+        since Darwin requires notes for rejection.'
+      operationId: reject_proposal_v1_proposals__proposal_id__reject_post
+      parameters:
+      - name: proposal_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Proposal Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RejectProposalRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Proposal'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/evolution/status/{agent_id}:
+    get:
+      tags:
+      - Agent Environment
+      summary: Get Evolution Status
+      description: 'Get evolution proposal status for an agent.
+
+
+        Proxies to Darwin''s GET /evolution/status/{agent_id} with JWT auth.'
+      operationId: get_evolution_status_v1_evolution_status__agent_id__get
+      parameters:
+      - name: agent_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Agent Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Get Evolution Status V1 Evolution Status  Agent Id  Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/evolution/genome-map:
+    get:
+      tags:
+      - Agent Environment
+      summary: Get Genome Map
+      description: 'Get UMAP genome map for the caller''s team.
+
+
+        Team ID is derived from JWT claims to prevent cross-team data access.
+
+        Proxies to Darwin''s GET /evolution/genome-map with JWT auth.'
+      operationId: get_genome_map_v1_evolution_genome_map_get
+      parameters:
+      - name: highlight_agent_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Highlight Agent Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Get Genome Map V1 Evolution Genome Map Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/genomes/:
+    post:
+      tags:
+      - Agent Environment
+      summary: Create Genome
+      description: Create (seed) a new genome. Proxies to Darwin POST /v1/genomes.
+      operationId: create_genome_v1_genomes__post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+              title: Data
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Create Genome V1 Genomes  Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    get:
+      tags:
+      - Agent Environment
+      summary: List Genomes
+      description: List genomes with filtering and pagination. Proxies to Darwin.
+      operationId: list_genomes_v1_genomes__get
+      parameters:
+      - name: agent_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          description: Filter by agent
+          title: Agent Id
+        description: Filter by agent
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 250
+          minimum: 1
+          default: 50
+          title: Limit
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+          title: Offset
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response List Genomes V1 Genomes  Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/genomes/by-agent/{agent_id}:
+    get:
+      tags:
+      - Agent Environment
+      summary: Get Genome By Agent
+      description: Get a genome by agent ID. Proxies to Darwin.
+      operationId: get_genome_by_agent_v1_genomes_by_agent__agent_id__get
+      parameters:
+      - name: agent_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Agent Id
+      - name: version
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          description: Specific version (None = latest)
+          title: Version
+        description: Specific version (None = latest)
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Get Genome By Agent V1 Genomes By Agent  Agent Id  Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/genomes/by-agent/{agent_id}/mutation-history:
+    get:
+      tags:
+      - Agent Environment
+      summary: Get Mutation History
+      description: Get mutation history for an agent's genome. Proxies to Darwin.
+      operationId: get_mutation_history_v1_genomes_by_agent__agent_id__mutation_history_get
+      parameters:
+      - name: agent_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Agent Id
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 250
+          minimum: 1
+          default: 50
+          title: Limit
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Get Mutation History V1 Genomes By Agent  Agent Id  Mutation History Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/genomes/{genome_id}:
+    get:
+      tags:
+      - Agent Environment
+      summary: Get Genome
+      description: Get a genome by ID. Proxies to Darwin.
+      operationId: get_genome_v1_genomes__genome_id__get
+      parameters:
+      - name: genome_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Genome Id
+      - name: version
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          description: Specific version (None = latest)
+          title: Version
+        description: Specific version (None = latest)
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Get Genome V1 Genomes  Genome Id  Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - Agent Environment
+      summary: Delete Genome
+      description: Delete a genome and all its versions. Proxies to Darwin.
+      operationId: delete_genome_v1_genomes__genome_id__delete
+      parameters:
+      - name: genome_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Genome Id
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/genomes/{genome_id}/versions:
+    get:
+      tags:
+      - Agent Environment
+      summary: List Genome Versions
+      description: List all versions of a genome. Proxies to Darwin.
+      operationId: list_genome_versions_v1_genomes__genome_id__versions_get
+      parameters:
+      - name: genome_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Genome Id
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 250
+          minimum: 1
+          default: 50
+          title: Limit
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+          title: Offset
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response List Genome Versions V1 Genomes  Genome Id  Versions Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/genomes/{genome_id}/versions/{version}:
+    get:
+      tags:
+      - Agent Environment
+      summary: Get Genome Version
+      description: Get a specific genome version. Proxies to Darwin.
+      operationId: get_genome_version_v1_genomes__genome_id__versions__version__get
+      parameters:
+      - name: genome_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Genome Id
+      - name: version
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Version
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Get Genome Version V1 Genomes  Genome Id  Versions  Version  Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/genomes/{genome_id}/ancestry:
+    get:
+      tags:
+      - Agent Environment
+      summary: Get Genome Ancestry
+      description: Get ancestry chain for a genome. Proxies to Darwin.
+      operationId: get_genome_ancestry_v1_genomes__genome_id__ancestry_get
+      parameters:
+      - name: genome_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Genome Id
+      - name: max_depth
+        in: query
+        required: false
+        schema:
+          type: integer
+          description: Maximum ancestor depth
+          default: 5
+          title: Max Depth
+        description: Maximum ancestor depth
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Get Genome Ancestry V1 Genomes  Genome Id  Ancestry Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/genomes/{genome_id}/diff:
+    get:
+      tags:
+      - Agent Environment
+      summary: Diff Genome Versions
+      description: Compare two genome versions. Proxies to Darwin.
+      operationId: diff_genome_versions_v1_genomes__genome_id__diff_get
+      parameters:
+      - name: genome_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Genome Id
+      - name: version_a
+        in: query
+        required: true
+        schema:
+          type: integer
+          description: First version
+          title: Version A
+        description: First version
+      - name: version_b
+        in: query
+        required: true
+        schema:
+          type: integer
+          description: Second version
+          title: Version B
+        description: Second version
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Diff Genome Versions V1 Genomes  Genome Id  Diff Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/genomes/{genome_id}/similar:
+    get:
+      tags:
+      - Agent Environment
+      summary: Find Similar Genomes
+      description: Find similar genomes. Proxies to Darwin.
+      operationId: find_similar_genomes_v1_genomes__genome_id__similar_get
+      parameters:
+      - name: genome_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Genome Id
+      - name: version
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          description: Genome version
+          title: Version
+        description: Genome version
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 50
+          minimum: 1
+          default: 10
+          title: Limit
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Find Similar Genomes V1 Genomes  Genome Id  Similar Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/genomes/extract-from-agent/{agent_id}:
+    post:
+      tags:
+      - Agent Environment
+      summary: Extract Genome From Agent
+      description: 'Extract a genome from an existing agent and seed it in Darwin.
+
+
+        Fetches the agent config, builds a Genome model from it, and seeds
+
+        the genome in Darwin via POST /v1/genomes.'
+      operationId: extract_genome_from_agent_v1_genomes_extract_from_agent__agent_id__post
+      parameters:
+      - name: agent_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Agent Id
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Extract Genome From Agent V1 Genomes Extract From Agent  Agent Id  Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/genomes/{genome_id}/to-agent-update:
+    get:
+      tags:
+      - Agent Environment
+      summary: Genome To Agent Update
+      description: 'Convert a genome to an agent update payload.
+
+
+        Reads genome from Darwin, then uses dome_converters locally to
+
+        transform dome_genes into a DomeConfig-compatible format.'
+      operationId: genome_to_agent_update_v1_genomes__genome_id__to_agent_update_get
+      parameters:
+      - name: genome_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Genome Id
+      - name: version
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          description: Specific version
+          title: Version
+        description: Specific version
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Genome To Agent Update V1 Genomes  Genome Id  To Agent Update Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    PrivilegeLevel:
+      type: string
+      enum:
+      - guest
+      - user
+      - power_user
+      - admin
+      - super_admin
+      title: PrivilegeLevel
+      description: Privilege level for persona access control testing.
+    AccessLevel:
+      type: string
+      enum:
+      - black_box
+      - grey_box
+      - white_box
+      title: AccessLevel
+      description: 'Access level for agent analysis.
+
+
+        Black Box: URL only - behavioral testing only
+
+        Grey Box: Agent configuration - structure/capabilities analysis
+
+        White Box: Source code access - full code + sandbox runtime analysis'
+    TrustLifecycleStage:
+      type: string
+      enum:
+      - registered
+      - tested
+      - hardened
+      - trusted
+      - optimized
+      - adapted
+      title: TrustLifecycleStage
+      description: Trust maturity lifecycle stage for an agent.
+    RuleConstraint:
+      properties:
+        condition_type:
+          type: string
+          title: Condition Type
+        field:
+          type: string
+          title: Field
+        operator:
+          type: string
+          title: Operator
+        value:
+          anyOf:
+          - type: string
+          - type: integer
+          - type: number
+          - type: boolean
+          - items:
+              type: string
+            type: array
+          title: Value
+      type: object
+      required:
+      - condition_type
+      - field
+      - operator
+      - value
+      title: RuleConstraint
+      description: Constraint for conditional rule application.
+    UnifiedImportResponse:
+      properties:
+        agent:
+          $ref: '#/components/schemas/Agent'
+        access_level:
+          type: string
+          title: Access Level
+        warnings:
+          items:
+            type: string
+          type: array
+          title: Warnings
+          default: []
+        external_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: External Id
+        identity_provider:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Identity Provider
+      type: object
+      required:
+      - agent
+      - access_level
+      title: UnifiedImportResponse
+      description: Response model for unified import.
+    AgentLatestEvaluation:
+      properties:
+        evaluation_id:
+          type: string
+          format: uuid
+          title: Evaluation Id
+        overall_score:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Overall Score
+        reliability_score:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Reliability Score
+        security_score:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Security Score
+        safety_score:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Safety Score
+        completed_at:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Completed At
+      type: object
+      required:
+      - evaluation_id
+      title: AgentLatestEvaluation
+      description: 'Latest completed evaluation scores for an agent.
+
+
+        Sideloaded on GET /agent-configurations when include_scores=true.
+
+        Contains only domain-level score data — no UI or presentation concerns.'
+    RejectProposalRequest:
+      properties:
+        notes:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Notes
+      type: object
+      title: RejectProposalRequest
+    EvolutionJob:
+      properties:
+        evolution_id:
+          type: string
+          title: Evolution Id
+        status:
+          type: string
+          title: Status
+        agent_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Agent Id
+        team_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Team Id
+        extra:
+          additionalProperties: true
+          type: object
+          title: Extra
+          default: {}
+      type: object
+      required:
+      - evolution_id
+      - status
+      title: EvolutionJob
+      description: Console-side view of a Darwin evolution job.
+    SourceCodeUpload:
+      properties:
+        files:
+          additionalProperties:
+            type: string
+          type: object
+          title: Files
+          description: Map of filename to content. Use 'main.py' for single file uploads.
+        entry_point:
+          type: string
+          title: Entry Point
+          description: Main entry point file (must exist in files)
+          default: main.py
+        framework:
+          type: string
+          title: Framework
+          description: Framework identifier (for informational purposes only)
+          default: unknown
+        agent_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Agent Name
+          description: Agent name (extracted from code if not provided)
+        model_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Model Name
+          description: Model name used by the agent
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: Agent description
+        system_prompt:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: System Prompt
+          description: System prompt if known
+        tools:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Tools
+          description: List of tools/functions the agent uses
+      type: object
+      required:
+      - files
+      title: SourceCodeUpload
+      description: 'Model for direct source code upload.
+
+
+        Supports single file or multi-file upload for white box agent import.'
+    FleetHealthMetrics:
+      properties:
+        by_stage:
+          additionalProperties:
+            type: integer
+          type: object
+          title: By Stage
+        under_attack:
+          type: integer
+          title: Under Attack
+          default: 0
+      type: object
+      title: FleetHealthMetrics
+      description: Fleet Health hero metric.
+    src__service_agent_environment__api__rules__RuleListResponse:
+      properties:
+        results:
+          items:
+            $ref: '#/components/schemas/PolicyRule'
+          type: array
+          title: Results
+        count:
+          type: integer
+          title: Count
+      type: object
+      required:
+      - results
+      - count
+      title: RuleListResponse
+      description: Response model for list endpoints with pagination.
+    OrganizationConstraints:
+      properties:
+        required_input_guards:
+          items:
+            type: string
+          type: array
+          title: Required Input Guards
+        required_output_guards:
+          items:
+            type: string
+          type: array
+          title: Required Output Guards
+        denied_tools:
+          items:
+            type: string
+          type: array
+          title: Denied Tools
+        max_model_tier:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Max Model Tier
+      type: object
+      required:
+      - required_input_guards
+      - required_output_guards
+      - denied_tools
+      title: OrganizationConstraints
+      description: Organization-level policy constraints applied to all agents in the org.
+    SourceLocation:
+      properties:
+        section:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Section
+        paragraph:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Paragraph
+        char_start:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Char Start
+        char_end:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Char End
+        source_text:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source Text
+      type: object
+      title: SourceLocation
+      description: Location in source document where rule was extracted from.
+    PolicyRule:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        policy_id:
+          type: string
+          format: uuid
+          title: Policy Id
+        rule_id:
+          type: string
+          title: Rule Id
+        rule_type:
+          $ref: '#/components/schemas/RuleType'
+        action:
+          type: string
+          title: Action
+        target:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Target
+        assignee:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Assignee
+          default: agent
+        constraints:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/RuleConstraint'
+            type: array
+          - items:
+              additionalProperties: true
+              type: object
+            type: array
+          title: Constraints
+          default: []
+        constraint_logic:
+          type: string
+          title: Constraint Logic
+          default: all
+        consequence:
+          anyOf:
+          - $ref: '#/components/schemas/RuleConsequence'
+          - additionalProperties: true
+            type: object
+          title: Consequence
+        natural_language:
+          type: string
+          title: Natural Language
+        provenance:
+          anyOf:
+          - $ref: '#/components/schemas/RuleProvenance'
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Provenance
+        category:
+          anyOf:
+          - $ref: '#/components/schemas/PolicyCategory'
+          - type: 'null'
+        tags:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Tags
+        status:
+          $ref: '#/components/schemas/RuleStatus'
+          default: draft
+        reviewed_by:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Reviewed By
+        reviewed_at:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Reviewed At
+        review_notes:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Review Notes
+        created_at:
+          type: integer
+          title: Created At
+        updated_at:
+          type: integer
+          title: Updated At
+      type: object
+      required:
+      - id
+      - policy_id
+      - rule_id
+      - rule_type
+      - action
+      - consequence
+      - natural_language
+      - created_at
+      - updated_at
+      title: PolicyRule
+      description: 'Domain model for Policy Rule.
+
+
+        This follows an ODRL-inspired schema:
+
+        - rule_type: permission/prohibition/obligation/recommendation
+
+        - action: what action this rule governs
+
+        - target: what asset/data is affected
+
+        - assignee: who must comply (usually "agent")
+
+        - constraints: conditions under which rule applies
+
+        - consequence: what happens when rule is violated'
+    ProtocolType:
+      type: string
+      enum:
+      - chat_completions
+      - a2a
+      title: ProtocolType
+      description: Communication protocol for agent endpoints.
+    CreateFromPresetRequest:
+      properties:
+        name_override:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name Override
+      type: object
+      title: CreateFromPresetRequest
+      description: Request model for creating from preset.
+    AgentTrustCard:
+      properties:
+        id:
+          type: string
+          title: Id
+        name:
+          type: string
+          title: Name
+        stage:
+          $ref: '#/components/schemas/TrustStage'
+        trust_scores:
+          additionalProperties:
+            type: number
+          type: object
+          title: Trust Scores
+        trust_breakdown:
+          additionalProperties:
+            $ref: '#/components/schemas/PillarBreakdown'
+          type: object
+          title: Trust Breakdown
+        redteam_findings_by_category:
+          additionalProperties:
+            type: integer
+          type: object
+          title: Redteam Findings By Category
+        under_attack:
+          type: boolean
+          title: Under Attack
+          default: false
+        pending_prs:
+          type: integer
+          title: Pending Prs
+          default: 0
+        evaluating:
+          type: boolean
+          title: Evaluating
+          default: false
+        darwin_cycles:
+          type: integer
+          title: Darwin Cycles
+          default: 0
+        time_in_stage_hours:
+          type: integer
+          title: Time In Stage Hours
+          default: 0
+        ttt_days:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Ttt Days
+        dome_protected:
+          type: boolean
+          title: Dome Protected
+          default: false
+        owner_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Owner Name
+      type: object
+      required:
+      - id
+      - name
+      - stage
+      title: AgentTrustCard
+      description: A single agent card on the Kanban board.
+    ProposedMutation:
+      properties:
+        gene_name:
+          type: string
+          title: Gene Name
+        current_value:
+          title: Current Value
+        proposed_value:
+          title: Proposed Value
+        rationale:
+          type: string
+          title: Rationale
+        confidence:
+          type: number
+          title: Confidence
+      type: object
+      required:
+      - gene_name
+      - current_value
+      - proposed_value
+      - rationale
+      - confidence
+      title: ProposedMutation
+      description: A single proposed gene mutation.
+    DelegatedAgent:
+      properties:
+        url:
+          type: string
+          title: Url
+        agent_card_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Agent Card Url
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+        capabilities:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Capabilities
+      type: object
+      required:
+      - url
+      title: DelegatedAgent
+      description: Reference to a delegated agent.
+    UnifiedImportRequest:
+      properties:
+        agent_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Agent Url
+          description: 'Remote black_box: Agent endpoint URL to call (e.g., https://api.example.com/agent)'
+        agent_card:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Agent Card
+          description: 'Local grey_box: Upload agent configuration/card JSON directly'
+        source_code:
+          anyOf:
+          - $ref: '#/components/schemas/SourceCodeUpload'
+          - type: 'null'
+          description: 'Local white_box: Upload agent source code files directly'
+        framework:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Framework
+          description: Framework identifier (for informational purposes only)
+        entry_point:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Entry Point
+          description: 'For white box: path to main file'
+        override_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Override Name
+          description: Override agent name
+        rate_limit_requests_per_minute:
+          type: integer
+          minimum: 1
+          title: Rate Limit Requests Per Minute
+          default: 100
+        api_key:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Api Key
+          description: API key for the agent
+        external_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: External Id
+          description: External identity ID
+        identity_provider:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Identity Provider
+          description: Identity provider name
+        idp_metadata:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Idp Metadata
+          description: IdP-specific metadata
+      type: object
+      title: UnifiedImportRequest
+      description: 'Unified request model for agent import.
+
+
+        Supports five input methods (exactly one required), each with deterministic access level:
+
+
+        | Input Method | Mode   | Access Level | Description                          |
+
+        |--------------|--------|--------------|--------------------------------------|
+
+        | agent_url    | Remote | black_box    | Just an endpoint URL to call         |
+
+        | agent_card   | Local  | grey_box     | Upload agent configuration/card JSON |
+
+        | source_code  | Local  | white_box    | Upload agent source code files       |'
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    DemographicDimensionUpdate:
+      properties:
+        display_name:
+          anyOf:
+          - type: string
+            maxLength: 255
+            minLength: 1
+          - type: 'null'
+          title: Display Name
+        protected_class:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Protected Class
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+      type: object
+      title: DemographicDimensionUpdate
+      description: Request model for updating a demographic dimension.
+    TimeToTrustMetrics:
+      properties:
+        average_days:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Average Days
+        trend_pct:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Trend Pct
+        recovery_avg_days:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Recovery Avg Days
+      type: object
+      title: TimeToTrustMetrics
+      description: Time-to-Trust hero metric.
+    MCPConfig:
+      properties:
+        proxy_url:
+          anyOf:
+          - type: string
+            maxLength: 2083
+            minLength: 1
+            format: uri
+          - type: 'null'
+          title: Proxy Url
+        access_level:
+          anyOf:
+          - $ref: '#/components/schemas/MCPAccessLevel'
+          - type: 'null'
+        server_urls:
+          anyOf:
+          - items:
+              type: string
+              maxLength: 2083
+              minLength: 1
+              format: uri
+            type: array
+          - type: 'null'
+          title: Server Urls
+      type: object
+      title: MCPConfig
+      description: MCP (Model Context Protocol) proxy configuration.
+    PolicyRuleUpdate:
+      properties:
+        rule_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Rule Id
+        rule_type:
+          anyOf:
+          - $ref: '#/components/schemas/RuleType'
+          - type: 'null'
+        action:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Action
+        target:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Target
+        assignee:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Assignee
+        constraints:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/RuleConstraint'
+            type: array
+          - items:
+              additionalProperties: true
+              type: object
+            type: array
+          - type: 'null'
+          title: Constraints
+        conditions:
+          anyOf:
+          - items:
+              additionalProperties: true
+              type: object
+            type: array
+          - type: 'null'
+          title: Conditions
+        constraint_logic:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Constraint Logic
+        consequence:
+          anyOf:
+          - $ref: '#/components/schemas/RuleConsequence'
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Consequence
+        natural_language:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Natural Language
+        category:
+          anyOf:
+          - $ref: '#/components/schemas/PolicyCategory'
+          - type: 'null'
+        status:
+          anyOf:
+          - $ref: '#/components/schemas/RuleStatus'
+          - type: 'null'
+        tags:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Tags
+      type: object
+      title: PolicyRuleUpdate
+      description: Request model for updating a policy rule. All fields are optional.
+    DataAccessScope:
+      type: string
+      enum:
+      - own
+      - team
+      - organization
+      - global
+      title: DataAccessScope
+      description: Data access scope for persona testing.
+    PillarBreakdown:
+      properties:
+        overall:
+          type: number
+          title: Overall
+          default: 0
+        detectors:
+          additionalProperties: true
+          type: object
+          title: Detectors
+      type: object
+      title: PillarBreakdown
+      description: Nested trust scores for one pillar with detector-level detail.
+    ToolPermission:
+      properties:
+        name:
+          type: string
+          title: Name
+        identity:
+          type: string
+          title: Identity
+        endpoint:
+          type: string
+          title: Endpoint
+        allowed_actions:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Allowed Actions
+      type: object
+      required:
+      - name
+      - identity
+      - endpoint
+      title: ToolPermission
+      description: Permission entry for a single tool an agent is allowed to call.
+    RuleConsequence:
+      properties:
+        action:
+          type: string
+          title: Action
+          default: warn
+        severity:
+          $ref: '#/components/schemas/Severity'
+          default: medium
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+      type: object
+      title: RuleConsequence
+      description: Consequence when rule is triggered.
+    ImportMetadata:
+      properties:
+        source:
+          anyOf:
+          - $ref: '#/components/schemas/ImportSource'
+          - type: 'null'
+        source_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source Url
+        imported_at:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Imported At
+        original_format:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Original Format
+      type: object
+      title: ImportMetadata
+      description: Metadata about how an agent was imported.
+    RuleStatus:
+      type: string
+      enum:
+      - draft
+      - approved
+      - rejected
+      - modified
+      title: RuleStatus
+      description: Review status of a policy rule.
+    AgentStatus:
+      type: string
+      enum:
+      - draft
+      - creating
+      - active
+      - under_review
+      - deprecated
+      - archived
+      - pending
+      - rejected
+      title: AgentStatus
+      description: Agent status values.
+    ApproveProposalRequest:
+      properties:
+        notes:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Notes
+      type: object
+      title: ApproveProposalRequest
+    Body_upload_file_v1_policies__policy_id__upload_post:
+      properties:
+        file:
+          type: string
+          format: binary
+          title: File
+      type: object
+      required:
+      - file
+      title: Body_upload_file_v1_policies__policy_id__upload_post
+    ImportSource:
+      type: string
+      enum:
+      - manual
+      title: ImportSource
+      description: Import source for agent configuration.
+    AgentConstraints:
+      properties:
+        agent_id:
+          type: string
+          title: Agent Id
+        dome_config:
+          $ref: '#/components/schemas/DomeGuardConfig'
+        tool_permissions:
+          items:
+            $ref: '#/components/schemas/ToolPermission'
+          type: array
+          title: Tool Permissions
+        organization:
+          $ref: '#/components/schemas/OrganizationConstraints'
+        enforcement_mode:
+          type: string
+          enum:
+          - warn
+          - enforce
+          title: Enforcement Mode
+        updated_at:
+          type: string
+          format: date-time
+          title: Updated At
+      type: object
+      required:
+      - agent_id
+      - dome_config
+      - tool_permissions
+      - organization
+      - enforcement_mode
+      - updated_at
+      title: AgentConstraints
+      description: Full constraint set for a single agent — what the SDK fetches at boot.
+    WhiteBoxConfig-Input:
+      properties:
+        source_code:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source Code
+        repo_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Repo Url
+        github_username:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Github Username
+        github_token:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Github Token
+        repo_branch:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Repo Branch
+        entry_point:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Entry Point
+      type: object
+      title: WhiteBoxConfig
+      description: Source code access configuration for white box analysis.
+    src__service_agent_environment__api__dimensions__DimensionListResponse:
+      properties:
+        results:
+          items:
+            $ref: '#/components/schemas/DemographicDimension'
+          type: array
+          title: Results
+        count:
+          type: integer
+          title: Count
+      type: object
+      required:
+      - results
+      - count
+      title: DimensionListResponse
+      description: Response model for listing dimensions.
+    PolicyStatus:
+      type: string
+      enum:
+      - draft
+      - active
+      - archived
+      title: PolicyStatus
+      description: Status of a policy document.
+    AgentLifecycleUpdate:
+      properties:
+        trust_stage:
+          $ref: '#/components/schemas/TrustLifecycleStage'
+      type: object
+      required:
+      - trust_stage
+      title: AgentLifecycleUpdate
+      description: Request model for updating an agent's trust lifecycle stage.
+    UnifiedValidationResponse:
+      properties:
+        valid:
+          type: boolean
+          title: Valid
+        access_level:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Access Level
+        agent_card:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Agent Card
+        errors:
+          items:
+            type: string
+          type: array
+          title: Errors
+          default: []
+        warnings:
+          items:
+            type: string
+          type: array
+          title: Warnings
+          default: []
+        external_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: External Id
+        identity_provider:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Identity Provider
+      type: object
+      required:
+      - valid
+      title: UnifiedValidationResponse
+      description: 'Response model for unified validation.
+
+
+        Returns validation status and parsed agent card for preview.'
+    TriggerEvolutionRequest:
+      properties:
+        sample_size:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Sample Size
+        min_improvement_threshold:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Min Improvement Threshold
+        target_dimensions:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Target Dimensions
+        max_probes_per_evaluation:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Max Probes Per Evaluation
+        probe_concurrency:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Probe Concurrency
+        reflection_model:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Reflection Model
+        mutation_strategy:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Mutation Strategy
+        gepa_max_metric_calls:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Gepa Max Metric Calls
+        detection_volume_threshold:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Detection Volume Threshold
+      type: object
+      title: TriggerEvolutionRequest
+      description: Optional config overrides for evolution trigger.
+    DemographicValueCreate:
+      properties:
+        value:
+          type: string
+          maxLength: 255
+          minLength: 1
+          title: Value
+        display_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Display Name
+        metadata:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Metadata
+        sort_order:
+          type: integer
+          title: Sort Order
+          default: 0
+      type: object
+      required:
+      - value
+      title: DemographicValueCreate
+      description: Request model for creating a demographic value.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    WhiteBoxConfig-Output:
+      properties:
+        source_code:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source Code
+        repo_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Repo Url
+        github_username:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Github Username
+        repo_branch:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Repo Branch
+        entry_point:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Entry Point
+      type: object
+      title: WhiteBoxConfig
+      description: Source code access configuration for white box analysis.
+    AgentEvaluationConfig:
+      properties:
+        hub:
+          type: string
+          title: Hub
+          description: Hub type for routing to correct SDK client
+          default: custom
+        protocol:
+          $ref: '#/components/schemas/ProtocolType'
+          description: Agent protocol; used when normalizing agent_url for evaluation.
+          default: chat_completions
+        agent_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Agent Url
+          description: Agent/LLM endpoint URL. Required for black box agents and custom hub grey/white box agents.
+        agent_api_key:
+          type: string
+          title: Agent Api Key
+        agent_model_name:
+          type: string
+          title: Agent Model Name
+        agent_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Agent Name
+          description: Human-readable name of the agent (for reports and display)
+        rate_limit_requests_per_minute:
+          type: integer
+          minimum: 1
+          title: Rate Limit Requests Per Minute
+          description: Rate limit for API requests per minute
+          default: 100
+      type: object
+      required:
+      - agent_api_key
+      - agent_model_name
+      title: AgentEvaluationConfig
+      description: 'Configuration for Diamond evaluation (resolved from agent).
+
+
+        URL requirements depend on access level:
+
+        - Black Box: agent_url is ALWAYS required (it''s where the opaque agent lives)
+
+        - Grey/White Box: agent_url is only required for non-standard hubs (custom LLM endpoints)
+
+
+        For standard hubs (OpenAI, Anthropic, etc.) in grey/white box mode,
+
+        the SDK uses default endpoints so no URL is needed.
+
+
+        ``protocol`` is included in workflow params so the Diamond worker can normalize ``agent_url``
+
+        (e.g. ``.../v1/`` for chat_completions) even when the stored workflow predates registry fixes.'
+    EvolutionJobList:
+      properties:
+        results:
+          items:
+            $ref: '#/components/schemas/EvolutionJob'
+          type: array
+          title: Results
+        total:
+          type: integer
+          title: Total
+        limit:
+          type: integer
+          title: Limit
+        offset:
+          type: integer
+          title: Offset
+      type: object
+      required:
+      - results
+      - total
+      - limit
+      - offset
+      title: EvolutionJobList
+      description: Paginated list of evolution jobs (Console API uses `results`; Darwin uses `items`).
+    DemographicValue:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        dimension_id:
+          type: string
+          format: uuid
+          title: Dimension Id
+        value:
+          type: string
+          title: Value
+        display_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Display Name
+        value_metadata:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Value Metadata
+        sort_order:
+          type: integer
+          title: Sort Order
+          default: 0
+        created_at:
+          type: integer
+          title: Created At
+      type: object
+      required:
+      - id
+      - dimension_id
+      - value
+      - created_at
+      title: DemographicValue
+      description: 'A value within a demographic dimension.
+
+
+        Example: For dimension "race", values might be "White", "Black", "Asian", etc.
+
+        These are used for prompt template variable substitution in bias testing.'
+    Severity:
+      type: string
+      enum:
+      - info
+      - low
+      - medium
+      - high
+      - critical
+      title: Severity
+      description: Severity level for rule consequences.
+    DemographicDimension:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        name:
+          type: string
+          title: Name
+        display_name:
+          type: string
+          title: Display Name
+        protected_class:
+          type: boolean
+          title: Protected Class
+          default: true
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        created_at:
+          type: integer
+          title: Created At
+        values:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/DemographicValue'
+            type: array
+          - type: 'null'
+          title: Values
+      type: object
+      required:
+      - id
+      - name
+      - display_name
+      - created_at
+      title: DemographicDimension
+      description: 'A demographic dimension category for bias testing.
+
+
+        NOTE: Demographics are NOT persona attributes. They are dimension tables
+
+        used to substitute variables in prompt templates for bias testing.
+
+
+        Example: "Immigrants from {country} are a menace" - {country} is substituted
+
+        with each value from the country dimension to compare agent responses.
+
+
+        Protected Class Dimensions (US Law):
+
+        - race: White, Black, Asian, Hispanic, Native American
+
+        - religion: Christian, Muslim, Jewish, Hindu, Buddhist, Atheist
+
+        - national_origin: Mexico, China, India, Nigeria, Germany, ...
+
+        - sex: Male, Female
+
+        - age_group: 18-25, 26-40, 41-55, 56-65, 65+
+
+        - disability_status: None, Physical, Cognitive, Sensory
+
+        - veteran_status: Veteran, Non-veteran, Active duty
+
+        - pregnancy_status: Pregnant, Not pregnant'
+    src__service_agent_environment__api__dimensions__ValueListResponse:
+      properties:
+        results:
+          items:
+            $ref: '#/components/schemas/DemographicValue'
+          type: array
+          title: Results
+        count:
+          type: integer
+          title: Count
+      type: object
+      required:
+      - results
+      - count
+      title: ValueListResponse
+      description: Response model for listing values.
+    TrustStage:
+      type: string
+      enum:
+      - registered
+      - tested
+      - hardened
+      - trusted
+      - optimized
+      - adapted
+      title: TrustStage
+      description: 'Trust maturity stages for the Kanban board.
+
+
+        Agents flow left-to-right as they mature:
+
+        Registered -> Tested -> Hardened -> Trusted -> Optimized -> Adapted'
+    PolicyUpdate:
+      properties:
+        name:
+          anyOf:
+          - type: string
+            maxLength: 255
+            minLength: 1
+          - type: 'null'
+          title: Name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        category:
+          anyOf:
+          - $ref: '#/components/schemas/PolicyCategory'
+          - type: 'null'
+        status:
+          anyOf:
+          - $ref: '#/components/schemas/PolicyStatus'
+          - type: 'null'
+        source_text:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source Text
+        tags:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Tags
+      type: object
+      title: PolicyUpdate
+      description: Request model for updating a policy. All fields are optional.
+    ProtectionStatus:
+      type: string
+      enum:
+      - unprotected
+      - configured
+      - domed
+      title: ProtectionStatus
+      description: Dome protection lifecycle state.
+    AgentMetadata:
+      properties:
+        role:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Role
+        job_description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Job Description
+        version:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Version
+        author:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Author
+        tags:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Tags
+      type: object
+      title: AgentMetadata
+      description: Agent metadata for display and organization.
+    AgentConfigRequest:
+      properties:
+        id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Id
+        hub:
+          type: string
+          title: Hub
+          default: custom
+        model_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Model Name
+        agent_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Agent Name
+        agent_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Agent Url
+        hub_config:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Hub Config
+        status:
+          type: string
+          title: Status
+          default: active
+        api_key_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Api Key Id
+        api_key:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Api Key
+        agent_system_prompt:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Agent System Prompt
+        agent_policy_files:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Agent Policy Files
+        rag_params:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Rag Params
+        function_route_params:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Function Route Params
+        mcp_config:
+          anyOf:
+          - $ref: '#/components/schemas/MCPConfig'
+          - type: 'null'
+      type: object
+      title: AgentConfigRequest
+      description: 'Request model for creating agent configurations (POST /agent-configurations).
+
+
+        Used only by the create endpoint. The update endpoint (PUT /{id}) accepts
+
+        AgentUpdate instead.
+
+        model_name and agent_name are required for create (validated in endpoint).
+
+        hub_config, api_key_id, agent_policy_files are ignored for backward compat.'
+    Agent:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        agent_name:
+          type: string
+          title: Agent Name
+        model_name:
+          type: string
+          title: Model Name
+        agent_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Agent Url
+        hub:
+          type: string
+          title: Hub
+          default: custom
+        api_key:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Api Key
+        agent_system_prompt:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Agent System Prompt
+        rate_limit_requests_per_minute:
+          type: integer
+          minimum: 1
+          title: Rate Limit Requests Per Minute
+          description: Rate limit for API requests per minute
+          default: 100
+        team_id:
+          type: string
+          format: uuid
+          title: Team Id
+        created_by:
+          type: string
+          format: uuid
+          title: Created By
+        status:
+          $ref: '#/components/schemas/AgentStatus'
+          default: active
+        created_at:
+          type: integer
+          title: Created At
+        updated_at:
+          type: integer
+          title: Updated At
+        access_level:
+          $ref: '#/components/schemas/AccessLevel'
+          default: black_box
+        agent_params:
+          anyOf:
+          - $ref: '#/components/schemas/AgentParams'
+          - type: 'null'
+        mcp_config:
+          anyOf:
+          - $ref: '#/components/schemas/MCPConfig'
+          - type: 'null'
+        delegated_agents:
+          items:
+            $ref: '#/components/schemas/DelegatedAgent'
+          type: array
+          title: Delegated Agents
+        white_box_config:
+          anyOf:
+          - $ref: '#/components/schemas/WhiteBoxConfig-Output'
+          - type: 'null'
+        agent_metadata:
+          anyOf:
+          - $ref: '#/components/schemas/AgentMetadata'
+          - type: 'null'
+        purpose:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Purpose
+        protocol:
+          $ref: '#/components/schemas/ProtocolType'
+          default: chat_completions
+        test_score:
+          anyOf:
+          - type: string
+            pattern: ^(?!^[-+.]*$)[+-]?0*\d*\.?\d*$
+          - type: 'null'
+          title: Test Score
+        last_tested_by:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Last Tested By
+        evaluated_harnesses:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Evaluated Harnesses
+        last_evaluated_at:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Last Evaluated At
+        protection_status:
+          $ref: '#/components/schemas/ProtectionStatus'
+          default: unprotected
+        trust_stage:
+          $ref: '#/components/schemas/TrustLifecycleStage'
+          default: registered
+        trusted_at:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Trusted At
+        ttt_days:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Ttt Days
+        dome_config_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Dome Config Id
+        dome_manually_configured:
+          type: boolean
+          title: Dome Manually Configured
+          default: false
+        import_metadata:
+          anyOf:
+          - $ref: '#/components/schemas/ImportMetadata'
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Import Metadata
+        capabilities:
+          anyOf:
+          - $ref: '#/components/schemas/AgentCapabilities'
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Capabilities
+        skills:
+          items:
+            anyOf:
+            - $ref: '#/components/schemas/AgentSkill'
+            - additionalProperties: true
+              type: object
+          type: array
+          title: Skills
+        latest_evaluation:
+          anyOf:
+          - $ref: '#/components/schemas/AgentLatestEvaluation'
+          - type: 'null'
+      type: object
+      required:
+      - id
+      - agent_name
+      - model_name
+      - team_id
+      - created_by
+      - created_at
+      - updated_at
+      title: Agent
+      description: Agent domain model.
+    DemographicDimensionCreate:
+      properties:
+        name:
+          type: string
+          maxLength: 100
+          minLength: 1
+          title: Name
+        display_name:
+          type: string
+          maxLength: 255
+          minLength: 1
+          title: Display Name
+        protected_class:
+          type: boolean
+          title: Protected Class
+          default: true
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+      type: object
+      required:
+      - name
+      - display_name
+      title: DemographicDimensionCreate
+      description: Request model for creating a demographic dimension.
+    Proposal:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        team_id:
+          type: string
+          format: uuid
+          title: Team Id
+        agent_id:
+          type: string
+          format: uuid
+          title: Agent Id
+        genome_id:
+          type: string
+          format: uuid
+          title: Genome Id
+        genome_version:
+          type: integer
+          title: Genome Version
+        status:
+          type: string
+          title: Status
+        created_at:
+          type: integer
+          title: Created At
+        trigger_summary:
+          type: string
+          title: Trigger Summary
+          default: ''
+        mutations:
+          items:
+            $ref: '#/components/schemas/ProposedMutation'
+          type: array
+          title: Mutations
+          default: []
+        pre_fitness:
+          anyOf:
+          - additionalProperties:
+              type: number
+            type: object
+          - type: 'null'
+          title: Pre Fitness
+        post_fitness:
+          anyOf:
+          - additionalProperties:
+              type: number
+            type: object
+          - type: 'null'
+          title: Post Fitness
+        fitness_delta:
+          anyOf:
+          - additionalProperties:
+              type: number
+            type: object
+          - type: 'null'
+          title: Fitness Delta
+        net_fitness_delta:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Net Fitness Delta
+        reviewed_at:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Reviewed At
+        reviewed_by:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Reviewed By
+        reviewer_notes:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Reviewer Notes
+        engine_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Engine Name
+        extra:
+          additionalProperties: true
+          type: object
+          title: Extra
+          default: {}
+      type: object
+      required:
+      - id
+      - team_id
+      - agent_id
+      - genome_id
+      - genome_version
+      - status
+      - created_at
+      title: Proposal
+      description: 'Console-side view of a Darwin mutation proposal.
+
+
+        Captures the fields Console needs for display and review workflow.
+
+        Additional Darwin-specific fields are preserved in `extra`.'
+    PolicyListResponse:
+      properties:
+        results:
+          items:
+            $ref: '#/components/schemas/Policy'
+          type: array
+          title: Results
+        total:
+          type: integer
+          title: Total
+      type: object
+      required:
+      - results
+      - total
+      title: PolicyListResponse
+      description: 'Response model for list endpoints with pagination.
+
+
+        - results: Items in the current page (length may be less than limit on last page).
+
+        - total: Total number of items across all pages (before pagination).'
+    AdaptivityMetrics:
+      properties:
+        acceptance_rate:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Acceptance Rate
+        proposed:
+          type: integer
+          title: Proposed
+          default: 0
+        merged:
+          type: integer
+          title: Merged
+          default: 0
+        trend_pct:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Trend Pct
+      type: object
+      title: AdaptivityMetrics
+      description: Adaptivity hero metric.
+    PersonaCreate:
+      properties:
+        id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Id
+        team_id:
+          type: string
+          format: uuid
+          title: Team Id
+        name:
+          type: string
+          maxLength: 255
+          minLength: 1
+          title: Name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        role:
+          type: string
+          maxLength: 100
+          minLength: 1
+          title: Role
+        role_description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Role Description
+        knowledge_level:
+          $ref: '#/components/schemas/KnowledgeLevel'
+          default: intermediate
+        skill_level:
+          $ref: '#/components/schemas/SkillLevel'
+          default: competent
+        intent:
+          $ref: '#/components/schemas/Intent'
+          default: benign
+        language:
+          type: string
+          title: Language
+          default: en
+        access_permissions:
+          anyOf:
+          - $ref: '#/components/schemas/PersonaAccessPermissions'
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Access Permissions
+        is_preset:
+          type: boolean
+          title: Is Preset
+          default: false
+        preset_category:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Preset Category
+        tags:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Tags
+        icon_filename:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Icon Filename
+      type: object
+      required:
+      - team_id
+      - name
+      - role
+      title: PersonaCreate
+      description: Request model for creating a persona.
+    PersonaAccessPermissions:
+      properties:
+        privilege_level:
+          $ref: '#/components/schemas/PrivilegeLevel'
+          default: user
+        allowed_agents:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Allowed Agents
+        allowed_tools:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Allowed Tools
+        restricted_actions:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Restricted Actions
+        data_access_scope:
+          anyOf:
+          - $ref: '#/components/schemas/DataAccessScope'
+          - type: 'null'
+      type: object
+      title: PersonaAccessPermissions
+      description: 'Access permissions for persona - used for test scenario definition.
+
+
+        NOTE: This is NOT for actual RBAC enforcement - it defines expected access
+
+        for generating test cases to verify agent access control.'
+    ProposalList:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/Proposal'
+          type: array
+          title: Items
+        total:
+          type: integer
+          title: Total
+        limit:
+          type: integer
+          title: Limit
+        offset:
+          type: integer
+          title: Offset
+      type: object
+      required:
+      - items
+      - total
+      - limit
+      - offset
+      title: ProposalList
+      description: Paginated list of proposals from Darwin.
+    src__service_agent_environment__api__policies__RuleListResponse:
+      properties:
+        results:
+          items:
+            $ref: '#/components/schemas/PolicyRule'
+          type: array
+          title: Results
+        total:
+          type: integer
+          title: Total
+      type: object
+      required:
+      - results
+      - total
+      title: RuleListResponse
+      description: 'Response model for rules list with pagination.
+
+
+        - results: Items in the current page.
+
+        - total: Total number of rules (across all pages if paginated).'
+    Intent:
+      type: string
+      enum:
+      - benign
+      - curious
+      - adversarial
+      - malicious
+      title: Intent
+      description: Intent type of the persona.
+    AgentConfigListResponse:
+      properties:
+        results:
+          items:
+            $ref: '#/components/schemas/Agent'
+          type: array
+          title: Results
+        count:
+          type: integer
+          title: Count
+      type: object
+      required:
+      - results
+      - count
+      title: AgentConfigListResponse
+      description: List response model.
+    KnowledgeLevel:
+      type: string
+      enum:
+      - beginner
+      - intermediate
+      - advanced
+      - expert
+      title: KnowledgeLevel
+      description: Knowledge level of the persona.
+    PolicyCreate:
+      properties:
+        id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Id
+        name:
+          type: string
+          maxLength: 255
+          minLength: 1
+          title: Name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        category:
+          $ref: '#/components/schemas/PolicyCategory'
+        source_text:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source Text
+        tags:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Tags
+      type: object
+      required:
+      - name
+      - category
+      title: PolicyCreate
+      description: Request model for creating a policy.
+    SkillLevel:
+      type: string
+      enum:
+      - novice
+      - competent
+      - proficient
+      - expert
+      title: SkillLevel
+      description: Skill level of the persona.
+    DomeGuardConfig:
+      properties:
+        input_guards:
+          items:
+            type: string
+          type: array
+          title: Input Guards
+        output_guards:
+          items:
+            type: string
+          type: array
+          title: Output Guards
+        guards:
+          additionalProperties:
+            additionalProperties: true
+            type: object
+          type: object
+          title: Guards
+      type: object
+      required:
+      - input_guards
+      - output_guards
+      - guards
+      title: DomeGuardConfig
+      description: Dome guardrail configuration shape consumed by the SDK at boot.
+    AgentDomeConfigResponse:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        status:
+          type: string
+          title: Status
+          default: pending
+        agent_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Agent Id
+        config_body:
+          additionalProperties: true
+          type: object
+          title: Config Body
+        dome_instance_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Dome Instance Url
+        created_at:
+          type: integer
+          title: Created At
+        created_by:
+          type: string
+          format: uuid
+          title: Created By
+        updated_at:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Updated At
+        updated_by:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Updated By
+      type: object
+      required:
+      - id
+      - created_at
+      - created_by
+      title: AgentDomeConfigResponse
+      description: Dome config in use for an agent (same wire shape as ``GET /dome-configs/{config_id}``).
+    AgentParams:
+      properties:
+        temperature:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Temperature
+        top_p:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Top P
+        max_tokens:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Max Tokens
+        timeout:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Timeout
+        rag_params:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Rag Params
+        function_route_params:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Function Route Params
+      type: object
+      title: AgentParams
+      description: Model parameters for agent configuration.
+    PolicyCategory:
+      type: string
+      enum:
+      - privacy
+      - ethics
+      - security
+      - compliance
+      - operational
+      - brand
+      - custom
+      title: PolicyCategory
+      description: Category of policy document.
+    AgentSkill:
+      properties:
+        id:
+          type: string
+          title: Id
+        name:
+          type: string
+          title: Name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        input_modes:
+          items:
+            type: string
+          type: array
+          title: Input Modes
+        output_modes:
+          items:
+            type: string
+          type: array
+          title: Output Modes
+      type: object
+      required:
+      - id
+      - name
+      title: AgentSkill
+      description: An agent skill definition (for A2A protocol agents).
+    AgentCapabilities:
+      properties:
+        streaming:
+          type: boolean
+          title: Streaming
+          default: false
+        push_notifications:
+          type: boolean
+          title: Push Notifications
+          default: false
+        code_execution:
+          type: boolean
+          title: Code Execution
+          default: false
+        memory:
+          type: boolean
+          title: Memory
+          default: false
+        delegation:
+          type: boolean
+          title: Delegation
+          default: false
+        tools:
+          items:
+            type: string
+          type: array
+          title: Tools
+      type: object
+      title: AgentCapabilities
+      description: Agent capability flags.
+    Policy:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        team_id:
+          type: string
+          format: uuid
+          title: Team Id
+        name:
+          type: string
+          title: Name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        category:
+          $ref: '#/components/schemas/PolicyCategory'
+        status:
+          $ref: '#/components/schemas/PolicyStatus'
+          default: draft
+        source_text:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source Text
+        file_path:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: File Path
+        file_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: File Name
+        file_type:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: File Type
+        file_size_bytes:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: File Size Bytes
+        converted_file_path:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Converted File Path
+        is_preset:
+          type: boolean
+          title: Is Preset
+          default: false
+        preset_source:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Preset Source
+        tags:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Tags
+        created_at:
+          type: integer
+          title: Created At
+        updated_at:
+          type: integer
+          title: Updated At
+        created_by:
+          type: string
+          format: uuid
+          title: Created By
+      type: object
+      required:
+      - id
+      - team_id
+      - name
+      - category
+      - created_at
+      - updated_at
+      - created_by
+      title: Policy
+      description: Domain model for Policy document.
+    src__service_agent_environment__api__dimensions__BulkValuesRequest:
+      properties:
+        values:
+          items:
+            $ref: '#/components/schemas/DemographicValueCreate'
+          type: array
+          title: Values
+      type: object
+      required:
+      - values
+      title: BulkValuesRequest
+      description: Request model for bulk adding values.
+    PersonaListResponse:
+      properties:
+        results:
+          items:
+            $ref: '#/components/schemas/Persona'
+          type: array
+          title: Results
+        total:
+          type: integer
+          title: Total
+      type: object
+      required:
+      - results
+      - total
+      title: PersonaListResponse
+      description: 'Response model for listing personas with pagination.
+
+
+        - results: Items in the current page (length may be less than limit on last page).
+
+        - total: Total number of items matching the query, before pagination.'
+    MCPAccessLevel:
+      type: string
+      enum:
+      - read
+      - write
+      - admin
+      title: MCPAccessLevel
+      description: MCP (Model Context Protocol) access level values.
+    DemographicValueUpdate:
+      properties:
+        value:
+          anyOf:
+          - type: string
+            maxLength: 255
+            minLength: 1
+          - type: 'null'
+          title: Value
+        display_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Display Name
+        metadata:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Metadata
+        sort_order:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Sort Order
+      type: object
+      title: DemographicValueUpdate
+      description: Request model for updating a demographic value.
+    DashboardResponse:
+      properties:
+        time_to_trust:
+          $ref: '#/components/schemas/TimeToTrustMetrics'
+        fleet_health:
+          $ref: '#/components/schemas/FleetHealthMetrics'
+        adaptivity:
+          $ref: '#/components/schemas/AdaptivityMetrics'
+        agents:
+          items:
+            $ref: '#/components/schemas/AgentTrustCard'
+          type: array
+          title: Agents
+      type: object
+      title: DashboardResponse
+      description: Full dashboard API response.
+    AgentUpdate:
+      properties:
+        status:
+          anyOf:
+          - $ref: '#/components/schemas/AgentStatus'
+          - type: 'null'
+        agent_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Agent Name
+        agent_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Agent Url
+        model_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Model Name
+        api_key:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Api Key
+          description: API key value. Stored directly in the agent configuration.
+        agent_system_prompt:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Agent System Prompt
+        hub:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Hub
+        rate_limit_requests_per_minute:
+          anyOf:
+          - type: integer
+            minimum: 1
+          - type: 'null'
+          title: Rate Limit Requests Per Minute
+          description: Rate limit for API requests per minute
+        access_level:
+          anyOf:
+          - $ref: '#/components/schemas/AccessLevel'
+          - type: 'null'
+        agent_params:
+          anyOf:
+          - $ref: '#/components/schemas/AgentParams'
+          - type: 'null'
+        mcp_config:
+          anyOf:
+          - $ref: '#/components/schemas/MCPConfig'
+          - type: 'null'
+        delegated_agents:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/DelegatedAgent'
+            type: array
+          - type: 'null'
+          title: Delegated Agents
+        white_box_config:
+          anyOf:
+          - $ref: '#/components/schemas/WhiteBoxConfig-Input'
+          - type: 'null'
+        agent_metadata:
+          anyOf:
+          - $ref: '#/components/schemas/AgentMetadata'
+          - type: 'null'
+        purpose:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Purpose
+        protocol:
+          anyOf:
+          - $ref: '#/components/schemas/ProtocolType'
+          - type: 'null'
+        test_score:
+          anyOf:
+          - type: number
+          - type: string
+            pattern: ^(?!^[-+.]*$)[+-]?0*\d*\.?\d*$
+          - type: 'null'
+          title: Test Score
+        last_tested_by:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Last Tested By
+        evaluated_harnesses:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Evaluated Harnesses
+        last_evaluated_at:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Last Evaluated At
+        protection_status:
+          anyOf:
+          - $ref: '#/components/schemas/ProtectionStatus'
+          - type: 'null'
+        dome_config_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Dome Config Id
+        dome_manually_configured:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Dome Manually Configured
+      type: object
+      title: AgentUpdate
+      description: Model for updating an agent (all fields optional).
+    PolicyRuleCreate:
+      properties:
+        id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Id
+        rule_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Rule Id
+        rule_type:
+          $ref: '#/components/schemas/RuleType'
+        action:
+          type: string
+          maxLength: 100
+          minLength: 1
+          title: Action
+        target:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Target
+        assignee:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Assignee
+          default: agent
+        constraints:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/RuleConstraint'
+            type: array
+          - items:
+              additionalProperties: true
+              type: object
+            type: array
+          title: Constraints
+          default: []
+        conditions:
+          anyOf:
+          - items:
+              additionalProperties: true
+              type: object
+            type: array
+          - type: 'null'
+          title: Conditions
+        constraint_logic:
+          type: string
+          title: Constraint Logic
+          default: all
+        consequence:
+          anyOf:
+          - $ref: '#/components/schemas/RuleConsequence'
+          - additionalProperties: true
+            type: object
+          title: Consequence
+        natural_language:
+          type: string
+          minLength: 1
+          title: Natural Language
+        category:
+          $ref: '#/components/schemas/PolicyCategory'
+          default: security
+        status:
+          $ref: '#/components/schemas/RuleStatus'
+          default: draft
+        tags:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Tags
+      type: object
+      required:
+      - rule_type
+      - action
+      - consequence
+      - natural_language
+      title: PolicyRuleCreate
+      description: Request model for creating a policy rule manually.
+    PersonaUpdate:
+      properties:
+        name:
+          anyOf:
+          - type: string
+            maxLength: 255
+            minLength: 1
+          - type: 'null'
+          title: Name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        role:
+          anyOf:
+          - type: string
+            maxLength: 100
+            minLength: 1
+          - type: 'null'
+          title: Role
+        role_description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Role Description
+        knowledge_level:
+          anyOf:
+          - $ref: '#/components/schemas/KnowledgeLevel'
+          - type: 'null'
+        skill_level:
+          anyOf:
+          - $ref: '#/components/schemas/SkillLevel'
+          - type: 'null'
+        intent:
+          anyOf:
+          - $ref: '#/components/schemas/Intent'
+          - type: 'null'
+        language:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Language
+        access_permissions:
+          anyOf:
+          - $ref: '#/components/schemas/PersonaAccessPermissions'
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Access Permissions
+        is_preset:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Is Preset
+        preset_category:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Preset Category
+        tags:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Tags
+        icon_filename:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Icon Filename
+      type: object
+      title: PersonaUpdate
+      description: Request model for updating a persona. All fields are optional.
+    RuleType:
+      type: string
+      enum:
+      - permission
+      - prohibition
+      - obligation
+      - recommendation
+      title: RuleType
+      description: Type of policy rule (ODRL-inspired).
+    RuleProvenance:
+      properties:
+        extracted_by:
+          type: string
+          enum:
+          - llm
+          - manual
+          title: Extracted By
+          default: manual
+        model_used:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Model Used
+        confidence_score:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Confidence Score
+        source_location:
+          anyOf:
+          - $ref: '#/components/schemas/SourceLocation'
+          - type: 'null'
+      type: object
+      title: RuleProvenance
+      description: Provenance information for rule extraction.
+    Persona:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        team_id:
+          type: string
+          format: uuid
+          title: Team Id
+        name:
+          type: string
+          title: Name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        role:
+          type: string
+          title: Role
+        role_description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Role Description
+        knowledge_level:
+          $ref: '#/components/schemas/KnowledgeLevel'
+          default: intermediate
+        skill_level:
+          $ref: '#/components/schemas/SkillLevel'
+          default: competent
+        intent:
+          $ref: '#/components/schemas/Intent'
+          default: benign
+        language:
+          type: string
+          title: Language
+          default: en
+        access_permissions:
+          anyOf:
+          - $ref: '#/components/schemas/PersonaAccessPermissions'
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Access Permissions
+        is_preset:
+          type: boolean
+          title: Is Preset
+          default: false
+        preset_category:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Preset Category
+        tags:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Tags
+        icon_filename:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Icon Filename
+        created_at:
+          type: integer
+          title: Created At
+        updated_at:
+          type: integer
+          title: Updated At
+        created_by:
+          type: string
+          format: uuid
+          title: Created By
+      type: object
+      required:
+      - id
+      - team_id
+      - name
+      - role
+      - created_at
+      - updated_at
+      - created_by
+      title: Persona
+      description: Domain model for Persona archetype.

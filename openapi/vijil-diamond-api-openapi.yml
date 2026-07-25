@@ -1,0 +1,1743 @@
+openapi: 3.1.0
+info:
+  title: Vijil Console API (Combined) agent-configurations Diamond API
+  description: Combined OpenAPI specification for all vijil-console microservices.
+  version: 0.1.0
+tags:
+- name: Diamond
+  description: Evaluation management and report retrieval
+paths:
+  /v1/evaluations/:
+    get:
+      tags:
+      - Diamond
+      summary: List Team Evaluations
+      description: "List all evaluations for the authenticated user's teams.\n\nThis endpoint lists all evaluations (running and completed) from the job repository.\nFor completed evaluations stored in S3, use GET /evaluations-results/ instead.\n\nArgs:\n    claims: JWT claims with user and team info\n    diamond_domain: Diamond domain orchestrator\n\nReturns:\n    Dict with \"evaluations\" key containing list of evaluation summaries"
+      operationId: list_team_evaluations_v1_evaluations__get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  items:
+                    additionalProperties: true
+                    type: object
+                  type: array
+                type: object
+                title: Response List Team Evaluations V1 Evaluations  Get
+    post:
+      tags:
+      - Diamond
+      summary: Create Evaluation
+      description: "Create a new evaluation job.\n\nCreates a Kubernetes Job to run the evaluation and tracks it in memory.\nFetches agent configuration from Agent Registry using the provided agent_id.\nJWT token is retrieved from request context (set by JWTAuthMiddleware).\n\nArgs:\n    request: Evaluation configuration with agent_id and team_id\n    claims: JWT claims with user and team info\n    diamond_domain: Diamond domain orchestrator\n\nReturns:\n    Evaluation ID, status, and status URL"
+      operationId: create_evaluation_v1_evaluations__post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateEvaluationRequest'
+        required: true
+      responses:
+        '202':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateEvaluationResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/evaluations/{evaluation_id}/html:
+    get:
+      tags:
+      - Diamond
+      summary: Get Evaluation Html Report
+      description: "Get HTML trust report for an evaluation.\n\nReturns the HTML content directly for browser viewing.\nHTML reports are automatically generated when evaluations complete.\n\nArgs:\n    evaluation_id: UUID of the evaluation\n    team_id: Team ID that owns this evaluation\n    claims: JWT claims with user and team info\n    report_storage: Report storage adapter\n\nReturns:\n    HTML response with the report content\n\nRaises:\n    HTTPException: 401 if unauthorized, 403 if no permission, 404 if report not found"
+      operationId: get_evaluation_html_report_v1_evaluations__evaluation_id__html_get
+      parameters:
+      - name: evaluation_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Evaluation Id
+      - name: team_id
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+          description: Team ID that owns this evaluation
+          title: Team Id
+        description: Team ID that owns this evaluation
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/evaluations/{evaluation_id}/pdf:
+    get:
+      tags:
+      - Diamond
+      summary: Get Evaluation Pdf Report
+      description: "Get PDF trust report for an evaluation.\n\nPDF reports are automatically generated when evaluations complete\n(same flow as HTML reports).\n\nArgs:\n    evaluation_id: UUID of the evaluation\n    team_id: Team ID that owns this evaluation\n    claims: JWT claims with user and team info\n    report_storage: Report storage adapter\n\nReturns:\n    PDF response with the report content\n\nRaises:\n    HTTPException: 401 if unauthorized, 403 if no permission, 404 if report not found"
+      operationId: get_evaluation_pdf_report_v1_evaluations__evaluation_id__pdf_get
+      parameters:
+      - name: evaluation_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Evaluation Id
+      - name: team_id
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+          description: Team ID that owns this evaluation
+          title: Team Id
+        description: Team ID that owns this evaluation
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/evaluations/{evaluation_id}/logs:
+    get:
+      tags:
+      - Diamond
+      summary: Get Evaluation Logs
+      description: "Get evaluation job logs from Kubernetes.\n\nArgs:\n    evaluation_id: UUID of the evaluation\n    claims: JWT claims with user and team info\n    diamond_domain: Diamond domain orchestrator\n\nReturns:\n    Job logs as dict with \"logs\" key\n\nRaises:\n    HTTPException: 404 if logs not available"
+      operationId: get_evaluation_logs_v1_evaluations__evaluation_id__logs_get
+      parameters:
+      - name: evaluation_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Evaluation Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+                title: Response Get Evaluation Logs V1 Evaluations  Evaluation Id  Logs Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/evaluations/{evaluation_id}:
+    get:
+      tags:
+      - Diamond
+      summary: Get Evaluation
+      description: "Get evaluation status.\n\nArgs:\n    evaluation_id: UUID of the evaluation (can be job_id or evaluation_id)\n    claims: JWT claims with user and team info\n    diamond_domain: Diamond domain orchestrator\n\nReturns:\n    Current evaluation status with timestamps (returns Diamond's evaluation_id as source of truth)\n\nRaises:\n    HTTPException: 404 if evaluation not found or user lacks access\n    HTTPException: 503 if evaluation status cannot be retrieved"
+      operationId: get_evaluation_v1_evaluations__evaluation_id__get
+      parameters:
+      - name: evaluation_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Evaluation Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EvaluationStatusResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - Diamond
+      summary: Delete Evaluation
+      description: "Delete evaluation (Kubernetes Job + repository entry + S3 storage).\n\nDeletes the evaluation from:\n- Kubernetes Job (via domain)\n- Repository entry (via domain)\n- S3 storage (request, results, report files)\n\nArgs:\n    evaluation_id: UUID of the evaluation\n    claims: JWT claims with user and team info\n    diamond_domain: Diamond domain orchestrator\n    storage: Evaluation storage adapter\n\nReturns:\n    Status dict with \"deleted\" status\n\nRaises:\n    HTTPException: 404 if evaluation not found"
+      operationId: delete_evaluation_v1_evaluations__evaluation_id__delete
+      parameters:
+      - name: evaluation_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Evaluation Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+                title: Response Delete Evaluation V1 Evaluations  Evaluation Id  Delete
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/evaluations/{evaluation_id}/cancel:
+    post:
+      tags:
+      - Diamond
+      summary: Cancel Evaluation
+      description: "Cancel a running evaluation (Kubernetes Job cancellation + workflow status update).\n\nCancels an evaluation that is in progress (CREATED, STARTING, or RUNNING status).\nThis will:\n- Delete the Kubernetes Job (which cancels the running pod)\n- Update workflow status to CANCELLED\n- Optionally clean up partial S3 data (request file is kept for audit)\n\nArgs:\n    evaluation_id: UUID of the evaluation to cancel\n    claims: JWT claims with user and team info\n    diamond_domain: Diamond domain orchestrator\n    storage: Evaluation storage adapter\n\nReturns:\n    Status dict with \"cancelled\" status\n\nRaises:\n    HTTPException: 404 if evaluation not found, 400 if evaluation is already completed/cancelled"
+      operationId: cancel_evaluation_v1_evaluations__evaluation_id__cancel_post
+      parameters:
+      - name: evaluation_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Evaluation Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+                title: Response Cancel Evaluation V1 Evaluations  Evaluation Id  Cancel Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/evaluations/{evaluation_id}/report:
+    post:
+      tags:
+      - Diamond
+      summary: Generate Report On Demand
+      description: 'Generate a trust report on demand (Layer 3).
+
+
+        This endpoint triggers LLM analysis + HTML/PDF report generation
+
+        for a completed evaluation. Reports are cached in S3 — subsequent
+
+        calls return the cached version unless force_regenerate=True.
+
+
+        Reports are NOT auto-generated on evaluation completion (CON-256).
+
+        Users explicitly request reports when they need proof of compliance
+
+        or want a printable summary.'
+      operationId: generate_report_on_demand_v1_evaluations__evaluation_id__report_post
+      parameters:
+      - name: evaluation_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Evaluation Id
+      - name: team_id
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+          description: Team that owns this evaluation
+          title: Team Id
+        description: Team that owns this evaluation
+      - name: force_regenerate
+        in: query
+        required: false
+        schema:
+          type: boolean
+          description: Force regeneration even if cached
+          default: false
+          title: Force Regenerate
+        description: Force regeneration even if cached
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Generate Report On Demand V1 Evaluations  Evaluation Id  Report Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/evaluation-results/:
+    get:
+      tags:
+      - Diamond
+      summary: List Completed Evaluations
+      description: "List completed evaluations from S3 storage for a specific team.\n\nThis endpoint lists only completed evaluations that have results stored in S3.\nIt requires the team_id as a query parameter and respects permission checks.\nSupports paging via limit (default 10) and offset.\n\nArgs:\n    team_id: Team ID to list evaluations for (required query parameter)\n    limit: Max number of results (default 10, max 100)\n    offset: Number of results to skip for paging\n    claims: JWT claims with user and team info\n    diamond_domain: Diamond domain for listing evaluations (newest-first sort + paginate)\n    agent_adapter: Agent registry adapter for looking up agent names\n\nReturns:\n    List of completed evaluations with evaluation_id, team_id, agent information, and total count\n\nRaises:\n    HTTPException: 401 if unauthorized, 403 if no permission"
+      operationId: list_completed_evaluations_v1_evaluation_results__get
+      parameters:
+      - name: team_id
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Team Id
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 100
+          minimum: 1
+          description: Maximum number of results to return
+          default: 10
+          title: Limit
+        description: Maximum number of results to return
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          description: Number of results to skip for paging
+          default: 0
+          title: Offset
+        description: Number of results to skip for paging
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EvaluationListResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/evaluation-results/{evaluation_id}/results:
+    get:
+      tags:
+      - Diamond
+      summary: Get Evaluation Results
+      description: "Get evaluation results from S3 storage.\n\nThe results are saved to S3 after the evaluation job completes.\nThis endpoint searches S3 directly (no repository dependency).\n\nArgs:\n    evaluation_id: UUID of the evaluation\n    team_id: Team ID that owns this evaluation (required query parameter)\n    claims: JWT claims with user and team info\n    diamond_domain: Diamond domain orchestrator (not used, kept for API consistency)\n    storage: Evaluation storage adapter\n\nReturns:\n    Evaluation results as JSON\n\nRaises:\n    HTTPException: 404 if not found, 403 if no permission"
+      operationId: get_evaluation_results_v1_evaluation_results__evaluation_id__results_get
+      parameters:
+      - name: evaluation_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Evaluation Id
+      - name: team_id
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+          description: Team ID that owns this evaluation
+          title: Team Id
+        description: Team ID that owns this evaluation
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Get Evaluation Results V1 Evaluation Results  Evaluation Id  Results Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/evaluation-results/{evaluation_id}/report:
+    get:
+      tags:
+      - Diamond
+      summary: Get Evaluation Report
+      description: "Download evaluation report PDF from S3 storage.\n\nThe report is saved to S3 after the evaluation job completes.\nThis endpoint searches S3 directly (no repository dependency).\n\nArgs:\n    evaluation_id: UUID of the evaluation\n    team_id: Team ID that owns this evaluation (required query parameter)\n    claims: JWT claims with user and team info\n    diamond_domain: Diamond domain orchestrator (not used, kept for API consistency)\n    storage: Evaluation storage adapter\n\nReturns:\n    PDF file response\n\nRaises:\n    HTTPException: 404 if report not found in storage, 403 if no permission"
+      operationId: get_evaluation_report_v1_evaluation_results__evaluation_id__report_get
+      parameters:
+      - name: evaluation_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Evaluation Id
+      - name: team_id
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+          description: Team ID that owns this evaluation
+          title: Team Id
+        description: Team ID that owns this evaluation
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/evaluation-results/{evaluation_id}/report.html:
+    get:
+      tags:
+      - Diamond
+      summary: Get Evaluation Report Html
+      description: "Download evaluation report HTML from S3 storage.\n\nThe HTML report is saved to S3 after the evaluation job completes.\nThis is the preferred report format - can be viewed in browser or printed to PDF.\n\nArgs:\n    evaluation_id: UUID of the evaluation\n    team_id: Team ID that owns this evaluation (required query parameter)\n    claims: JWT claims with user and team info\n    diamond_domain: Diamond domain orchestrator (not used, kept for API consistency)\n    storage: Evaluation storage adapter\n\nReturns:\n    HTML file response\n\nRaises:\n    HTTPException: 404 if report not found in storage, 403 if no permission"
+      operationId: get_evaluation_report_html_v1_evaluation_results__evaluation_id__report_html_get
+      parameters:
+      - name: evaluation_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Evaluation Id
+      - name: team_id
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+          description: Team ID that owns this evaluation
+          title: Team Id
+        description: Team ID that owns this evaluation
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/evaluation-summaries/:
+    get:
+      tags:
+      - Diamond
+      summary: List Evaluation Summaries
+      description: "List evaluation summaries for a team with optional filters and pagination.\n\nArgs:\n    team_id: Team ID to list summaries for (required)\n    agent_id: Optional filter by agent ID\n    status: Optional filter by status (running, completed, failed, cancelled)\n    harness_type: Optional filter by harness type\n    tested_by: Optional filter by evaluation tool\n    limit: Max number of results (default 10, max 100)\n    offset: Number of results to skip for paging\n    claims: JWT claims with user and team info\n    summary_repo: Evaluation summary repository\n\nReturns:\n    Paginated list of evaluation summaries with total count\n\nRaises:\n    HTTPException: 401 if unauthorized, 403 if no permission"
+      operationId: list_evaluation_summaries_v1_evaluation_summaries__get
+      parameters:
+      - name: team_id
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+          description: Team ID to list summaries for
+          title: Team Id
+        description: Team ID to list summaries for
+      - name: agent_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          description: Filter by agent ID
+          title: Agent Id
+        description: Filter by agent ID
+      - name: status
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - $ref: '#/components/schemas/EvaluationStatus'
+          - type: 'null'
+          description: Filter by status (running, completed, failed, cancelled)
+          title: Status
+        description: Filter by status (running, completed, failed, cancelled)
+      - name: harness_type
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - enum:
+            - standard
+            - custom
+            type: string
+          - type: 'null'
+          description: Filter by harness type (standard or custom)
+          title: Harness Type
+        description: Filter by harness type (standard or custom)
+      - name: tested_by
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - $ref: '#/components/schemas/EvaluationTool'
+          - type: 'null'
+          description: Filter by tool that ran the evaluation
+          title: Tested By
+        description: Filter by tool that ran the evaluation
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 100
+          minimum: 1
+          description: Maximum number of results to return
+          default: 10
+          title: Limit
+        description: Maximum number of results to return
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          description: Number of results to skip for paging
+          default: 0
+          title: Offset
+        description: Number of results to skip for paging
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EvaluationSummaryListResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/evaluation-summaries/latest-by-agent:
+    get:
+      tags:
+      - Diamond
+      summary: List Latest Evaluation Summaries By Agent
+      description: 'Return the latest completed evaluation summary per agent for the team.
+
+
+        Uses server-side grouping (one row per agent_id with max completed_at).
+
+        No pagination; returns at most one summary per agent that has a completed evaluation.'
+      operationId: list_latest_evaluation_summaries_by_agent_v1_evaluation_summaries_latest_by_agent_get
+      parameters:
+      - name: team_id
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+          description: Team ID to list latest summary per agent for
+          title: Team Id
+        description: Team ID to list latest summary per agent for
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EvaluationSummaryListResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/evaluation-summaries/{evaluation_id}:
+    get:
+      tags:
+      - Diamond
+      summary: Get Evaluation Summary
+      description: "Get a single evaluation summary by evaluation ID.\n\nArgs:\n    evaluation_id: UUID of the evaluation (same as summary ID)\n    team_id: Team ID that owns this evaluation\n    claims: JWT claims with user and team info\n    summary_repo: Evaluation summary repository\n\nReturns:\n    Evaluation summary with scores and metadata\n\nRaises:\n    HTTPException: 401 if unauthorized, 403 if no permission, 404 if not found"
+      operationId: get_evaluation_summary_v1_evaluation_summaries__evaluation_id__get
+      parameters:
+      - name: evaluation_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Evaluation Id
+      - name: team_id
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+          description: Team ID that owns this evaluation
+          title: Team Id
+        description: Team ID that owns this evaluation
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EvaluationSummaryResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - Diamond
+      summary: Delete Evaluation Summary
+      description: "Delete an evaluation summary row.\n\nThis endpoint only removes the summary cache row — it does not delete\nthe underlying evaluation job or S3 artifacts. To fully delete an\nevaluation, use DELETE /evaluations/{evaluation_id}.\n\nArgs:\n    evaluation_id: UUID of the evaluation summary to delete\n    team_id: Team ID that owns this evaluation\n    claims: JWT claims with user and team info\n    summary_repo: Evaluation summary repository\n\nRaises:\n    HTTPException: 401 if unauthorized, 403 if no permission, 404 if not found"
+      operationId: delete_evaluation_summary_v1_evaluation_summaries__evaluation_id__delete
+      parameters:
+      - name: evaluation_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Evaluation Id
+      - name: team_id
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+          description: Team ID that owns this evaluation
+          title: Team Id
+        description: Team ID that owns this evaluation
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/harnesses/:
+    get:
+      tags:
+      - Diamond
+      summary: List Harnesses
+      description: "List all standard harnesses (global resources).\n\nStandard harnesses are global and not scoped to a team.\nThey are read-only and managed externally.\n\nArgs:\n    team_id: Team ID (required for permission checks)\n    claims: JWT claims with user and team info\n    harness_service: Harness service instance\n    \nReturns:\n    List of harness items, ordered by updated_at descending\n    \nRaises:\n    HTTPException: 422 if team_id is missing, 403 if user lacks permission, 500 on server errors"
+      operationId: list_harnesses_v1_harnesses__get
+      parameters:
+      - name: team_id
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+          description: Team ID (required)
+          title: Team Id
+        description: Team ID (required)
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/HarnessListItem'
+                title: Response List Harnesses V1 Harnesses  Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/custom-harnesses/:
+    get:
+      tags:
+      - Diamond
+      summary: List Custom Harnesses
+      description: 'List custom harnesses for the specified team with pagination and filtering.
+
+
+        Returns paginated list of harnesses owned by the specified team.
+
+        Supports filtering by status.
+
+
+        Requires agent:read permission.'
+      operationId: list_custom_harnesses_v1_custom_harnesses__get
+      parameters:
+      - name: team_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          description: Team ID (required)
+          title: Team Id
+        description: Team ID (required)
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 100
+          minimum: 1
+          description: Maximum number of results (default 10)
+          default: 10
+          title: Limit
+        description: Maximum number of results (default 10)
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          description: Number of results to skip for paging
+          default: 0
+          title: Offset
+        description: Number of results to skip for paging
+      - name: status
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - $ref: '#/components/schemas/CustomHarnessStatus'
+          - type: 'null'
+          description: Filter by status
+          title: Status
+        description: Filter by status
+      - name: agent_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          description: Filter by agent ID
+          title: Agent Id
+        description: Filter by agent ID
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomHarnessListResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      tags:
+      - Diamond
+      summary: Create Custom Harness
+      description: 'Create a new custom harness.
+
+
+        Creates a harness in ''draft'' status. The harness can be configured with
+
+        an agent, personas, and policies before being activated.
+
+
+        Note: Harnesses are immutable once created - they cannot be updated.
+
+
+        Requires agent:write permission.'
+      operationId: create_custom_harness_v1_custom_harnesses__post
+      parameters:
+      - name: team_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          description: Team ID (required)
+          title: Team Id
+        description: Team ID (required)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomHarnessCreate'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomHarness'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/custom-harnesses/{harness_id}:
+    get:
+      tags:
+      - Diamond
+      summary: Get Custom Harness
+      description: 'Get a single custom harness by ID with optional workflow status.
+
+
+        Returns the harness (business status: DRAFT/ACTIVE/ARCHIVED) enriched with
+
+        workflow status (execution state: RUNNING/SUCCEEDED/FAILED) if a workflow exists.
+
+
+        Client interpretation:
+
+        - harness.status=DRAFT + no workflow = Not started yet
+
+        - harness.status=DRAFT + workflow.status=RUNNING = Generation in progress
+
+        - harness.status=DRAFT + workflow.status=FAILED = Generation failed, can retry
+
+        - harness.status=ACTIVE = Generation completed successfully
+
+
+        Requires agent:read permission.'
+      operationId: get_custom_harness_v1_custom_harnesses__harness_id__get
+      parameters:
+      - name: harness_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Harness Id
+      - name: team_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          description: Team ID (required)
+          title: Team Id
+        description: Team ID (required)
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomHarnessResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - Diamond
+      summary: Delete Custom Harness
+      description: 'Delete a custom harness.
+
+
+        Permanently deletes the harness and any associated data.
+
+
+        Requires agent:write permission.'
+      operationId: delete_custom_harness_v1_custom_harnesses__harness_id__delete
+      parameters:
+      - name: harness_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Harness Id
+      - name: team_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          description: Team ID (required)
+          title: Team Id
+        description: Team ID (required)
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/custom-harnesses/{harness_id}/cancel:
+    post:
+      tags:
+      - Diamond
+      summary: Cancel Custom Harness
+      description: 'Cancel a running custom harness creation workflow.
+
+
+        Uses harness_id to load the harness from S3, then the harness''s workflow_id to load the
+
+        workflow. If workflow_specific_fields (task_id, session_id) are present, sends cancel to the
+
+        agent; otherwise marks the workflow as cancelled so the worker will not overwrite with
+
+        success/failure. Requires agent:write permission.'
+      operationId: cancel_custom_harness_v1_custom_harnesses__harness_id__cancel_post
+      parameters:
+      - name: harness_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Harness Id
+      - name: team_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          description: Team ID (required)
+          title: Team Id
+        description: Team ID (required)
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+                title: Response Cancel Custom Harness V1 Custom Harnesses  Harness Id  Cancel Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/custom-harnesses/{harness_id}/prompts:
+    get:
+      tags:
+      - Diamond
+      summary: Get Custom Harness Prompts
+      description: 'Return taxonomy prompts from ``harness_prompts.jsonl`` for a custom harness.
+
+
+        Served by service-diamond; loads JSONL from the team custom-harness S3 path.
+
+        Does not read Trust Score ``prompt.jsonl``.
+
+
+        Returns an empty list if the file is missing or empty (e.g. harness still in DRAFT).
+
+
+        Requires agent:read permission.'
+      operationId: get_custom_harness_prompts_v1_custom_harnesses__harness_id__prompts_get
+      parameters:
+      - name: harness_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Harness Id
+      - name: team_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          description: Team ID (required)
+          title: Team Id
+        description: Team ID (required)
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HarnessPromptsResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    CustomHarnessResponse:
+      properties:
+        harness:
+          $ref: '#/components/schemas/CustomHarness'
+        workflow:
+          anyOf:
+          - $ref: '#/components/schemas/WorkflowStatusInfo'
+          - type: 'null'
+      type: object
+      required:
+      - harness
+      title: CustomHarnessResponse
+      description: Response model for custom harness with optional workflow status.
+    CustomHarnessPrompt:
+      properties:
+        dimension_name:
+          type: string
+          title: Dimension Name
+        prompt_text:
+          type: string
+          title: Prompt Text
+        pass_criteria:
+          type: string
+          title: Pass Criteria
+        lineage:
+          $ref: '#/components/schemas/CustomHarnessLineage'
+      type: object
+      required:
+      - dimension_name
+      - prompt_text
+      - pass_criteria
+      - lineage
+      title: CustomHarnessPrompt
+      description: A row from ``harness_prompts.jsonl`` (taxonomy / rich prompts for custom harnesses).
+    HarnessPromptsResponse:
+      properties:
+        prompts:
+          items:
+            $ref: '#/components/schemas/CustomHarnessPrompt'
+          type: array
+          title: Prompts
+        count:
+          type: integer
+          title: Count
+      type: object
+      required:
+      - count
+      title: HarnessPromptsResponse
+      description: Response model for taxonomy prompts from ``harness_prompts.jsonl`` (not ``prompt.jsonl``).
+    EvaluationSummaryResponse:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        team_id:
+          type: string
+          format: uuid
+          title: Team Id
+        agent_id:
+          type: string
+          format: uuid
+          title: Agent Id
+        tested_by:
+          type: string
+          title: Tested By
+        status:
+          type: string
+          title: Status
+        reliability_score:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Reliability Score
+        security_score:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Security Score
+        safety_score:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Safety Score
+        overall_score:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Overall Score
+        pillar_details:
+          additionalProperties: true
+          type: object
+          title: Pillar Details
+        harness_names:
+          items:
+            type: string
+          type: array
+          title: Harness Names
+        harness_type:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Harness Type
+        resource_version:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Resource Version
+        created_by:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Created By
+        created_at:
+          type: integer
+          title: Created At
+        completed_at:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Completed At
+        request_params:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Request Params
+      type: object
+      required:
+      - id
+      - team_id
+      - agent_id
+      - tested_by
+      - status
+      - created_at
+      title: EvaluationSummaryResponse
+      description: Response model for a single evaluation summary.
+    EvaluationSummaryListResponse:
+      properties:
+        results:
+          items:
+            $ref: '#/components/schemas/EvaluationSummaryResponse'
+          type: array
+          title: Results
+        total:
+          type: integer
+          title: Total
+        limit:
+          type: integer
+          title: Limit
+        offset:
+          type: integer
+          title: Offset
+      type: object
+      required:
+      - results
+      - total
+      - limit
+      - offset
+      title: EvaluationSummaryListResponse
+      description: Response model for a paginated list of evaluation summaries.
+    CustomHarnessStatus:
+      type: string
+      enum:
+      - draft
+      - active
+      - archived
+      - failed
+      title: CustomHarnessStatus
+      description: Status values for custom harnesses.
+    EvaluationStatus:
+      type: string
+      enum:
+      - running
+      - completed
+      - failed
+      - cancelled
+      title: EvaluationStatus
+      description: Statuses for an evaluation run (mirrors the workflow lifecycle).
+    HarnessType:
+      type: string
+      enum:
+      - standard
+      - custom
+      title: HarnessType
+      description: Type of harness.
+    CustomHarnessLineage:
+      properties:
+        principle:
+          type: string
+          title: Principle
+          default: ''
+        theme:
+          type: string
+          title: Theme
+          default: ''
+        policy_section:
+          type: string
+          title: Policy Section
+          default: ''
+        persona:
+          type: string
+          title: Persona
+          default: ''
+        diagnostic_hooks:
+          items:
+            type: string
+          type: array
+          title: Diagnostic Hooks
+      type: object
+      title: CustomHarnessLineage
+      description: Structured lineage for a custom-harness taxonomy prompt (``harness_prompts.jsonl``).
+    CustomHarnessCreate:
+      properties:
+        id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Id
+        name:
+          type: string
+          maxLength: 255
+          minLength: 1
+          title: Name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        agent_id:
+          type: string
+          format: uuid
+          title: Agent Id
+        persona_ids:
+          items:
+            type: string
+            format: uuid
+          type: array
+          title: Persona Ids
+        policy_ids:
+          items:
+            type: string
+            format: uuid
+          type: array
+          title: Policy Ids
+        system_prompt:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: System Prompt
+          description: AUT description or system prompt for harness generation. If not provided, agent description will be used.
+      type: object
+      required:
+      - name
+      - agent_id
+      title: CustomHarnessCreate
+      description: Request model for creating a custom harness.
+    EvaluationTool:
+      type: string
+      enum:
+      - diamond
+      - promptfoo
+      - garak
+      - pyrit
+      title: EvaluationTool
+      description: Tools that can produce evaluation results.
+    EvaluationListResponse:
+      properties:
+        results:
+          items:
+            $ref: '#/components/schemas/EvaluationListItem'
+          type: array
+          title: Results
+          description: List of completed evaluations with results in S3 (current page)
+        total:
+          type: integer
+          title: Total
+          description: Total number of completed evaluations (before limit/offset)
+      type: object
+      required:
+      - total
+      title: EvaluationListResponse
+      description: "Response model for listing completed evaluations.\n    "
+    EvaluationStatusResponse:
+      properties:
+        evaluation_id:
+          type: string
+          format: uuid
+          title: Evaluation Id
+        status:
+          type: string
+          title: Status
+        scores:
+          anyOf:
+          - additionalProperties:
+              type: number
+            type: object
+          - type: 'null'
+          title: Scores
+        created_at:
+          type: integer
+          title: Created At
+        started_at:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Started At
+        completed_at:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Completed At
+        error_message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Error Message
+        status_message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Status Message
+      type: object
+      required:
+      - evaluation_id
+      - status
+      - created_at
+      - started_at
+      - completed_at
+      - error_message
+      title: EvaluationStatusResponse
+      description: Response model for evaluation status.
+    CreateEvaluationResponse:
+      properties:
+        evaluation_id:
+          type: string
+          format: uuid
+          title: Evaluation Id
+        status:
+          type: string
+          title: Status
+      type: object
+      required:
+      - evaluation_id
+      - status
+      title: CreateEvaluationResponse
+      description: Response model for evaluation creation.
+    EvaluationListItem:
+      properties:
+        evaluation_id:
+          type: string
+          format: uuid
+          title: Evaluation Id
+          description: Evaluation ID
+        team_id:
+          type: string
+          format: uuid
+          title: Team Id
+          description: Team ID that owns this evaluation
+        created_by:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Created By
+          description: User ID who created this evaluation
+        created_at:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Created At
+          description: Unix timestamp when the evaluation was created
+        completed_at:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Completed At
+          description: Unix timestamp when the evaluation completed (from S3 metadata, no file read)
+        agent_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Agent Id
+          description: Agent ID that was evaluated
+        agent_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Agent Name
+          description: Name of the agent that was evaluated
+      type: object
+      required:
+      - evaluation_id
+      - team_id
+      title: EvaluationListItem
+      description: Item in the list of completed evaluations.
+    CustomHarnessListItem:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        name:
+          type: string
+          title: Name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        status:
+          $ref: '#/components/schemas/CustomHarnessStatus'
+        created_at:
+          type: integer
+          title: Created At
+        updated_at:
+          type: integer
+          title: Updated At
+        agent_id:
+          type: string
+          format: uuid
+          title: Agent Id
+        agent_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Agent Name
+        policy_ids:
+          items:
+            type: string
+            format: uuid
+          type: array
+          title: Policy Ids
+        persona_ids:
+          items:
+            type: string
+            format: uuid
+          type: array
+          title: Persona Ids
+      type: object
+      required:
+      - id
+      - name
+      - status
+      - created_at
+      - updated_at
+      - agent_id
+      title: CustomHarnessListItem
+      description: 'List-item model for a custom harness (id, name, status, timestamps, agent, policies, personas).
+
+
+        Returned by the list endpoint; full details are available via get by id.'
+    CustomHarness:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        team_id:
+          type: string
+          format: uuid
+          title: Team Id
+        name:
+          type: string
+          title: Name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        agent_id:
+          type: string
+          format: uuid
+          title: Agent Id
+        persona_ids:
+          items:
+            type: string
+            format: uuid
+          type: array
+          title: Persona Ids
+        policy_ids:
+          items:
+            type: string
+            format: uuid
+          type: array
+          title: Policy Ids
+        status:
+          $ref: '#/components/schemas/CustomHarnessStatus'
+          default: draft
+        workflow_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Workflow Id
+          description: Reference to the latest workflow that generated this harness. Enables lookup of workflow status by harness_id. Supports future 'regenerate harness' scenarios.
+        s3_key:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: S3 Key
+        generated_at:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Generated At
+        prompt_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Prompt Count
+        created_at:
+          type: integer
+          title: Created At
+        updated_at:
+          type: integer
+          title: Updated At
+        created_by:
+          type: string
+          format: uuid
+          title: Created By
+        creation_error:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Creation Error
+      type: object
+      required:
+      - id
+      - team_id
+      - name
+      - agent_id
+      - created_at
+      - updated_at
+      - created_by
+      title: CustomHarness
+      description: 'Domain model for a custom harness (test configuration).
+
+
+        A custom harness is a test configuration that combines an agent,
+
+        personas, and policies. The backend generates evaluation prompts
+
+        based on this configuration.
+
+
+        Stored as metadata.json in S3.'
+    CreateEvaluationRequest:
+      properties:
+        agent_id:
+          type: string
+          format: uuid
+          title: Agent Id
+          description: UUID of the agent from Agent Registry
+        team_id:
+          type: string
+          format: uuid
+          title: Team Id
+          description: UUID of the team that owns this evaluation (required)
+        type:
+          type: string
+          title: Type
+          description: Type of evaluation to run. Currently only 'behavioral' is supported.
+          default: behavioral
+        harness_names:
+          items:
+            type: string
+          type: array
+          minItems: 1
+          title: Harness Names
+          description: List of harnesses to run (e.g., ['safety', 'ethics', 'privacy', 'security', 'toxicity'])
+        harness_type:
+          $ref: '#/components/schemas/HarnessType'
+          description: 'Type of all harnesses: ''standard'' or ''custom''. All harnesses in harness_names must be of this type.'
+          default: standard
+        sample_size:
+          anyOf:
+          - type: integer
+            maximum: 1000
+            minimum: 1
+          - type: 'null'
+          title: Sample Size
+          description: 'Number of prompts to randomly sample per harness. If omitted, all prompts run (~1250 for security). Recommended: 10 for fast iteration, 50 for moderate, 100 for thorough.'
+        evaluation_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Evaluation Id
+          description: Optional UUID for the evaluation. If provided, this UUID will be used when creating the evaluation in Diamond. If not provided, Diamond will generate one.
+      type: object
+      required:
+      - agent_id
+      - team_id
+      - harness_names
+      title: CreateEvaluationRequest
+      description: Request model for creating a new evaluation.
+    WorkflowStatus:
+      type: string
+      enum:
+      - created
+      - starting
+      - running
+      - succeeded
+      - failed
+      - cancelled
+      title: WorkflowStatus
+      description: 'Core lifecycle states for workflows.
+
+
+        These are universal statuses that apply to all workflow types.
+
+        Workflow-specific phases can be tracked using the optional `phase` field.'
+    WorkflowStatusInfo:
+      properties:
+        status:
+          $ref: '#/components/schemas/WorkflowStatus'
+        phase:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Phase
+        error_message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Error Message
+        task_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Task Id
+        session_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Session Id
+      type: object
+      required:
+      - status
+      title: WorkflowStatusInfo
+      description: 'Workflow status information for enrichment.
+
+
+        For custom harness workflows, task_id and session_id (when present) are
+
+        persisted in the workflow S3 file under workflow_specific_fields and
+
+        exposed here for cancel/debugging.'
+    HarnessListItem:
+      properties:
+        name:
+          type: string
+          title: Name
+        updated_at:
+          type: integer
+          title: Updated At
+      type: object
+      required:
+      - name
+      - updated_at
+      title: HarnessListItem
+      description: "Domain model for a harness list item (S3-based standard harnesses).\n\nAttributes:\n    name: Harness name/identifier\n    updated_at: Unix epoch timestamp in seconds (not milliseconds)"
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    CustomHarnessListResponse:
+      properties:
+        results:
+          items:
+            $ref: '#/components/schemas/CustomHarnessListItem'
+          type: array
+          title: Results
+        total:
+          type: integer
+          title: Total
+      type: object
+      required:
+      - results
+      - total
+      title: CustomHarnessListResponse
+      description: Response model for paginated list of custom harnesses.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError

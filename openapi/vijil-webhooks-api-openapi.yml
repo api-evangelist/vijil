@@ -1,0 +1,130 @@
+openapi: 3.1.0
+info:
+  title: Vijil Console API (Combined) agent-configurations webhooks API
+  description: Combined OpenAPI specification for all vijil-console microservices.
+  version: 0.1.0
+tags:
+- name: webhooks
+paths:
+  /v1/webhooks/register-dome:
+    post:
+      tags:
+      - webhooks
+      summary: Register Dome
+      description: 'Register a Dome instance URL for an agent (called by Dome at runtime).
+
+
+        Idempotent: safe to call on every Dome restart; each call overwrites the
+
+        stored dome_url for that agent''s config.'
+      operationId: register_dome_v1_webhooks_register_dome_post
+      parameters:
+      - name: X-Webhook-Api-Key
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: X-Webhook-Api-Key
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterDomeRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegisterDomeResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    RegisterDomeResponse:
+      properties:
+        status:
+          type: string
+          title: Status
+          default: ok
+        agent_id:
+          type: string
+          format: uuid
+          title: Agent Id
+        team_id:
+          type: string
+          format: uuid
+          title: Team Id
+        dome_url:
+          type: string
+          title: Dome Url
+      type: object
+      required:
+      - agent_id
+      - team_id
+      - dome_url
+      title: RegisterDomeResponse
+      description: Success response for register-dome webhook.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    RegisterDomeRequest:
+      properties:
+        agent_id:
+          type: string
+          format: uuid
+          title: Agent Id
+          description: The agent being protected
+        team_id:
+          type: string
+          format: uuid
+          title: Team Id
+          description: Team that owns the agent
+        dome_url:
+          type: string
+          maxLength: 2083
+          minLength: 1
+          format: uri
+          title: Dome Url
+          description: Base URL of the Dome instance
+      type: object
+      required:
+      - agent_id
+      - team_id
+      - dome_url
+      title: RegisterDomeRequest
+      description: Request body for register-dome webhook.

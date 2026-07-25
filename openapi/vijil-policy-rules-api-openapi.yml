@@ -1,0 +1,620 @@
+openapi: 3.1.0
+info:
+  title: Vijil Console API (Combined) agent-configurations policy-rules API
+  description: Combined OpenAPI specification for all vijil-console microservices.
+  version: 0.1.0
+tags:
+- name: policy-rules
+paths:
+  /v1/rules/{rule_id}:
+    get:
+      tags:
+      - policy-rules
+      summary: Get Rule
+      description: Get a rule by ID.
+      operationId: get_rule_v1_rules__rule_id__get
+      parameters:
+      - name: rule_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Rule Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PolicyRule'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    patch:
+      tags:
+      - policy-rules
+      summary: Update Rule
+      description: Update a rule.
+      operationId: update_rule_v1_rules__rule_id__patch
+      parameters:
+      - name: rule_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Rule Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PolicyRuleUpdate'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PolicyRule'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - policy-rules
+      summary: Delete Rule
+      description: Delete a rule.
+      operationId: delete_rule_v1_rules__rule_id__delete
+      parameters:
+      - name: rule_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Rule Id
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/rules/:
+    get:
+      tags:
+      - policy-rules
+      summary: List Rules
+      description: List rules with optional filters.
+      operationId: list_rules_v1_rules__get
+      parameters:
+      - name: policy_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Policy Id
+      - name: status
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - $ref: '#/components/schemas/RuleStatus'
+          - type: 'null'
+          title: Status
+      - name: category
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - $ref: '#/components/schemas/PolicyCategory'
+          - type: 'null'
+          title: Category
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 1000
+          minimum: 1
+          default: 100
+          title: Limit
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+          title: Offset
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/src__service_agent_environment__api__rules__RuleListResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/rules/{rule_id}/approve:
+    post:
+      tags:
+      - policy-rules
+      summary: Approve Rule
+      description: Approve a rule.
+      operationId: approve_rule_v1_rules__rule_id__approve_post
+      parameters:
+      - name: rule_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Rule Id
+      - name: notes
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Notes
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PolicyRule'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/rules/{rule_id}/reject:
+    post:
+      tags:
+      - policy-rules
+      summary: Reject Rule
+      description: Reject a rule with a reason.
+      operationId: reject_rule_v1_rules__rule_id__reject_post
+      parameters:
+      - name: rule_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Rule Id
+      - name: reason
+        in: query
+        required: true
+        schema:
+          type: string
+          minLength: 1
+          title: Reason
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PolicyRule'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    src__service_agent_environment__api__rules__RuleListResponse:
+      properties:
+        results:
+          items:
+            $ref: '#/components/schemas/PolicyRule'
+          type: array
+          title: Results
+        count:
+          type: integer
+          title: Count
+      type: object
+      required:
+      - results
+      - count
+      title: RuleListResponse
+      description: Response model for list endpoints with pagination.
+    RuleConstraint:
+      properties:
+        condition_type:
+          type: string
+          title: Condition Type
+        field:
+          type: string
+          title: Field
+        operator:
+          type: string
+          title: Operator
+        value:
+          anyOf:
+          - type: string
+          - type: integer
+          - type: number
+          - type: boolean
+          - items:
+              type: string
+            type: array
+          title: Value
+      type: object
+      required:
+      - condition_type
+      - field
+      - operator
+      - value
+      title: RuleConstraint
+      description: Constraint for conditional rule application.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    PolicyCategory:
+      type: string
+      enum:
+      - privacy
+      - ethics
+      - security
+      - compliance
+      - operational
+      - brand
+      - custom
+      title: PolicyCategory
+      description: Category of policy document.
+    RuleConsequence:
+      properties:
+        action:
+          type: string
+          title: Action
+          default: warn
+        severity:
+          $ref: '#/components/schemas/Severity'
+          default: medium
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+      type: object
+      title: RuleConsequence
+      description: Consequence when rule is triggered.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    Severity:
+      type: string
+      enum:
+      - info
+      - low
+      - medium
+      - high
+      - critical
+      title: Severity
+      description: Severity level for rule consequences.
+    SourceLocation:
+      properties:
+        section:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Section
+        paragraph:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Paragraph
+        char_start:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Char Start
+        char_end:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Char End
+        source_text:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source Text
+      type: object
+      title: SourceLocation
+      description: Location in source document where rule was extracted from.
+    RuleStatus:
+      type: string
+      enum:
+      - draft
+      - approved
+      - rejected
+      - modified
+      title: RuleStatus
+      description: Review status of a policy rule.
+    PolicyRule:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        policy_id:
+          type: string
+          format: uuid
+          title: Policy Id
+        rule_id:
+          type: string
+          title: Rule Id
+        rule_type:
+          $ref: '#/components/schemas/RuleType'
+        action:
+          type: string
+          title: Action
+        target:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Target
+        assignee:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Assignee
+          default: agent
+        constraints:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/RuleConstraint'
+            type: array
+          - items:
+              additionalProperties: true
+              type: object
+            type: array
+          title: Constraints
+          default: []
+        constraint_logic:
+          type: string
+          title: Constraint Logic
+          default: all
+        consequence:
+          anyOf:
+          - $ref: '#/components/schemas/RuleConsequence'
+          - additionalProperties: true
+            type: object
+          title: Consequence
+        natural_language:
+          type: string
+          title: Natural Language
+        provenance:
+          anyOf:
+          - $ref: '#/components/schemas/RuleProvenance'
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Provenance
+        category:
+          anyOf:
+          - $ref: '#/components/schemas/PolicyCategory'
+          - type: 'null'
+        tags:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Tags
+        status:
+          $ref: '#/components/schemas/RuleStatus'
+          default: draft
+        reviewed_by:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Reviewed By
+        reviewed_at:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Reviewed At
+        review_notes:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Review Notes
+        created_at:
+          type: integer
+          title: Created At
+        updated_at:
+          type: integer
+          title: Updated At
+      type: object
+      required:
+      - id
+      - policy_id
+      - rule_id
+      - rule_type
+      - action
+      - consequence
+      - natural_language
+      - created_at
+      - updated_at
+      title: PolicyRule
+      description: 'Domain model for Policy Rule.
+
+
+        This follows an ODRL-inspired schema:
+
+        - rule_type: permission/prohibition/obligation/recommendation
+
+        - action: what action this rule governs
+
+        - target: what asset/data is affected
+
+        - assignee: who must comply (usually "agent")
+
+        - constraints: conditions under which rule applies
+
+        - consequence: what happens when rule is violated'
+    RuleType:
+      type: string
+      enum:
+      - permission
+      - prohibition
+      - obligation
+      - recommendation
+      title: RuleType
+      description: Type of policy rule (ODRL-inspired).
+    PolicyRuleUpdate:
+      properties:
+        rule_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Rule Id
+        rule_type:
+          anyOf:
+          - $ref: '#/components/schemas/RuleType'
+          - type: 'null'
+        action:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Action
+        target:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Target
+        assignee:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Assignee
+        constraints:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/RuleConstraint'
+            type: array
+          - items:
+              additionalProperties: true
+              type: object
+            type: array
+          - type: 'null'
+          title: Constraints
+        conditions:
+          anyOf:
+          - items:
+              additionalProperties: true
+              type: object
+            type: array
+          - type: 'null'
+          title: Conditions
+        constraint_logic:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Constraint Logic
+        consequence:
+          anyOf:
+          - $ref: '#/components/schemas/RuleConsequence'
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Consequence
+        natural_language:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Natural Language
+        category:
+          anyOf:
+          - $ref: '#/components/schemas/PolicyCategory'
+          - type: 'null'
+        status:
+          anyOf:
+          - $ref: '#/components/schemas/RuleStatus'
+          - type: 'null'
+        tags:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Tags
+      type: object
+      title: PolicyRuleUpdate
+      description: Request model for updating a policy rule. All fields are optional.
+    RuleProvenance:
+      properties:
+        extracted_by:
+          type: string
+          enum:
+          - llm
+          - manual
+          title: Extracted By
+          default: manual
+        model_used:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Model Used
+        confidence_score:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Confidence Score
+        source_location:
+          anyOf:
+          - $ref: '#/components/schemas/SourceLocation'
+          - type: 'null'
+      type: object
+      title: RuleProvenance
+      description: Provenance information for rule extraction.

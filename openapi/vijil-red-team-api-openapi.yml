@@ -1,0 +1,678 @@
+openapi: 3.1.0
+info:
+  title: Vijil Console API (Combined) agent-configurations Red Team API
+  description: Combined OpenAPI specification for all vijil-console microservices.
+  version: 0.1.0
+tags:
+- name: Red Team
+  description: Red team campaigns
+paths:
+  /v1/tools:
+    get:
+      tags:
+      - Red Team
+      summary: List Tools
+      description: List available red team tools and their supported attack categories.
+      operationId: list_tools_v1_tools_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ToolInfo'
+                type: array
+                title: Response List Tools V1 Tools Get
+  /v1/campaigns:
+    get:
+      tags:
+      - Red Team
+      summary: List Campaigns
+      description: List all red team campaigns across all teams the user belongs to (subject to per-team permissions).
+      operationId: list_campaigns_v1_campaigns_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  items:
+                    additionalProperties: true
+                    type: object
+                  type: array
+                type: object
+                title: Response List Campaigns V1 Campaigns Get
+    post:
+      tags:
+      - Red Team
+      summary: Create Campaign
+      description: 'Create a new red team campaign.
+
+
+        Launches a K8s Job to run the selected tool against the target agent.
+
+        Returns immediately with a pending status; poll via GET for updates.'
+      operationId: create_campaign_v1_campaigns_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCampaignRequest'
+        required: true
+      responses:
+        '202':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateCampaignResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/campaigns/{campaign_id}:
+    get:
+      tags:
+      - Red Team
+      summary: Get Campaign Status
+      description: Get the status of a red team campaign.
+      operationId: get_campaign_status_v1_campaigns__campaign_id__get
+      parameters:
+      - name: campaign_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Campaign Id
+      - name: team_id
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+          description: Team that owns this campaign
+          title: Team Id
+        description: Team that owns this campaign
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CampaignStatusResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - Red Team
+      summary: Delete Campaign
+      description: Delete a red team campaign and all its S3 artifacts.
+      operationId: delete_campaign_v1_campaigns__campaign_id__delete
+      parameters:
+      - name: campaign_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Campaign Id
+      - name: team_id
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+          description: Team that owns this campaign
+          title: Team Id
+        description: Team that owns this campaign
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+                title: Response Delete Campaign V1 Campaigns  Campaign Id  Delete
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/campaigns/{campaign_id}/results/download:
+    get:
+      tags:
+      - Red Team
+      summary: Download Campaign Results
+      description: 'Download campaign results as a JSON file (attachment).
+
+
+        Returns the same data as GET .../results but with Content-Disposition
+
+        so the browser prompts to save as results_{tool}_{campaign_id}.json.'
+      operationId: download_campaign_results_v1_campaigns__campaign_id__results_download_get
+      parameters:
+      - name: campaign_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Campaign Id
+      - name: team_id
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+          description: Team that owns this campaign
+          title: Team Id
+        description: Team that owns this campaign
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/campaigns/{campaign_id}/results:
+    get:
+      tags:
+      - Red Team
+      summary: Get Campaign Results
+      description: Get normalized results of a completed red team campaign.
+      operationId: get_campaign_results_v1_campaigns__campaign_id__results_get
+      parameters:
+      - name: campaign_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Campaign Id
+      - name: team_id
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+          description: Team that owns this campaign
+          title: Team Id
+        description: Team that owns this campaign
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RedteamResult'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/campaigns/{campaign_id}/logs:
+    get:
+      tags:
+      - Red Team
+      summary: Get Campaign Logs
+      description: 'Get logs from the campaign''s Kubernetes job pod.
+
+
+        Returns pod stdout/stderr. Useful when the job fails or results are missing.'
+      operationId: get_campaign_logs_v1_campaigns__campaign_id__logs_get
+      parameters:
+      - name: campaign_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Campaign Id
+      - name: team_id
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+          description: Team that owns this campaign
+          title: Team Id
+        description: Team that owns this campaign
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+                title: Response Get Campaign Logs V1 Campaigns  Campaign Id  Logs Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/campaigns/{campaign_id}/cancel:
+    post:
+      tags:
+      - Red Team
+      summary: Cancel Campaign
+      description: Cancel a running red team campaign.
+      operationId: cancel_campaign_v1_campaigns__campaign_id__cancel_post
+      parameters:
+      - name: campaign_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Campaign Id
+      - name: team_id
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+          description: Team that owns this campaign
+          title: Team Id
+        description: Team that owns this campaign
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+                title: Response Cancel Campaign V1 Campaigns  Campaign Id  Cancel Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    ToolInfo:
+      properties:
+        tool:
+          type: string
+          title: Tool
+        categories:
+          items:
+            type: string
+          type: array
+          title: Categories
+      type: object
+      required:
+      - tool
+      - categories
+      title: ToolInfo
+      description: Summary of a red team tool's capabilities.
+    AttackCategory:
+      type: string
+      enum:
+      - injection
+      - jailbreak
+      - harmful
+      - pii
+      - toxicity
+      - hallucination
+      - overreliance
+      - custom
+      title: AttackCategory
+      description: 'Abstract attack categories (tool-agnostic).
+
+
+        Each adapter maps these to tool-native plugin/probe/strategy names.
+
+        Use CUSTOM with custom_plugins for tool-native passthrough.'
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    CampaignStatusResponse:
+      properties:
+        campaign_id:
+          type: string
+          format: uuid
+          title: Campaign Id
+        status:
+          type: string
+          title: Status
+        tool:
+          type: string
+          title: Tool
+        created_at:
+          type: integer
+          title: Created At
+        started_at:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Started At
+        completed_at:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Completed At
+        error_message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Error Message
+      type: object
+      required:
+      - campaign_id
+      - status
+      - tool
+      - created_at
+      title: CampaignStatusResponse
+      description: Response for campaign status queries.
+    Finding:
+      properties:
+        category:
+          type: string
+          title: Category
+          description: Attack category that produced this finding
+        severity:
+          type: string
+          title: Severity
+          description: Severity level (critical, high, medium, low)
+        attack_prompt:
+          type: string
+          title: Attack Prompt
+          description: The adversarial input sent to the agent
+        agent_response:
+          type: string
+          title: Agent Response
+          description: The agent's response to the attack
+        passed:
+          type: boolean
+          title: Passed
+          description: Whether the agent resisted the attack
+        metadata:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Metadata
+          description: 'Normalized structured extras: fields the adapter has explicitly parsed and named (e.g. plugin_id, score_reason). Use when the adapter can provide typed context. Distinct from raw_metadata, which is the verbatim tool output.'
+        attack_type:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Attack Type
+          description: Tool's native attack category name
+        phenotype_category:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Phenotype Category
+          description: Mapped taxonomy path (e.g., 'security.integrity.prompt_injection')
+        attack_score:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Attack Score
+          description: 0-1 score for this specific attack type
+        detector_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Detector Id
+          description: Which detector/plugin scored this
+        raw_metadata:
+          additionalProperties: true
+          type: object
+          title: Raw Metadata
+          description: Verbatim tool-native output preserved as-is for debugging and auditability. Always populated by adapters. Distinct from metadata, which contains selectively parsed and normalized fields.
+      type: object
+      required:
+      - category
+      - severity
+      - attack_prompt
+      - agent_response
+      - passed
+      title: Finding
+      description: 'A single vulnerability finding, normalized across all tools.
+
+
+        Each tool adapter maps its native output format into this structure.'
+    CreateCampaignResponse:
+      properties:
+        campaign_id:
+          type: string
+          format: uuid
+          title: Campaign Id
+        status:
+          type: string
+          title: Status
+      type: object
+      required:
+      - campaign_id
+      - status
+      title: CreateCampaignResponse
+      description: Response after creating a campaign.
+    RedteamTool:
+      type: string
+      enum:
+      - diamond_security
+      - promptfoo
+      - garak
+      - pyrit
+      - unknown
+      title: RedteamTool
+      description: Supported red team tools.
+    CreateCampaignRequest:
+      properties:
+        team_id:
+          type: string
+          format: uuid
+          title: Team Id
+          description: Team that owns this campaign
+        tool:
+          $ref: '#/components/schemas/RedteamTool'
+          description: Red team tool to use
+        agent_url:
+          anyOf:
+          - type: string
+            maxLength: 2083
+            minLength: 1
+            format: uri
+          - type: 'null'
+          title: Agent Url
+          description: Target agent endpoint URL
+        agent_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Agent Id
+          description: Agent ID from Agent Registry (resolves URL)
+        agent_api_key:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Agent Api Key
+          description: API key for the target agent
+        agent_model_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Agent Model Name
+          description: Model name if agent is an LLM gateway
+        purpose:
+          type: string
+          minLength: 1
+          title: Purpose
+          description: Agent purpose description (for context-aware attacks)
+        categories:
+          items:
+            $ref: '#/components/schemas/AttackCategory'
+          type: array
+          minItems: 1
+          title: Categories
+          description: Attack categories to test
+        custom_plugins:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Custom Plugins
+          description: Custom plugin/probe names (for CUSTOM category)
+        strategies:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Strategies
+          description: Evaluation strategies (tool-specific)
+        num_tests:
+          type: integer
+          maximum: 100
+          minimum: 1
+          title: Num Tests
+          description: Number of test cases per category
+          default: 25
+        provider_config:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Provider Config
+          description: Provider-specific configuration
+      type: object
+      required:
+      - team_id
+      - tool
+      - purpose
+      - categories
+      title: CreateCampaignRequest
+      description: Request body for creating a red team campaign.
+    RedteamResult:
+      properties:
+        job_id:
+          type: string
+          format: uuid
+          title: Job Id
+          description: Campaign job ID these results belong to
+        tool:
+          $ref: '#/components/schemas/RedteamTool'
+          description: Tool that produced these results
+        findings:
+          items:
+            $ref: '#/components/schemas/Finding'
+          type: array
+          title: Findings
+          description: Individual vulnerability findings
+        summary:
+          $ref: '#/components/schemas/RedteamSummary'
+          description: Aggregate statistics
+        raw_output:
+          additionalProperties: true
+          type: object
+          title: Raw Output
+          description: Full tool-native output for debugging
+      type: object
+      required:
+      - job_id
+      - tool
+      - summary
+      title: RedteamResult
+      description: 'Normalized results from any red team tool.
+
+
+        Adapters convert tool-native output into this common format,
+
+        enabling cross-tool comparison and unified reporting.'
+    RedteamSummary:
+      properties:
+        total_tests:
+          type: integer
+          minimum: 0
+          title: Total Tests
+          description: Total number of tests executed
+        passed:
+          type: integer
+          minimum: 0
+          title: Passed
+          description: Tests where the agent resisted the attack
+        failed:
+          type: integer
+          minimum: 0
+          title: Failed
+          description: Tests where the attack succeeded
+        errors:
+          type: integer
+          minimum: 0
+          title: Errors
+          description: Tests that errored during execution
+          default: 0
+        categories_tested:
+          items:
+            type: string
+          type: array
+          title: Categories Tested
+          description: Attack categories that were tested
+        vulnerabilities_found:
+          type: boolean
+          title: Vulnerabilities Found
+          description: Whether any attacks succeeded
+      type: object
+      required:
+      - total_tests
+      - passed
+      - failed
+      - categories_tested
+      - vulnerabilities_found
+      title: RedteamSummary
+      description: Aggregate statistics for a red team campaign.

@@ -1,0 +1,725 @@
+openapi: 3.1.0
+info:
+  title: Vijil Console API (Combined) agent-configurations personas API
+  description: Combined OpenAPI specification for all vijil-console microservices.
+  version: 0.1.0
+tags:
+- name: personas
+paths:
+  /v1/personas/{id}:
+    get:
+      tags:
+      - personas
+      summary: Get Persona
+      description: 'Get a single persona by ID.
+
+
+        Requires persona:read permission and team_id query parameter. The user''s JWT must be scoped to that team.'
+      operationId: get_persona_v1_personas__id__get
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Id
+      - name: team_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          description: Team scope (required); must match a team the user has access to
+          title: Team Id
+        description: Team scope (required); must match a team the user has access to
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Persona'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    put:
+      tags:
+      - personas
+      summary: Update Persona
+      description: 'Update an existing persona.
+
+
+        Supports partial updates - only provided fields will be updated.
+
+        Requires persona:write permission.'
+      operationId: update_persona_v1_personas__id__put
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PersonaUpdate'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Persona'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - personas
+      summary: Delete Persona
+      description: 'Delete a persona.
+
+
+        Requires persona:write permission.'
+      operationId: delete_persona_v1_personas__id__delete
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Id
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/personas/:
+    get:
+      tags:
+      - personas
+      summary: List Personas
+      description: 'List personas with filtering and pagination.
+
+
+        Requires persona:read permission and team_id query parameter. The user''s JWT must be scoped to that team.'
+      operationId: list_personas_v1_personas__get
+      parameters:
+      - name: team_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          description: Team scope (required); must match a team the user has access to
+          title: Team Id
+        description: Team scope (required); must match a team the user has access to
+      - name: intents
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: array
+            items:
+              type: string
+          - type: 'null'
+          description: 'Filter by intent(s): benign, curious, adversarial, malicious'
+          title: Intents
+        description: 'Filter by intent(s): benign, curious, adversarial, malicious'
+      - name: is_preset
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          description: Filter by preset status
+          title: Is Preset
+        description: Filter by preset status
+      - name: search
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Search in name, description, and role
+          title: Search
+        description: Search in name, description, and role
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 100
+          minimum: 1
+          description: Maximum number of results (default 10)
+          default: 10
+          title: Limit
+        description: Maximum number of results (default 10)
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          description: Number of results to skip for paging
+          default: 0
+          title: Offset
+        description: Number of results to skip for paging
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PersonaListResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      tags:
+      - personas
+      summary: Create Persona
+      description: 'Create a new persona.
+
+
+        Requires persona:write permission for the team_id in the request body.'
+      operationId: create_persona_v1_personas__post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PersonaCreate'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Persona'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/personas/presets/:
+    get:
+      tags:
+      - personas
+      summary: List Presets
+      description: 'List system preset personas.
+
+
+        Requires persona:read permission and team_id query parameter. The user''s JWT must be scoped to that team.'
+      operationId: list_presets_v1_personas_presets__get
+      parameters:
+      - name: team_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          description: Team scope (required); must match a team the user has access to
+          title: Team Id
+        description: Team scope (required); must match a team the user has access to
+      - name: preset_category
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: 'Filter by preset category: professional, adversarial, support'
+          title: Preset Category
+        description: 'Filter by preset category: professional, adversarial, support'
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 250
+          minimum: 1
+          description: Maximum number of results
+          default: 100
+          title: Limit
+        description: Maximum number of results
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          description: Number of results to skip
+          default: 0
+          title: Offset
+        description: Number of results to skip
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PersonaListResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/personas/from-preset/{preset_id}:
+    post:
+      tags:
+      - personas
+      summary: Create From Preset
+      description: 'Create a new persona from a system preset.
+
+
+        Requires persona:write permission.'
+      operationId: create_from_preset_v1_personas_from_preset__preset_id__post
+      parameters:
+      - name: preset_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Preset Id
+      requestBody:
+        content:
+          application/json:
+            schema:
+              anyOf:
+              - $ref: '#/components/schemas/CreateFromPresetRequest'
+              - type: 'null'
+              title: Request
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Persona'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    PrivilegeLevel:
+      type: string
+      enum:
+      - guest
+      - user
+      - power_user
+      - admin
+      - super_admin
+      title: PrivilegeLevel
+      description: Privilege level for persona access control testing.
+    DataAccessScope:
+      type: string
+      enum:
+      - own
+      - team
+      - organization
+      - global
+      title: DataAccessScope
+      description: Data access scope for persona testing.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    PersonaListResponse:
+      properties:
+        results:
+          items:
+            $ref: '#/components/schemas/Persona'
+          type: array
+          title: Results
+        total:
+          type: integer
+          title: Total
+      type: object
+      required:
+      - results
+      - total
+      title: PersonaListResponse
+      description: 'Response model for listing personas with pagination.
+
+
+        - results: Items in the current page (length may be less than limit on last page).
+
+        - total: Total number of items matching the query, before pagination.'
+    PersonaCreate:
+      properties:
+        id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Id
+        team_id:
+          type: string
+          format: uuid
+          title: Team Id
+        name:
+          type: string
+          maxLength: 255
+          minLength: 1
+          title: Name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        role:
+          type: string
+          maxLength: 100
+          minLength: 1
+          title: Role
+        role_description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Role Description
+        knowledge_level:
+          $ref: '#/components/schemas/KnowledgeLevel'
+          default: intermediate
+        skill_level:
+          $ref: '#/components/schemas/SkillLevel'
+          default: competent
+        intent:
+          $ref: '#/components/schemas/Intent'
+          default: benign
+        language:
+          type: string
+          title: Language
+          default: en
+        access_permissions:
+          anyOf:
+          - $ref: '#/components/schemas/PersonaAccessPermissions'
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Access Permissions
+        is_preset:
+          type: boolean
+          title: Is Preset
+          default: false
+        preset_category:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Preset Category
+        tags:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Tags
+        icon_filename:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Icon Filename
+      type: object
+      required:
+      - team_id
+      - name
+      - role
+      title: PersonaCreate
+      description: Request model for creating a persona.
+    KnowledgeLevel:
+      type: string
+      enum:
+      - beginner
+      - intermediate
+      - advanced
+      - expert
+      title: KnowledgeLevel
+      description: Knowledge level of the persona.
+    PersonaAccessPermissions:
+      properties:
+        privilege_level:
+          $ref: '#/components/schemas/PrivilegeLevel'
+          default: user
+        allowed_agents:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Allowed Agents
+        allowed_tools:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Allowed Tools
+        restricted_actions:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Restricted Actions
+        data_access_scope:
+          anyOf:
+          - $ref: '#/components/schemas/DataAccessScope'
+          - type: 'null'
+      type: object
+      title: PersonaAccessPermissions
+      description: 'Access permissions for persona - used for test scenario definition.
+
+
+        NOTE: This is NOT for actual RBAC enforcement - it defines expected access
+
+        for generating test cases to verify agent access control.'
+    Intent:
+      type: string
+      enum:
+      - benign
+      - curious
+      - adversarial
+      - malicious
+      title: Intent
+      description: Intent type of the persona.
+    PersonaUpdate:
+      properties:
+        name:
+          anyOf:
+          - type: string
+            maxLength: 255
+            minLength: 1
+          - type: 'null'
+          title: Name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        role:
+          anyOf:
+          - type: string
+            maxLength: 100
+            minLength: 1
+          - type: 'null'
+          title: Role
+        role_description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Role Description
+        knowledge_level:
+          anyOf:
+          - $ref: '#/components/schemas/KnowledgeLevel'
+          - type: 'null'
+        skill_level:
+          anyOf:
+          - $ref: '#/components/schemas/SkillLevel'
+          - type: 'null'
+        intent:
+          anyOf:
+          - $ref: '#/components/schemas/Intent'
+          - type: 'null'
+        language:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Language
+        access_permissions:
+          anyOf:
+          - $ref: '#/components/schemas/PersonaAccessPermissions'
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Access Permissions
+        is_preset:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Is Preset
+        preset_category:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Preset Category
+        tags:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Tags
+        icon_filename:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Icon Filename
+      type: object
+      title: PersonaUpdate
+      description: Request model for updating a persona. All fields are optional.
+    CreateFromPresetRequest:
+      properties:
+        name_override:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name Override
+      type: object
+      title: CreateFromPresetRequest
+      description: Request model for creating from preset.
+    SkillLevel:
+      type: string
+      enum:
+      - novice
+      - competent
+      - proficient
+      - expert
+      title: SkillLevel
+      description: Skill level of the persona.
+    Persona:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        team_id:
+          type: string
+          format: uuid
+          title: Team Id
+        name:
+          type: string
+          title: Name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        role:
+          type: string
+          title: Role
+        role_description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Role Description
+        knowledge_level:
+          $ref: '#/components/schemas/KnowledgeLevel'
+          default: intermediate
+        skill_level:
+          $ref: '#/components/schemas/SkillLevel'
+          default: competent
+        intent:
+          $ref: '#/components/schemas/Intent'
+          default: benign
+        language:
+          type: string
+          title: Language
+          default: en
+        access_permissions:
+          anyOf:
+          - $ref: '#/components/schemas/PersonaAccessPermissions'
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Access Permissions
+        is_preset:
+          type: boolean
+          title: Is Preset
+          default: false
+        preset_category:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Preset Category
+        tags:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Tags
+        icon_filename:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Icon Filename
+        created_at:
+          type: integer
+          title: Created At
+        updated_at:
+          type: integer
+          title: Updated At
+        created_by:
+          type: string
+          format: uuid
+          title: Created By
+      type: object
+      required:
+      - id
+      - team_id
+      - name
+      - role
+      - created_at
+      - updated_at
+      - created_by
+      title: Persona
+      description: Domain model for Persona archetype.

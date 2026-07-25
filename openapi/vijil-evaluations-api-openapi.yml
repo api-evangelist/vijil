@@ -1,0 +1,460 @@
+openapi: 3.1.0
+info:
+  title: Vijil Console API (Combined) agent-configurations evaluations API
+  description: Combined OpenAPI specification for all vijil-console microservices.
+  version: 0.1.0
+tags:
+- name: evaluations
+paths:
+  /v1/evaluations/:
+    get:
+      tags:
+      - evaluations
+      summary: List Team Evaluations
+      description: "List all evaluations for the authenticated user's teams.\n\nThis endpoint lists all evaluations (running and completed) from the job repository.\nFor completed evaluations stored in S3, use GET /evaluations-results/ instead.\n\nArgs:\n    claims: JWT claims with user and team info\n    diamond_domain: Diamond domain orchestrator\n\nReturns:\n    Dict with \"evaluations\" key containing list of evaluation summaries"
+      operationId: list_team_evaluations_v1_evaluations__get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  items:
+                    additionalProperties: true
+                    type: object
+                  type: array
+                type: object
+                title: Response List Team Evaluations V1 Evaluations  Get
+    post:
+      tags:
+      - evaluations
+      summary: Create Evaluation
+      description: "Create a new evaluation job.\n\nCreates a Kubernetes Job to run the evaluation and tracks it in memory.\nFetches agent configuration from Agent Registry using the provided agent_id.\nJWT token is retrieved from request context (set by JWTAuthMiddleware).\n\nArgs:\n    request: Evaluation configuration with agent_id and team_id\n    claims: JWT claims with user and team info\n    diamond_domain: Diamond domain orchestrator\n\nReturns:\n    Evaluation ID, status, and status URL"
+      operationId: create_evaluation_v1_evaluations__post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateEvaluationRequest'
+        required: true
+      responses:
+        '202':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateEvaluationResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/evaluations/{evaluation_id}/html:
+    get:
+      tags:
+      - evaluations
+      summary: Get Evaluation Html Report
+      description: "Get HTML trust report for an evaluation.\n\nReturns the HTML content directly for browser viewing.\nHTML reports are automatically generated when evaluations complete.\n\nArgs:\n    evaluation_id: UUID of the evaluation\n    team_id: Team ID that owns this evaluation\n    claims: JWT claims with user and team info\n    report_storage: Report storage adapter\n\nReturns:\n    HTML response with the report content\n\nRaises:\n    HTTPException: 401 if unauthorized, 403 if no permission, 404 if report not found"
+      operationId: get_evaluation_html_report_v1_evaluations__evaluation_id__html_get
+      parameters:
+      - name: evaluation_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Evaluation Id
+      - name: team_id
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+          description: Team ID that owns this evaluation
+          title: Team Id
+        description: Team ID that owns this evaluation
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/evaluations/{evaluation_id}/pdf:
+    get:
+      tags:
+      - evaluations
+      summary: Get Evaluation Pdf Report
+      description: "Get PDF trust report for an evaluation.\n\nPDF reports are automatically generated when evaluations complete\n(same flow as HTML reports).\n\nArgs:\n    evaluation_id: UUID of the evaluation\n    team_id: Team ID that owns this evaluation\n    claims: JWT claims with user and team info\n    report_storage: Report storage adapter\n\nReturns:\n    PDF response with the report content\n\nRaises:\n    HTTPException: 401 if unauthorized, 403 if no permission, 404 if report not found"
+      operationId: get_evaluation_pdf_report_v1_evaluations__evaluation_id__pdf_get
+      parameters:
+      - name: evaluation_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Evaluation Id
+      - name: team_id
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+          description: Team ID that owns this evaluation
+          title: Team Id
+        description: Team ID that owns this evaluation
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/evaluations/{evaluation_id}/logs:
+    get:
+      tags:
+      - evaluations
+      summary: Get Evaluation Logs
+      description: "Get evaluation job logs from Kubernetes.\n\nArgs:\n    evaluation_id: UUID of the evaluation\n    claims: JWT claims with user and team info\n    diamond_domain: Diamond domain orchestrator\n\nReturns:\n    Job logs as dict with \"logs\" key\n\nRaises:\n    HTTPException: 404 if logs not available"
+      operationId: get_evaluation_logs_v1_evaluations__evaluation_id__logs_get
+      parameters:
+      - name: evaluation_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Evaluation Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+                title: Response Get Evaluation Logs V1 Evaluations  Evaluation Id  Logs Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/evaluations/{evaluation_id}:
+    get:
+      tags:
+      - evaluations
+      summary: Get Evaluation
+      description: "Get evaluation status.\n\nArgs:\n    evaluation_id: UUID of the evaluation (can be job_id or evaluation_id)\n    claims: JWT claims with user and team info\n    diamond_domain: Diamond domain orchestrator\n\nReturns:\n    Current evaluation status with timestamps (returns Diamond's evaluation_id as source of truth)\n\nRaises:\n    HTTPException: 404 if evaluation not found or user lacks access\n    HTTPException: 503 if evaluation status cannot be retrieved"
+      operationId: get_evaluation_v1_evaluations__evaluation_id__get
+      parameters:
+      - name: evaluation_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Evaluation Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EvaluationStatusResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - evaluations
+      summary: Delete Evaluation
+      description: "Delete evaluation (Kubernetes Job + repository entry + S3 storage).\n\nDeletes the evaluation from:\n- Kubernetes Job (via domain)\n- Repository entry (via domain)\n- S3 storage (request, results, report files)\n\nArgs:\n    evaluation_id: UUID of the evaluation\n    claims: JWT claims with user and team info\n    diamond_domain: Diamond domain orchestrator\n    storage: Evaluation storage adapter\n\nReturns:\n    Status dict with \"deleted\" status\n\nRaises:\n    HTTPException: 404 if evaluation not found"
+      operationId: delete_evaluation_v1_evaluations__evaluation_id__delete
+      parameters:
+      - name: evaluation_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Evaluation Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+                title: Response Delete Evaluation V1 Evaluations  Evaluation Id  Delete
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/evaluations/{evaluation_id}/cancel:
+    post:
+      tags:
+      - evaluations
+      summary: Cancel Evaluation
+      description: "Cancel a running evaluation (Kubernetes Job cancellation + workflow status update).\n\nCancels an evaluation that is in progress (CREATED, STARTING, or RUNNING status).\nThis will:\n- Delete the Kubernetes Job (which cancels the running pod)\n- Update workflow status to CANCELLED\n- Optionally clean up partial S3 data (request file is kept for audit)\n\nArgs:\n    evaluation_id: UUID of the evaluation to cancel\n    claims: JWT claims with user and team info\n    diamond_domain: Diamond domain orchestrator\n    storage: Evaluation storage adapter\n\nReturns:\n    Status dict with \"cancelled\" status\n\nRaises:\n    HTTPException: 404 if evaluation not found, 400 if evaluation is already completed/cancelled"
+      operationId: cancel_evaluation_v1_evaluations__evaluation_id__cancel_post
+      parameters:
+      - name: evaluation_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Evaluation Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+                title: Response Cancel Evaluation V1 Evaluations  Evaluation Id  Cancel Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/evaluations/{evaluation_id}/report:
+    post:
+      tags:
+      - evaluations
+      summary: Generate Report On Demand
+      description: 'Generate a trust report on demand (Layer 3).
+
+
+        This endpoint triggers LLM analysis + HTML/PDF report generation
+
+        for a completed evaluation. Reports are cached in S3 — subsequent
+
+        calls return the cached version unless force_regenerate=True.
+
+
+        Reports are NOT auto-generated on evaluation completion (CON-256).
+
+        Users explicitly request reports when they need proof of compliance
+
+        or want a printable summary.'
+      operationId: generate_report_on_demand_v1_evaluations__evaluation_id__report_post
+      parameters:
+      - name: evaluation_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Evaluation Id
+      - name: team_id
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+          description: Team that owns this evaluation
+          title: Team Id
+        description: Team that owns this evaluation
+      - name: force_regenerate
+        in: query
+        required: false
+        schema:
+          type: boolean
+          description: Force regeneration even if cached
+          default: false
+          title: Force Regenerate
+        description: Force regeneration even if cached
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+                title: Response Generate Report On Demand V1 Evaluations  Evaluation Id  Report Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    CreateEvaluationRequest:
+      properties:
+        agent_id:
+          type: string
+          format: uuid
+          title: Agent Id
+          description: UUID of the agent from Agent Registry
+        team_id:
+          type: string
+          format: uuid
+          title: Team Id
+          description: UUID of the team that owns this evaluation (required)
+        type:
+          type: string
+          title: Type
+          description: Type of evaluation to run. Currently only 'behavioral' is supported.
+          default: behavioral
+        harness_names:
+          items:
+            type: string
+          type: array
+          minItems: 1
+          title: Harness Names
+          description: List of harnesses to run (e.g., ['safety', 'ethics', 'privacy', 'security', 'toxicity'])
+        harness_type:
+          $ref: '#/components/schemas/HarnessType'
+          description: 'Type of all harnesses: ''standard'' or ''custom''. All harnesses in harness_names must be of this type.'
+          default: standard
+        sample_size:
+          anyOf:
+          - type: integer
+            maximum: 1000
+            minimum: 1
+          - type: 'null'
+          title: Sample Size
+          description: 'Number of prompts to randomly sample per harness. If omitted, all prompts run (~1250 for security). Recommended: 10 for fast iteration, 50 for moderate, 100 for thorough.'
+        evaluation_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Evaluation Id
+          description: Optional UUID for the evaluation. If provided, this UUID will be used when creating the evaluation in Diamond. If not provided, Diamond will generate one.
+      type: object
+      required:
+      - agent_id
+      - team_id
+      - harness_names
+      title: CreateEvaluationRequest
+      description: Request model for creating a new evaluation.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    EvaluationStatusResponse:
+      properties:
+        evaluation_id:
+          type: string
+          format: uuid
+          title: Evaluation Id
+        status:
+          type: string
+          title: Status
+        scores:
+          anyOf:
+          - additionalProperties:
+              type: number
+            type: object
+          - type: 'null'
+          title: Scores
+        created_at:
+          type: integer
+          title: Created At
+        started_at:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Started At
+        completed_at:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Completed At
+        error_message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Error Message
+        status_message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Status Message
+      type: object
+      required:
+      - evaluation_id
+      - status
+      - created_at
+      - started_at
+      - completed_at
+      - error_message
+      title: EvaluationStatusResponse
+      description: Response model for evaluation status.
+    CreateEvaluationResponse:
+      properties:
+        evaluation_id:
+          type: string
+          format: uuid
+          title: Evaluation Id
+        status:
+          type: string
+          title: Status
+      type: object
+      required:
+      - evaluation_id
+      - status
+      title: CreateEvaluationResponse
+      description: Response model for evaluation creation.
+    HarnessType:
+      type: string
+      enum:
+      - standard
+      - custom
+      title: HarnessType
+      description: Type of harness.

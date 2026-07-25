@@ -1,0 +1,851 @@
+openapi: 3.1.0
+info:
+  title: Vijil Console API (Combined) agent-configurations agent-import API
+  description: Combined OpenAPI specification for all vijil-console microservices.
+  version: 0.1.0
+tags:
+- name: agent-import
+paths:
+  /v1/agent-configurations/import/validate:
+    post:
+      tags:
+      - agent-import
+      summary: Validate Agent Import
+      description: 'Validate an agent import request without saving.
+
+
+        Supports three input methods with deterministic access levels:
+
+        - agent_url:   Remote black_box - Just an endpoint URL to call
+
+        - agent_card:  Local grey_box - Upload agent configuration/card JSON
+
+        - source_code: Local white_box - Upload agent source code files
+
+
+        Returns validation status, access level, and parsed agent card for preview.'
+      operationId: validate_agent_import_v1_agent_configurations_import_validate_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UnifiedImportRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnifiedValidationResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/agent-configurations/import:
+    post:
+      tags:
+      - agent-import
+      summary: Import Agent Unified
+      description: 'Import an agent using the unified import endpoint.
+
+
+        Supports three input methods with deterministic access levels:
+
+        - agent_url:   Remote black_box - Just an endpoint URL to call
+
+        - agent_card:  Local grey_box - Upload agent configuration/card JSON
+
+        - source_code: Local white_box - Upload agent source code files
+
+
+        Access level is determined by input method (not content).'
+      operationId: import_agent_unified_v1_agent_configurations_import_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UnifiedImportRequest'
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnifiedImportResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    AccessLevel:
+      type: string
+      enum:
+      - black_box
+      - grey_box
+      - white_box
+      title: AccessLevel
+      description: 'Access level for agent analysis.
+
+
+        Black Box: URL only - behavioral testing only
+
+        Grey Box: Agent configuration - structure/capabilities analysis
+
+        White Box: Source code access - full code + sandbox runtime analysis'
+    ImportMetadata:
+      properties:
+        source:
+          anyOf:
+          - $ref: '#/components/schemas/ImportSource'
+          - type: 'null'
+        source_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source Url
+        imported_at:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Imported At
+        original_format:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Original Format
+      type: object
+      title: ImportMetadata
+      description: Metadata about how an agent was imported.
+    TrustLifecycleStage:
+      type: string
+      enum:
+      - registered
+      - tested
+      - hardened
+      - trusted
+      - optimized
+      - adapted
+      title: TrustLifecycleStage
+      description: Trust maturity lifecycle stage for an agent.
+    AgentStatus:
+      type: string
+      enum:
+      - draft
+      - creating
+      - active
+      - under_review
+      - deprecated
+      - archived
+      - pending
+      - rejected
+      title: AgentStatus
+      description: Agent status values.
+    AgentParams:
+      properties:
+        temperature:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Temperature
+        top_p:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Top P
+        max_tokens:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Max Tokens
+        timeout:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Timeout
+        rag_params:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Rag Params
+        function_route_params:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Function Route Params
+      type: object
+      title: AgentParams
+      description: Model parameters for agent configuration.
+    UnifiedImportResponse:
+      properties:
+        agent:
+          $ref: '#/components/schemas/Agent'
+        access_level:
+          type: string
+          title: Access Level
+        warnings:
+          items:
+            type: string
+          type: array
+          title: Warnings
+          default: []
+        external_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: External Id
+        identity_provider:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Identity Provider
+      type: object
+      required:
+      - agent
+      - access_level
+      title: UnifiedImportResponse
+      description: Response model for unified import.
+    AgentSkill:
+      properties:
+        id:
+          type: string
+          title: Id
+        name:
+          type: string
+          title: Name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        input_modes:
+          items:
+            type: string
+          type: array
+          title: Input Modes
+        output_modes:
+          items:
+            type: string
+          type: array
+          title: Output Modes
+      type: object
+      required:
+      - id
+      - name
+      title: AgentSkill
+      description: An agent skill definition (for A2A protocol agents).
+    AgentCapabilities:
+      properties:
+        streaming:
+          type: boolean
+          title: Streaming
+          default: false
+        push_notifications:
+          type: boolean
+          title: Push Notifications
+          default: false
+        code_execution:
+          type: boolean
+          title: Code Execution
+          default: false
+        memory:
+          type: boolean
+          title: Memory
+          default: false
+        delegation:
+          type: boolean
+          title: Delegation
+          default: false
+        tools:
+          items:
+            type: string
+          type: array
+          title: Tools
+      type: object
+      title: AgentCapabilities
+      description: Agent capability flags.
+    AgentLatestEvaluation:
+      properties:
+        evaluation_id:
+          type: string
+          format: uuid
+          title: Evaluation Id
+        overall_score:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Overall Score
+        reliability_score:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Reliability Score
+        security_score:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Security Score
+        safety_score:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Safety Score
+        completed_at:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Completed At
+      type: object
+      required:
+      - evaluation_id
+      title: AgentLatestEvaluation
+      description: 'Latest completed evaluation scores for an agent.
+
+
+        Sideloaded on GET /agent-configurations when include_scores=true.
+
+        Contains only domain-level score data — no UI or presentation concerns.'
+    ImportSource:
+      type: string
+      enum:
+      - manual
+      title: ImportSource
+      description: Import source for agent configuration.
+    SourceCodeUpload:
+      properties:
+        files:
+          additionalProperties:
+            type: string
+          type: object
+          title: Files
+          description: Map of filename to content. Use 'main.py' for single file uploads.
+        entry_point:
+          type: string
+          title: Entry Point
+          description: Main entry point file (must exist in files)
+          default: main.py
+        framework:
+          type: string
+          title: Framework
+          description: Framework identifier (for informational purposes only)
+          default: unknown
+        agent_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Agent Name
+          description: Agent name (extracted from code if not provided)
+        model_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Model Name
+          description: Model name used by the agent
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: Agent description
+        system_prompt:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: System Prompt
+          description: System prompt if known
+        tools:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Tools
+          description: List of tools/functions the agent uses
+      type: object
+      required:
+      - files
+      title: SourceCodeUpload
+      description: 'Model for direct source code upload.
+
+
+        Supports single file or multi-file upload for white box agent import.'
+    ProtectionStatus:
+      type: string
+      enum:
+      - unprotected
+      - configured
+      - domed
+      title: ProtectionStatus
+      description: Dome protection lifecycle state.
+    AgentMetadata:
+      properties:
+        role:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Role
+        job_description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Job Description
+        version:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Version
+        author:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Author
+        tags:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Tags
+      type: object
+      title: AgentMetadata
+      description: Agent metadata for display and organization.
+    UnifiedValidationResponse:
+      properties:
+        valid:
+          type: boolean
+          title: Valid
+        access_level:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Access Level
+        agent_card:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Agent Card
+        errors:
+          items:
+            type: string
+          type: array
+          title: Errors
+          default: []
+        warnings:
+          items:
+            type: string
+          type: array
+          title: Warnings
+          default: []
+        external_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: External Id
+        identity_provider:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Identity Provider
+      type: object
+      required:
+      - valid
+      title: UnifiedValidationResponse
+      description: 'Response model for unified validation.
+
+
+        Returns validation status and parsed agent card for preview.'
+    ProtocolType:
+      type: string
+      enum:
+      - chat_completions
+      - a2a
+      title: ProtocolType
+      description: Communication protocol for agent endpoints.
+    Agent:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        agent_name:
+          type: string
+          title: Agent Name
+        model_name:
+          type: string
+          title: Model Name
+        agent_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Agent Url
+        hub:
+          type: string
+          title: Hub
+          default: custom
+        api_key:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Api Key
+        agent_system_prompt:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Agent System Prompt
+        rate_limit_requests_per_minute:
+          type: integer
+          minimum: 1
+          title: Rate Limit Requests Per Minute
+          description: Rate limit for API requests per minute
+          default: 100
+        team_id:
+          type: string
+          format: uuid
+          title: Team Id
+        created_by:
+          type: string
+          format: uuid
+          title: Created By
+        status:
+          $ref: '#/components/schemas/AgentStatus'
+          default: active
+        created_at:
+          type: integer
+          title: Created At
+        updated_at:
+          type: integer
+          title: Updated At
+        access_level:
+          $ref: '#/components/schemas/AccessLevel'
+          default: black_box
+        agent_params:
+          anyOf:
+          - $ref: '#/components/schemas/AgentParams'
+          - type: 'null'
+        mcp_config:
+          anyOf:
+          - $ref: '#/components/schemas/MCPConfig'
+          - type: 'null'
+        delegated_agents:
+          items:
+            $ref: '#/components/schemas/DelegatedAgent'
+          type: array
+          title: Delegated Agents
+        white_box_config:
+          anyOf:
+          - $ref: '#/components/schemas/WhiteBoxConfig-Output'
+          - type: 'null'
+        agent_metadata:
+          anyOf:
+          - $ref: '#/components/schemas/AgentMetadata'
+          - type: 'null'
+        purpose:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Purpose
+        protocol:
+          $ref: '#/components/schemas/ProtocolType'
+          default: chat_completions
+        test_score:
+          anyOf:
+          - type: string
+            pattern: ^(?!^[-+.]*$)[+-]?0*\d*\.?\d*$
+          - type: 'null'
+          title: Test Score
+        last_tested_by:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Last Tested By
+        evaluated_harnesses:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Evaluated Harnesses
+        last_evaluated_at:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Last Evaluated At
+        protection_status:
+          $ref: '#/components/schemas/ProtectionStatus'
+          default: unprotected
+        trust_stage:
+          $ref: '#/components/schemas/TrustLifecycleStage'
+          default: registered
+        trusted_at:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Trusted At
+        ttt_days:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Ttt Days
+        dome_config_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Dome Config Id
+        dome_manually_configured:
+          type: boolean
+          title: Dome Manually Configured
+          default: false
+        import_metadata:
+          anyOf:
+          - $ref: '#/components/schemas/ImportMetadata'
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Import Metadata
+        capabilities:
+          anyOf:
+          - $ref: '#/components/schemas/AgentCapabilities'
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Capabilities
+        skills:
+          items:
+            anyOf:
+            - $ref: '#/components/schemas/AgentSkill'
+            - additionalProperties: true
+              type: object
+          type: array
+          title: Skills
+        latest_evaluation:
+          anyOf:
+          - $ref: '#/components/schemas/AgentLatestEvaluation'
+          - type: 'null'
+      type: object
+      required:
+      - id
+      - agent_name
+      - model_name
+      - team_id
+      - created_by
+      - created_at
+      - updated_at
+      title: Agent
+      description: Agent domain model.
+    MCPAccessLevel:
+      type: string
+      enum:
+      - read
+      - write
+      - admin
+      title: MCPAccessLevel
+      description: MCP (Model Context Protocol) access level values.
+    DelegatedAgent:
+      properties:
+        url:
+          type: string
+          title: Url
+        agent_card_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Agent Card Url
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+        capabilities:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Capabilities
+      type: object
+      required:
+      - url
+      title: DelegatedAgent
+      description: Reference to a delegated agent.
+    WhiteBoxConfig-Output:
+      properties:
+        source_code:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source Code
+        repo_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Repo Url
+        github_username:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Github Username
+        repo_branch:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Repo Branch
+        entry_point:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Entry Point
+      type: object
+      title: WhiteBoxConfig
+      description: Source code access configuration for white box analysis.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    UnifiedImportRequest:
+      properties:
+        agent_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Agent Url
+          description: 'Remote black_box: Agent endpoint URL to call (e.g., https://api.example.com/agent)'
+        agent_card:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Agent Card
+          description: 'Local grey_box: Upload agent configuration/card JSON directly'
+        source_code:
+          anyOf:
+          - $ref: '#/components/schemas/SourceCodeUpload'
+          - type: 'null'
+          description: 'Local white_box: Upload agent source code files directly'
+        framework:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Framework
+          description: Framework identifier (for informational purposes only)
+        entry_point:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Entry Point
+          description: 'For white box: path to main file'
+        override_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Override Name
+          description: Override agent name
+        rate_limit_requests_per_minute:
+          type: integer
+          minimum: 1
+          title: Rate Limit Requests Per Minute
+          default: 100
+        api_key:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Api Key
+          description: API key for the agent
+        external_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: External Id
+          description: External identity ID
+        identity_provider:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Identity Provider
+          description: Identity provider name
+        idp_metadata:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Idp Metadata
+          description: IdP-specific metadata
+      type: object
+      title: UnifiedImportRequest
+      description: 'Unified request model for agent import.
+
+
+        Supports five input methods (exactly one required), each with deterministic access level:
+
+
+        | Input Method | Mode   | Access Level | Description                          |
+
+        |--------------|--------|--------------|--------------------------------------|
+
+        | agent_url    | Remote | black_box    | Just an endpoint URL to call         |
+
+        | agent_card   | Local  | grey_box     | Upload agent configuration/card JSON |
+
+        | source_code  | Local  | white_box    | Upload agent source code files       |'
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    MCPConfig:
+      properties:
+        proxy_url:
+          anyOf:
+          - type: string
+            maxLength: 2083
+            minLength: 1
+            format: uri
+          - type: 'null'
+          title: Proxy Url
+        access_level:
+          anyOf:
+          - $ref: '#/components/schemas/MCPAccessLevel'
+          - type: 'null'
+        server_urls:
+          anyOf:
+          - items:
+              type: string
+              maxLength: 2083
+              minLength: 1
+              format: uri
+            type: array
+          - type: 'null'
+          title: Server Urls
+      type: object
+      title: MCPConfig
+      description: MCP (Model Context Protocol) proxy configuration.

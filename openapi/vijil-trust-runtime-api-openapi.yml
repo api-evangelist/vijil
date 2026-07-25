@@ -1,0 +1,181 @@
+openapi: 3.1.0
+info:
+  title: Vijil Console API (Combined) agent-configurations Trust Runtime API
+  description: Combined OpenAPI specification for all vijil-console microservices.
+  version: 0.1.0
+tags:
+- name: Trust Runtime
+paths:
+  /v1/agents/{agent_id}/constraints:
+    get:
+      tags:
+      - Trust Runtime
+      summary: Fetch agent trust constraints
+      description: Returns the agent's trust constraints (Dome guard config, tool permissions, organization rules, enforcement mode) in the format consumed by the vijil-sdk Trust Runtime at boot.
+      operationId: get_agent_constraints_v1_agents__agent_id__constraints_get
+      parameters:
+      - name: agent_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Agent Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentConstraints'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    ToolPermission:
+      properties:
+        name:
+          type: string
+          title: Name
+        identity:
+          type: string
+          title: Identity
+        endpoint:
+          type: string
+          title: Endpoint
+        allowed_actions:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Allowed Actions
+      type: object
+      required:
+      - name
+      - identity
+      - endpoint
+      title: ToolPermission
+      description: Permission entry for a single tool an agent is allowed to call.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    OrganizationConstraints:
+      properties:
+        required_input_guards:
+          items:
+            type: string
+          type: array
+          title: Required Input Guards
+        required_output_guards:
+          items:
+            type: string
+          type: array
+          title: Required Output Guards
+        denied_tools:
+          items:
+            type: string
+          type: array
+          title: Denied Tools
+        max_model_tier:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Max Model Tier
+      type: object
+      required:
+      - required_input_guards
+      - required_output_guards
+      - denied_tools
+      title: OrganizationConstraints
+      description: Organization-level policy constraints applied to all agents in the org.
+    AgentConstraints:
+      properties:
+        agent_id:
+          type: string
+          title: Agent Id
+        dome_config:
+          $ref: '#/components/schemas/DomeGuardConfig'
+        tool_permissions:
+          items:
+            $ref: '#/components/schemas/ToolPermission'
+          type: array
+          title: Tool Permissions
+        organization:
+          $ref: '#/components/schemas/OrganizationConstraints'
+        enforcement_mode:
+          type: string
+          enum:
+          - warn
+          - enforce
+          title: Enforcement Mode
+        updated_at:
+          type: string
+          format: date-time
+          title: Updated At
+      type: object
+      required:
+      - agent_id
+      - dome_config
+      - tool_permissions
+      - organization
+      - enforcement_mode
+      - updated_at
+      title: AgentConstraints
+      description: Full constraint set for a single agent — what the SDK fetches at boot.
+    DomeGuardConfig:
+      properties:
+        input_guards:
+          items:
+            type: string
+          type: array
+          title: Input Guards
+        output_guards:
+          items:
+            type: string
+          type: array
+          title: Output Guards
+        guards:
+          additionalProperties:
+            additionalProperties: true
+            type: object
+          type: object
+          title: Guards
+      type: object
+      required:
+      - input_guards
+      - output_guards
+      - guards
+      title: DomeGuardConfig
+      description: Dome guardrail configuration shape consumed by the SDK at boot.

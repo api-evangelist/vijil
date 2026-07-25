@@ -1,0 +1,479 @@
+openapi: 3.1.0
+info:
+  title: Vijil Console API (Combined) agent-configurations dome-configs API
+  description: Combined OpenAPI specification for all vijil-console microservices.
+  version: 0.1.0
+tags:
+- name: dome-configs
+paths:
+  /v1/dome-configs:
+    post:
+      tags:
+      - dome-configs
+      summary: Create Dome Config
+      description: 'Create a new Dome configuration.
+
+
+        If no config_body is provided, uses the default configuration.
+
+        A dome config is standalone and can be assigned to multiple agents via the agent''s dome_config_id.'
+      operationId: create_dome_config_v1_dome_configs_post
+      parameters:
+      - name: team_id
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+          description: Team ID (required)
+          title: Team Id
+        description: Team ID (required)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DomeConfigCreate'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DomeConfigResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    get:
+      tags:
+      - dome-configs
+      summary: List Dome Configs
+      description: List dome configs for the team; optional filter by bound agent_id column.
+      operationId: list_dome_configs_v1_dome_configs_get
+      parameters:
+      - name: team_id
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+          description: Team ID (required)
+          title: Team Id
+        description: Team ID (required)
+      - name: agent_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          description: If set, only configs whose dome_configs.agent_id matches (paginated).
+          title: Agent Id
+        description: If set, only configs whose dome_configs.agent_id matches (paginated).
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 1000
+          minimum: 1
+          description: Page size
+          default: 100
+          title: Limit
+        description: Page size
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          description: Pagination offset
+          default: 0
+          title: Offset
+        description: Pagination offset
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DomeConfigListResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/dome-configs/{config_id}:
+    get:
+      tags:
+      - dome-configs
+      summary: Get Dome Config
+      description: Get a Dome configuration by ID.
+      operationId: get_dome_config_v1_dome_configs__config_id__get
+      parameters:
+      - name: config_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Config Id
+      - name: team_id
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+          description: Team ID (required)
+          title: Team Id
+        description: Team ID (required)
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DomeConfigResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    put:
+      tags:
+      - dome-configs
+      summary: Update Dome Config
+      description: Update a Dome configuration.
+      operationId: update_dome_config_v1_dome_configs__config_id__put
+      parameters:
+      - name: config_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Config Id
+      - name: team_id
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+          description: Team ID (required)
+          title: Team Id
+        description: Team ID (required)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DomeConfigUpdate'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DomeConfigResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    patch:
+      tags:
+      - dome-configs
+      summary: Patch Dome Config
+      description: Partially update a Dome configuration (e.g. set or clear dome instance URL).
+      operationId: patch_dome_config_v1_dome_configs__config_id__patch
+      parameters:
+      - name: config_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Config Id
+      - name: team_id
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+          description: Team ID (required)
+          title: Team Id
+        description: Team ID (required)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DomeConfigPatch'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DomeConfigResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - dome-configs
+      summary: Delete Dome Config
+      description: Delete a Dome configuration.
+      operationId: delete_dome_config_v1_dome_configs__config_id__delete
+      parameters:
+      - name: config_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Config Id
+      - name: team_id
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+          description: Team ID (required)
+          title: Team Id
+        description: Team ID (required)
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/dome-configs/{config_id}/apply:
+    post:
+      tags:
+      - dome-configs
+      summary: Apply Dome Config
+      description: 'Apply a saved dome config: promotes config_pending.json to config.json and binds it to the agent.
+
+
+        Backs up the existing config.json as {config_id}_config.json, promotes
+
+        config_pending.json to config.json, and sets the agent''s dome_config_id
+
+        and protection_status to domed.'
+      operationId: apply_dome_config_v1_dome_configs__config_id__apply_post
+      parameters:
+      - name: config_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Config Id
+      - name: team_id
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+          description: Team ID (required)
+          title: Team Id
+        description: Team ID (required)
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DomeConfigResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/default-dome-config:
+    get:
+      tags:
+      - dome-configs
+      summary: Get Default Dome Config
+      description: 'Get the default Dome configuration.
+
+
+        Returns the default guard configuration for new agents.
+
+        This endpoint does not require authentication.'
+      operationId: get_default_dome_config_v1_default_dome_config_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+                title: Response Get Default Dome Config V1 Default Dome Config Get
+components:
+  schemas:
+    DomeConfigUpdate:
+      properties:
+        config_body:
+          additionalProperties: true
+          type: object
+          title: Config Body
+          description: Updated guard configuration.
+      type: object
+      required:
+      - config_body
+      title: DomeConfigUpdate
+      description: Request model for updating a Dome configuration.
+    DomeConfigCreate:
+      properties:
+        config_body:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Config Body
+          description: Guard configuration. If not provided, uses default config.
+        agent_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Agent Id
+          description: Agent to bind this config to. When set, writes config_pending.json to storage.
+      type: object
+      title: DomeConfigCreate
+      description: Request model for creating a Dome configuration.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    DomeConfigPatch:
+      properties:
+        dome_instance_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Dome Instance Url
+          description: Dome instance URL to set, or null to clear.
+      type: object
+      required:
+      - dome_instance_url
+      title: DomeConfigPatch
+      description: Request model for partial update (PATCH) of a Dome configuration.
+    DomeConfigListResponse:
+      properties:
+        dome_configs:
+          items:
+            $ref: '#/components/schemas/DomeConfigResponse'
+          type: array
+          title: Dome Configs
+        count:
+          type: integer
+          title: Count
+      type: object
+      required:
+      - dome_configs
+      - count
+      title: DomeConfigListResponse
+      description: Response model for listing Dome configurations.
+    DomeConfigResponse:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        status:
+          type: string
+          title: Status
+          default: pending
+        agent_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Agent Id
+        config_body:
+          additionalProperties: true
+          type: object
+          title: Config Body
+        dome_instance_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Dome Instance Url
+        created_at:
+          type: integer
+          title: Created At
+        created_by:
+          type: string
+          format: uuid
+          title: Created By
+        updated_at:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Updated At
+        updated_by:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Updated By
+      type: object
+      required:
+      - id
+      - created_at
+      - created_by
+      title: DomeConfigResponse
+      description: 'API response model for Dome configuration.
+
+
+        ``id`` and optional ``agent_id`` are top-level fields. ``config_body`` is the
+
+        guard configuration dict (Dome-facing payload). Other metadata (e.g. team_id,
+
+        timestamps, created_by) is included in the wire shape as returned by the domain
+
+        model''s ``to_wire()`` — see OpenAPI schema for the full response shape.'

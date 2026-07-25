@@ -1,0 +1,1257 @@
+openapi: 3.1.0
+info:
+  title: Vijil Console API (Combined) agent-configurations API
+  description: Combined OpenAPI specification for all vijil-console microservices.
+  version: 0.1.0
+tags:
+- name: agent-configurations
+paths:
+  /v1/agent-configurations/:
+    post:
+      tags:
+      - agent-configurations
+      summary: Create Agent Configuration
+      description: 'Create a new agent configuration.
+
+
+        This endpoint accepts AgentConfigRequest format from the frontend and transforms it
+
+        to the internal AgentCreate format. The agent_url field is preserved.
+
+
+        Requires agent:write permission.'
+      operationId: create_agent_configuration_v1_agent_configurations__post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AgentConfigRequest'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Agent'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    get:
+      tags:
+      - agent-configurations
+      summary: Get Agent Configurations
+      description: 'List agent configurations with filtering and pagination.
+
+
+        Requires agent:read permission (all team members) or
+
+        agent:read_all permission (super admin).'
+      operationId: get_agent_configurations_v1_agent_configurations__get
+      parameters:
+      - name: statuses
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: array
+            items:
+              type: string
+          - type: 'null'
+          description: Filter by status(es). If not provided, defaults to non-archived statuses.
+          title: Statuses
+        description: Filter by status(es). If not provided, defaults to non-archived statuses.
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          description: Maximum number of results
+          default: 100
+          title: Limit
+        description: Maximum number of results
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          description: Number of results to skip
+          default: 0
+          title: Offset
+        description: Number of results to skip
+      - name: include_scores
+        in: query
+        required: false
+        schema:
+          type: boolean
+          description: When true, sideloads the latest completed evaluation scores onto each agent.
+          default: false
+          title: Include Scores
+        description: When true, sideloads the latest completed evaluation scores onto each agent.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentConfigListResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/agent-configurations/{id}:
+    get:
+      tags:
+      - agent-configurations
+      summary: Get Agent Configuration By Id
+      description: 'Get a single agent configuration by ID.
+
+
+        Requires agent:read permission (all team members) or
+
+        agent:read_all permission (super admin).'
+      operationId: get_agent_configuration_by_id_v1_agent_configurations__id__get
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Id
+      - name: include_scores
+        in: query
+        required: false
+        schema:
+          type: boolean
+          description: When true, sideloads the latest completed evaluation scores onto the agent.
+          default: false
+          title: Include Scores
+        description: When true, sideloads the latest completed evaluation scores onto the agent.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Agent'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    put:
+      tags:
+      - agent-configurations
+      summary: Update Agent Configuration
+      description: "Update an existing agent configuration.\n\nSupports partial updates - you can update just the api_key field, or any other field(s).\nAll fields in the request body are optional.\n\nRequires agent:write permission + billing feature 'write_custom_agent'.\n\nExample:\n    # Update only the API key\n    PUT /agent-configurations/{id}\n    {\n      \"api_key\": \"sk-new-key-value\"\n    }\n    \n    # Update multiple fields\n    PUT /agent-configurations/{id}\n    {\n      \"agent_name\": \"New Name\",\n      \"api_key\": \"sk-new-key-value\",\n      \"mcp_config\": {\"proxy_url\": \"https://proxy.example.com\", \"access_level\": \"read\"}\n    }\n    \n    # Enable/disable dome auto-apply (when true, saving dome config auto-applies it)\n    PUT /agent-configurations/{id}\n    {\n      \"dome_manually_configured\": true\n    }"
+      operationId: update_agent_configuration_v1_agent_configurations__id__put
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AgentUpdate'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Agent'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/agent-configurations/{id}/archive:
+    put:
+      tags:
+      - agent-configurations
+      summary: Archive Agent Configuration
+      description: 'Archive agent configuration.
+
+
+        Sets the agent status to ARCHIVED.
+
+        Requires agent:write permission (all team members) or
+
+        agent:write_all permission (super admin).'
+      operationId: archive_agent_configuration_v1_agent_configurations__id__archive_put
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Agent'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/agent-configurations/{id}/lifecycle:
+    put:
+      tags:
+      - agent-configurations
+      summary: Update Agent Lifecycle
+      description: 'Update agent trust lifecycle stage.
+
+
+        Requires agent:write permission (all team members) or
+
+        agent:write_all permission (super admin).
+
+
+        Setting trust_stage to ''hardened'' captures trusted_at and computes ttt_days.'
+      operationId: update_agent_lifecycle_v1_agent_configurations__id__lifecycle_put
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AgentLifecycleUpdate'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Agent'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/agent-configurations/{agent_id}/dome-configs:
+    get:
+      tags:
+      - agent-configurations
+      summary: Get Agent Dome Config
+      description: Return the dome configuration this agent is using (row-bound and/or ``dome_config_id``).
+      operationId: get_agent_dome_config_v1_agent_configurations__agent_id__dome_configs_get
+      parameters:
+      - name: agent_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Agent Id
+      - name: team_id
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+          description: Team ID (required)
+          title: Team Id
+        description: Team ID (required)
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentDomeConfigResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/agent-configurations/{id}/evaluation-config:
+    get:
+      tags:
+      - agent-configurations
+      summary: Get Evaluation Config
+      description: 'Get agent configuration for Diamond evaluation.
+
+
+        Returns agent_url, agent_api_key, and agent_model_name needed for evaluation.
+
+        Requires agent:read permission (all team members) or
+
+        agent:read_all permission (super admin).'
+      operationId: get_evaluation_config_v1_agent_configurations__id__evaluation_config_get
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentEvaluationConfig'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    AccessLevel:
+      type: string
+      enum:
+      - black_box
+      - grey_box
+      - white_box
+      title: AccessLevel
+      description: 'Access level for agent analysis.
+
+
+        Black Box: URL only - behavioral testing only
+
+        Grey Box: Agent configuration - structure/capabilities analysis
+
+        White Box: Source code access - full code + sandbox runtime analysis'
+    AgentConfigListResponse:
+      properties:
+        results:
+          items:
+            $ref: '#/components/schemas/Agent'
+          type: array
+          title: Results
+        count:
+          type: integer
+          title: Count
+      type: object
+      required:
+      - results
+      - count
+      title: AgentConfigListResponse
+      description: List response model.
+    ImportMetadata:
+      properties:
+        source:
+          anyOf:
+          - $ref: '#/components/schemas/ImportSource'
+          - type: 'null'
+        source_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source Url
+        imported_at:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Imported At
+        original_format:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Original Format
+      type: object
+      title: ImportMetadata
+      description: Metadata about how an agent was imported.
+    TrustLifecycleStage:
+      type: string
+      enum:
+      - registered
+      - tested
+      - hardened
+      - trusted
+      - optimized
+      - adapted
+      title: TrustLifecycleStage
+      description: Trust maturity lifecycle stage for an agent.
+    AgentStatus:
+      type: string
+      enum:
+      - draft
+      - creating
+      - active
+      - under_review
+      - deprecated
+      - archived
+      - pending
+      - rejected
+      title: AgentStatus
+      description: Agent status values.
+    AgentDomeConfigResponse:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        status:
+          type: string
+          title: Status
+          default: pending
+        agent_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Agent Id
+        config_body:
+          additionalProperties: true
+          type: object
+          title: Config Body
+        dome_instance_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Dome Instance Url
+        created_at:
+          type: integer
+          title: Created At
+        created_by:
+          type: string
+          format: uuid
+          title: Created By
+        updated_at:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Updated At
+        updated_by:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Updated By
+      type: object
+      required:
+      - id
+      - created_at
+      - created_by
+      title: AgentDomeConfigResponse
+      description: Dome config in use for an agent (same wire shape as ``GET /dome-configs/{config_id}``).
+    AgentParams:
+      properties:
+        temperature:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Temperature
+        top_p:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Top P
+        max_tokens:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Max Tokens
+        timeout:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Timeout
+        rag_params:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Rag Params
+        function_route_params:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Function Route Params
+      type: object
+      title: AgentParams
+      description: Model parameters for agent configuration.
+    AgentSkill:
+      properties:
+        id:
+          type: string
+          title: Id
+        name:
+          type: string
+          title: Name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        input_modes:
+          items:
+            type: string
+          type: array
+          title: Input Modes
+        output_modes:
+          items:
+            type: string
+          type: array
+          title: Output Modes
+      type: object
+      required:
+      - id
+      - name
+      title: AgentSkill
+      description: An agent skill definition (for A2A protocol agents).
+    AgentCapabilities:
+      properties:
+        streaming:
+          type: boolean
+          title: Streaming
+          default: false
+        push_notifications:
+          type: boolean
+          title: Push Notifications
+          default: false
+        code_execution:
+          type: boolean
+          title: Code Execution
+          default: false
+        memory:
+          type: boolean
+          title: Memory
+          default: false
+        delegation:
+          type: boolean
+          title: Delegation
+          default: false
+        tools:
+          items:
+            type: string
+          type: array
+          title: Tools
+      type: object
+      title: AgentCapabilities
+      description: Agent capability flags.
+    AgentLatestEvaluation:
+      properties:
+        evaluation_id:
+          type: string
+          format: uuid
+          title: Evaluation Id
+        overall_score:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Overall Score
+        reliability_score:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Reliability Score
+        security_score:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Security Score
+        safety_score:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Safety Score
+        completed_at:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Completed At
+      type: object
+      required:
+      - evaluation_id
+      title: AgentLatestEvaluation
+      description: 'Latest completed evaluation scores for an agent.
+
+
+        Sideloaded on GET /agent-configurations when include_scores=true.
+
+        Contains only domain-level score data — no UI or presentation concerns.'
+    ImportSource:
+      type: string
+      enum:
+      - manual
+      title: ImportSource
+      description: Import source for agent configuration.
+    WhiteBoxConfig-Input:
+      properties:
+        source_code:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source Code
+        repo_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Repo Url
+        github_username:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Github Username
+        github_token:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Github Token
+        repo_branch:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Repo Branch
+        entry_point:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Entry Point
+      type: object
+      title: WhiteBoxConfig
+      description: Source code access configuration for white box analysis.
+    ProtectionStatus:
+      type: string
+      enum:
+      - unprotected
+      - configured
+      - domed
+      title: ProtectionStatus
+      description: Dome protection lifecycle state.
+    AgentMetadata:
+      properties:
+        role:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Role
+        job_description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Job Description
+        version:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Version
+        author:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Author
+        tags:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Tags
+      type: object
+      title: AgentMetadata
+      description: Agent metadata for display and organization.
+    AgentLifecycleUpdate:
+      properties:
+        trust_stage:
+          $ref: '#/components/schemas/TrustLifecycleStage'
+      type: object
+      required:
+      - trust_stage
+      title: AgentLifecycleUpdate
+      description: Request model for updating an agent's trust lifecycle stage.
+    ProtocolType:
+      type: string
+      enum:
+      - chat_completions
+      - a2a
+      title: ProtocolType
+      description: Communication protocol for agent endpoints.
+    AgentConfigRequest:
+      properties:
+        id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Id
+        hub:
+          type: string
+          title: Hub
+          default: custom
+        model_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Model Name
+        agent_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Agent Name
+        agent_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Agent Url
+        hub_config:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Hub Config
+        status:
+          type: string
+          title: Status
+          default: active
+        api_key_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Api Key Id
+        api_key:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Api Key
+        agent_system_prompt:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Agent System Prompt
+        agent_policy_files:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Agent Policy Files
+        rag_params:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Rag Params
+        function_route_params:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Function Route Params
+        mcp_config:
+          anyOf:
+          - $ref: '#/components/schemas/MCPConfig'
+          - type: 'null'
+      type: object
+      title: AgentConfigRequest
+      description: 'Request model for creating agent configurations (POST /agent-configurations).
+
+
+        Used only by the create endpoint. The update endpoint (PUT /{id}) accepts
+
+        AgentUpdate instead.
+
+        model_name and agent_name are required for create (validated in endpoint).
+
+        hub_config, api_key_id, agent_policy_files are ignored for backward compat.'
+    Agent:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        agent_name:
+          type: string
+          title: Agent Name
+        model_name:
+          type: string
+          title: Model Name
+        agent_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Agent Url
+        hub:
+          type: string
+          title: Hub
+          default: custom
+        api_key:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Api Key
+        agent_system_prompt:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Agent System Prompt
+        rate_limit_requests_per_minute:
+          type: integer
+          minimum: 1
+          title: Rate Limit Requests Per Minute
+          description: Rate limit for API requests per minute
+          default: 100
+        team_id:
+          type: string
+          format: uuid
+          title: Team Id
+        created_by:
+          type: string
+          format: uuid
+          title: Created By
+        status:
+          $ref: '#/components/schemas/AgentStatus'
+          default: active
+        created_at:
+          type: integer
+          title: Created At
+        updated_at:
+          type: integer
+          title: Updated At
+        access_level:
+          $ref: '#/components/schemas/AccessLevel'
+          default: black_box
+        agent_params:
+          anyOf:
+          - $ref: '#/components/schemas/AgentParams'
+          - type: 'null'
+        mcp_config:
+          anyOf:
+          - $ref: '#/components/schemas/MCPConfig'
+          - type: 'null'
+        delegated_agents:
+          items:
+            $ref: '#/components/schemas/DelegatedAgent'
+          type: array
+          title: Delegated Agents
+        white_box_config:
+          anyOf:
+          - $ref: '#/components/schemas/WhiteBoxConfig-Output'
+          - type: 'null'
+        agent_metadata:
+          anyOf:
+          - $ref: '#/components/schemas/AgentMetadata'
+          - type: 'null'
+        purpose:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Purpose
+        protocol:
+          $ref: '#/components/schemas/ProtocolType'
+          default: chat_completions
+        test_score:
+          anyOf:
+          - type: string
+            pattern: ^(?!^[-+.]*$)[+-]?0*\d*\.?\d*$
+          - type: 'null'
+          title: Test Score
+        last_tested_by:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Last Tested By
+        evaluated_harnesses:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Evaluated Harnesses
+        last_evaluated_at:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Last Evaluated At
+        protection_status:
+          $ref: '#/components/schemas/ProtectionStatus'
+          default: unprotected
+        trust_stage:
+          $ref: '#/components/schemas/TrustLifecycleStage'
+          default: registered
+        trusted_at:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Trusted At
+        ttt_days:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Ttt Days
+        dome_config_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Dome Config Id
+        dome_manually_configured:
+          type: boolean
+          title: Dome Manually Configured
+          default: false
+        import_metadata:
+          anyOf:
+          - $ref: '#/components/schemas/ImportMetadata'
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Import Metadata
+        capabilities:
+          anyOf:
+          - $ref: '#/components/schemas/AgentCapabilities'
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Capabilities
+        skills:
+          items:
+            anyOf:
+            - $ref: '#/components/schemas/AgentSkill'
+            - additionalProperties: true
+              type: object
+          type: array
+          title: Skills
+        latest_evaluation:
+          anyOf:
+          - $ref: '#/components/schemas/AgentLatestEvaluation'
+          - type: 'null'
+      type: object
+      required:
+      - id
+      - agent_name
+      - model_name
+      - team_id
+      - created_by
+      - created_at
+      - updated_at
+      title: Agent
+      description: Agent domain model.
+    MCPAccessLevel:
+      type: string
+      enum:
+      - read
+      - write
+      - admin
+      title: MCPAccessLevel
+      description: MCP (Model Context Protocol) access level values.
+    DelegatedAgent:
+      properties:
+        url:
+          type: string
+          title: Url
+        agent_card_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Agent Card Url
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+        capabilities:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Capabilities
+      type: object
+      required:
+      - url
+      title: DelegatedAgent
+      description: Reference to a delegated agent.
+    WhiteBoxConfig-Output:
+      properties:
+        source_code:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source Code
+        repo_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Repo Url
+        github_username:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Github Username
+        repo_branch:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Repo Branch
+        entry_point:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Entry Point
+      type: object
+      title: WhiteBoxConfig
+      description: Source code access configuration for white box analysis.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    AgentUpdate:
+      properties:
+        status:
+          anyOf:
+          - $ref: '#/components/schemas/AgentStatus'
+          - type: 'null'
+        agent_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Agent Name
+        agent_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Agent Url
+        model_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Model Name
+        api_key:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Api Key
+          description: API key value. Stored directly in the agent configuration.
+        agent_system_prompt:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Agent System Prompt
+        hub:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Hub
+        rate_limit_requests_per_minute:
+          anyOf:
+          - type: integer
+            minimum: 1
+          - type: 'null'
+          title: Rate Limit Requests Per Minute
+          description: Rate limit for API requests per minute
+        access_level:
+          anyOf:
+          - $ref: '#/components/schemas/AccessLevel'
+          - type: 'null'
+        agent_params:
+          anyOf:
+          - $ref: '#/components/schemas/AgentParams'
+          - type: 'null'
+        mcp_config:
+          anyOf:
+          - $ref: '#/components/schemas/MCPConfig'
+          - type: 'null'
+        delegated_agents:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/DelegatedAgent'
+            type: array
+          - type: 'null'
+          title: Delegated Agents
+        white_box_config:
+          anyOf:
+          - $ref: '#/components/schemas/WhiteBoxConfig-Input'
+          - type: 'null'
+        agent_metadata:
+          anyOf:
+          - $ref: '#/components/schemas/AgentMetadata'
+          - type: 'null'
+        purpose:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Purpose
+        protocol:
+          anyOf:
+          - $ref: '#/components/schemas/ProtocolType'
+          - type: 'null'
+        test_score:
+          anyOf:
+          - type: number
+          - type: string
+            pattern: ^(?!^[-+.]*$)[+-]?0*\d*\.?\d*$
+          - type: 'null'
+          title: Test Score
+        last_tested_by:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Last Tested By
+        evaluated_harnesses:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Evaluated Harnesses
+        last_evaluated_at:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Last Evaluated At
+        protection_status:
+          anyOf:
+          - $ref: '#/components/schemas/ProtectionStatus'
+          - type: 'null'
+        dome_config_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Dome Config Id
+        dome_manually_configured:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Dome Manually Configured
+      type: object
+      title: AgentUpdate
+      description: Model for updating an agent (all fields optional).
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    AgentEvaluationConfig:
+      properties:
+        hub:
+          type: string
+          title: Hub
+          description: Hub type for routing to correct SDK client
+          default: custom
+        protocol:
+          $ref: '#/components/schemas/ProtocolType'
+          description: Agent protocol; used when normalizing agent_url for evaluation.
+          default: chat_completions
+        agent_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Agent Url
+          description: Agent/LLM endpoint URL. Required for black box agents and custom hub grey/white box agents.
+        agent_api_key:
+          type: string
+          title: Agent Api Key
+        agent_model_name:
+          type: string
+          title: Agent Model Name
+        agent_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Agent Name
+          description: Human-readable name of the agent (for reports and display)
+        rate_limit_requests_per_minute:
+          type: integer
+          minimum: 1
+          title: Rate Limit Requests Per Minute
+          description: Rate limit for API requests per minute
+          default: 100
+      type: object
+      required:
+      - agent_api_key
+      - agent_model_name
+      title: AgentEvaluationConfig
+      description: 'Configuration for Diamond evaluation (resolved from agent).
+
+
+        URL requirements depend on access level:
+
+        - Black Box: agent_url is ALWAYS required (it''s where the opaque agent lives)
+
+        - Grey/White Box: agent_url is only required for non-standard hubs (custom LLM endpoints)
+
+
+        For standard hubs (OpenAI, Anthropic, etc.) in grey/white box mode,
+
+        the SDK uses default endpoints so no URL is needed.
+
+
+        ``protocol`` is included in workflow params so the Diamond worker can normalize ``agent_url``
+
+        (e.g. ``.../v1/`` for chat_completions) even when the stored workflow predates registry fixes.'
+    MCPConfig:
+      properties:
+        proxy_url:
+          anyOf:
+          - type: string
+            maxLength: 2083
+            minLength: 1
+            format: uri
+          - type: 'null'
+          title: Proxy Url
+        access_level:
+          anyOf:
+          - $ref: '#/components/schemas/MCPAccessLevel'
+          - type: 'null'
+        server_urls:
+          anyOf:
+          - items:
+              type: string
+              maxLength: 2083
+              minLength: 1
+              format: uri
+            type: array
+          - type: 'null'
+          title: Server Urls
+      type: object
+      title: MCPConfig
+      description: MCP (Model Context Protocol) proxy configuration.

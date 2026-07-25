@@ -1,0 +1,230 @@
+openapi: 3.1.0
+info:
+  title: Vijil Console API (Combined) agent-configurations auth API
+  description: Combined OpenAPI specification for all vijil-console microservices.
+  version: 0.1.0
+tags:
+- name: auth
+paths:
+  /v1/auth/jwt/login:
+    post:
+      tags:
+      - auth
+      summary: Jwt Login
+      description: "Authenticate with email + password, sets JWT token in httpOnly cookie.\n\nArgs:\n    login_request: Login credentials (email and password)\n    response: FastAPI response object to set cookies\n    user_manager: FastAPI Users user manager\n\nReturns:\n    JWT token response with access_token and token_type (token also set in httpOnly cookie)\n\nRaises:\n    HTTPException: If authentication fails"
+      operationId: jwt_login_v1_auth_jwt_login_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+                title: Response Jwt Login V1 Auth Jwt Login Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/auth/jwt/logout:
+    post:
+      tags:
+      - auth
+      summary: Jwt Logout
+      description: "Logout user by clearing the authentication cookie.\n\nArgs:\n    response: FastAPI response object to clear cookies\n\nReturns:\n    Success message"
+      operationId: jwt_logout_v1_auth_jwt_logout_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+                title: Response Jwt Logout V1 Auth Jwt Logout Post
+  /v1/auth/users/me:
+    get:
+      tags:
+      - auth
+      summary: Get Current User Info
+      description: "Get the currently authenticated user's information.\n\nArgs:\n    current_user: Current authenticated user (from JWT claims)\n\nReturns:\n    Current user information"
+      operationId: get_current_user_info_v1_auth_users_me_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserRead'
+  /v1/auth/jwt/refresh:
+    post:
+      tags:
+      - auth
+      summary: Jwt Refresh
+      description: "Refresh JWT token.\n\nAccepts a valid or expired JWT token and returns a new token with\nfresh expiration. The token can be provided in a cookie or Authorization header.\n\nArgs:\n    request: FastAPI request object\n    response: FastAPI response object to set cookies\n    user_manager: FastAPI Users user manager\n    session: Database session\n\nReturns:\n    JWT token response with access_token and token_type (also sets cookie)\n\nRaises:\n    HTTPException: If token is invalid or user not found"
+      operationId: jwt_refresh_v1_auth_jwt_refresh_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+                title: Response Jwt Refresh V1 Auth Jwt Refresh Post
+  /v1/auth/change-password:
+    post:
+      tags:
+      - auth
+      summary: Change Password
+      description: "Change the current user's password.\n\nVerifies the current password, updates to the new password,\nclears the password_change_required flag, and returns a fresh JWT.\n\nArgs:\n    request: Change password request with current and new passwords\n    response: FastAPI response object to set cookies\n    claims: JWT claims from middleware\n    user_manager: FastAPI Users user manager\n    session: Database session\n\nReturns:\n    JWT token response with access_token and token_type\n\nRaises:\n    UnauthenticatedException: If current password is invalid\n    BadRequestException: If new password is same as current or invalid"
+      operationId: change_password_v1_auth_change_password_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChangePasswordRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+                title: Response Change Password V1 Auth Change Password Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    UserRead:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        email:
+          type: string
+          format: email
+          title: Email
+        is_active:
+          type: boolean
+          title: Is Active
+          default: true
+        is_superuser:
+          type: boolean
+          title: Is Superuser
+          default: false
+        is_verified:
+          type: boolean
+          title: Is Verified
+          default: false
+        given_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Given Name
+        family_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Family Name
+        external_user_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: External User Id
+        profile_image:
+          anyOf:
+          - type: string
+            maxLength: 2083
+            minLength: 1
+            format: uri
+          - type: 'null'
+          title: Profile Image
+        password_change_required:
+          type: boolean
+          title: Password Change Required
+          default: false
+        is_super_admin:
+          type: boolean
+          title: Is Super Admin
+          default: false
+      type: object
+      required:
+      - id
+      - email
+      title: UserRead
+      description: Returned to clients when reading user info.
+    LoginRequest:
+      properties:
+        email:
+          type: string
+          title: Email
+        password:
+          type: string
+          title: Password
+      type: object
+      required:
+      - email
+      - password
+      title: LoginRequest
+      description: Login request model.
+    ChangePasswordRequest:
+      properties:
+        current_password:
+          type: string
+          title: Current Password
+        new_password:
+          type: string
+          minLength: 8
+          title: New Password
+      type: object
+      required:
+      - current_password
+      - new_password
+      title: ChangePasswordRequest
+      description: Request model for changing password.

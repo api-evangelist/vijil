@@ -1,0 +1,298 @@
+openapi: 3.1.0
+info:
+  title: Vijil Console API (Combined) agent-configurations proposals API
+  description: Combined OpenAPI specification for all vijil-console microservices.
+  version: 0.1.0
+tags:
+- name: proposals
+paths:
+  /v1/proposals/{proposal_id}:
+    get:
+      tags:
+      - proposals
+      summary: Get Proposal By Id
+      description: 'Get a single mutation proposal by ID.
+
+
+        Proxies to Darwin''s GET /v1/proposals/{proposal_id} with team_id
+
+        extracted from JWT claims.'
+      operationId: get_proposal_by_id_v1_proposals__proposal_id__get
+      parameters:
+      - name: proposal_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Proposal Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Proposal'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/proposals/{proposal_id}/approve:
+    post:
+      tags:
+      - proposals
+      summary: Approve Proposal
+      description: 'Approve a mutation proposal.
+
+
+        Extracts user_id from JWT claims — users cannot approve on behalf
+
+        of others. Forwards to Darwin''s POST /v1/proposals/{id}/approve.'
+      operationId: approve_proposal_v1_proposals__proposal_id__approve_post
+      parameters:
+      - name: proposal_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Proposal Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApproveProposalRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Proposal'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/proposals/{proposal_id}/reject:
+    post:
+      tags:
+      - proposals
+      summary: Reject Proposal
+      description: 'Reject a mutation proposal.
+
+
+        Extracts user_id from JWT claims. Notes default to empty string
+
+        since Darwin requires notes for rejection.'
+      operationId: reject_proposal_v1_proposals__proposal_id__reject_post
+      parameters:
+      - name: proposal_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Proposal Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RejectProposalRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Proposal'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    ProposedMutation:
+      properties:
+        gene_name:
+          type: string
+          title: Gene Name
+        current_value:
+          title: Current Value
+        proposed_value:
+          title: Proposed Value
+        rationale:
+          type: string
+          title: Rationale
+        confidence:
+          type: number
+          title: Confidence
+      type: object
+      required:
+      - gene_name
+      - current_value
+      - proposed_value
+      - rationale
+      - confidence
+      title: ProposedMutation
+      description: A single proposed gene mutation.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    Proposal:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        team_id:
+          type: string
+          format: uuid
+          title: Team Id
+        agent_id:
+          type: string
+          format: uuid
+          title: Agent Id
+        genome_id:
+          type: string
+          format: uuid
+          title: Genome Id
+        genome_version:
+          type: integer
+          title: Genome Version
+        status:
+          type: string
+          title: Status
+        created_at:
+          type: integer
+          title: Created At
+        trigger_summary:
+          type: string
+          title: Trigger Summary
+          default: ''
+        mutations:
+          items:
+            $ref: '#/components/schemas/ProposedMutation'
+          type: array
+          title: Mutations
+          default: []
+        pre_fitness:
+          anyOf:
+          - additionalProperties:
+              type: number
+            type: object
+          - type: 'null'
+          title: Pre Fitness
+        post_fitness:
+          anyOf:
+          - additionalProperties:
+              type: number
+            type: object
+          - type: 'null'
+          title: Post Fitness
+        fitness_delta:
+          anyOf:
+          - additionalProperties:
+              type: number
+            type: object
+          - type: 'null'
+          title: Fitness Delta
+        net_fitness_delta:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Net Fitness Delta
+        reviewed_at:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Reviewed At
+        reviewed_by:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Reviewed By
+        reviewer_notes:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Reviewer Notes
+        engine_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Engine Name
+        extra:
+          additionalProperties: true
+          type: object
+          title: Extra
+          default: {}
+      type: object
+      required:
+      - id
+      - team_id
+      - agent_id
+      - genome_id
+      - genome_version
+      - status
+      - created_at
+      title: Proposal
+      description: 'Console-side view of a Darwin mutation proposal.
+
+
+        Captures the fields Console needs for display and review workflow.
+
+        Additional Darwin-specific fields are preserved in `extra`.'
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ApproveProposalRequest:
+      properties:
+        notes:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Notes
+      type: object
+      title: ApproveProposalRequest
+    RejectProposalRequest:
+      properties:
+        notes:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Notes
+      type: object
+      title: RejectProposalRequest

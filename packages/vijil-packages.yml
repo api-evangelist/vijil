@@ -1,0 +1,57 @@
+generated: '2026-07-21'
+method: searched
+source: https://pypi.org/user/vijil/
+packages:
+  - language: python
+    registry: pypi
+    name: vijil-console
+    url: https://pypi.org/project/vijil-console/
+    install: pip install vijil-console
+    version: 0.1.26
+    official: true
+    description: CLI for the Vijil AI trust platform (the `vijil` command).
+    author: Vijil AI <engineering@vijil.ai>
+  - language: python
+    registry: pypi
+    name: vijil-mcp
+    url: https://pypi.org/project/vijil-mcp/
+    install: pip install vijil-mcp
+    version: 0.1.26
+    official: true
+    description: MCP server for the Vijil AI trust platform CLI (pulls in vijil-console).
+    author: Vijil AI <engineering@vijil.ai>
+  - language: python
+    registry: pypi
+    name: vijil-sdk
+    url: https://pypi.org/project/vijil-sdk/
+    install: pip install vijil-sdk
+    version: 0.0.1
+    official: true
+    description: Vijil SDK & CLI — measure and improve AI agent trustworthiness.
+    author: Vijil AI <eng@vijil.ai>
+  - language: python
+    registry: pypi
+    name: vijil-dome
+    url: https://pypi.org/project/vijil-dome/
+    install: pip install vijil-dome
+    version: 1.7.0
+    official: true
+    description: Vijil Dome runtime protection library (Guardrails, Guards, Detectors).
+    author: Pradeep Das <pradeep@vijil.ai>
+  - language: python
+    registry: pypi
+    name: vijil
+    url: https://pypi.org/project/vijil/
+    install: pip install vijil
+    version: 0.1.58
+    official: true
+    description: Legacy Python client for Vijil (superseded by vijil-sdk / vijil-console — see SDK migration guide).
+    author: Subho Majumdar <subho@vijil.ai>
+    deprecated: true
+  - language: python
+    registry: pypi
+    name: garak
+    url: https://pypi.org/project/garak/
+    install: pip install garak
+    official: false
+    description: LLM vulnerability scanner originated by Vijil's founder, now maintained by NVIDIA (github.com/NVIDIA/garak). Related open-source, not a first-party Vijil client.

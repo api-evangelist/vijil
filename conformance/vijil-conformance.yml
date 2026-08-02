@@ -1,0 +1,35 @@
+generated: '2026-07-21'
+method: derived
+source: openapi/vijil-openapi-original.json
+docs: https://vijil.ai/policies/trust-center
+standards:
+  - id: openapi-3.1
+    conforms: true
+    evidence: openapi/vijil-openapi-original.json declares openapi 3.1.0
+  - id: jwt-bearer-auth
+    conforms: true
+    evidence: REST API authenticates via JWT Bearer tokens (POST /v1/auth/jwt/login)
+  - id: oauth2
+    conforms: false
+    evidence: No oauth2 security scheme; auth is email/password -> JWT
+  - id: oidc
+    conforms: false
+  - id: rfc9457-problem-details
+    conforms: false
+    evidence: Errors use FastAPI HTTPValidationError (422), not application/problem+json
+  - id: pagination-limit-offset
+    conforms: true
+    evidence: List operations accept limit/offset query parameters
+  - id: idempotency
+    conforms: false
+    evidence: No Idempotency-Key contract documented or in spec
+  - id: soc2
+    conforms: true
+    evidence: Trust Center states program follows the SOC 2 Framework (aligned)
+    docs: https://vijil.ai/policies/trust-center
+  - id: owasp-llm-top-10
+    conforms: true
+    evidence: >-
+      Vijil Diamond evaluates agents against OWASP LLM Top 10 vulnerabilities as
+      a testing harness (product capability, not an API conformance claim).
+    docs: https://docs.vijil.ai/concepts/trust-score/security

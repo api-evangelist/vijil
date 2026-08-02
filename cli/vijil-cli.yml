@@ -1,0 +1,65 @@
+generated: '2026-07-21'
+method: searched
+source: https://docs.vijil.ai/developer-guide/cli/setup
+name: vijil
+binary: vijil
+package: vijil-console
+install:
+  - pip install vijil-console
+  - pipx install vijil-console
+config: ~/.vijil/config.yaml
+docs: https://docs.vijil.ai/developer-guide/cli/setup
+description: >-
+  First-party CLI for the Vijil AI trust platform. Points at a Vijil Console
+  gateway, authenticates via JWT, and drives the full agent-trust lifecycle
+  (register agents, evaluate, protect with Dome, red-team, telemetry). Also the
+  runtime behind the vijil-mcp MCP server.
+command_groups:
+  - group: auth
+    docs: https://docs.vijil.ai/developer-guide/cli/setup
+    commands:
+      - {name: 'auth init', description: Configure the Console gateway URL}
+      - {name: 'auth login', description: Log in and store JWT credentials}
+      - {name: 'auth logout', description: Clear stored credentials}
+      - {name: 'auth change-password', description: Change your account password}
+  - group: team
+    commands:
+      - {name: 'team list', description: List teams you belong to}
+      - {name: 'team use', description: Set the active team context}
+  - group: agent
+    docs: https://docs.vijil.ai/developer-guide/cli/agents
+    commands:
+      - {name: 'agent create', description: Create an Agent configuration}
+      - {name: 'agent list', description: List Agent configurations}
+  - group: harness
+    docs: https://docs.vijil.ai/developer-guide/cli/evaluate
+    commands:
+      - {name: 'harness list', description: List available standard Harnesses}
+  - group: eval
+    docs: https://docs.vijil.ai/developer-guide/cli/evaluate
+    commands:
+      - {name: 'eval run', description: Start a trust Evaluation (optionally --wait)}
+      - {name: 'eval results-detail', description: Retrieve Trust Score and per-Harness results}
+      - {name: 'eval report', description: Generate a Trust Report}
+  - group: protect
+    docs: https://docs.vijil.ai/developer-guide/cli/protect
+    commands:
+      - {name: 'protect', description: Configure Dome Guardrail configs and run detections}
+  - group: red-team
+    docs: https://docs.vijil.ai/developer-guide/cli/red-team
+    commands:
+      - {name: 'red-team', description: Manage Personas, Policies, and run adversarial campaigns}
+  - group: telemetry
+    docs: https://docs.vijil.ai/developer-guide/cli/telemetry
+    commands:
+      - {name: 'telemetry', description: Query the Trust Dashboard and observability telemetry}
+key_flows:
+  - name: Evaluate an agent end to end
+    steps:
+      - vijil auth init --url https://<console-gateway>
+      - vijil auth login
+      - vijil team use <team_id>
+      - vijil agent create --agent-name "My Agent" --model-name gpt-4o --agent-url <url> --api-key <key>
+      - vijil eval run --agent-id <id> --harness-names '["safety","security"]' --sample-size 50 --wait
+      - vijil eval results-detail <eval_id> --json
+      - vijil eval report <eval_id>

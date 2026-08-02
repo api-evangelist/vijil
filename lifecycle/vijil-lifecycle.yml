@@ -1,0 +1,28 @@
+generated: '2026-07-21'
+method: searched
+source: https://docs.vijil.ai/
+versioning:
+  scheme: uri-path
+  current: v1
+  docs: https://docs.vijil.ai/api-reference
+deprecation:
+  policy_url: https://docs.vijil.ai/developer-guide/reference/sdk-migration-guide
+  detail: >-
+    Vijil is migrating clients from the legacy `vijil` Python package to the
+    current `vijil-sdk` / `vijil-console` (CLI) packages. The docs carry an "SDK
+    Migration Guide" and a `legacy/*` documentation tree. No dated API
+    Sunset/Deprecation header policy (RFC 8594) is published.
+  sunset_header: unknown
+release_notes:
+  url: https://docs.vijil.ai/legacy/references/release-notes
+  status: under-development
+  note: The release-notes page exists but is marked "currently under development".
+status_page: null
+sla:
+  url: null
+  note: No public status page or SLA document was found for the hosted Console.
+deprecated_operations: []
+notes: >-
+  The Console API is customer-deployed (Kubernetes/EKS) as well as Vijil-hosted;
+  operational transparency (status page, SLA) is oriented around the customer's
+  own deployment rather than a single public SaaS status page.

@@ -1,0 +1,27 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Vijil Console API
+  version: 1.0.0
+extends: openapi/vijil-openapi-original.json
+actions:
+  - target: $.info
+    update:
+      x-apievangelist-provider: vijil
+      x-apievangelist-category: AI Agent Trust / Security
+      x-apievangelist-products: [Diamond, Dome, Darwin, Depot]
+      x-apievangelist-auth: jwt-bearer
+      x-apievangelist-docs: https://docs.vijil.ai/
+      x-apievangelist-note: >-
+        Enhancement overlay only — the original spec is never mutated. Captures
+        AE-derived metadata: the Console API declares no components.securitySchemes,
+        so JWT Bearer auth is documented in authentication/vijil-authentication.yml.
+  - target: $
+    update:
+      x-apievangelist-servers-note: >-
+        No servers[] are declared. The API is served behind a deployment-specific
+        Console gateway; Vijil's hosted gateway resolves at console-api.vijil.ai.
+  - target: $.info
+    update:
+      x-apievangelist-conventions: conventions/vijil-conventions.yml
+      x-apievangelist-errors: errors/vijil-problem-types.yml
+      x-apievangelist-data-model: data-model/vijil-data-model.yml

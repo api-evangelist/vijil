@@ -1,0 +1,60 @@
+generated: '2026-07-21'
+method: searched
+source: https://docs.vijil.ai/developer-guide/agentic/quickstart
+derived_from: openapi/vijil-openapi-original.json
+summary: >-
+  Cross-cutting request/response semantics for the Vijil Console API, captured
+  from the docs Quickstart/CLI reference and derived from the OpenAPI. The API is
+  a FastAPI service exposed behind a deployment-specific Console gateway;
+  resources are team-scoped and JWT-authenticated.
+authentication:
+  style: jwt-bearer
+  header: Authorization
+  format: Bearer <jwt>
+  detail: See authentication/vijil-authentication.yml
+  tenancy:
+    scope: team
+    note: >-
+      Most operations act on the caller's active team; team is derived from the
+      JWT, and some endpoints also accept an explicit team_id query parameter.
+versioning:
+  scheme: uri-path
+  current: v1
+  detail: All operations are namespaced under /v1/... (e.g. /v1/evaluations/).
+pagination:
+  style: limit-offset
+  params: [limit, offset]
+  detail: >-
+    List endpoints (agents, personas, evaluations, campaigns, etc.) accept limit
+    and offset query parameters. Some list responses wrap items with paging
+    metadata (e.g. AgentConfigListResponse).
+idempotency:
+  supported: false
+  note: >-
+    No idempotency-key header/parameter is documented or present in the OpenAPI.
+    Write operations are not advertised as idempotent; long-running jobs
+    (evaluations, campaigns) are created async and polled by id.
+async_jobs:
+  detail: >-
+    Evaluations and red-team campaigns are asynchronous. POST returns 202
+    Accepted with a job id; clients poll GET /v1/evaluations/{id} (or the
+    campaign status endpoint). Evaluation status progresses:
+    starting -> pending -> running -> completed -> saving -> saved.
+  status_operation: openapi/vijil-openapi-original.json#get_evaluation_v1_evaluations__evaluation_id__get
+error_envelope:
+  style: fastapi
+  detail: >-
+    Validation failures return HTTP 422 with a body of shape
+    {"detail": [{"loc": [...], "msg": "...", "type": "..."}]} (FastAPI /
+    HTTPValidationError). Auth failures return 401. See errors/vijil-problem-types.yml.
+  schema_ref: openapi/vijil-openapi-original.json#/components/schemas/HTTPValidationError
+rate_limiting:
+  api: not-documented
+  model_hub: >-
+    Rate limits apply to stored model-hub keys (rate_limit_per_interval /
+    rate_limit_interval), controlling calls to the evaluated model — not the
+    Vijil API itself.
+cross_reference:
+  authentication: authentication/vijil-authentication.yml
+  errors: errors/vijil-problem-types.yml
+  lifecycle: lifecycle/vijil-lifecycle.yml

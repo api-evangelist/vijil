@@ -1,0 +1,32 @@
+generated: '2026-07-21'
+method: generated
+source: openapi/vijil-openapi-original.json
+skills:
+  - file: vijil-evaluate-agent-trust.md
+    name: Evaluate an agent's trust score with Vijil
+    api: openapi/vijil-openapi-original.json
+    operations:
+      - jwt_login_v1_auth_jwt_login_post
+      - create_agent_configuration_v1_agent_configurations__post
+      - list_harnesses_v1_harnesses__get
+      - create_evaluation_v1_evaluations__post
+      - get_evaluation_v1_evaluations__evaluation_id__get
+      - get_evaluation_results_v1_evaluation_results__evaluation_id__results_get
+      - generate_report_on_demand_v1_evaluations__evaluation_id__report_post
+  - file: vijil-protect-agent-dome.md
+    name: Protect an agent at runtime with Vijil Dome
+    api: openapi/vijil-openapi-original.json
+    operations:
+      - create_dome_config_v1_dome_configs_post
+      - apply_dome_config_v1_dome_configs__config_id__apply_post
+      - get_agent_dome_config_v1_agent_configurations__agent_id__dome_configs_get
+      - create_detection_v1_detections_post
+      - search_traces_v1_telemetry_traces_get
+  - file: vijil-red-team-campaign.md
+    name: Run an adversarial red-team campaign with Vijil
+    api: openapi/vijil-openapi-original.json
+    operations:
+      - list_tools_v1_tools_get
+      - create_campaign_v1_campaigns_post
+      - get_campaign_status_v1_campaigns__campaign_id__get
+      - get_campaign_results_v1_campaigns__campaign_id__results_get

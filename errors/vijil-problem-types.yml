@@ -1,0 +1,33 @@
+generated: '2026-07-21'
+method: derived
+source: openapi/vijil-openapi-original.json
+format: fastapi
+note: >-
+  The Vijil Console API is a FastAPI service. The only error response modeled in
+  the OpenAPI is HTTP 422 (request validation), which uses the standard FastAPI
+  HTTPValidationError envelope — NOT RFC 9457 application/problem+json. Auth
+  (401) and other status codes are documented in the Quickstart/troubleshooting
+  but not schematized in the spec.
+envelope:
+  content_type: application/json
+  shape: '{"detail": [{"loc": [...], "msg": "string", "type": "string"}]}'
+  schema_ref: '#/components/schemas/HTTPValidationError'
+  item_schema_ref: '#/components/schemas/ValidationError'
+problems:
+  - status: 422
+    title: Validation Error
+    description: >-
+      Request failed schema validation (missing/invalid fields). Body is a
+      FastAPI HTTPValidationError listing each offending location, message, and
+      error type.
+    content_type: application/json
+    schema: HTTPValidationError
+    source: openapi/vijil-openapi-original.json (declared on 100+ operations)
+  - status: 401
+    title: Unauthorized
+    description: >-
+      JWT access token missing, invalid, or expired. Re-issue via
+      POST /v1/auth/jwt/login or refresh via POST /v1/auth/jwt/refresh.
+    source: https://docs.vijil.ai/developer-guide/agentic/quickstart (troubleshooting)
+    documented_only: true
+successful_status_codes: [200, 201, 202, 204]

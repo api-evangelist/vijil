@@ -1,0 +1,81 @@
+generated: '2026-07-21'
+method: searched
+status: published
+source: https://docs.vijil.ai/developer-guide/agentic/tools
+server:
+  name: vijil
+  transport: stdio
+  package: vijil-mcp
+  install: pip install vijil-mcp
+  command: vijil-mcp
+  docs: https://docs.vijil.ai/developer-guide/agentic/tools
+  quickstart: https://docs.vijil.ai/developer-guide/agentic/quickstart
+  description: >-
+    Official MCP server for the Vijil AI trust platform. Distributed as the
+    `vijil-mcp` PyPI package, it exposes the Vijil Console CLI surface as MCP
+    tools (stdio transport) for Claude Code and other MCP clients. It reads the
+    same credentials as the `vijil` CLI (~/.vijil/config.yaml) and acts against
+    the configured Vijil Console gateway and active team.
+  client_config:
+    mcpServers:
+      vijil:
+        type: stdio
+        command: vijil-mcp
+tools:
+  - name: vijil_status
+    description: Check CLI configuration and authentication state.
+  - name: auth_change_password
+    description: Change your account password.
+  - name: team_list
+    description: List teams your account belongs to.
+    source_operation: openapi/vijil-openapi-original.json#get_my_teams_v1_users_me_teams_get
+  - name: team_use
+    description: Switch the active team context.
+  - name: agent_create
+    description: Create a new Agent configuration.
+    source_operation: openapi/vijil-openapi-original.json#create_agent_configuration_v1_agent_configurations__post
+  - name: agent_list
+    description: List Agent configurations.
+    source_operation: openapi/vijil-openapi-original.json#get_agent_configurations_v1_agent_configurations__get
+  - name: agent_get
+    description: Get a specific Agent.
+    source_operation: openapi/vijil-openapi-original.json#get_agent_configuration_by_id_v1_agent_configurations__id__get
+  - name: agent_update
+    description: Update an Agent configuration.
+    source_operation: openapi/vijil-openapi-original.json#update_agent_configuration_v1_agent_configurations__id__put
+  - name: agent_archive
+    description: Archive an Agent.
+    source_operation: openapi/vijil-openapi-original.json#archive_agent_configuration_v1_agent_configurations__id__archive_put
+  - name: agent_lifecycle
+    description: Set the Agent trust lifecycle stage.
+    source_operation: openapi/vijil-openapi-original.json#update_agent_lifecycle_v1_agent_configurations__id__lifecycle_put
+  - name: agent_import
+    description: Import an Agent from a URL or file.
+    source_operation: openapi/vijil-openapi-original.json#import_agent_unified_v1_agent_configurations_import_post
+  - name: agent_validate_import
+    description: Validate an import without creating the Agent.
+    source_operation: openapi/vijil-openapi-original.json#validate_agent_import_v1_agent_configurations_import_validate_post
+  - name: agent_eval_config
+    description: Get the evaluation configuration for an Agent.
+    source_operation: openapi/vijil-openapi-original.json#get_evaluation_config_v1_agent_configurations__id__evaluation_config_get
+  - name: agent_dome_configs
+    description: Get the Dome configuration bound to an Agent.
+    source_operation: openapi/vijil-openapi-original.json#get_agent_dome_config_v1_agent_configurations__agent_id__dome_configs_get
+  - name: eval_run
+    description: Start a trust Evaluation and optionally wait for completion.
+    source_operation: openapi/vijil-openapi-original.json#create_evaluation_v1_evaluations__post
+  - name: eval_results_detail
+    description: Retrieve detailed evaluation results and Trust Score.
+    source_operation: openapi/vijil-openapi-original.json#get_evaluation_results_v1_evaluation_results__evaluation_id__results_get
+  - name: eval_report
+    description: Generate a Trust Report for a completed evaluation.
+    source_operation: openapi/vijil-openapi-original.json#generate_report_on_demand_v1_evaluations__evaluation_id__report_post
+  - name: harness_list
+    description: List available standard Harnesses.
+    source_operation: openapi/vijil-openapi-original.json#list_harnesses_v1_harnesses__get
+notes: >-
+  The docs also document advanced tool families available in the server but not
+  individually enumerated: genome_*, evolution_*, proposal_*, scan_*,
+  dimensions_*, demographics_*, inventory_*. Tool list captured from the public
+  MCP tools reference; source_operation links map tools to the underlying
+  Console API operations where a clear 1:1 exists.

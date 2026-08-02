@@ -1,0 +1,275 @@
+# Vijil
+
+> Harden during development, validate before deployment, defend in runtime, and continuously improve agents with reinforcement learning.
+
+## Docs
+
+- [Activate Policy](https://docs.vijil.ai/api-reference/agent-environment/activate-policy.md): Activate a policy (requires all rules to be approved).
+- [Add Value](https://docs.vijil.ai/api-reference/agent-environment/add-value.md): Add a value to a dimension.
+- [Add Value](https://docs.vijil.ai/api-reference/agent-environment/add-value-1.md): Add a value to a dimension.
+- [Approve Proposal](https://docs.vijil.ai/api-reference/agent-environment/approve-proposal.md): Approve a mutation proposal.
+- [Approve Rule](https://docs.vijil.ai/api-reference/agent-environment/approve-rule.md): Approve a rule.
+- [Archive Agent Configuration](https://docs.vijil.ai/api-reference/agent-environment/archive-agent-configuration.md): Archive agent configuration.
+- [Bulk Add Values](https://docs.vijil.ai/api-reference/agent-environment/bulk-add-values.md): Bulk add values to a dimension.
+- [Bulk Add Values](https://docs.vijil.ai/api-reference/agent-environment/bulk-add-values-1.md): Bulk add values to a dimension.
+- [Copy Preset](https://docs.vijil.ai/api-reference/agent-environment/copy-preset.md): Create a copy of a preset policy for the team.
+- [Create Agent Configuration](https://docs.vijil.ai/api-reference/agent-environment/create-agent-configuration.md): Create a new agent configuration.
+- [Create Dimension](https://docs.vijil.ai/api-reference/agent-environment/create-dimension.md): Create a new demographic dimension.
+- [Create Dimension](https://docs.vijil.ai/api-reference/agent-environment/create-dimension-1.md): Create a new demographic dimension.
+- [Create From Preset](https://docs.vijil.ai/api-reference/agent-environment/create-from-preset.md): Create a new persona from a system preset.
+- [Create Genome](https://docs.vijil.ai/api-reference/agent-environment/create-genome.md): Create (seed) a new genome. Proxies to Darwin POST /v1/genomes.
+- [Create Persona](https://docs.vijil.ai/api-reference/agent-environment/create-persona.md): Create a new persona.
+- [Create Policy](https://docs.vijil.ai/api-reference/agent-environment/create-policy.md): Create a new policy.
+- [Create Policy Rule](https://docs.vijil.ai/api-reference/agent-environment/create-policy-rule.md): Create a new manual rule for a policy.
+- [Delete Dimension](https://docs.vijil.ai/api-reference/agent-environment/delete-dimension.md): Delete a demographic dimension and all its values.
+- [Delete Dimension](https://docs.vijil.ai/api-reference/agent-environment/delete-dimension-1.md): Delete a demographic dimension and all its values.
+- [Delete File](https://docs.vijil.ai/api-reference/agent-environment/delete-file.md): Delete the attached file from a policy.
+- [Delete Genome](https://docs.vijil.ai/api-reference/agent-environment/delete-genome.md): Delete a genome and all its versions. Proxies to Darwin.
+- [Delete Persona](https://docs.vijil.ai/api-reference/agent-environment/delete-persona.md): Delete a persona.
+- [Delete Policy](https://docs.vijil.ai/api-reference/agent-environment/delete-policy.md): Delete a policy.
+- [Delete Rule](https://docs.vijil.ai/api-reference/agent-environment/delete-rule.md): Delete a rule.
+- [Delete Value](https://docs.vijil.ai/api-reference/agent-environment/delete-value.md): Delete a value.
+- [Delete Value](https://docs.vijil.ai/api-reference/agent-environment/delete-value-1.md): Delete a value.
+- [Diff Genome Versions](https://docs.vijil.ai/api-reference/agent-environment/diff-genome-versions.md): Compare two genome versions. Proxies to Darwin.
+- [Download Converted File](https://docs.vijil.ai/api-reference/agent-environment/download-converted-file.md): Download the converted markdown file for a policy.
+- [Download File](https://docs.vijil.ai/api-reference/agent-environment/download-file.md): Download the policy's attached file.
+- [Extract Genome From Agent](https://docs.vijil.ai/api-reference/agent-environment/extract-genome-from-agent.md): Extract a genome from an existing agent and seed it in Darwin.
+- [Fetch agent trust constraints](https://docs.vijil.ai/api-reference/agent-environment/fetch-agent-trust-constraints.md): Returns the agent's trust constraints (Dome guard config, tool permissions, organization rules, enforcement mode) in the format consumed by the vijil-sdk Trust Runtime at boot.
+- [Find Similar Genomes](https://docs.vijil.ai/api-reference/agent-environment/find-similar-genomes.md): Find similar genomes. Proxies to Darwin.
+- [Genome To Agent Update](https://docs.vijil.ai/api-reference/agent-environment/genome-to-agent-update.md): Convert a genome to an agent update payload.
+- [Get Agent Configuration By Id](https://docs.vijil.ai/api-reference/agent-environment/get-agent-configuration-by-id.md): Get a single agent configuration by ID.
+- [Get Agent Configurations](https://docs.vijil.ai/api-reference/agent-environment/get-agent-configurations.md): List agent configurations with filtering and pagination.
+- [Get Agent Dome Config](https://docs.vijil.ai/api-reference/agent-environment/get-agent-dome-config.md): Return the dome configuration this agent is using (row-bound and/or ``dome_config_id``).
+- [Get Dimension](https://docs.vijil.ai/api-reference/agent-environment/get-dimension.md): Get a dimension by ID, including its values.
+- [Get Dimension](https://docs.vijil.ai/api-reference/agent-environment/get-dimension-1.md): Get a dimension by ID, including its values.
+- [Get Dimension By Name](https://docs.vijil.ai/api-reference/agent-environment/get-dimension-by-name.md): Get a dimension by name, including its values.
+- [Get Dimension By Name](https://docs.vijil.ai/api-reference/agent-environment/get-dimension-by-name-1.md): Get a dimension by name, including its values.
+- [Get Evaluation Config](https://docs.vijil.ai/api-reference/agent-environment/get-evaluation-config.md): Get agent configuration for Diamond evaluation.
+- [Get Evolution Job Status](https://docs.vijil.ai/api-reference/agent-environment/get-evolution-job-status.md): Poll evolution status.
+- [Get Evolution Status](https://docs.vijil.ai/api-reference/agent-environment/get-evolution-status.md): Get evolution proposal status for an agent.
+- [Get Genome](https://docs.vijil.ai/api-reference/agent-environment/get-genome.md): Get a genome by ID. Proxies to Darwin.
+- [Get Genome Ancestry](https://docs.vijil.ai/api-reference/agent-environment/get-genome-ancestry.md): Get ancestry chain for a genome. Proxies to Darwin.
+- [Get Genome By Agent](https://docs.vijil.ai/api-reference/agent-environment/get-genome-by-agent.md): Get a genome by agent ID. Proxies to Darwin.
+- [Get Genome Map](https://docs.vijil.ai/api-reference/agent-environment/get-genome-map.md): Get UMAP genome map for the caller's team.
+- [Get Genome Version](https://docs.vijil.ai/api-reference/agent-environment/get-genome-version.md): Get a specific genome version. Proxies to Darwin.
+- [Get Mutation History](https://docs.vijil.ai/api-reference/agent-environment/get-mutation-history.md): Get mutation history for an agent's genome. Proxies to Darwin.
+- [Get Persona](https://docs.vijil.ai/api-reference/agent-environment/get-persona.md): Get a single persona by ID.
+- [Get Policy](https://docs.vijil.ai/api-reference/agent-environment/get-policy.md): Get a policy by ID.
+- [Get Proposal](https://docs.vijil.ai/api-reference/agent-environment/get-proposal.md): Get a single mutation proposal.
+- [Get Proposal By Id](https://docs.vijil.ai/api-reference/agent-environment/get-proposal-by-id.md): Get a single mutation proposal by ID.
+- [Get Rule](https://docs.vijil.ai/api-reference/agent-environment/get-rule.md): Get a rule by ID.
+- [Get Trust Dashboard](https://docs.vijil.ai/api-reference/agent-environment/get-trust-dashboard.md): Return the Trust Dashboard for the authenticated user's team.
+- [Import Agent Unified](https://docs.vijil.ai/api-reference/agent-environment/import-agent-unified.md): Import an agent using the unified import endpoint.
+- [List Dimensions](https://docs.vijil.ai/api-reference/agent-environment/list-dimensions.md): List demographic dimensions.
+- [List Dimensions](https://docs.vijil.ai/api-reference/agent-environment/list-dimensions-1.md): List demographic dimensions.
+- [List Evolution Jobs](https://docs.vijil.ai/api-reference/agent-environment/list-evolution-jobs.md): List evolution jobs for an agent (paginated).
+- [List Genome Versions](https://docs.vijil.ai/api-reference/agent-environment/list-genome-versions.md): List all versions of a genome. Proxies to Darwin.
+- [List Genomes](https://docs.vijil.ai/api-reference/agent-environment/list-genomes.md): List genomes with filtering and pagination. Proxies to Darwin.
+- [List Personas](https://docs.vijil.ai/api-reference/agent-environment/list-personas.md): List personas with filtering and pagination.
+- [List Policies](https://docs.vijil.ai/api-reference/agent-environment/list-policies.md): List policies with optional filters and paging.
+- [List Policy Rules](https://docs.vijil.ai/api-reference/agent-environment/list-policy-rules.md): List rules for a specific policy.
+- [List Presets](https://docs.vijil.ai/api-reference/agent-environment/list-presets.md): List system preset personas.
+- [List Presets](https://docs.vijil.ai/api-reference/agent-environment/list-presets-1.md): List system preset policies.
+- [List Proposals](https://docs.vijil.ai/api-reference/agent-environment/list-proposals.md): List mutation proposals for an agent.
+- [List Rules](https://docs.vijil.ai/api-reference/agent-environment/list-rules.md): List rules with optional filters.
+- [List Values](https://docs.vijil.ai/api-reference/agent-environment/list-values.md): List values for a dimension.
+- [List Values](https://docs.vijil.ai/api-reference/agent-environment/list-values-1.md): List values for a dimension.
+- [Reject Proposal](https://docs.vijil.ai/api-reference/agent-environment/reject-proposal.md): Reject a mutation proposal.
+- [Reject Rule](https://docs.vijil.ai/api-reference/agent-environment/reject-rule.md): Reject a rule with a reason.
+- [Trigger Evolution](https://docs.vijil.ai/api-reference/agent-environment/trigger-evolution.md): Trigger evolution for an agent.
+- [Update Agent Configuration](https://docs.vijil.ai/api-reference/agent-environment/update-agent-configuration.md): Update an existing agent configuration.
+- [Update Agent Lifecycle](https://docs.vijil.ai/api-reference/agent-environment/update-agent-lifecycle.md): Update agent trust lifecycle stage.
+- [Update Dimension](https://docs.vijil.ai/api-reference/agent-environment/update-dimension.md): Update a demographic dimension.
+- [Update Dimension](https://docs.vijil.ai/api-reference/agent-environment/update-dimension-1.md): Update a demographic dimension.
+- [Update Persona](https://docs.vijil.ai/api-reference/agent-environment/update-persona.md): Update an existing persona.
+- [Update Policy](https://docs.vijil.ai/api-reference/agent-environment/update-policy.md): Update a policy.
+- [Update Rule](https://docs.vijil.ai/api-reference/agent-environment/update-rule.md): Update a rule.
+- [Update Value](https://docs.vijil.ai/api-reference/agent-environment/update-value.md): Update a value.
+- [Update Value](https://docs.vijil.ai/api-reference/agent-environment/update-value-1.md): Update a value.
+- [Upload File](https://docs.vijil.ai/api-reference/agent-environment/upload-file.md): Upload a policy document file (PDF, TXT, MD) using streaming.
+- [Validate Agent Import](https://docs.vijil.ai/api-reference/agent-environment/validate-agent-import.md): Validate an agent import request without saving.
+- [Cancel Custom Harness](https://docs.vijil.ai/api-reference/diamond/cancel-custom-harness.md): Cancel a running custom harness creation workflow.
+- [Cancel Evaluation](https://docs.vijil.ai/api-reference/diamond/cancel-evaluation.md): Cancel a running evaluation (Kubernetes Job cancellation + workflow status update).
+- [Create Custom Harness](https://docs.vijil.ai/api-reference/diamond/create-custom-harness.md): Create a new custom harness.
+- [Create Evaluation](https://docs.vijil.ai/api-reference/diamond/create-evaluation.md): Create a new evaluation job.
+- [Delete Custom Harness](https://docs.vijil.ai/api-reference/diamond/delete-custom-harness.md): Delete a custom harness.
+- [Delete Evaluation](https://docs.vijil.ai/api-reference/diamond/delete-evaluation.md): Delete evaluation (Kubernetes Job + repository entry + S3 storage).
+- [Delete Evaluation Summary](https://docs.vijil.ai/api-reference/diamond/delete-evaluation-summary.md): Delete an evaluation summary row.
+- [Generate Report On Demand](https://docs.vijil.ai/api-reference/diamond/generate-report-on-demand.md): Generate a trust report on demand (Layer 3).
+- [Get Custom Harness](https://docs.vijil.ai/api-reference/diamond/get-custom-harness.md): Get a single custom harness by ID with optional workflow status.
+- [Get Custom Harness Prompts](https://docs.vijil.ai/api-reference/diamond/get-custom-harness-prompts.md): Return taxonomy prompts from ``harness_prompts.jsonl`` for a custom harness.
+- [Get Evaluation](https://docs.vijil.ai/api-reference/diamond/get-evaluation.md): Get evaluation status.
+- [Get Evaluation Html Report](https://docs.vijil.ai/api-reference/diamond/get-evaluation-html-report.md): Get HTML trust report for an evaluation.
+- [Get Evaluation Logs](https://docs.vijil.ai/api-reference/diamond/get-evaluation-logs.md): Get evaluation job logs from Kubernetes.
+- [Get Evaluation Pdf Report](https://docs.vijil.ai/api-reference/diamond/get-evaluation-pdf-report.md): Get PDF trust report for an evaluation.
+- [Get Evaluation Report](https://docs.vijil.ai/api-reference/diamond/get-evaluation-report.md): Download evaluation report PDF from S3 storage.
+- [Get Evaluation Report Html](https://docs.vijil.ai/api-reference/diamond/get-evaluation-report-html.md): Download evaluation report HTML from S3 storage.
+- [Get Evaluation Results](https://docs.vijil.ai/api-reference/diamond/get-evaluation-results.md): Get evaluation results from S3 storage.
+- [Get Evaluation Summary](https://docs.vijil.ai/api-reference/diamond/get-evaluation-summary.md): Get a single evaluation summary by evaluation ID.
+- [List Completed Evaluations](https://docs.vijil.ai/api-reference/diamond/list-completed-evaluations.md): List completed evaluations from S3 storage for a specific team.
+- [List Custom Harnesses](https://docs.vijil.ai/api-reference/diamond/list-custom-harnesses.md): List custom harnesses for the specified team with pagination and filtering.
+- [List Evaluation Summaries](https://docs.vijil.ai/api-reference/diamond/list-evaluation-summaries.md): List evaluation summaries for a team with optional filters and pagination.
+- [List Harnesses](https://docs.vijil.ai/api-reference/diamond/list-harnesses.md): List all standard harnesses (global resources).
+- [List Latest Evaluation Summaries By Agent](https://docs.vijil.ai/api-reference/diamond/list-latest-evaluation-summaries-by-agent.md): Return the latest completed evaluation summary per agent for the team.
+- [List Team Evaluations](https://docs.vijil.ai/api-reference/diamond/list-team-evaluations.md): List all evaluations for the authenticated user's teams.
+- [Apply Dome Config](https://docs.vijil.ai/api-reference/dome/apply-dome-config.md): Apply a saved dome config: promotes config_pending.json to config.json and binds it to the agent.
+- [Create Detection](https://docs.vijil.ai/api-reference/dome/create-detection.md): Create a new detection request.
+- [Create Dome Config](https://docs.vijil.ai/api-reference/dome/create-dome-config.md): Create a new Dome configuration.
+- [Delete Dome Config](https://docs.vijil.ai/api-reference/dome/delete-dome-config.md): Delete a Dome configuration.
+- [Get Counter Time Series](https://docs.vijil.ai/api-reference/dome/get-counter-time-series.md): Get counter time series.
+- [Get Counter Total](https://docs.vijil.ai/api-reference/dome/get-counter-total.md): Get total counter value.
+- [Get Default Dome Config](https://docs.vijil.ai/api-reference/dome/get-default-dome-config.md): Get the default Dome configuration.
+- [Get Detection](https://docs.vijil.ai/api-reference/dome/get-detection.md): Get a detection by ID.
+- [Get Dome Config](https://docs.vijil.ai/api-reference/dome/get-dome-config.md): Get a Dome configuration by ID.
+- [Get Latency Over Time](https://docs.vijil.ai/api-reference/dome/get-latency-over-time.md): Get latency over time.
+- [Get Logs](https://docs.vijil.ai/api-reference/dome/get-logs.md): Get logs.
+- [Get Trace By Id](https://docs.vijil.ai/api-reference/dome/get-trace-by-id.md): Get trace by ID.
+- [List Dome Configs](https://docs.vijil.ai/api-reference/dome/list-dome-configs.md): List dome configs for the team; optional filter by bound agent_id column.
+- [Patch Dome Config](https://docs.vijil.ai/api-reference/dome/patch-dome-config.md): Partially update a Dome configuration (e.g. set or clear dome instance URL).
+- [Register Dome](https://docs.vijil.ai/api-reference/dome/register-dome.md): Register a Dome instance URL for an agent (called by Dome at runtime).
+- [Search Traces](https://docs.vijil.ai/api-reference/dome/search-traces.md): Search traces.
+- [Update Dome Config](https://docs.vijil.ai/api-reference/dome/update-dome-config.md): Update a Dome configuration.
+- [Cancel Campaign](https://docs.vijil.ai/api-reference/red-team/cancel-campaign.md): Cancel a running red team campaign.
+- [Create Campaign](https://docs.vijil.ai/api-reference/red-team/create-campaign.md): Create a new red team campaign.
+- [Delete Campaign](https://docs.vijil.ai/api-reference/red-team/delete-campaign.md): Delete a red team campaign and all its S3 artifacts.
+- [Download Campaign Results](https://docs.vijil.ai/api-reference/red-team/download-campaign-results.md): Download campaign results as a JSON file (attachment).
+- [Get Campaign Logs](https://docs.vijil.ai/api-reference/red-team/get-campaign-logs.md): Get logs from the campaign's Kubernetes job pod.
+- [Get Campaign Results](https://docs.vijil.ai/api-reference/red-team/get-campaign-results.md): Get normalized results of a completed red team campaign.
+- [Get Campaign Status](https://docs.vijil.ai/api-reference/red-team/get-campaign-status.md): Get the status of a red team campaign.
+- [List Campaigns](https://docs.vijil.ai/api-reference/red-team/list-campaigns.md): List all red team campaigns across all teams the user belongs to (subject to per-team permissions).
+- [List Tools](https://docs.vijil.ai/api-reference/red-team/list-tools.md): List available red team tools and their supported attack categories.
+- [Accept Invite](https://docs.vijil.ai/api-reference/teams/accept-invite.md): Accept a team invitation.
+- [Change Password](https://docs.vijil.ai/api-reference/teams/change-password.md): Change the current user's password.
+- [Create Team](https://docs.vijil.ai/api-reference/teams/create-team.md): Create a new team.
+- [Create User](https://docs.vijil.ai/api-reference/teams/create-user.md): Create a new user.
+- [Get Current User](https://docs.vijil.ai/api-reference/teams/get-current-user.md): Get the current authenticated user's information.
+- [Get Current User Info](https://docs.vijil.ai/api-reference/teams/get-current-user-info.md): Get the currently authenticated user's information.
+- [Get My Teams](https://docs.vijil.ai/api-reference/teams/get-my-teams.md): Get the current user's team memberships.
+- [Get Team](https://docs.vijil.ai/api-reference/teams/get-team.md): Get a team by ID.
+- [Get Team Users](https://docs.vijil.ai/api-reference/teams/get-team-users.md): List all users in a team.
+- [Get User](https://docs.vijil.ai/api-reference/teams/get-user.md): Get a user by query parameters.
+- [Get User By Id](https://docs.vijil.ai/api-reference/teams/get-user-by-id.md): Get a user by ID.
+- [Invite Users](https://docs.vijil.ai/api-reference/teams/invite-users.md): Invite a user to a team by email.
+- [Jwt Login](https://docs.vijil.ai/api-reference/teams/jwt-login.md): Authenticate with email + password, sets JWT token in httpOnly cookie.
+- [Jwt Logout](https://docs.vijil.ai/api-reference/teams/jwt-logout.md): Logout user by clearing the authentication cookie.
+- [Jwt Refresh](https://docs.vijil.ai/api-reference/teams/jwt-refresh.md): Refresh JWT token.
+- [Detector](https://docs.vijil.ai/concepts/defense/detector.md): The detection engines that identify threats within Guards.
+- [Guard](https://docs.vijil.ai/concepts/defense/guard.md): Specialized protection modules that defend against specific threat categories.
+- [Guardrail](https://docs.vijil.ai/concepts/defense/guardrail.md): Configurable pipelines that orchestrate Guards into complete protection policies.
+- [How Defense Works](https://docs.vijil.ai/concepts/defense/introduction.md): The architecture of runtime agent protection: Guardrails, Guards, and Detectors.
+- [Observe](https://docs.vijil.ai/concepts/defense/observe.md): Telemetry, metrics, and logging for production agent visibility.
+- [Detectors](https://docs.vijil.ai/concepts/evaluation-components/detector.md): Reference table of all Detectors: ID, name, and description.
+- [Harnesses](https://docs.vijil.ai/concepts/evaluation-components/harness.md): Reference table of all Harnesses: ID, name, description, scenarios, and type.
+- [How Evaluation Works](https://docs.vijil.ai/concepts/evaluation-components/introduction.md): The architecture of systematic agent testing: from test definition through execution to trust scoring.
+- [Probes](https://docs.vijil.ai/concepts/evaluation-components/probe.md): Reference table of all Probes: ID, name, description, and detectors.
+- [Scenarios](https://docs.vijil.ai/concepts/evaluation-components/scenario.md): Reference table of all Scenarios: ID, name, and description.
+- [Glossary](https://docs.vijil.ai/concepts/glossary.md): Key terms and concepts in AI agents and cybersecurity.
+- [Console](https://docs.vijil.ai/concepts/platform/console.md): The Vijil Console for managing Agents, Evaluations, and runtime protection configurations.
+- [Darwin](https://docs.vijil.ai/concepts/platform/darwin.md): Evolution engine that uses reinforcement learning over production telemetry to continuously improve agent resilience.
+- [Diamond](https://docs.vijil.ai/concepts/platform/diamond.md): Evaluation product that sends adversarial Probes and returns a Trust Score across Reliability, Security, and Safety.
+- [Dome](https://docs.vijil.ai/concepts/platform/dome.md): Runtime protection product that intercepts inputs and outputs through Guardrails built from Guards and Detectors.
+- [The Trust Score](https://docs.vijil.ai/concepts/trust-score/introduction.md): A quantitative framework for measuring agent trustworthiness across reliability, security, and safety.
+- [Reliability](https://docs.vijil.ai/concepts/trust-score/reliability.md): Scenarios and probes for the Reliability dimension of trust (correctness, robustness, consistency).
+- [Safety](https://docs.vijil.ai/concepts/trust-score/safety.md): Scenarios and probes for the Safety dimension of trust (compliance, ethical behavior, harm prevention).
+- [Security](https://docs.vijil.ai/concepts/trust-score/security.md): Scenarios and probes for the Security dimension of trust (confidentiality, integrity, availability).
+- [Welcome to Vijil](https://docs.vijil.ai/concepts/welcome.md): The trust layer for AI agents measure reliability, security, and safety, then ship with evidence.
+- [Quickstart](https://docs.vijil.ai/developer-guide/agentic/quickstart.md): Install Vijil, register an Agent, run a trust Evaluation, and retrieve results, through the CLI, MCP, or REST API.
+- [Use MCP Tools](https://docs.vijil.ai/developer-guide/agentic/tools.md): Complete reference for all tools exposed by the Vijil MCP server, organized by workflow.
+- [Manage Agents](https://docs.vijil.ai/developer-guide/cli/agents.md): Create and manage Agent configurations.
+- [Evaluate Agents](https://docs.vijil.ai/developer-guide/cli/evaluate.md): Manage Harnesses and run trust Evaluations against Agents.
+- [Protect Agents](https://docs.vijil.ai/developer-guide/cli/protect.md): Configure Dome Guardrail configurations and run detections.
+- [Red Team](https://docs.vijil.ai/developer-guide/cli/red-team.md): Manage Personas, Policies, and run adversarial red team campaigns.
+- [Setup](https://docs.vijil.ai/developer-guide/cli/setup.md): Configure the CLI connection and manage team context.
+- [Telemetry](https://docs.vijil.ai/developer-guide/cli/telemetry.md): Query the Trust Dashboard and observability telemetry.
+- [Deploy Vijil](https://docs.vijil.ai/developer-guide/deploy-vijil/deploy-vijil-console.md): This guide walks through deploying the full Vijil Console stack on Kubernetes (AWS EKS). It covers AWS infrastructure setup, IAM configuration, Helm deployment, DNS, and post-install steps.
+- [Cloud Provider Integrations](https://docs.vijil.ai/developer-guide/evaluate/cloud-providers.md): Evaluate agents hosted on major cloud platforms.
+- [Custom Harnesses](https://docs.vijil.ai/developer-guide/evaluate/custom-harnesses.md): Create targeted evaluations with custom Harnesses, personas, and policies.
+- [Evaluation Overview](https://docs.vijil.ai/developer-guide/evaluate/overview.md): Test your agent's trustworthiness before deployment with Diamond.
+- [Run Evaluations](https://docs.vijil.ai/developer-guide/evaluate/running-evaluations.md): Start, monitor, and retrieve trust Evaluations programmatically using the CLI, REST API, or MCP.
+- [Understand Results](https://docs.vijil.ai/developer-guide/evaluate/understanding-results.md): Interpret evaluation findings using the Dimensions of Trust framework.
+- [Building Trusted Agents](https://docs.vijil.ai/developer-guide/getting-started/introduction.md): Integrate evaluation and protection into your development workflow, catch failures before they reach production.
+- [Configure Guardrails](https://docs.vijil.ai/developer-guide/protect/configuring-guardrails.md): Detailed configuration options for Dome Guards and Detectors.
+- [Custom Detectors](https://docs.vijil.ai/developer-guide/protect/custom-detectors.md): Build custom detection methods for Dome Guardrails.
+- [Detection Methods](https://docs.vijil.ai/developer-guide/protect/detection-methods.md): Detailed list of every built-in Detector, grouped by category. Each entry shows the method name used in TOML/dict configuration, the underlying model or service, and all configurable parameters.
+- [Observability](https://docs.vijil.ai/developer-guide/protect/observability.md): Monitor Dome Guardrails with OpenTelemetry, tracing, and logging.
+- [Protection Overview](https://docs.vijil.ai/developer-guide/protect/overview.md): Guard your agent at runtime with Dome Guardrails.
+- [Use Guardrails](https://docs.vijil.ai/developer-guide/protect/using-guardrails.md): Runtime patterns and best practices for Dome Guardrails.
+- [SDK Migration Guide](https://docs.vijil.ai/developer-guide/reference/sdk-migration-guide.md): Migrate from the legacy Python package to the current SDK package and CLI.
+- [Detectors](https://docs.vijil.ai/legacy/core-concepts/components/detector.md): Reference table of all Detectors: ID, name, and description.
+- [Guard](https://docs.vijil.ai/legacy/core-concepts/components/guard.md)
+- [Guardrail](https://docs.vijil.ai/legacy/core-concepts/components/guardrail.md): Learn about Guardrails
+- [Harnesses](https://docs.vijil.ai/legacy/core-concepts/components/harness.md): Reference table of all Harnesses: ID, name, description, scenarios, and type.
+- [Introduction](https://docs.vijil.ai/legacy/core-concepts/components/introduction.md): Discover Vijil’s evaluation service
+- [Probes](https://docs.vijil.ai/legacy/core-concepts/components/probe.md): Reference table of all Probes: ID, name, description, and detectors.
+- [Scenarios](https://docs.vijil.ai/legacy/core-concepts/components/scenario.md): Reference table of all Scenarios: ID, name, and description.
+- [Introduction](https://docs.vijil.ai/legacy/core-concepts/dimensions/introduction.md): Discover Vijil's LLM trustworthiness along 3 dimensions
+- [Reliability](https://docs.vijil.ai/legacy/core-concepts/dimensions/reliability.md): Vijil's Reliability dimension of trust tests for correctness, robustness, and consistency.
+- [Safety](https://docs.vijil.ai/legacy/core-concepts/dimensions/safety.md): Vijil's Safety dimension of trust tests for compliance, ethical behavior, and harm prevention.
+- [Security](https://docs.vijil.ai/legacy/core-concepts/dimensions/security.md): Vijil's Security dimension of trust tests for confidentiability, integrity, and availability.
+- [Introduction](https://docs.vijil.ai/legacy/core-concepts/introduction.md): Learn the concepts that stand at the core of Vijil
+- [Introduction](https://docs.vijil.ai/legacy/evaluate-agents/introduction.md): Learn how to evaluate agents with Vijil
+- [Quickstart](https://docs.vijil.ai/legacy/get-started/quickstart.md): Get started with Vijil in minutes
+- [Welcome](https://docs.vijil.ai/legacy/get-started/welcome.md): Vijil is the trust infrastructure that makes AI agents reliable, secure, and safe for enterprises.
+- [Anthropic (Legacy)](https://docs.vijil.ai/legacy/manage-agents/integrations/anthropic.md): Legacy Anthropic integration docs copied from the integrations-section branch.
+- [AWS Bedrock/Bedrock Agents (Legacy)](https://docs.vijil.ai/legacy/manage-agents/integrations/bedrock.md): Legacy AWS Bedrock and Bedrock Agents integration docs copied from the integrations-section branch.
+- [Custom Endpoints](https://docs.vijil.ai/legacy/manage-agents/integrations/custom.md): Legacy Custom Endpoints integration docs copied from the integrations-section branch.
+- [DigitalOcean (Legacy)](https://docs.vijil.ai/legacy/manage-agents/integrations/digitalocean.md): Legacy DigitalOcean integration docs copied from the integrations-section branch.
+- [Fireworks AI (Legacy)](https://docs.vijil.ai/legacy/manage-agents/integrations/fireworks.md): Legacy Fireworks AI integration docs copied from the integrations-section branch.
+- [Groq (Legacy)](https://docs.vijil.ai/legacy/manage-agents/integrations/groq.md): Legacy Groq integration docs copied from the integrations-section branch.
+- [Mistral AI (Legacy)](https://docs.vijil.ai/legacy/manage-agents/integrations/mistral.md): Legacy Mistral AI integration docs copied from the integrations-section branch.
+- [NVIDIA NIM (Legacy)](https://docs.vijil.ai/legacy/manage-agents/integrations/nvidia.md): Legacy NVIDIA NIM integration docs copied from the integrations-section branch.
+- [OpenAI](https://docs.vijil.ai/legacy/manage-agents/integrations/openai.md): Legacy OpenAI integration docs copied from the integrations-section branch.
+- [OpenRouter (Legacy)](https://docs.vijil.ai/legacy/manage-agents/integrations/openrouter.md): Legacy OpenRouter integration docs copied from the integrations-section branch.
+- [Together AI (Legacy)](https://docs.vijil.ai/legacy/manage-agents/integrations/together.md): Legacy Together AI integration docs copied from the integrations-section branch.
+- [Google Vertex AI](https://docs.vijil.ai/legacy/manage-agents/integrations/vertex.md): Legacy Google Vertex AI integration docs copied from the integrations-section branch.
+- [Introduction](https://docs.vijil.ai/legacy/manage-agents/introduction.md): Legacy Manage Agents introduction copied from the integrations-section branch.
+- [List of Detection Methods](https://docs.vijil.ai/legacy/protect-agents/detection-methods.md): List of all built-in detection methods grouped by category
+- [Introduction](https://docs.vijil.ai/legacy/protect-agents/introduction.md): Learn how to protect agents with Vijil
+- [Glossary](https://docs.vijil.ai/legacy/references/glossary.md): Discover Vijil's terminology
+- [Client](https://docs.vijil.ai/legacy/references/python-client/client.md): Discover the `client.py` docs
+- [Introduction](https://docs.vijil.ai/legacy/references/python-client/introduction.md): Discover the documentation of the Vijil's Python client
+- [Release Notes](https://docs.vijil.ai/legacy/references/release-notes.md): Discover Vijil's current version and the release history
+- [Custom Harnesses](https://docs.vijil.ai/legacy/tutorials/evaluate-agents/custom-harnesses.md): Create a custom Harness to evaluate your agent against your own policies and use case
+- [Working with Detections](https://docs.vijil.ai/legacy/tutorials/evaluate-agents/detections.md)
+- [Deploying Vijil Evaluate with Helm](https://docs.vijil.ai/legacy/tutorials/evaluate-agents/enterprise/deployment.md)
+- [Introduction](https://docs.vijil.ai/legacy/tutorials/evaluate-agents/enterprise/introduction.md)
+- [Prerequisites](https://docs.vijil.ai/legacy/tutorials/evaluate-agents/enterprise/prerequisites.md)
+- [Evaluations](https://docs.vijil.ai/legacy/tutorials/evaluate-agents/evaluations.md): Learn how to create, view, summarize, export, cancel, and delete evaluations.
+- [Evaluating Agents with Custom Endpoints](https://docs.vijil.ai/legacy/tutorials/evaluate-agents/local-agent-evaluation.md)
+- [Testing OWASP LLM Top 10 Vulnerabilities](https://docs.vijil.ai/legacy/tutorials/evaluate-agents/owasp.md)
+- [Evaluating RAGs through Vijil Evaluate](https://docs.vijil.ai/legacy/tutorials/evaluate-agents/rag.md)
+- [Evaluation Reports](https://docs.vijil.ai/legacy/tutorials/evaluate-agents/reports.md)
+- [Set up Evaluate](https://docs.vijil.ai/legacy/tutorials/evaluate-agents/setup-evaluate.md): Learn how to setup Vijil Evaluate
+- [Manage Agents](https://docs.vijil.ai/legacy/tutorials/manage-agents.md): Learn how to manage agent configurations using the Vijil Python SDK
+- [Manage API Keys](https://docs.vijil.ai/legacy/tutorials/manage-api-keys.md): Learn how to manage API keys in Vijil
+- [Using Dome Guardrails with Google ADK Agents](https://docs.vijil.ai/legacy/tutorials/protect-agents/adk.md): Learn how to use Dome Guardrails with Google ADK
+- [Configure Guardrails](https://docs.vijil.ai/legacy/tutorials/protect-agents/configuring-guardrails.md)
+- [Create your own Detectors](https://docs.vijil.ai/legacy/tutorials/protect-agents/custom-detectors.md): Learn how to make custom Detectors
+- [Apply Dome to Clients](https://docs.vijil.ai/legacy/tutorials/protect-agents/domed-clients.md): Learn how to apply Dome to Clients
+- [Use Dome Guardrails with LangChain](https://docs.vijil.ai/legacy/tutorials/protect-agents/langchain.md): Learn how to use Dome Guardrails with LangChain
+- [Enable Observability in Dome](https://docs.vijil.ai/legacy/tutorials/protect-agents/observability.md)
+- [Set up Dome](https://docs.vijil.ai/legacy/tutorials/protect-agents/setup-dome.md): Learn how to setup Vijil Dome
+- [Set Up Guards and Detectors](https://docs.vijil.ai/legacy/tutorials/protect-agents/setup-guards.md): Users can configure Guards by selecting and combining different Detectors based on their specific needs. This customization allows for flexible and robust Guardrails that cater to diverse application requirements.
+- [Use Guardrails](https://docs.vijil.ai/legacy/tutorials/protect-agents/using-guardrails.md): This example shows how to use Dome to scan inputs to and outputs from an LLM.
+- [Get Started with Console](https://docs.vijil.ai/owner-guide/getting-started/introduction.md): Why teams use Vijil for trust evidence, then register an Agent, run an Evaluation, and turn on Dome from the Console.
+- [Manage Teams](https://docs.vijil.ai/owner-guide/getting-started/teams.md): Create a team workspace, review members, and add users from the Vijil Console.
+- [Configure Guardrails](https://docs.vijil.ai/owner-guide/protect-in-production/configuring-guardrails.md): Set up runtime protection for your AI agents with Dome Guardrails.
+- [Observe Traces and Metrics](https://docs.vijil.ai/owner-guide/protect-in-production/observability.md): Monitor Guardrail performance and agent traffic in real time.
+- [Manage Agents](https://docs.vijil.ai/owner-guide/register-agents/registering-agents.md): Add your AI Agents to Vijil for evaluation and protection, through the Console or natural language with MCP.
+- [What is an Agent](https://docs.vijil.ai/owner-guide/register-agents/what-is-an-agent.md): An overview of AI agents and how to test them with Vijil.
+- [Run Evaluations](https://docs.vijil.ai/owner-guide/run-evaluations/running-evaluations.md): Test your AI agents with Diamond to measure trustworthiness.
+- [Understand Results](https://docs.vijil.ai/owner-guide/run-evaluations/understanding-results.md): Interpret evaluation findings using the Dimensions of Trust framework.
+- [Custom Harnesses](https://docs.vijil.ai/owner-guide/simulate-environment/custom-harnesses.md): Create targeted evaluations with custom Harnesses, personas, and policies.
+- [Trust Score Harness](https://docs.vijil.ai/owner-guide/simulate-environment/harnesses/trust-score.md): Evaluate your agent across reliability, security, and safety dimensions.
+- [Define Personas](https://docs.vijil.ai/owner-guide/simulate-environment/personas.md): Create user profiles that represent who interacts with your agent during evaluation.
+- [Define Policies](https://docs.vijil.ai/owner-guide/simulate-environment/policies.md): Specify organizational rules your agent must follow during evaluation.
+- [Playground](https://docs.vijil.ai/tutorials/evaluate-agents/examples/playground.md)
+- [Use Dome as a Containerized Deployment](https://docs.vijil.ai/tutorials/protect-agents/dome-containerized-deployment.md): Dome can be deployed as a containerized service for easy integration with other frameworks. You can deploy the container on a CPU or GPU compute instance and wire your requests to it to protect agent inputs and outputs.
+
+## OpenAPI Specs
+
+- [api](https://docs.vijil.ai/openapi/api.json)
+
+## Optional
+
+- [Blog](https://www.vijil.ai/blog)

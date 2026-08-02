@@ -1,0 +1,84 @@
+generated: '2026-07-21'
+method: derived
+source: openapi/vijil-openapi-original.json
+note: >-
+  Entity-relationship graph derived from the Vijil Console OpenAPI: schema
+  properties and *_id reference fields. Team is the top-level tenant; nearly
+  every resource is team-scoped. Identifiers are UUIDs.
+entities:
+  - name: Team
+    description: Top-level tenant/workspace that owns all other resources.
+    id: team_id
+  - name: User
+    description: An account; joins Teams via Membership.
+    id: user_id / external_user_id
+  - name: Membership
+    description: Join between User and Team, carrying a TeamRole.
+    id: membership_id
+  - name: Invitation
+    description: Pending invite of a user to a Team.
+  - name: Agent
+    description: A registered AI agent/model configuration under evaluation and protection.
+    id: id (agent_id)
+  - name: ApiKey
+    description: Stored model-hub credential (OpenAI/Together/custom) used to query the agent's model.
+    id: api_key_id
+  - name: Evaluation
+    description: A Diamond trust evaluation run against an Agent (async job).
+    id: evaluation_id
+  - name: EvaluationSummary
+    description: Rolled-up scores for an Evaluation.
+  - name: Harness
+    description: A standard test suite (safety, security, reliability, privacy, toxicity, ethics).
+  - name: CustomHarness
+    description: A team-authored evaluation suite built from Personas/Policies.
+    id: harness id / workflow_id
+  - name: Persona
+    description: A user profile used to drive evaluations/red-team.
+  - name: Policy
+    description: Organizational rules an Agent must follow during evaluation.
+  - name: PolicyRule
+    description: An individual rule within a Policy.
+    id: rule_id
+  - name: DomeConfig
+    description: A runtime Guardrail (Dome) configuration, bindable to an Agent.
+    id: dome_config_id
+  - name: Detection
+    description: A Dome detection request/result.
+    id: detector_id
+  - name: Campaign
+    description: A Red Team adversarial campaign against an Agent (async job).
+    id: campaign_id
+  - name: Genome
+    description: Darwin evolution genome extracted from / applied to an Agent.
+    id: genome_id
+  - name: Proposal
+    description: A Darwin mutation proposal for an Agent's genome.
+  - name: DemographicDimension
+    description: Named demographic dimension + values used in evaluation simulation.
+relationships:
+  - {from: Membership, to: Team, type: belongs_to, via: team_id}
+  - {from: Membership, to: User, type: belongs_to, via: user_id}
+  - {from: Invitation, to: Team, type: belongs_to, via: team_id}
+  - {from: Agent, to: Team, type: belongs_to, via: team_id}
+  - {from: Agent, to: DomeConfig, type: has_one, via: dome_config_id}
+  - {from: Agent, to: ApiKey, type: has_one, via: api_key_id}
+  - {from: Agent, to: Evaluation, type: has_many, via: evaluation_id (AgentLatestEvaluation)}
+  - {from: Evaluation, to: Agent, type: belongs_to, via: agent_id}
+  - {from: Evaluation, to: Team, type: belongs_to, via: team_id}
+  - {from: EvaluationSummary, to: Agent, type: belongs_to, via: agent_id}
+  - {from: EvaluationSummary, to: Team, type: belongs_to, via: team_id}
+  - {from: CustomHarness, to: Agent, type: belongs_to, via: agent_id}
+  - {from: CustomHarness, to: Team, type: belongs_to, via: team_id}
+  - {from: CustomHarness, to: Persona, type: has_many, via: persona}
+  - {from: Persona, to: Team, type: belongs_to, via: team_id}
+  - {from: Policy, to: Team, type: belongs_to, via: team_id}
+  - {from: PolicyRule, to: Policy, type: belongs_to, via: policy_id}
+  - {from: DomeConfig, to: Agent, type: belongs_to, via: agent_id}
+  - {from: Detection, to: DomeConfig, type: uses, via: detector_id}
+  - {from: Campaign, to: Agent, type: belongs_to, via: agent_id}
+  - {from: Campaign, to: Team, type: belongs_to, via: team_id}
+  - {from: Proposal, to: Agent, type: belongs_to, via: agent_id}
+  - {from: Proposal, to: Genome, type: belongs_to, via: genome_id}
+  - {from: Proposal, to: Team, type: belongs_to, via: team_id}
+  - {from: Genome, to: Agent, type: belongs_to, via: agent_id}

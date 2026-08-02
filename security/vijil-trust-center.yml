@@ -1,0 +1,25 @@
+generated: '2026-07-21'
+method: searched
+probe: false
+url: https://vijil.ai/policies/trust-center
+certifications:
+  - name: SOC 2
+    status: aligned
+    detail: >-
+      Vijil states its Information Security Program follows the criteria set
+      forth by the SOC 2 Framework. The page describes an aligned program rather
+      than asserting a completed, dated SOC 2 Type II report.
+program:
+  - Information Security Program communicated across the organization
+  - Independent third-party audits of security and compliance controls
+  - Third-party penetration testing performed at least annually
+  - Documented security roles and responsibilities; policy review/acceptance required
+  - Confidentiality agreements for all team members
+  - Security awareness training (phishing, password management)
+  - Background checks on new team members
+cloud:
+  providers: [AWS, GCP]
+  detail: All services hosted on AWS and GCP, leveraging their certified security programs.
+evidence:
+  - source: https://vijil.ai/policies/trust-center
+    keywords: [soc 2, information security program, third-party penetration testing, compliance]

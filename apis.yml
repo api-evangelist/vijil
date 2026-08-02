@@ -1,25 +1,520 @@
 aid: vijil
 name: Vijil
-description: Vijil is a company surfaced as a portfolio company of mayfield and added to the API Evangelist
-  network as a stub for enrichment. This profile is a lead awaiting the enrichment pipeline.
+description: >-
+  Vijil is an AI agent trust platform (Mayfield-backed, ~$23M raised) that helps
+  enterprises make AI agents reliable, secure, and safe for production. Its
+  Console API and CLI span four products across the agent lifecycle: Diamond
+  (pre-deployment red-team evaluation that returns a Trust Score across
+  reliability, security, and safety), Dome (runtime Guardrails, Guards, and
+  Detectors that defend agent inputs/outputs), Darwin (reinforcement-learning
+  evolution that continuously improves agents), and Depot (hardened models and a
+  secure MCP proxy). The platform is programmable via a JWT-authenticated REST
+  API, the `vijil` CLI, an official `vijil-mcp` MCP server, and Python SDKs.
 url: https://raw.githubusercontent.com/api-evangelist/vijil/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
 x-backed-by:
 - mayfield
-x-tier: stub
-x-tier-reason: portfolio-lead
+x-tier: active
+x-tier-reason: enriched-real-api
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://cdn.prod.website-files.com/691dbb7207c690a0037cbb28/69bd58689ec57361822b8672_VIJIL-OG.png
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-21'
 tags:
 - Company
-apis: []
+- AI
+- AI Agents
+- Agent Security
+- AI Safety
+- Trust
+- Red Teaming
+- Guardrails
+- LLM Security
+- Evaluation
+- Observability
+- MCP
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
+apis:
+- aid: vijil:vijil-agent-configurations-api
+  name: Vijil agent-configurations API
+  description: The agent-configurations API from Vijil — 6 operation(s) for agent-configurations.
+  humanURL: https://docs.vijil.ai/
+  baseURL: https://console-api.vijil.ai
+  tags:
+  - agent-configurations
+  properties:
+  - type: OpenAPI
+    url: openapi/vijil-agent-configurations-api-openapi.yml
+  - type: APIReference
+    url: https://docs.vijil.ai/api-reference
+  - type: Documentation
+    url: https://docs.vijil.ai/developer-guide/getting-started/introduction
+- aid: vijil:vijil-agent-environment-api
+  name: Vijil Agent Environment API
+  description: Agent, persona, policy, and harness management
+  humanURL: https://docs.vijil.ai/
+  baseURL: https://console-api.vijil.ai
+  tags:
+  - Agent Environment
+  properties:
+  - type: OpenAPI
+    url: openapi/vijil-agent-environment-api-openapi.yml
+  - type: APIReference
+    url: https://docs.vijil.ai/api-reference
+  - type: Documentation
+    url: https://docs.vijil.ai/developer-guide/getting-started/introduction
+- aid: vijil:vijil-agent-import-api
+  name: Vijil agent-import API
+  description: The agent-import API from Vijil — 2 operation(s) for agent-import.
+  humanURL: https://docs.vijil.ai/
+  baseURL: https://console-api.vijil.ai
+  tags:
+  - agent-import
+  properties:
+  - type: OpenAPI
+    url: openapi/vijil-agent-import-api-openapi.yml
+  - type: APIReference
+    url: https://docs.vijil.ai/api-reference
+  - type: Documentation
+    url: https://docs.vijil.ai/developer-guide/getting-started/introduction
+- aid: vijil:vijil-auth-api
+  name: Vijil auth API
+  description: The auth API from Vijil — 5 operation(s) for auth.
+  humanURL: https://docs.vijil.ai/
+  baseURL: https://console-api.vijil.ai
+  tags:
+  - auth
+  properties:
+  - type: OpenAPI
+    url: openapi/vijil-auth-api-openapi.yml
+  - type: APIReference
+    url: https://docs.vijil.ai/api-reference
+  - type: Documentation
+    url: https://docs.vijil.ai/developer-guide/getting-started/introduction
+- aid: vijil:vijil-custom-harnesses-api
+  name: Vijil custom-harnesses API
+  description: The custom-harnesses API from Vijil — 4 operation(s) for custom-harnesses.
+  humanURL: https://docs.vijil.ai/
+  baseURL: https://console-api.vijil.ai
+  tags:
+  - custom-harnesses
+  properties:
+  - type: OpenAPI
+    url: openapi/vijil-custom-harnesses-api-openapi.yml
+  - type: APIReference
+    url: https://docs.vijil.ai/api-reference
+  - type: Documentation
+    url: https://docs.vijil.ai/developer-guide/getting-started/introduction
+- aid: vijil:vijil-dashboard-api
+  name: Vijil dashboard API
+  description: The dashboard API from Vijil — 1 operation(s) for dashboard.
+  humanURL: https://docs.vijil.ai/
+  baseURL: https://console-api.vijil.ai
+  tags:
+  - dashboard
+  properties:
+  - type: OpenAPI
+    url: openapi/vijil-dashboard-api-openapi.yml
+  - type: APIReference
+    url: https://docs.vijil.ai/api-reference
+  - type: Documentation
+    url: https://docs.vijil.ai/developer-guide/getting-started/introduction
+- aid: vijil:vijil-demographics-api
+  name: Vijil demographics API
+  description: The demographics API from Vijil — 12 operation(s) for demographics.
+  humanURL: https://docs.vijil.ai/
+  baseURL: https://console-api.vijil.ai
+  tags:
+  - demographics
+  properties:
+  - type: OpenAPI
+    url: openapi/vijil-demographics-api-openapi.yml
+  - type: APIReference
+    url: https://docs.vijil.ai/api-reference
+  - type: Documentation
+    url: https://docs.vijil.ai/developer-guide/getting-started/introduction
+- aid: vijil:vijil-detections-api
+  name: Vijil detections API
+  description: The detections API from Vijil — 2 operation(s) for detections.
+  humanURL: https://docs.vijil.ai/
+  baseURL: https://console-api.vijil.ai
+  tags:
+  - detections
+  properties:
+  - type: OpenAPI
+    url: openapi/vijil-detections-api-openapi.yml
+  - type: APIReference
+    url: https://docs.vijil.ai/api-reference
+  - type: Documentation
+    url: https://docs.vijil.ai/developer-guide/getting-started/introduction
+- aid: vijil:vijil-diamond-api
+  name: Vijil Diamond API
+  description: Evaluation management and report retrieval
+  humanURL: https://docs.vijil.ai/
+  baseURL: https://console-api.vijil.ai
+  tags:
+  - Diamond
+  properties:
+  - type: OpenAPI
+    url: openapi/vijil-diamond-api-openapi.yml
+  - type: APIReference
+    url: https://docs.vijil.ai/api-reference
+  - type: Documentation
+    url: https://docs.vijil.ai/developer-guide/getting-started/introduction
+- aid: vijil:vijil-dome-api
+  name: Vijil Dome API
+  description: Protection, guardrails, and telemetry
+  humanURL: https://docs.vijil.ai/
+  baseURL: https://console-api.vijil.ai
+  tags:
+  - Dome
+  properties:
+  - type: OpenAPI
+    url: openapi/vijil-dome-api-openapi.yml
+  - type: APIReference
+    url: https://docs.vijil.ai/api-reference
+  - type: Documentation
+    url: https://docs.vijil.ai/developer-guide/getting-started/introduction
+- aid: vijil:vijil-dome-configs-api
+  name: Vijil dome-configs API
+  description: The dome-configs API from Vijil — 4 operation(s) for dome-configs.
+  humanURL: https://docs.vijil.ai/
+  baseURL: https://console-api.vijil.ai
+  tags:
+  - dome-configs
+  properties:
+  - type: OpenAPI
+    url: openapi/vijil-dome-configs-api-openapi.yml
+  - type: APIReference
+    url: https://docs.vijil.ai/api-reference
+  - type: Documentation
+    url: https://docs.vijil.ai/developer-guide/getting-started/introduction
+- aid: vijil:vijil-evaluation-results-api
+  name: Vijil evaluation-results API
+  description: The evaluation-results API from Vijil — 4 operation(s) for evaluation-results.
+  humanURL: https://docs.vijil.ai/
+  baseURL: https://console-api.vijil.ai
+  tags:
+  - evaluation-results
+  properties:
+  - type: OpenAPI
+    url: openapi/vijil-evaluation-results-api-openapi.yml
+  - type: APIReference
+    url: https://docs.vijil.ai/api-reference
+  - type: Documentation
+    url: https://docs.vijil.ai/developer-guide/getting-started/introduction
+- aid: vijil:vijil-evaluation-summaries-api
+  name: Vijil evaluation-summaries API
+  description: The evaluation-summaries API from Vijil — 3 operation(s) for evaluation-summaries.
+  humanURL: https://docs.vijil.ai/
+  baseURL: https://console-api.vijil.ai
+  tags:
+  - evaluation-summaries
+  properties:
+  - type: OpenAPI
+    url: openapi/vijil-evaluation-summaries-api-openapi.yml
+  - type: APIReference
+    url: https://docs.vijil.ai/api-reference
+  - type: Documentation
+    url: https://docs.vijil.ai/developer-guide/getting-started/introduction
+- aid: vijil:vijil-evaluations-api
+  name: Vijil evaluations API
+  description: The evaluations API from Vijil — 7 operation(s) for evaluations.
+  humanURL: https://docs.vijil.ai/
+  baseURL: https://console-api.vijil.ai
+  tags:
+  - evaluations
+  properties:
+  - type: OpenAPI
+    url: openapi/vijil-evaluations-api-openapi.yml
+  - type: APIReference
+    url: https://docs.vijil.ai/api-reference
+  - type: Documentation
+    url: https://docs.vijil.ai/developer-guide/getting-started/introduction
+- aid: vijil:vijil-evolution-api
+  name: Vijil evolution API
+  description: The evolution API from Vijil — 6 operation(s) for evolution.
+  humanURL: https://docs.vijil.ai/
+  baseURL: https://console-api.vijil.ai
+  tags:
+  - evolution
+  properties:
+  - type: OpenAPI
+    url: openapi/vijil-evolution-api-openapi.yml
+  - type: APIReference
+    url: https://docs.vijil.ai/api-reference
+  - type: Documentation
+    url: https://docs.vijil.ai/developer-guide/getting-started/introduction
+- aid: vijil:vijil-genomes-api
+  name: Vijil genomes API
+  description: The genomes API from Vijil — 11 operation(s) for genomes.
+  humanURL: https://docs.vijil.ai/
+  baseURL: https://console-api.vijil.ai
+  tags:
+  - genomes
+  properties:
+  - type: OpenAPI
+    url: openapi/vijil-genomes-api-openapi.yml
+  - type: APIReference
+    url: https://docs.vijil.ai/api-reference
+  - type: Documentation
+    url: https://docs.vijil.ai/developer-guide/getting-started/introduction
+- aid: vijil:vijil-harnesses-api
+  name: Vijil harnesses API
+  description: The harnesses API from Vijil — 1 operation(s) for harnesses.
+  humanURL: https://docs.vijil.ai/
+  baseURL: https://console-api.vijil.ai
+  tags:
+  - harnesses
+  properties:
+  - type: OpenAPI
+    url: openapi/vijil-harnesses-api-openapi.yml
+  - type: APIReference
+    url: https://docs.vijil.ai/api-reference
+  - type: Documentation
+    url: https://docs.vijil.ai/developer-guide/getting-started/introduction
+- aid: vijil:vijil-personas-api
+  name: Vijil personas API
+  description: The personas API from Vijil — 4 operation(s) for personas.
+  humanURL: https://docs.vijil.ai/
+  baseURL: https://console-api.vijil.ai
+  tags:
+  - personas
+  properties:
+  - type: OpenAPI
+    url: openapi/vijil-personas-api-openapi.yml
+  - type: APIReference
+    url: https://docs.vijil.ai/api-reference
+  - type: Documentation
+    url: https://docs.vijil.ai/developer-guide/getting-started/introduction
+- aid: vijil:vijil-policies-api
+  name: Vijil policies API
+  description: The policies API from Vijil — 9 operation(s) for policies.
+  humanURL: https://docs.vijil.ai/
+  baseURL: https://console-api.vijil.ai
+  tags:
+  - policies
+  properties:
+  - type: OpenAPI
+    url: openapi/vijil-policies-api-openapi.yml
+  - type: APIReference
+    url: https://docs.vijil.ai/api-reference
+  - type: Documentation
+    url: https://docs.vijil.ai/developer-guide/getting-started/introduction
+- aid: vijil:vijil-policy-rules-api
+  name: Vijil policy-rules API
+  description: The policy-rules API from Vijil — 4 operation(s) for policy-rules.
+  humanURL: https://docs.vijil.ai/
+  baseURL: https://console-api.vijil.ai
+  tags:
+  - policy-rules
+  properties:
+  - type: OpenAPI
+    url: openapi/vijil-policy-rules-api-openapi.yml
+  - type: APIReference
+    url: https://docs.vijil.ai/api-reference
+  - type: Documentation
+    url: https://docs.vijil.ai/developer-guide/getting-started/introduction
+- aid: vijil:vijil-proposals-api
+  name: Vijil proposals API
+  description: The proposals API from Vijil — 3 operation(s) for proposals.
+  humanURL: https://docs.vijil.ai/
+  baseURL: https://console-api.vijil.ai
+  tags:
+  - proposals
+  properties:
+  - type: OpenAPI
+    url: openapi/vijil-proposals-api-openapi.yml
+  - type: APIReference
+    url: https://docs.vijil.ai/api-reference
+  - type: Documentation
+    url: https://docs.vijil.ai/developer-guide/getting-started/introduction
+- aid: vijil:vijil-red-team-api
+  name: Vijil Red Team API
+  description: Red team campaigns
+  humanURL: https://docs.vijil.ai/
+  baseURL: https://console-api.vijil.ai
+  tags:
+  - Red Team
+  properties:
+  - type: OpenAPI
+    url: openapi/vijil-red-team-api-openapi.yml
+  - type: APIReference
+    url: https://docs.vijil.ai/api-reference
+  - type: Documentation
+    url: https://docs.vijil.ai/developer-guide/getting-started/introduction
+- aid: vijil:vijil-redteam-api
+  name: Vijil redteam API
+  description: The redteam API from Vijil — 7 operation(s) for redteam.
+  humanURL: https://docs.vijil.ai/
+  baseURL: https://console-api.vijil.ai
+  tags:
+  - redteam
+  properties:
+  - type: OpenAPI
+    url: openapi/vijil-redteam-api-openapi.yml
+  - type: APIReference
+    url: https://docs.vijil.ai/api-reference
+  - type: Documentation
+    url: https://docs.vijil.ai/developer-guide/getting-started/introduction
+- aid: vijil:vijil-teams-api
+  name: Vijil Teams API
+  description: Authentication, users, and team management
+  humanURL: https://docs.vijil.ai/
+  baseURL: https://console-api.vijil.ai
+  tags:
+  - Teams
+  properties:
+  - type: OpenAPI
+    url: openapi/vijil-teams-api-openapi.yml
+  - type: APIReference
+    url: https://docs.vijil.ai/api-reference
+  - type: Documentation
+    url: https://docs.vijil.ai/developer-guide/getting-started/introduction
+- aid: vijil:vijil-telemetry-api
+  name: Vijil Telemetry API
+  description: The Telemetry API from Vijil — 6 operation(s) for telemetry.
+  humanURL: https://docs.vijil.ai/
+  baseURL: https://console-api.vijil.ai
+  tags:
+  - Telemetry
+  properties:
+  - type: OpenAPI
+    url: openapi/vijil-telemetry-api-openapi.yml
+  - type: APIReference
+    url: https://docs.vijil.ai/api-reference
+  - type: Documentation
+    url: https://docs.vijil.ai/developer-guide/getting-started/introduction
+- aid: vijil:vijil-trust-runtime-api
+  name: Vijil Trust Runtime API
+  description: The Trust Runtime API from Vijil — 1 operation(s) for trust runtime.
+  humanURL: https://docs.vijil.ai/
+  baseURL: https://console-api.vijil.ai
+  tags:
+  - Trust Runtime
+  properties:
+  - type: OpenAPI
+    url: openapi/vijil-trust-runtime-api-openapi.yml
+  - type: APIReference
+    url: https://docs.vijil.ai/api-reference
+  - type: Documentation
+    url: https://docs.vijil.ai/developer-guide/getting-started/introduction
+- aid: vijil:vijil-users-api
+  name: Vijil users API
+  description: The users API from Vijil — 4 operation(s) for users.
+  humanURL: https://docs.vijil.ai/
+  baseURL: https://console-api.vijil.ai
+  tags:
+  - users
+  properties:
+  - type: OpenAPI
+    url: openapi/vijil-users-api-openapi.yml
+  - type: APIReference
+    url: https://docs.vijil.ai/api-reference
+  - type: Documentation
+    url: https://docs.vijil.ai/developer-guide/getting-started/introduction
+- aid: vijil:vijil-webhooks-api
+  name: Vijil webhooks API
+  description: The webhooks API from Vijil — 1 operation(s) for webhooks.
+  humanURL: https://docs.vijil.ai/
+  baseURL: https://console-api.vijil.ai
+  tags:
+  - webhooks
+  properties:
+  - type: OpenAPI
+    url: openapi/vijil-webhooks-api-openapi.yml
+  - type: APIReference
+    url: https://docs.vijil.ai/api-reference
+  - type: Documentation
+    url: https://docs.vijil.ai/developer-guide/getting-started/introduction
 common:
+- type: DeveloperPortal
+  url: https://docs.vijil.ai/
+- type: Documentation
+  url: https://docs.vijil.ai/developer-guide/getting-started/introduction
+- type: APIReference
+  url: https://docs.vijil.ai/api-reference
+- type: GettingStarted
+  url: https://docs.vijil.ai/developer-guide/agentic/quickstart
+- type: Quickstart
+  url: https://docs.vijil.ai/developer-guide/agentic/quickstart
+- type: Blog
+  url: https://www.vijil.ai/blog
+- type: SignUp
+  url: https://vijil.ai/try-vijil
+- type: Support
+  url: https://vijil.ai/contact-us
+- type: TermsOfService
+  url: https://vijil.ai/policies/terms-of-service
+- type: PrivacyPolicy
+  url: https://vijil.ai/policies/privacy-policy
+- type: TrustCenter
+  url: security/vijil-trust-center.yml
+- type: Compliance
+  url: https://vijil.ai/policies/trust-center
+- type: SourceCode
+  name: Hugging Face (open models)
+  url: https://huggingface.co/vijil
+- type: Packages
+  url: packages/vijil-packages.yml
+- type: SDKs
+  url: packages/vijil-packages.yml
+- type: CLI
+  url: cli/vijil-cli.yml
+- type: MCPServer
+  url: mcp/vijil-mcp.yml
+- type: LLMsTxt
+  url: llms/vijil-llms.txt
+- type: Authentication
+  url: authentication/vijil-authentication.yml
+- type: Conventions
+  url: conventions/vijil-conventions.yml
+- type: ErrorCatalog
+  url: errors/vijil-problem-types.yml
+- type: Lifecycle
+  url: lifecycle/vijil-lifecycle.yml
+- type: Deprecation
+  url: https://docs.vijil.ai/developer-guide/reference/sdk-migration-guide
+- type: Conformance
+  url: conformance/vijil-conformance.yml
+- type: DataModel
+  url: data-model/vijil-data-model.yml
+- type: Overlay
+  url: overlays/vijil-openapi-overlay.yaml
+- type: AgentSkill
+  name: Evaluate an agent's trust score with Vijil
+  url: skills/vijil-evaluate-agent-trust.md
+- type: AgentSkill
+  name: Protect an agent at runtime with Vijil Dome
+  url: skills/vijil-protect-agent-dome.md
+- type: AgentSkill
+  name: Run an adversarial red-team campaign with Vijil
+  url: skills/vijil-red-team-campaign.md
+- type: AgenticAccess
+  url: agentic-access/vijil-agentic-access.yml
+- type: DomainSecurity
+  url: security/vijil-domain-security.yml
 - type: Website
   url: https://vijil.ai
+x-enrichment:
+  date: '2026-07-21'
+  status: enriched
+  artifacts_added: 19
+  pass: local-v1

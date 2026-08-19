@@ -1,0 +1,1169 @@
+{
+  "item": [
+    {
+      "id": "b2b30043-b271-4cd3-8ddc-ab06f69bad75",
+      "name": "personas",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "4dd40d5b-dbcb-4652-a330-1ecf67f10d08",
+          "name": "Get Persona",
+          "request": {
+            "name": "Get Persona",
+            "description": {
+              "content": "Get a single persona by ID.\n\nRequires persona:read permission and team_id query parameter. The user's JWT must be scoped to that team.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "personas",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "team_id",
+                  "value": "<uuid>",
+                  "description": "Team scope (required); must match a team the user has access to"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "bd3bbfde-02f8-4a35-9cf5-099a07e9ca70",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "personas",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "team_id",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"90701f3d-dd90-320d-cd67-35a82c69de42\",\n  \"team_id\": \"2d931349-85e7-bf7e-c4b3-d8107a6302c4\",\n  \"name\": \"string\",\n  \"role\": \"string\",\n  \"created_at\": 8872,\n  \"updated_at\": 2619,\n  \"created_by\": \"6d3365b1-ef70-7908-ffae-79670ab3f5b6\",\n  \"description\": \"string\",\n  \"role_description\": \"string\",\n  \"knowledge_level\": \"intermediate\",\n  \"skill_level\": \"competent\",\n  \"intent\": \"benign\",\n  \"language\": \"en\",\n  \"access_permissions\": {\n    \"privilege_level\": \"user\",\n    \"allowed_agents\": [\n      \"string\",\n      \"string\"\n    ],\n    \"allowed_tools\": [\n      \"string\",\n      \"string\"\n    ],\n    \"restricted_actions\": [\n      \"string\",\n      \"string\"\n    ],\n    \"data_access_scope\": \"own\"\n  },\n  \"is_preset\": false,\n  \"preset_category\": \"string\",\n  \"tags\": [\n    \"string\",\n    \"string\"\n  ],\n  \"icon_filename\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ec27bc17-3f36-4269-bb4b-def50c3998ba",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "personas",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "team_id",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9b862cd2-1d15-49ac-bb92-de976f4adb08",
+          "name": "Update Persona",
+          "request": {
+            "name": "Update Persona",
+            "description": {
+              "content": "Update an existing persona.\n\nSupports partial updates - only provided fields will be updated.\nRequires persona:write permission.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "personas",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"role\": \"<string>\",\n  \"role_description\": \"<string>\",\n  \"knowledge_level\": \"<string>\",\n  \"skill_level\": \"<string>\",\n  \"intent\": \"<string>\",\n  \"language\": \"<string>\",\n  \"access_permissions\": {\n    \"privilege_level\": \"user\",\n    \"allowed_agents\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"allowed_tools\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"restricted_actions\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"data_access_scope\": \"<string>\"\n  },\n  \"is_preset\": \"<boolean>\",\n  \"preset_category\": \"<string>\",\n  \"tags\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"icon_filename\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "29b8ae1a-e126-4e59-8bdc-47e44dc9ea5e",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "personas",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"role\": \"<string>\",\n  \"role_description\": \"<string>\",\n  \"knowledge_level\": \"intermediate\",\n  \"skill_level\": \"expert\",\n  \"intent\": \"malicious\",\n  \"language\": \"<string>\",\n  \"access_permissions\": {\n    \"privilege_level\": \"user\",\n    \"allowed_agents\": [\n      \"string\",\n      \"string\"\n    ],\n    \"allowed_tools\": [\n      \"string\",\n      \"string\"\n    ],\n    \"restricted_actions\": [\n      \"string\",\n      \"string\"\n    ],\n    \"data_access_scope\": \"own\"\n  },\n  \"is_preset\": \"<boolean>\",\n  \"preset_category\": \"<string>\",\n  \"tags\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"icon_filename\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"90701f3d-dd90-320d-cd67-35a82c69de42\",\n  \"team_id\": \"2d931349-85e7-bf7e-c4b3-d8107a6302c4\",\n  \"name\": \"string\",\n  \"role\": \"string\",\n  \"created_at\": 8872,\n  \"updated_at\": 2619,\n  \"created_by\": \"6d3365b1-ef70-7908-ffae-79670ab3f5b6\",\n  \"description\": \"string\",\n  \"role_description\": \"string\",\n  \"knowledge_level\": \"intermediate\",\n  \"skill_level\": \"competent\",\n  \"intent\": \"benign\",\n  \"language\": \"en\",\n  \"access_permissions\": {\n    \"privilege_level\": \"user\",\n    \"allowed_agents\": [\n      \"string\",\n      \"string\"\n    ],\n    \"allowed_tools\": [\n      \"string\",\n      \"string\"\n    ],\n    \"restricted_actions\": [\n      \"string\",\n      \"string\"\n    ],\n    \"data_access_scope\": \"own\"\n  },\n  \"is_preset\": false,\n  \"preset_category\": \"string\",\n  \"tags\": [\n    \"string\",\n    \"string\"\n  ],\n  \"icon_filename\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "20ca80be-9abd-4d3c-a4f8-e2231e00868b",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "personas",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"role\": \"<string>\",\n  \"role_description\": \"<string>\",\n  \"knowledge_level\": \"intermediate\",\n  \"skill_level\": \"expert\",\n  \"intent\": \"malicious\",\n  \"language\": \"<string>\",\n  \"access_permissions\": {\n    \"privilege_level\": \"user\",\n    \"allowed_agents\": [\n      \"string\",\n      \"string\"\n    ],\n    \"allowed_tools\": [\n      \"string\",\n      \"string\"\n    ],\n    \"restricted_actions\": [\n      \"string\",\n      \"string\"\n    ],\n    \"data_access_scope\": \"own\"\n  },\n  \"is_preset\": \"<boolean>\",\n  \"preset_category\": \"<string>\",\n  \"tags\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"icon_filename\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "14e23bcb-c858-4d76-bbb2-b6597d0af0ae",
+          "name": "Delete Persona",
+          "request": {
+            "name": "Delete Persona",
+            "description": {
+              "content": "Delete a persona.\n\nRequires persona:write permission.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "personas",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2f46d9af-8593-41b2-a504-c04fc289b831",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "personas",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "2f6a3b4a-1005-45b6-98f3-f774c50a7637",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "personas",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "447f96d3-341e-4f1a-89c8-17f4d89fe4a7",
+          "name": "List Personas",
+          "request": {
+            "name": "List Personas",
+            "description": {
+              "content": "List personas with filtering and pagination.\n\nRequires persona:read permission and team_id query parameter. The user's JWT must be scoped to that team.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "personas",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "team_id",
+                  "value": "<uuid>",
+                  "description": "Team scope (required); must match a team the user has access to"
+                },
+                {
+                  "disabled": false,
+                  "key": "intents",
+                  "value": "<string>",
+                  "description": "Filter by intent(s): benign, curious, adversarial, malicious"
+                },
+                {
+                  "disabled": false,
+                  "key": "intents",
+                  "value": "<string>",
+                  "description": "Filter by intent(s): benign, curious, adversarial, malicious"
+                },
+                {
+                  "disabled": false,
+                  "key": "is_preset",
+                  "value": "<boolean>",
+                  "description": "Filter by preset status"
+                },
+                {
+                  "disabled": false,
+                  "key": "search",
+                  "value": "<string>",
+                  "description": "Search in name, description, and role"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "10",
+                  "description": "Maximum number of results (default 10)"
+                },
+                {
+                  "disabled": false,
+                  "key": "offset",
+                  "value": "0",
+                  "description": "Number of results to skip for paging"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "9fec7a77-810f-42cb-b917-693c7a6214c6",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "personas",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "team_id",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "intents",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "intents",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "is_preset",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "search",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"results\": [\n    {\n      \"id\": \"25966ed5-a30b-cc34-40c4-d0a4bf9eb06a\",\n      \"team_id\": \"3c26a513-3698-e743-83d5-a30402ad9867\",\n      \"name\": \"string\",\n      \"role\": \"string\",\n      \"created_at\": 2907,\n      \"updated_at\": 7788,\n      \"created_by\": \"4aa485ac-bb8d-26a3-554c-9535d0a28ef2\",\n      \"description\": \"string\",\n      \"role_description\": \"string\",\n      \"knowledge_level\": \"intermediate\",\n      \"skill_level\": \"competent\",\n      \"intent\": \"benign\",\n      \"language\": \"en\",\n      \"access_permissions\": {\n        \"privilege_level\": \"user\",\n        \"allowed_agents\": [\n          \"string\",\n          \"string\"\n        ],\n        \"allowed_tools\": [\n          \"string\",\n          \"string\"\n        ],\n        \"restricted_actions\": [\n          \"string\",\n          \"string\"\n        ],\n        \"data_access_scope\": \"own\"\n      },\n      \"is_preset\": false,\n      \"preset_category\": \"string\",\n      \"tags\": [\n        \"string\",\n        \"string\"\n      ],\n      \"icon_filename\": \"string\"\n    },\n    {\n      \"id\": \"033fac1c-2191-a5a0-f120-8328985d9f33\",\n      \"team_id\": \"aef7da96-0cb4-c73d-8cc4-8bf63e05cb01\",\n      \"name\": \"string\",\n      \"role\": \"string\",\n      \"created_at\": 8838,\n      \"updated_at\": 8474,\n      \"created_by\": \"ed6e27fa-0e59-29bf-2b40-aac2ef3449e8\",\n      \"description\": \"string\",\n      \"role_description\": \"string\",\n      \"knowledge_level\": \"intermediate\",\n      \"skill_level\": \"competent\",\n      \"intent\": \"benign\",\n      \"language\": \"en\",\n      \"access_permissions\": {\n        \"privilege_level\": \"user\",\n        \"allowed_agents\": [\n          \"string\",\n          \"string\"\n        ],\n        \"allowed_tools\": [\n          \"string\",\n          \"string\"\n        ],\n        \"restricted_actions\": [\n          \"string\",\n          \"string\"\n        ],\n        \"data_access_scope\": \"global\"\n      },\n      \"is_preset\": false,\n      \"preset_category\": \"string\",\n      \"tags\": [\n        \"string\",\n        \"string\"\n      ],\n      \"icon_filename\": \"string\"\n    }\n  ],\n  \"total\": 7972\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a7510eb5-4d26-4d28-a18a-c3010540f769",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "personas",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "team_id",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "intents",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "intents",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "is_preset",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "search",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "800191dc-ae51-4744-ad7a-878fe9daca17",
+          "name": "Create Persona",
+          "request": {
+            "name": "Create Persona",
+            "description": {
+              "content": "Create a new persona.\n\nRequires persona:write permission for the team_id in the request body.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "personas",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"team_id\": \"<uuid>\",\n  \"name\": \"<string>\",\n  \"role\": \"<string>\",\n  \"id\": \"<uuid>\",\n  \"description\": \"<string>\",\n  \"role_description\": \"<string>\",\n  \"knowledge_level\": \"intermediate\",\n  \"skill_level\": \"competent\",\n  \"intent\": \"benign\",\n  \"language\": \"en\",\n  \"access_permissions\": {\n    \"privilege_level\": \"user\",\n    \"allowed_agents\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"allowed_tools\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"restricted_actions\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"data_access_scope\": \"<string>\"\n  },\n  \"is_preset\": false,\n  \"preset_category\": \"<string>\",\n  \"tags\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"icon_filename\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "5a1cad9b-f205-43cd-b2ec-80c3916a47ad",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "personas",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"team_id\": \"<uuid>\",\n  \"name\": \"<string>\",\n  \"role\": \"<string>\",\n  \"id\": \"<uuid>\",\n  \"description\": \"<string>\",\n  \"role_description\": \"<string>\",\n  \"knowledge_level\": \"intermediate\",\n  \"skill_level\": \"competent\",\n  \"intent\": \"benign\",\n  \"language\": \"en\",\n  \"access_permissions\": {\n    \"privilege_level\": \"user\",\n    \"allowed_agents\": [\n      \"string\",\n      \"string\"\n    ],\n    \"allowed_tools\": [\n      \"string\",\n      \"string\"\n    ],\n    \"restricted_actions\": [\n      \"string\",\n      \"string\"\n    ],\n    \"data_access_scope\": \"organization\"\n  },\n  \"is_preset\": false,\n  \"preset_category\": \"<string>\",\n  \"tags\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"icon_filename\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"90701f3d-dd90-320d-cd67-35a82c69de42\",\n  \"team_id\": \"2d931349-85e7-bf7e-c4b3-d8107a6302c4\",\n  \"name\": \"string\",\n  \"role\": \"string\",\n  \"created_at\": 8872,\n  \"updated_at\": 2619,\n  \"created_by\": \"6d3365b1-ef70-7908-ffae-79670ab3f5b6\",\n  \"description\": \"string\",\n  \"role_description\": \"string\",\n  \"knowledge_level\": \"intermediate\",\n  \"skill_level\": \"competent\",\n  \"intent\": \"benign\",\n  \"language\": \"en\",\n  \"access_permissions\": {\n    \"privilege_level\": \"user\",\n    \"allowed_agents\": [\n      \"string\",\n      \"string\"\n    ],\n    \"allowed_tools\": [\n      \"string\",\n      \"string\"\n    ],\n    \"restricted_actions\": [\n      \"string\",\n      \"string\"\n    ],\n    \"data_access_scope\": \"own\"\n  },\n  \"is_preset\": false,\n  \"preset_category\": \"string\",\n  \"tags\": [\n    \"string\",\n    \"string\"\n  ],\n  \"icon_filename\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "94275f5b-1201-4163-90e0-d0dd3a9eeb99",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "personas",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"team_id\": \"<uuid>\",\n  \"name\": \"<string>\",\n  \"role\": \"<string>\",\n  \"id\": \"<uuid>\",\n  \"description\": \"<string>\",\n  \"role_description\": \"<string>\",\n  \"knowledge_level\": \"intermediate\",\n  \"skill_level\": \"competent\",\n  \"intent\": \"benign\",\n  \"language\": \"en\",\n  \"access_permissions\": {\n    \"privilege_level\": \"user\",\n    \"allowed_agents\": [\n      \"string\",\n      \"string\"\n    ],\n    \"allowed_tools\": [\n      \"string\",\n      \"string\"\n    ],\n    \"restricted_actions\": [\n      \"string\",\n      \"string\"\n    ],\n    \"data_access_scope\": \"organization\"\n  },\n  \"is_preset\": false,\n  \"preset_category\": \"<string>\",\n  \"tags\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"icon_filename\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c06ac4bd-999f-4dbd-a422-399d46fbda44",
+          "name": "List Presets",
+          "request": {
+            "name": "List Presets",
+            "description": {
+              "content": "List system preset personas.\n\nRequires persona:read permission and team_id query parameter. The user's JWT must be scoped to that team.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "personas",
+                "presets",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "team_id",
+                  "value": "<uuid>",
+                  "description": "Team scope (required); must match a team the user has access to"
+                },
+                {
+                  "disabled": false,
+                  "key": "preset_category",
+                  "value": "<string>",
+                  "description": "Filter by preset category: professional, adversarial, support"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "100",
+                  "description": "Maximum number of results"
+                },
+                {
+                  "disabled": false,
+                  "key": "offset",
+                  "value": "0",
+                  "description": "Number of results to skip"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "8a619f5f-a79b-4db3-bac6-b399770c41e3",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "personas",
+                    "presets",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "team_id",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "preset_category",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"results\": [\n    {\n      \"id\": \"25966ed5-a30b-cc34-40c4-d0a4bf9eb06a\",\n      \"team_id\": \"3c26a513-3698-e743-83d5-a30402ad9867\",\n      \"name\": \"string\",\n      \"role\": \"string\",\n      \"created_at\": 2907,\n      \"updated_at\": 7788,\n      \"created_by\": \"4aa485ac-bb8d-26a3-554c-9535d0a28ef2\",\n      \"description\": \"string\",\n      \"role_description\": \"string\",\n      \"knowledge_level\": \"intermediate\",\n      \"skill_level\": \"competent\",\n      \"intent\": \"benign\",\n      \"language\": \"en\",\n      \"access_permissions\": {\n        \"privilege_level\": \"user\",\n        \"allowed_agents\": [\n          \"string\",\n          \"string\"\n        ],\n        \"allowed_tools\": [\n          \"string\",\n          \"string\"\n        ],\n        \"restricted_actions\": [\n          \"string\",\n          \"string\"\n        ],\n        \"data_access_scope\": \"own\"\n      },\n      \"is_preset\": false,\n      \"preset_category\": \"string\",\n      \"tags\": [\n        \"string\",\n        \"string\"\n      ],\n      \"icon_filename\": \"string\"\n    },\n    {\n      \"id\": \"033fac1c-2191-a5a0-f120-8328985d9f33\",\n      \"team_id\": \"aef7da96-0cb4-c73d-8cc4-8bf63e05cb01\",\n      \"name\": \"string\",\n      \"role\": \"string\",\n      \"created_at\": 8838,\n      \"updated_at\": 8474,\n      \"created_by\": \"ed6e27fa-0e59-29bf-2b40-aac2ef3449e8\",\n      \"description\": \"string\",\n      \"role_description\": \"string\",\n      \"knowledge_level\": \"intermediate\",\n      \"skill_level\": \"competent\",\n      \"intent\": \"benign\",\n      \"language\": \"en\",\n      \"access_permissions\": {\n        \"privilege_level\": \"user\",\n        \"allowed_agents\": [\n          \"string\",\n          \"string\"\n        ],\n        \"allowed_tools\": [\n          \"string\",\n          \"string\"\n        ],\n        \"restricted_actions\": [\n          \"string\",\n          \"string\"\n        ],\n        \"data_access_scope\": \"global\"\n      },\n      \"is_preset\": false,\n      \"preset_category\": \"string\",\n      \"tags\": [\n        \"string\",\n        \"string\"\n      ],\n      \"icon_filename\": \"string\"\n    }\n  ],\n  \"total\": 7972\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d5019268-5c3d-48ac-84c6-90fdb7f3e699",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "personas",
+                    "presets",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "team_id",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "preset_category",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "84d30ae3-457e-4131-ac98-10820c82cb27",
+          "name": "Create From Preset",
+          "request": {
+            "name": "Create From Preset",
+            "description": {
+              "content": "Create a new persona from a system preset.\n\nRequires persona:write permission.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "personas",
+                "from-preset",
+                ":preset_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "preset_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name_override\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "2885e9f4-e94b-4524-a493-a6cec2e79f03",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "personas",
+                    "from-preset",
+                    ":preset_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "preset_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name_override\": \"string\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"90701f3d-dd90-320d-cd67-35a82c69de42\",\n  \"team_id\": \"2d931349-85e7-bf7e-c4b3-d8107a6302c4\",\n  \"name\": \"string\",\n  \"role\": \"string\",\n  \"created_at\": 8872,\n  \"updated_at\": 2619,\n  \"created_by\": \"6d3365b1-ef70-7908-ffae-79670ab3f5b6\",\n  \"description\": \"string\",\n  \"role_description\": \"string\",\n  \"knowledge_level\": \"intermediate\",\n  \"skill_level\": \"competent\",\n  \"intent\": \"benign\",\n  \"language\": \"en\",\n  \"access_permissions\": {\n    \"privilege_level\": \"user\",\n    \"allowed_agents\": [\n      \"string\",\n      \"string\"\n    ],\n    \"allowed_tools\": [\n      \"string\",\n      \"string\"\n    ],\n    \"restricted_actions\": [\n      \"string\",\n      \"string\"\n    ],\n    \"data_access_scope\": \"own\"\n  },\n  \"is_preset\": false,\n  \"preset_category\": \"string\",\n  \"tags\": [\n    \"string\",\n    \"string\"\n  ],\n  \"icon_filename\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9ac6a33d-6204-44ad-8a0f-2679b553d854",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "personas",
+                    "from-preset",
+                    ":preset_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "preset_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name_override\": \"string\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "a1833fd0-4ca5-4adc-91f1-1ae0a20d9754",
+    "name": "Vijil Console API (Combined) agent-configurations personas API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Combined OpenAPI specification for all vijil-console microservices.",
+      "type": "text/plain"
+    }
+  }
+}

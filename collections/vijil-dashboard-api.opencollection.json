@@ -1,0 +1,29 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Vijil Console API (Combined) agent-configurations dashboard API",
+    "version": "0.1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "dashboard",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Trust Dashboard",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/dashboard/trust"
+          },
+          "docs": "Return the Trust Dashboard for the authenticated user's team.\n\nAggregates:\n- Agent list from Agent Registry (DB)\n- Latest evaluation scores from Diamond (S3)\n- Darwin proposal stats (DB)\n- Dome attack status (V1: stub)"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

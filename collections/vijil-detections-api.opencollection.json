@@ -1,0 +1,51 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Vijil Console API (Combined) agent-configurations detections API",
+    "version": "0.1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "detections",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create Detection",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/detections",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new detection request.\n\nThis endpoint accepts a detection request and starts processing it\nasynchronously. The response includes the detection ID which can be\nused to poll for results via GET /detections/{id}.\n\nNote: This endpoint does not require authentication to support\nthe Execution Flow test input feature."
+        },
+        {
+          "info": {
+            "name": "Get Detection",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/detections/:detection_id",
+            "params": [
+              {
+                "name": "detection_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a detection by ID.\n\nReturns the current status and results of a detection.\nStatus values:\n- CREATED: Detection is queued for processing\n- PROCESSING: Detection is being processed\n- COMPLETED: Detection finished successfully\n- ERROR: Detection failed\n\nNote: This endpoint does not require authentication to support\nthe Execution Flow test input feature."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

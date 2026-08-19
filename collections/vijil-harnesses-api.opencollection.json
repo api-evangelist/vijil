@@ -1,0 +1,37 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Vijil Console API (Combined) agent-configurations harnesses API",
+    "version": "0.1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "harnesses",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Harnesses",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/harnesses/",
+            "params": [
+              {
+                "name": "team_id",
+                "value": "",
+                "type": "query",
+                "description": "Team ID (required)"
+              }
+            ]
+          },
+          "docs": "List all standard harnesses (global resources).\n\nStandard harnesses are global and not scoped to a team.\nThey are read-only and managed externally.\n\nArgs:\n    team_id: Team ID (required for permission checks)\n    claims: JWT claims with user and team info\n    harness_service: Harness service instance\n    \nReturns:\n    List of harness items, ordered by updated_at descending\n    \nRaises:\n    HTTPException: 422 if team_id is missing, 403 if user lacks permission, 500 on server errors"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

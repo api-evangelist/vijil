@@ -1,0 +1,501 @@
+{
+  "item": [
+    {
+      "id": "864626c9-0e2e-470f-9962-3005d69a2b7b",
+      "name": "proposals",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "73831295-7c76-46fa-af5f-aba2c9ac27e9",
+          "name": "Get Proposal By Id",
+          "request": {
+            "name": "Get Proposal By Id",
+            "description": {
+              "content": "Get a single mutation proposal by ID.\n\nProxies to Darwin's GET /v1/proposals/{proposal_id} with team_id\nextracted from JWT claims.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "proposals",
+                ":proposal_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "proposal_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "0b8b3973-26e5-4a29-8e1b-5c128691f4e6",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "proposals",
+                    ":proposal_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "proposal_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"265f399e-a4bf-f00a-bb2c-b402d6b95d35\",\n  \"team_id\": \"8d7a73e3-66da-8871-e4a0-add1b78a6469\",\n  \"agent_id\": \"e0d7d3b4-c4c2-41b4-9812-6dba78a36adf\",\n  \"genome_id\": \"226d22de-6d1c-5513-39ca-72ffa9a586a0\",\n  \"genome_version\": 2085,\n  \"status\": \"string\",\n  \"created_at\": 3984,\n  \"trigger_summary\": \"\",\n  \"pre_fitness\": {\n    \"key_0\": 8193.221987859912,\n    \"key_1\": 1035.2434788869525\n  },\n  \"post_fitness\": {\n    \"key_0\": 1269.1546022685664\n  },\n  \"fitness_delta\": {\n    \"key_0\": 750.694755671083,\n    \"key_1\": 1738.5981181282339,\n    \"key_2\": 1469.2770560093281,\n    \"key_3\": 2946.975691799898\n  },\n  \"net_fitness_delta\": 4455.302318686803,\n  \"reviewed_at\": 8526,\n  \"reviewed_by\": \"f185502d-f7fa-4652-a693-a9324f75fa76\",\n  \"reviewer_notes\": \"string\",\n  \"engine_name\": \"string\",\n  \"extra\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4a4fdfa4-5f7a-4138-ba57-5d8ad6a33576",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "proposals",
+                    ":proposal_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "proposal_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5afe8104-1b19-4d48-b87e-ef0a71220861",
+          "name": "Approve Proposal",
+          "request": {
+            "name": "Approve Proposal",
+            "description": {
+              "content": "Approve a mutation proposal.\n\nExtracts user_id from JWT claims — users cannot approve on behalf\nof others. Forwards to Darwin's POST /v1/proposals/{id}/approve.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "proposals",
+                ":proposal_id",
+                "approve"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "proposal_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"notes\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "872a691c-4408-4f07-b299-2757bfc9272d",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "proposals",
+                    ":proposal_id",
+                    "approve"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "proposal_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"notes\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"265f399e-a4bf-f00a-bb2c-b402d6b95d35\",\n  \"team_id\": \"8d7a73e3-66da-8871-e4a0-add1b78a6469\",\n  \"agent_id\": \"e0d7d3b4-c4c2-41b4-9812-6dba78a36adf\",\n  \"genome_id\": \"226d22de-6d1c-5513-39ca-72ffa9a586a0\",\n  \"genome_version\": 2085,\n  \"status\": \"string\",\n  \"created_at\": 3984,\n  \"trigger_summary\": \"\",\n  \"pre_fitness\": {\n    \"key_0\": 8193.221987859912,\n    \"key_1\": 1035.2434788869525\n  },\n  \"post_fitness\": {\n    \"key_0\": 1269.1546022685664\n  },\n  \"fitness_delta\": {\n    \"key_0\": 750.694755671083,\n    \"key_1\": 1738.5981181282339,\n    \"key_2\": 1469.2770560093281,\n    \"key_3\": 2946.975691799898\n  },\n  \"net_fitness_delta\": 4455.302318686803,\n  \"reviewed_at\": 8526,\n  \"reviewed_by\": \"f185502d-f7fa-4652-a693-a9324f75fa76\",\n  \"reviewer_notes\": \"string\",\n  \"engine_name\": \"string\",\n  \"extra\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6f1b97c4-c453-47f3-b766-e0479c650a7f",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "proposals",
+                    ":proposal_id",
+                    "approve"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "proposal_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"notes\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b995101e-ca67-48e9-9487-ebaff7203df4",
+          "name": "Reject Proposal",
+          "request": {
+            "name": "Reject Proposal",
+            "description": {
+              "content": "Reject a mutation proposal.\n\nExtracts user_id from JWT claims. Notes default to empty string\nsince Darwin requires notes for rejection.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "proposals",
+                ":proposal_id",
+                "reject"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "proposal_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"notes\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "42f72a91-bf74-4854-a47b-4a974a4124f5",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "proposals",
+                    ":proposal_id",
+                    "reject"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "proposal_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"notes\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"265f399e-a4bf-f00a-bb2c-b402d6b95d35\",\n  \"team_id\": \"8d7a73e3-66da-8871-e4a0-add1b78a6469\",\n  \"agent_id\": \"e0d7d3b4-c4c2-41b4-9812-6dba78a36adf\",\n  \"genome_id\": \"226d22de-6d1c-5513-39ca-72ffa9a586a0\",\n  \"genome_version\": 2085,\n  \"status\": \"string\",\n  \"created_at\": 3984,\n  \"trigger_summary\": \"\",\n  \"pre_fitness\": {\n    \"key_0\": 8193.221987859912,\n    \"key_1\": 1035.2434788869525\n  },\n  \"post_fitness\": {\n    \"key_0\": 1269.1546022685664\n  },\n  \"fitness_delta\": {\n    \"key_0\": 750.694755671083,\n    \"key_1\": 1738.5981181282339,\n    \"key_2\": 1469.2770560093281,\n    \"key_3\": 2946.975691799898\n  },\n  \"net_fitness_delta\": 4455.302318686803,\n  \"reviewed_at\": 8526,\n  \"reviewed_by\": \"f185502d-f7fa-4652-a693-a9324f75fa76\",\n  \"reviewer_notes\": \"string\",\n  \"engine_name\": \"string\",\n  \"extra\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "170371d8-2124-41e9-a92a-56db0a79ed3b",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "proposals",
+                    ":proposal_id",
+                    "reject"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "proposal_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"notes\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "6402bc1d-3851-4770-a404-5beb26e233b9",
+    "name": "Vijil Console API (Combined) agent-configurations proposals API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Combined OpenAPI specification for all vijil-console microservices.",
+      "type": "text/plain"
+    }
+  }
+}

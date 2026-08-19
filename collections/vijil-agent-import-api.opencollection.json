@@ -1,0 +1,48 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Vijil Console API (Combined) agent-configurations agent-import API",
+    "version": "0.1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "agent-import",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Validate Agent Import",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/agent-configurations/import/validate",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Validate an agent import request without saving.\n\nSupports three input methods with deterministic access levels:\n- agent_url:   Remote black_box - Just an endpoint URL to call\n- agent_card:  Local grey_box - Upload agent configuration/card JSON\n- source_code: Local white_box - Upload agent source code files\n\nReturns validation status, access level, and parsed agent card for preview."
+        },
+        {
+          "info": {
+            "name": "Import Agent Unified",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/agent-configurations/import",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Import an agent using the unified import endpoint.\n\nSupports three input methods with deterministic access levels:\n- agent_url:   Remote black_box - Just an endpoint URL to call\n- agent_card:  Local grey_box - Upload agent configuration/card JSON\n- source_code: Local white_box - Upload agent source code files\n\nAccess level is determined by input method (not content)."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

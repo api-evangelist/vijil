@@ -1,0 +1,327 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Vijil Console API (Combined) agent-configurations genomes API",
+    "version": "0.1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "genomes",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Genomes",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/genomes/",
+            "params": [
+              {
+                "name": "agent_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter by agent"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "List genomes with filtering and pagination. Proxies to Darwin."
+        },
+        {
+          "info": {
+            "name": "Create Genome",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/genomes/",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create (seed) a new genome. Proxies to Darwin POST /v1/genomes."
+        },
+        {
+          "info": {
+            "name": "Get Genome By Agent",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/genomes/by-agent/:agent_id",
+            "params": [
+              {
+                "name": "agent_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "query",
+                "description": "Specific version (None = latest)"
+              }
+            ]
+          },
+          "docs": "Get a genome by agent ID. Proxies to Darwin."
+        },
+        {
+          "info": {
+            "name": "Get Mutation History",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/genomes/by-agent/:agent_id/mutation-history",
+            "params": [
+              {
+                "name": "agent_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get mutation history for an agent's genome. Proxies to Darwin."
+        },
+        {
+          "info": {
+            "name": "Get Genome",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/genomes/:genome_id",
+            "params": [
+              {
+                "name": "genome_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "query",
+                "description": "Specific version (None = latest)"
+              }
+            ]
+          },
+          "docs": "Get a genome by ID. Proxies to Darwin."
+        },
+        {
+          "info": {
+            "name": "Delete Genome",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v1/genomes/:genome_id",
+            "params": [
+              {
+                "name": "genome_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete a genome and all its versions. Proxies to Darwin."
+        },
+        {
+          "info": {
+            "name": "List Genome Versions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/genomes/:genome_id/versions",
+            "params": [
+              {
+                "name": "genome_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "List all versions of a genome. Proxies to Darwin."
+        },
+        {
+          "info": {
+            "name": "Get Genome Version",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/genomes/:genome_id/versions/:version",
+            "params": [
+              {
+                "name": "genome_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a specific genome version. Proxies to Darwin."
+        },
+        {
+          "info": {
+            "name": "Get Genome Ancestry",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/genomes/:genome_id/ancestry",
+            "params": [
+              {
+                "name": "genome_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "max_depth",
+                "value": "",
+                "type": "query",
+                "description": "Maximum ancestor depth"
+              }
+            ]
+          },
+          "docs": "Get ancestry chain for a genome. Proxies to Darwin."
+        },
+        {
+          "info": {
+            "name": "Diff Genome Versions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/genomes/:genome_id/diff",
+            "params": [
+              {
+                "name": "genome_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "version_a",
+                "value": "",
+                "type": "query",
+                "description": "First version"
+              },
+              {
+                "name": "version_b",
+                "value": "",
+                "type": "query",
+                "description": "Second version"
+              }
+            ]
+          },
+          "docs": "Compare two genome versions. Proxies to Darwin."
+        },
+        {
+          "info": {
+            "name": "Find Similar Genomes",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/genomes/:genome_id/similar",
+            "params": [
+              {
+                "name": "genome_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "query",
+                "description": "Genome version"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Find similar genomes. Proxies to Darwin."
+        },
+        {
+          "info": {
+            "name": "Extract Genome From Agent",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/genomes/extract-from-agent/:agent_id",
+            "params": [
+              {
+                "name": "agent_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Extract a genome from an existing agent and seed it in Darwin.\n\nFetches the agent config, builds a Genome model from it, and seeds\nthe genome in Darwin via POST /v1/genomes."
+        },
+        {
+          "info": {
+            "name": "Genome To Agent Update",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/genomes/:genome_id/to-agent-update",
+            "params": [
+              {
+                "name": "genome_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "query",
+                "description": "Specific version"
+              }
+            ]
+          },
+          "docs": "Convert a genome to an agent update payload.\n\nReads genome from Darwin, then uses dome_converters locally to\ntransform dome_genes into a DomeConfig-compatible format."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

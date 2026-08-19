@@ -1,0 +1,1270 @@
+{
+  "item": [
+    {
+      "id": "2710b3d2-636b-4016-8488-520ae26fe602",
+      "name": "agent-configurations",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "d9488e48-4c7e-453b-ad53-19ee39741271",
+          "name": "Create Agent Configuration",
+          "request": {
+            "name": "Create Agent Configuration",
+            "description": {
+              "content": "Create a new agent configuration.\n\nThis endpoint accepts AgentConfigRequest format from the frontend and transforms it\nto the internal AgentCreate format. The agent_url field is preserved.\n\nRequires agent:write permission.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "agent-configurations",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"<string>\",\n  \"hub\": \"custom\",\n  \"model_name\": \"<string>\",\n  \"agent_name\": \"<string>\",\n  \"agent_url\": \"<string>\",\n  \"hub_config\": {\n    \"key_0\": 1895,\n    \"key_1\": 1301\n  },\n  \"status\": \"active\",\n  \"api_key_id\": \"<string>\",\n  \"api_key\": \"<string>\",\n  \"agent_system_prompt\": \"<string>\",\n  \"agent_policy_files\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"rag_params\": {\n    \"key_0\": \"string\",\n    \"key_1\": 9185.636585474433,\n    \"key_2\": 5749\n  },\n  \"function_route_params\": {\n    \"key_0\": 2057\n  },\n  \"mcp_config\": {\n    \"proxy_url\": \"<uri>\",\n    \"access_level\": \"<string>\",\n    \"server_urls\": [\n      \"<uri>\",\n      \"<uri>\"\n    ]\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "46a42b06-d229-493f-a8bf-45e39f5bfb3b",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "agent-configurations",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<string>\",\n  \"hub\": \"custom\",\n  \"model_name\": \"<string>\",\n  \"agent_name\": \"<string>\",\n  \"agent_url\": \"<string>\",\n  \"hub_config\": {\n    \"key_0\": false,\n    \"key_1\": true\n  },\n  \"status\": \"active\",\n  \"api_key_id\": \"<string>\",\n  \"api_key\": \"<string>\",\n  \"agent_system_prompt\": \"<string>\",\n  \"agent_policy_files\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"rag_params\": {\n    \"key_0\": \"string\"\n  },\n  \"function_route_params\": {\n    \"key_0\": 6798.038558513044,\n    \"key_1\": false,\n    \"key_2\": 2626\n  },\n  \"mcp_config\": {\n    \"proxy_url\": \"http://QOcphlsbfFJIzIYfMZbekOho.mxmdKqY99ov2LN5\",\n    \"access_level\": \"read\",\n    \"server_urls\": [\n      \"https://Komw.nydcdr26YTH4OB5ZiQcZpefiiflfqPMdgYaEVu,WmV.rwKqivD56VSzpObzbFqsuC\",\n      \"https://CMcPzjlWbTnQWsm.onpDF8PNNM3\"\n    ]\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c935264-debd-b972-2c56-7ca9bfa4052c\",\n  \"agent_name\": \"string\",\n  \"model_name\": \"string\",\n  \"team_id\": \"0150ea5a-6ea2-7d49-f650-2739fc3548d3\",\n  \"created_by\": \"63584af8-247e-07ee-b4fc-332d0cd55be6\",\n  \"created_at\": 7900,\n  \"updated_at\": 6031,\n  \"agent_url\": \"string\",\n  \"hub\": \"custom\",\n  \"api_key\": \"string\",\n  \"agent_system_prompt\": \"string\",\n  \"rate_limit_requests_per_minute\": 100,\n  \"status\": \"active\",\n  \"access_level\": \"black_box\",\n  \"agent_params\": {\n    \"temperature\": 4076.871260519662,\n    \"top_p\": 5940.474659753972,\n    \"max_tokens\": 1901,\n    \"timeout\": 9240,\n    \"rag_params\": {\n      \"key_0\": true\n    },\n    \"function_route_params\": {\n      \"key_0\": \"string\",\n      \"key_1\": 7987,\n      \"key_2\": \"string\",\n      \"key_3\": 5775.859415662904\n    }\n  },\n  \"mcp_config\": {\n    \"proxy_url\": \"http://pDqHZHdmZlhdPQ.lnppg8YGKkRBJNr2Ts\",\n    \"access_level\": \"admin\",\n    \"server_urls\": [\n      \"http://t.astZ85yk0bcJMPKXREPTNgqVfileePfsHAVVKIVWXutPnwzFd\",\n      \"https://pgibGkaxEdhTjUlGlCp.fvaqb2anfyR+IaUucunRYMMtv0oHIqaZtY6PoZNHSwyw5.rBv7ybxZSj7w\"\n    ]\n  },\n  \"delegated_agents\": [\n    {\n      \"url\": \"string\",\n      \"agent_card_url\": \"string\",\n      \"name\": \"string\",\n      \"capabilities\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    {\n      \"url\": \"string\",\n      \"agent_card_url\": \"string\",\n      \"name\": \"string\",\n      \"capabilities\": [\n        \"string\",\n        \"string\"\n      ]\n    }\n  ],\n  \"white_box_config\": {\n    \"source_code\": \"string\",\n    \"repo_url\": \"string\",\n    \"github_username\": \"string\",\n    \"repo_branch\": \"string\",\n    \"entry_point\": \"string\"\n  },\n  \"agent_metadata\": {\n    \"role\": \"string\",\n    \"job_description\": \"string\",\n    \"version\": \"string\",\n    \"author\": \"string\",\n    \"tags\": [\n      \"string\",\n      \"string\"\n    ]\n  },\n  \"purpose\": \"string\",\n  \"protocol\": \"chat_completions\",\n  \"test_score\": \"0000000000823661\",\n  \"last_tested_by\": \"string\",\n  \"evaluated_harnesses\": [\n    \"string\",\n    \"string\"\n  ],\n  \"last_evaluated_at\": 2116,\n  \"protection_status\": \"unprotected\",\n  \"trust_stage\": \"registered\",\n  \"trusted_at\": 690,\n  \"ttt_days\": 9728.839281238828,\n  \"dome_config_id\": \"4a6eb0e9-121f-f4fb-d3bd-b18c5595f940\",\n  \"dome_manually_configured\": false,\n  \"import_metadata\": {\n    \"source\": \"manual\",\n    \"source_url\": \"string\",\n    \"imported_at\": 4710,\n    \"original_format\": \"string\"\n  },\n  \"capabilities\": {\n    \"streaming\": false,\n    \"push_notifications\": false,\n    \"code_execution\": false,\n    \"memory\": false,\n    \"delegation\": false,\n    \"tools\": [\n      \"string\",\n      \"string\"\n    ]\n  },\n  \"skills\": [\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"input_modes\": [\n        \"string\",\n        \"string\"\n      ],\n      \"output_modes\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"input_modes\": [\n        \"string\",\n        \"string\"\n      ],\n      \"output_modes\": [\n        \"string\",\n        \"string\"\n      ]\n    }\n  ],\n  \"latest_evaluation\": {\n    \"evaluation_id\": \"5de73b30-03f8-2ac0-dd0b-ae0dbf8deaa1\",\n    \"overall_score\": 2044.9547381686427,\n    \"reliability_score\": 569.6778535626923,\n    \"security_score\": 3865.9384469102188,\n    \"safety_score\": 7256.789771279374,\n    \"completed_at\": 4855\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f732500b-84d4-4eb0-bb95-7a909f6a4cfc",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "agent-configurations",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<string>\",\n  \"hub\": \"custom\",\n  \"model_name\": \"<string>\",\n  \"agent_name\": \"<string>\",\n  \"agent_url\": \"<string>\",\n  \"hub_config\": {\n    \"key_0\": false,\n    \"key_1\": true\n  },\n  \"status\": \"active\",\n  \"api_key_id\": \"<string>\",\n  \"api_key\": \"<string>\",\n  \"agent_system_prompt\": \"<string>\",\n  \"agent_policy_files\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"rag_params\": {\n    \"key_0\": \"string\"\n  },\n  \"function_route_params\": {\n    \"key_0\": 6798.038558513044,\n    \"key_1\": false,\n    \"key_2\": 2626\n  },\n  \"mcp_config\": {\n    \"proxy_url\": \"http://QOcphlsbfFJIzIYfMZbekOho.mxmdKqY99ov2LN5\",\n    \"access_level\": \"read\",\n    \"server_urls\": [\n      \"https://Komw.nydcdr26YTH4OB5ZiQcZpefiiflfqPMdgYaEVu,WmV.rwKqivD56VSzpObzbFqsuC\",\n      \"https://CMcPzjlWbTnQWsm.onpDF8PNNM3\"\n    ]\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2e7602db-e87d-43e7-9f05-fbdbf4a53194",
+          "name": "Get Agent Configurations",
+          "request": {
+            "name": "Get Agent Configurations",
+            "description": {
+              "content": "List agent configurations with filtering and pagination.\n\nRequires agent:read permission (all team members) or\nagent:read_all permission (super admin).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "agent-configurations",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "statuses",
+                  "value": "<string>",
+                  "description": "Filter by status(es). If not provided, defaults to non-archived statuses."
+                },
+                {
+                  "disabled": false,
+                  "key": "statuses",
+                  "value": "<string>",
+                  "description": "Filter by status(es). If not provided, defaults to non-archived statuses."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "100",
+                  "description": "Maximum number of results"
+                },
+                {
+                  "disabled": false,
+                  "key": "offset",
+                  "value": "0",
+                  "description": "Number of results to skip"
+                },
+                {
+                  "disabled": false,
+                  "key": "include_scores",
+                  "value": "false",
+                  "description": "When true, sideloads the latest completed evaluation scores onto each agent."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c9a52025-076e-40a5-91d7-6eb20428dcdf",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "agent-configurations",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "statuses",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "statuses",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "key": "include_scores",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"results\": [\n    {\n      \"id\": \"668fdf82-db62-c082-b4c2-54a00856386f\",\n      \"agent_name\": \"string\",\n      \"model_name\": \"string\",\n      \"team_id\": \"b234b0a3-de75-91bd-f878-8cbdfc7552b4\",\n      \"created_by\": \"4a2df1e0-d6d9-bf46-0671-5585aafdccc2\",\n      \"created_at\": 4356,\n      \"updated_at\": 8087,\n      \"agent_url\": \"string\",\n      \"hub\": \"custom\",\n      \"api_key\": \"string\",\n      \"agent_system_prompt\": \"string\",\n      \"rate_limit_requests_per_minute\": 100,\n      \"status\": \"active\",\n      \"access_level\": \"black_box\",\n      \"agent_params\": {\n        \"temperature\": 9465.885931539598,\n        \"top_p\": 6053.6075151346995,\n        \"max_tokens\": 1095,\n        \"timeout\": 3285,\n        \"rag_params\": {\n          \"key_0\": 1659,\n          \"key_1\": 6426.4909810193985,\n          \"key_2\": \"string\"\n        },\n        \"function_route_params\": {\n          \"key_0\": false,\n          \"key_1\": \"string\"\n        }\n      },\n      \"mcp_config\": {\n        \"proxy_url\": \"https://eyFAcTFaa.bkpkGT0i7BY5zA1MwmM1Byw7iKsiMeR0LuSfi2bXDIOZbq2MiBgW9CJD7\",\n        \"access_level\": \"write\",\n        \"server_urls\": [\n          \"https://fDxDxSKdfhAspDZ.ksKM-xITdkoFs\",\n          \"http://PxqTJyqdhO.qdoRN.7mIKESwIjD14KSIx2tFLbirLBn6J.SaIx3YiRSsk3MQk.NE5KjmU4\"\n        ]\n      },\n      \"delegated_agents\": [\n        {\n          \"url\": \"string\",\n          \"agent_card_url\": \"string\",\n          \"name\": \"string\",\n          \"capabilities\": [\n            \"string\",\n            \"string\"\n          ]\n        },\n        {\n          \"url\": \"string\",\n          \"agent_card_url\": \"string\",\n          \"name\": \"string\",\n          \"capabilities\": [\n            \"string\",\n            \"string\"\n          ]\n        }\n      ],\n      \"white_box_config\": {\n        \"source_code\": \"string\",\n        \"repo_url\": \"string\",\n        \"github_username\": \"string\",\n        \"repo_branch\": \"string\",\n        \"entry_point\": \"string\"\n      },\n      \"agent_metadata\": {\n        \"role\": \"string\",\n        \"job_description\": \"string\",\n        \"version\": \"string\",\n        \"author\": \"string\",\n        \"tags\": [\n          \"string\",\n          \"string\"\n        ]\n      },\n      \"purpose\": \"string\",\n      \"protocol\": \"chat_completions\",\n      \"test_score\": \"0000015335664503616788\",\n      \"last_tested_by\": \"string\",\n      \"evaluated_harnesses\": [\n        \"string\",\n        \"string\"\n      ],\n      \"last_evaluated_at\": 3606,\n      \"protection_status\": \"unprotected\",\n      \"trust_stage\": \"registered\",\n      \"trusted_at\": 625,\n      \"ttt_days\": 642.3616409966504,\n      \"dome_config_id\": \"337e145d-7fef-e8d9-5e87-1eb82cd0c9e7\",\n      \"dome_manually_configured\": false,\n      \"import_metadata\": {\n        \"source\": \"manual\",\n        \"source_url\": \"string\",\n        \"imported_at\": 9266,\n        \"original_format\": \"string\"\n      },\n      \"capabilities\": {\n        \"streaming\": false,\n        \"push_notifications\": false,\n        \"code_execution\": false,\n        \"memory\": false,\n        \"delegation\": false,\n        \"tools\": [\n          \"string\",\n          \"string\"\n        ]\n      },\n      \"skills\": [\n        {\n          \"id\": \"string\",\n          \"name\": \"string\",\n          \"description\": \"string\",\n          \"input_modes\": [\n            \"string\",\n            \"string\"\n          ],\n          \"output_modes\": [\n            \"string\",\n            \"string\"\n          ]\n        },\n        {\n          \"id\": \"string\",\n          \"name\": \"string\",\n          \"description\": \"string\",\n          \"input_modes\": [\n            \"string\",\n            \"string\"\n          ],\n          \"output_modes\": [\n            \"string\",\n            \"string\"\n          ]\n        }\n      ],\n      \"latest_evaluation\": {\n        \"evaluation_id\": \"cb77c4ca-e2a4-abbd-2ab1-2816e57ce6e0\",\n        \"overall_score\": 6843.155719695933,\n        \"reliability_score\": 7395.860132885904,\n        \"security_score\": 8937.385850329476,\n        \"safety_score\": 2516.973340346219,\n        \"completed_at\": 3333\n      }\n    },\n    {\n      \"id\": \"a6a52854-177d-5e70-83b8-a480edd33169\",\n      \"agent_name\": \"string\",\n      \"model_name\": \"string\",\n      \"team_id\": \"d7622315-dede-0bf8-0d55-55128830da61\",\n      \"created_by\": \"11bec4a4-a66f-8234-0380-542fbc1d9f9c\",\n      \"created_at\": 5646,\n      \"updated_at\": 6431,\n      \"agent_url\": \"string\",\n      \"hub\": \"custom\",\n      \"api_key\": \"string\",\n      \"agent_system_prompt\": \"string\",\n      \"rate_limit_requests_per_minute\": 100,\n      \"status\": \"active\",\n      \"access_level\": \"black_box\",\n      \"agent_params\": {\n        \"temperature\": 1207.3716607012552,\n        \"top_p\": 7338.659902499306,\n        \"max_tokens\": 320,\n        \"timeout\": 8916,\n        \"rag_params\": {\n          \"key_0\": \"string\",\n          \"key_1\": 7299,\n          \"key_2\": 9709.667721415679\n        },\n        \"function_route_params\": {\n          \"key_0\": \"string\",\n          \"key_1\": 4724.136257192905,\n          \"key_2\": 8390\n        }\n      },\n      \"mcp_config\": {\n        \"proxy_url\": \"https://BmHUNlgcryd.rvkJi,qYjPBlEeiAUHBMSxPmaVixOyQhDuUd4s0LV89K\",\n        \"access_level\": \"read\",\n        \"server_urls\": [\n          \"http://yRyfmkDcVjgjDtnIvyoTTPDIbT.kbafpSm1Dvo4Yn8A1d1,spFw2KPpR6Fekwjf2vk9dO+Fbj.vpG1hd4FJVvANJSQ-LNE08Abci6PdOBR9UyPSo39ZsGu2iz4\",\n          \"https://dPzW.padpaqtwvMUQrRR35mY48SNdswI1rWZmuQqEl+rZ8BNCrmyfoe7\"\n        ]\n      },\n      \"delegated_agents\": [\n        {\n          \"url\": \"string\",\n          \"agent_card_url\": \"string\",\n          \"name\": \"string\",\n          \"capabilities\": [\n            \"string\",\n            \"string\"\n          ]\n        },\n        {\n          \"url\": \"string\",\n          \"agent_card_url\": \"string\",\n          \"name\": \"string\",\n          \"capabilities\": [\n            \"string\",\n            \"string\"\n          ]\n        }\n      ],\n      \"white_box_config\": {\n        \"source_code\": \"string\",\n        \"repo_url\": \"string\",\n        \"github_username\": \"string\",\n        \"repo_branch\": \"string\",\n        \"entry_point\": \"string\"\n      },\n      \"agent_metadata\": {\n        \"role\": \"string\",\n        \"job_description\": \"string\",\n        \"version\": \"string\",\n        \"author\": \"string\",\n        \"tags\": [\n          \"string\",\n          \"string\"\n        ]\n      },\n      \"purpose\": \"string\",\n      \"protocol\": \"chat_completions\",\n      \"test_score\": \"-0000000099481\",\n      \"last_tested_by\": \"string\",\n      \"evaluated_harnesses\": [\n        \"string\",\n        \"string\"\n      ],\n      \"last_evaluated_at\": 7022,\n      \"protection_status\": \"unprotected\",\n      \"trust_stage\": \"registered\",\n      \"trusted_at\": 9875,\n      \"ttt_days\": 3886.9093458860025,\n      \"dome_config_id\": \"262084e1-ac84-97d7-9a09-e426eb7d3999\",\n      \"dome_manually_configured\": false,\n      \"import_metadata\": {\n        \"source\": \"manual\",\n        \"source_url\": \"string\",\n        \"imported_at\": 747,\n        \"original_format\": \"string\"\n      },\n      \"capabilities\": {\n        \"streaming\": false,\n        \"push_notifications\": false,\n        \"code_execution\": false,\n        \"memory\": false,\n        \"delegation\": false,\n        \"tools\": [\n          \"string\",\n          \"string\"\n        ]\n      },\n      \"skills\": [\n        {\n          \"id\": \"string\",\n          \"name\": \"string\",\n          \"description\": \"string\",\n          \"input_modes\": [\n            \"string\",\n            \"string\"\n          ],\n          \"output_modes\": [\n            \"string\",\n            \"string\"\n          ]\n        },\n        {\n          \"id\": \"string\",\n          \"name\": \"string\",\n          \"description\": \"string\",\n          \"input_modes\": [\n            \"string\",\n            \"string\"\n          ],\n          \"output_modes\": [\n            \"string\",\n            \"string\"\n          ]\n        }\n      ],\n      \"latest_evaluation\": {\n        \"evaluation_id\": \"e51285dd-96e9-6ab7-1d57-cd6317c6198a\",\n        \"overall_score\": 1240.25566284789,\n        \"reliability_score\": 9593.03805660897,\n        \"security_score\": 7513.103871884814,\n        \"safety_score\": 3451.1463381831695,\n        \"completed_at\": 3202\n      }\n    }\n  ],\n  \"count\": 5705\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b984d0d7-b821-49b9-a8de-1f58b8ddb55e",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "agent-configurations",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "statuses",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "statuses",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "key": "include_scores",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "14df35e7-64c8-4f83-9254-af37f70ce89e",
+          "name": "Get Agent Configuration By Id",
+          "request": {
+            "name": "Get Agent Configuration By Id",
+            "description": {
+              "content": "Get a single agent configuration by ID.\n\nRequires agent:read permission (all team members) or\nagent:read_all permission (super admin).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "agent-configurations",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "include_scores",
+                  "value": "false",
+                  "description": "When true, sideloads the latest completed evaluation scores onto the agent."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "9ede64e1-15a9-46b7-8bf2-4775890acb5b",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "agent-configurations",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "include_scores",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c935264-debd-b972-2c56-7ca9bfa4052c\",\n  \"agent_name\": \"string\",\n  \"model_name\": \"string\",\n  \"team_id\": \"0150ea5a-6ea2-7d49-f650-2739fc3548d3\",\n  \"created_by\": \"63584af8-247e-07ee-b4fc-332d0cd55be6\",\n  \"created_at\": 7900,\n  \"updated_at\": 6031,\n  \"agent_url\": \"string\",\n  \"hub\": \"custom\",\n  \"api_key\": \"string\",\n  \"agent_system_prompt\": \"string\",\n  \"rate_limit_requests_per_minute\": 100,\n  \"status\": \"active\",\n  \"access_level\": \"black_box\",\n  \"agent_params\": {\n    \"temperature\": 4076.871260519662,\n    \"top_p\": 5940.474659753972,\n    \"max_tokens\": 1901,\n    \"timeout\": 9240,\n    \"rag_params\": {\n      \"key_0\": true\n    },\n    \"function_route_params\": {\n      \"key_0\": \"string\",\n      \"key_1\": 7987,\n      \"key_2\": \"string\",\n      \"key_3\": 5775.859415662904\n    }\n  },\n  \"mcp_config\": {\n    \"proxy_url\": \"http://pDqHZHdmZlhdPQ.lnppg8YGKkRBJNr2Ts\",\n    \"access_level\": \"admin\",\n    \"server_urls\": [\n      \"http://t.astZ85yk0bcJMPKXREPTNgqVfileePfsHAVVKIVWXutPnwzFd\",\n      \"https://pgibGkaxEdhTjUlGlCp.fvaqb2anfyR+IaUucunRYMMtv0oHIqaZtY6PoZNHSwyw5.rBv7ybxZSj7w\"\n    ]\n  },\n  \"delegated_agents\": [\n    {\n      \"url\": \"string\",\n      \"agent_card_url\": \"string\",\n      \"name\": \"string\",\n      \"capabilities\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    {\n      \"url\": \"string\",\n      \"agent_card_url\": \"string\",\n      \"name\": \"string\",\n      \"capabilities\": [\n        \"string\",\n        \"string\"\n      ]\n    }\n  ],\n  \"white_box_config\": {\n    \"source_code\": \"string\",\n    \"repo_url\": \"string\",\n    \"github_username\": \"string\",\n    \"repo_branch\": \"string\",\n    \"entry_point\": \"string\"\n  },\n  \"agent_metadata\": {\n    \"role\": \"string\",\n    \"job_description\": \"string\",\n    \"version\": \"string\",\n    \"author\": \"string\",\n    \"tags\": [\n      \"string\",\n      \"string\"\n    ]\n  },\n  \"purpose\": \"string\",\n  \"protocol\": \"chat_completions\",\n  \"test_score\": \"0000000000823661\",\n  \"last_tested_by\": \"string\",\n  \"evaluated_harnesses\": [\n    \"string\",\n    \"string\"\n  ],\n  \"last_evaluated_at\": 2116,\n  \"protection_status\": \"unprotected\",\n  \"trust_stage\": \"registered\",\n  \"trusted_at\": 690,\n  \"ttt_days\": 9728.839281238828,\n  \"dome_config_id\": \"4a6eb0e9-121f-f4fb-d3bd-b18c5595f940\",\n  \"dome_manually_configured\": false,\n  \"import_metadata\": {\n    \"source\": \"manual\",\n    \"source_url\": \"string\",\n    \"imported_at\": 4710,\n    \"original_format\": \"string\"\n  },\n  \"capabilities\": {\n    \"streaming\": false,\n    \"push_notifications\": false,\n    \"code_execution\": false,\n    \"memory\": false,\n    \"delegation\": false,\n    \"tools\": [\n      \"string\",\n      \"string\"\n    ]\n  },\n  \"skills\": [\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"input_modes\": [\n        \"string\",\n        \"string\"\n      ],\n      \"output_modes\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"input_modes\": [\n        \"string\",\n        \"string\"\n      ],\n      \"output_modes\": [\n        \"string\",\n        \"string\"\n      ]\n    }\n  ],\n  \"latest_evaluation\": {\n    \"evaluation_id\": \"5de73b30-03f8-2ac0-dd0b-ae0dbf8deaa1\",\n    \"overall_score\": 2044.9547381686427,\n    \"reliability_score\": 569.6778535626923,\n    \"security_score\": 3865.9384469102188,\n    \"safety_score\": 7256.789771279374,\n    \"completed_at\": 4855\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bd7271cf-cb7a-45cf-bc06-2bee5bbff07f",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "agent-configurations",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "include_scores",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a07736eb-b569-41c9-9ffe-5dad84a0b391",
+          "name": "Update Agent Configuration",
+          "request": {
+            "name": "Update Agent Configuration",
+            "description": {
+              "content": "Update an existing agent configuration.\n\nSupports partial updates - you can update just the api_key field, or any other field(s).\nAll fields in the request body are optional.\n\nRequires agent:write permission + billing feature 'write_custom_agent'.\n\nExample:\n    # Update only the API key\n    PUT /agent-configurations/{id}\n    {\n      \"api_key\": \"sk-new-key-value\"\n    }\n    \n    # Update multiple fields\n    PUT /agent-configurations/{id}\n    {\n      \"agent_name\": \"New Name\",\n      \"api_key\": \"sk-new-key-value\",\n      \"mcp_config\": {\"proxy_url\": \"https://proxy.example.com\", \"access_level\": \"read\"}\n    }\n    \n    # Enable/disable dome auto-apply (when true, saving dome config auto-applies it)\n    PUT /agent-configurations/{id}\n    {\n      \"dome_manually_configured\": true\n    }",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "agent-configurations",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"<string>\",\n  \"agent_name\": \"<string>\",\n  \"agent_url\": \"<string>\",\n  \"model_name\": \"<string>\",\n  \"api_key\": \"<string>\",\n  \"agent_system_prompt\": \"<string>\",\n  \"hub\": \"<string>\",\n  \"rate_limit_requests_per_minute\": \"<integer>\",\n  \"access_level\": \"<string>\",\n  \"agent_params\": {\n    \"temperature\": \"<number>\",\n    \"top_p\": \"<number>\",\n    \"max_tokens\": \"<integer>\",\n    \"timeout\": \"<integer>\",\n    \"rag_params\": {\n      \"key_0\": \"string\",\n      \"key_1\": 8885.59953128699\n    },\n    \"function_route_params\": {\n      \"key_0\": false\n    }\n  },\n  \"mcp_config\": {\n    \"proxy_url\": \"<uri>\",\n    \"access_level\": \"<string>\",\n    \"server_urls\": [\n      \"<uri>\",\n      \"<uri>\"\n    ]\n  },\n  \"delegated_agents\": [\n    {\n      \"url\": \"<string>\",\n      \"agent_card_url\": \"<string>\",\n      \"name\": \"<string>\",\n      \"capabilities\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    {\n      \"url\": \"<string>\",\n      \"agent_card_url\": \"<string>\",\n      \"name\": \"<string>\",\n      \"capabilities\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    }\n  ],\n  \"white_box_config\": {\n    \"source_code\": \"<string>\",\n    \"repo_url\": \"<string>\",\n    \"github_username\": \"<string>\",\n    \"github_token\": \"<string>\",\n    \"repo_branch\": \"<string>\",\n    \"entry_point\": \"<string>\"\n  },\n  \"agent_metadata\": {\n    \"role\": \"<string>\",\n    \"job_description\": \"<string>\",\n    \"version\": \"<string>\",\n    \"author\": \"<string>\",\n    \"tags\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"purpose\": \"<string>\",\n  \"protocol\": \"<string>\",\n  \"test_score\": \"<number>\",\n  \"last_tested_by\": \"<string>\",\n  \"evaluated_harnesses\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"last_evaluated_at\": \"<integer>\",\n  \"protection_status\": \"<string>\",\n  \"dome_config_id\": \"<uuid>\",\n  \"dome_manually_configured\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "c5e28f1e-176d-4cfc-b662-b206f93f4f0e",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "agent-configurations",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"status\": \"under_review\",\n  \"agent_name\": \"<string>\",\n  \"agent_url\": \"<string>\",\n  \"model_name\": \"<string>\",\n  \"api_key\": \"<string>\",\n  \"agent_system_prompt\": \"<string>\",\n  \"hub\": \"<string>\",\n  \"rate_limit_requests_per_minute\": \"<integer>\",\n  \"access_level\": \"white_box\",\n  \"agent_params\": {\n    \"temperature\": 8578.230520583082,\n    \"top_p\": 7226.304572121796,\n    \"max_tokens\": 7039,\n    \"timeout\": 4299,\n    \"rag_params\": {\n      \"key_0\": true\n    },\n    \"function_route_params\": {\n      \"key_0\": \"string\",\n      \"key_1\": 7625.688317049567,\n      \"key_2\": 9534\n    }\n  },\n  \"mcp_config\": {\n    \"proxy_url\": \"http://kRSbWs.wmlgarnO6wrhzP+cnaZonz\",\n    \"access_level\": \"read\",\n    \"server_urls\": [\n      \"https://NkSrwKIRQfhxHVXhSzpHlCcEb.ltoo0LtqkL3AduzZRzWTGdt\",\n      \"https://xcgDRagfZlSs.pmoiS1Aj2Ov3g6Ze23X,KoqUlJ,R,-JQHrvRkKg229Kq+RVtyc,b\"\n    ]\n  },\n  \"delegated_agents\": [\n    {\n      \"url\": \"string\",\n      \"agent_card_url\": \"string\",\n      \"name\": \"string\",\n      \"capabilities\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    {\n      \"url\": \"string\",\n      \"agent_card_url\": \"string\",\n      \"name\": \"string\",\n      \"capabilities\": [\n        \"string\",\n        \"string\"\n      ]\n    }\n  ],\n  \"white_box_config\": {\n    \"source_code\": \"string\",\n    \"repo_url\": \"string\",\n    \"github_username\": \"string\",\n    \"github_token\": \"string\",\n    \"repo_branch\": \"string\",\n    \"entry_point\": \"string\"\n  },\n  \"agent_metadata\": {\n    \"role\": \"string\",\n    \"job_description\": \"string\",\n    \"version\": \"string\",\n    \"author\": \"string\",\n    \"tags\": [\n      \"string\",\n      \"string\"\n    ]\n  },\n  \"purpose\": \"<string>\",\n  \"protocol\": \"chat_completions\",\n  \"test_score\": \"<number>\",\n  \"last_tested_by\": \"<string>\",\n  \"evaluated_harnesses\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"last_evaluated_at\": \"<integer>\",\n  \"protection_status\": \"unprotected\",\n  \"dome_config_id\": \"<uuid>\",\n  \"dome_manually_configured\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c935264-debd-b972-2c56-7ca9bfa4052c\",\n  \"agent_name\": \"string\",\n  \"model_name\": \"string\",\n  \"team_id\": \"0150ea5a-6ea2-7d49-f650-2739fc3548d3\",\n  \"created_by\": \"63584af8-247e-07ee-b4fc-332d0cd55be6\",\n  \"created_at\": 7900,\n  \"updated_at\": 6031,\n  \"agent_url\": \"string\",\n  \"hub\": \"custom\",\n  \"api_key\": \"string\",\n  \"agent_system_prompt\": \"string\",\n  \"rate_limit_requests_per_minute\": 100,\n  \"status\": \"active\",\n  \"access_level\": \"black_box\",\n  \"agent_params\": {\n    \"temperature\": 4076.871260519662,\n    \"top_p\": 5940.474659753972,\n    \"max_tokens\": 1901,\n    \"timeout\": 9240,\n    \"rag_params\": {\n      \"key_0\": true\n    },\n    \"function_route_params\": {\n      \"key_0\": \"string\",\n      \"key_1\": 7987,\n      \"key_2\": \"string\",\n      \"key_3\": 5775.859415662904\n    }\n  },\n  \"mcp_config\": {\n    \"proxy_url\": \"http://pDqHZHdmZlhdPQ.lnppg8YGKkRBJNr2Ts\",\n    \"access_level\": \"admin\",\n    \"server_urls\": [\n      \"http://t.astZ85yk0bcJMPKXREPTNgqVfileePfsHAVVKIVWXutPnwzFd\",\n      \"https://pgibGkaxEdhTjUlGlCp.fvaqb2anfyR+IaUucunRYMMtv0oHIqaZtY6PoZNHSwyw5.rBv7ybxZSj7w\"\n    ]\n  },\n  \"delegated_agents\": [\n    {\n      \"url\": \"string\",\n      \"agent_card_url\": \"string\",\n      \"name\": \"string\",\n      \"capabilities\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    {\n      \"url\": \"string\",\n      \"agent_card_url\": \"string\",\n      \"name\": \"string\",\n      \"capabilities\": [\n        \"string\",\n        \"string\"\n      ]\n    }\n  ],\n  \"white_box_config\": {\n    \"source_code\": \"string\",\n    \"repo_url\": \"string\",\n    \"github_username\": \"string\",\n    \"repo_branch\": \"string\",\n    \"entry_point\": \"string\"\n  },\n  \"agent_metadata\": {\n    \"role\": \"string\",\n    \"job_description\": \"string\",\n    \"version\": \"string\",\n    \"author\": \"string\",\n    \"tags\": [\n      \"string\",\n      \"string\"\n    ]\n  },\n  \"purpose\": \"string\",\n  \"protocol\": \"chat_completions\",\n  \"test_score\": \"0000000000823661\",\n  \"last_tested_by\": \"string\",\n  \"evaluated_harnesses\": [\n    \"string\",\n    \"string\"\n  ],\n  \"last_evaluated_at\": 2116,\n  \"protection_status\": \"unprotected\",\n  \"trust_stage\": \"registered\",\n  \"trusted_at\": 690,\n  \"ttt_days\": 9728.839281238828,\n  \"dome_config_id\": \"4a6eb0e9-121f-f4fb-d3bd-b18c5595f940\",\n  \"dome_manually_configured\": false,\n  \"import_metadata\": {\n    \"source\": \"manual\",\n    \"source_url\": \"string\",\n    \"imported_at\": 4710,\n    \"original_format\": \"string\"\n  },\n  \"capabilities\": {\n    \"streaming\": false,\n    \"push_notifications\": false,\n    \"code_execution\": false,\n    \"memory\": false,\n    \"delegation\": false,\n    \"tools\": [\n      \"string\",\n      \"string\"\n    ]\n  },\n  \"skills\": [\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"input_modes\": [\n        \"string\",\n        \"string\"\n      ],\n      \"output_modes\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"input_modes\": [\n        \"string\",\n        \"string\"\n      ],\n      \"output_modes\": [\n        \"string\",\n        \"string\"\n      ]\n    }\n  ],\n  \"latest_evaluation\": {\n    \"evaluation_id\": \"5de73b30-03f8-2ac0-dd0b-ae0dbf8deaa1\",\n    \"overall_score\": 2044.9547381686427,\n    \"reliability_score\": 569.6778535626923,\n    \"security_score\": 3865.9384469102188,\n    \"safety_score\": 7256.789771279374,\n    \"completed_at\": 4855\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "026357cb-76dc-430e-90fb-2a00cbb616a2",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "agent-configurations",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"status\": \"under_review\",\n  \"agent_name\": \"<string>\",\n  \"agent_url\": \"<string>\",\n  \"model_name\": \"<string>\",\n  \"api_key\": \"<string>\",\n  \"agent_system_prompt\": \"<string>\",\n  \"hub\": \"<string>\",\n  \"rate_limit_requests_per_minute\": \"<integer>\",\n  \"access_level\": \"white_box\",\n  \"agent_params\": {\n    \"temperature\": 8578.230520583082,\n    \"top_p\": 7226.304572121796,\n    \"max_tokens\": 7039,\n    \"timeout\": 4299,\n    \"rag_params\": {\n      \"key_0\": true\n    },\n    \"function_route_params\": {\n      \"key_0\": \"string\",\n      \"key_1\": 7625.688317049567,\n      \"key_2\": 9534\n    }\n  },\n  \"mcp_config\": {\n    \"proxy_url\": \"http://kRSbWs.wmlgarnO6wrhzP+cnaZonz\",\n    \"access_level\": \"read\",\n    \"server_urls\": [\n      \"https://NkSrwKIRQfhxHVXhSzpHlCcEb.ltoo0LtqkL3AduzZRzWTGdt\",\n      \"https://xcgDRagfZlSs.pmoiS1Aj2Ov3g6Ze23X,KoqUlJ,R,-JQHrvRkKg229Kq+RVtyc,b\"\n    ]\n  },\n  \"delegated_agents\": [\n    {\n      \"url\": \"string\",\n      \"agent_card_url\": \"string\",\n      \"name\": \"string\",\n      \"capabilities\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    {\n      \"url\": \"string\",\n      \"agent_card_url\": \"string\",\n      \"name\": \"string\",\n      \"capabilities\": [\n        \"string\",\n        \"string\"\n      ]\n    }\n  ],\n  \"white_box_config\": {\n    \"source_code\": \"string\",\n    \"repo_url\": \"string\",\n    \"github_username\": \"string\",\n    \"github_token\": \"string\",\n    \"repo_branch\": \"string\",\n    \"entry_point\": \"string\"\n  },\n  \"agent_metadata\": {\n    \"role\": \"string\",\n    \"job_description\": \"string\",\n    \"version\": \"string\",\n    \"author\": \"string\",\n    \"tags\": [\n      \"string\",\n      \"string\"\n    ]\n  },\n  \"purpose\": \"<string>\",\n  \"protocol\": \"chat_completions\",\n  \"test_score\": \"<number>\",\n  \"last_tested_by\": \"<string>\",\n  \"evaluated_harnesses\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"last_evaluated_at\": \"<integer>\",\n  \"protection_status\": \"unprotected\",\n  \"dome_config_id\": \"<uuid>\",\n  \"dome_manually_configured\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2a4c6b43-7462-4f06-a8cf-7df0ff512e7c",
+          "name": "Archive Agent Configuration",
+          "request": {
+            "name": "Archive Agent Configuration",
+            "description": {
+              "content": "Archive agent configuration.\n\nSets the agent status to ARCHIVED.\nRequires agent:write permission (all team members) or\nagent:write_all permission (super admin).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "agent-configurations",
+                ":id",
+                "archive"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "3b02e938-dffc-4505-9088-28f3b0de1e0e",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "agent-configurations",
+                    ":id",
+                    "archive"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c935264-debd-b972-2c56-7ca9bfa4052c\",\n  \"agent_name\": \"string\",\n  \"model_name\": \"string\",\n  \"team_id\": \"0150ea5a-6ea2-7d49-f650-2739fc3548d3\",\n  \"created_by\": \"63584af8-247e-07ee-b4fc-332d0cd55be6\",\n  \"created_at\": 7900,\n  \"updated_at\": 6031,\n  \"agent_url\": \"string\",\n  \"hub\": \"custom\",\n  \"api_key\": \"string\",\n  \"agent_system_prompt\": \"string\",\n  \"rate_limit_requests_per_minute\": 100,\n  \"status\": \"active\",\n  \"access_level\": \"black_box\",\n  \"agent_params\": {\n    \"temperature\": 4076.871260519662,\n    \"top_p\": 5940.474659753972,\n    \"max_tokens\": 1901,\n    \"timeout\": 9240,\n    \"rag_params\": {\n      \"key_0\": true\n    },\n    \"function_route_params\": {\n      \"key_0\": \"string\",\n      \"key_1\": 7987,\n      \"key_2\": \"string\",\n      \"key_3\": 5775.859415662904\n    }\n  },\n  \"mcp_config\": {\n    \"proxy_url\": \"http://pDqHZHdmZlhdPQ.lnppg8YGKkRBJNr2Ts\",\n    \"access_level\": \"admin\",\n    \"server_urls\": [\n      \"http://t.astZ85yk0bcJMPKXREPTNgqVfileePfsHAVVKIVWXutPnwzFd\",\n      \"https://pgibGkaxEdhTjUlGlCp.fvaqb2anfyR+IaUucunRYMMtv0oHIqaZtY6PoZNHSwyw5.rBv7ybxZSj7w\"\n    ]\n  },\n  \"delegated_agents\": [\n    {\n      \"url\": \"string\",\n      \"agent_card_url\": \"string\",\n      \"name\": \"string\",\n      \"capabilities\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    {\n      \"url\": \"string\",\n      \"agent_card_url\": \"string\",\n      \"name\": \"string\",\n      \"capabilities\": [\n        \"string\",\n        \"string\"\n      ]\n    }\n  ],\n  \"white_box_config\": {\n    \"source_code\": \"string\",\n    \"repo_url\": \"string\",\n    \"github_username\": \"string\",\n    \"repo_branch\": \"string\",\n    \"entry_point\": \"string\"\n  },\n  \"agent_metadata\": {\n    \"role\": \"string\",\n    \"job_description\": \"string\",\n    \"version\": \"string\",\n    \"author\": \"string\",\n    \"tags\": [\n      \"string\",\n      \"string\"\n    ]\n  },\n  \"purpose\": \"string\",\n  \"protocol\": \"chat_completions\",\n  \"test_score\": \"0000000000823661\",\n  \"last_tested_by\": \"string\",\n  \"evaluated_harnesses\": [\n    \"string\",\n    \"string\"\n  ],\n  \"last_evaluated_at\": 2116,\n  \"protection_status\": \"unprotected\",\n  \"trust_stage\": \"registered\",\n  \"trusted_at\": 690,\n  \"ttt_days\": 9728.839281238828,\n  \"dome_config_id\": \"4a6eb0e9-121f-f4fb-d3bd-b18c5595f940\",\n  \"dome_manually_configured\": false,\n  \"import_metadata\": {\n    \"source\": \"manual\",\n    \"source_url\": \"string\",\n    \"imported_at\": 4710,\n    \"original_format\": \"string\"\n  },\n  \"capabilities\": {\n    \"streaming\": false,\n    \"push_notifications\": false,\n    \"code_execution\": false,\n    \"memory\": false,\n    \"delegation\": false,\n    \"tools\": [\n      \"string\",\n      \"string\"\n    ]\n  },\n  \"skills\": [\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"input_modes\": [\n        \"string\",\n        \"string\"\n      ],\n      \"output_modes\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"input_modes\": [\n        \"string\",\n        \"string\"\n      ],\n      \"output_modes\": [\n        \"string\",\n        \"string\"\n      ]\n    }\n  ],\n  \"latest_evaluation\": {\n    \"evaluation_id\": \"5de73b30-03f8-2ac0-dd0b-ae0dbf8deaa1\",\n    \"overall_score\": 2044.9547381686427,\n    \"reliability_score\": 569.6778535626923,\n    \"security_score\": 3865.9384469102188,\n    \"safety_score\": 7256.789771279374,\n    \"completed_at\": 4855\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "cdfedacf-93ac-4b09-809b-d236261f774e",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "agent-configurations",
+                    ":id",
+                    "archive"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6f824f10-9060-40e5-9cee-de2a4566fe9f",
+          "name": "Update Agent Lifecycle",
+          "request": {
+            "name": "Update Agent Lifecycle",
+            "description": {
+              "content": "Update agent trust lifecycle stage.\n\nRequires agent:write permission (all team members) or\nagent:write_all permission (super admin).\n\nSetting trust_stage to 'hardened' captures trusted_at and computes ttt_days.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "agent-configurations",
+                ":id",
+                "lifecycle"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"trust_stage\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "f385acc7-4ab7-43a1-bcf1-1c74f783e277",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "agent-configurations",
+                    ":id",
+                    "lifecycle"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"trust_stage\": \"hardened\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"9c935264-debd-b972-2c56-7ca9bfa4052c\",\n  \"agent_name\": \"string\",\n  \"model_name\": \"string\",\n  \"team_id\": \"0150ea5a-6ea2-7d49-f650-2739fc3548d3\",\n  \"created_by\": \"63584af8-247e-07ee-b4fc-332d0cd55be6\",\n  \"created_at\": 7900,\n  \"updated_at\": 6031,\n  \"agent_url\": \"string\",\n  \"hub\": \"custom\",\n  \"api_key\": \"string\",\n  \"agent_system_prompt\": \"string\",\n  \"rate_limit_requests_per_minute\": 100,\n  \"status\": \"active\",\n  \"access_level\": \"black_box\",\n  \"agent_params\": {\n    \"temperature\": 4076.871260519662,\n    \"top_p\": 5940.474659753972,\n    \"max_tokens\": 1901,\n    \"timeout\": 9240,\n    \"rag_params\": {\n      \"key_0\": true\n    },\n    \"function_route_params\": {\n      \"key_0\": \"string\",\n      \"key_1\": 7987,\n      \"key_2\": \"string\",\n      \"key_3\": 5775.859415662904\n    }\n  },\n  \"mcp_config\": {\n    \"proxy_url\": \"http://pDqHZHdmZlhdPQ.lnppg8YGKkRBJNr2Ts\",\n    \"access_level\": \"admin\",\n    \"server_urls\": [\n      \"http://t.astZ85yk0bcJMPKXREPTNgqVfileePfsHAVVKIVWXutPnwzFd\",\n      \"https://pgibGkaxEdhTjUlGlCp.fvaqb2anfyR+IaUucunRYMMtv0oHIqaZtY6PoZNHSwyw5.rBv7ybxZSj7w\"\n    ]\n  },\n  \"delegated_agents\": [\n    {\n      \"url\": \"string\",\n      \"agent_card_url\": \"string\",\n      \"name\": \"string\",\n      \"capabilities\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    {\n      \"url\": \"string\",\n      \"agent_card_url\": \"string\",\n      \"name\": \"string\",\n      \"capabilities\": [\n        \"string\",\n        \"string\"\n      ]\n    }\n  ],\n  \"white_box_config\": {\n    \"source_code\": \"string\",\n    \"repo_url\": \"string\",\n    \"github_username\": \"string\",\n    \"repo_branch\": \"string\",\n    \"entry_point\": \"string\"\n  },\n  \"agent_metadata\": {\n    \"role\": \"string\",\n    \"job_description\": \"string\",\n    \"version\": \"string\",\n    \"author\": \"string\",\n    \"tags\": [\n      \"string\",\n      \"string\"\n    ]\n  },\n  \"purpose\": \"string\",\n  \"protocol\": \"chat_completions\",\n  \"test_score\": \"0000000000823661\",\n  \"last_tested_by\": \"string\",\n  \"evaluated_harnesses\": [\n    \"string\",\n    \"string\"\n  ],\n  \"last_evaluated_at\": 2116,\n  \"protection_status\": \"unprotected\",\n  \"trust_stage\": \"registered\",\n  \"trusted_at\": 690,\n  \"ttt_days\": 9728.839281238828,\n  \"dome_config_id\": \"4a6eb0e9-121f-f4fb-d3bd-b18c5595f940\",\n  \"dome_manually_configured\": false,\n  \"import_metadata\": {\n    \"source\": \"manual\",\n    \"source_url\": \"string\",\n    \"imported_at\": 4710,\n    \"original_format\": \"string\"\n  },\n  \"capabilities\": {\n    \"streaming\": false,\n    \"push_notifications\": false,\n    \"code_execution\": false,\n    \"memory\": false,\n    \"delegation\": false,\n    \"tools\": [\n      \"string\",\n      \"string\"\n    ]\n  },\n  \"skills\": [\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"input_modes\": [\n        \"string\",\n        \"string\"\n      ],\n      \"output_modes\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"input_modes\": [\n        \"string\",\n        \"string\"\n      ],\n      \"output_modes\": [\n        \"string\",\n        \"string\"\n      ]\n    }\n  ],\n  \"latest_evaluation\": {\n    \"evaluation_id\": \"5de73b30-03f8-2ac0-dd0b-ae0dbf8deaa1\",\n    \"overall_score\": 2044.9547381686427,\n    \"reliability_score\": 569.6778535626923,\n    \"security_score\": 3865.9384469102188,\n    \"safety_score\": 7256.789771279374,\n    \"completed_at\": 4855\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fcd61df8-8426-4b3b-bd6e-f12118f55224",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "agent-configurations",
+                    ":id",
+                    "lifecycle"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"trust_stage\": \"hardened\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ae235781-8df4-40e3-9e56-03402bb6a37b",
+          "name": "Get Agent Dome Config",
+          "request": {
+            "name": "Get Agent Dome Config",
+            "description": {
+              "content": "Return the dome configuration this agent is using (row-bound and/or ``dome_config_id``).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "agent-configurations",
+                ":agent_id",
+                "dome-configs"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "team_id",
+                  "value": "<uuid>",
+                  "description": "(Required) Team ID (required)"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "agent_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "8b8dc063-28af-4e8b-9647-2a978315535e",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "agent-configurations",
+                    ":agent_id",
+                    "dome-configs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "team_id",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "agent_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"e4ced9f6-1cef-a1f6-acb1-a22481dd1044\",\n  \"created_at\": 7428,\n  \"created_by\": \"d647f57c-c72f-c48d-8976-a634184e7149\",\n  \"status\": \"pending\",\n  \"agent_id\": \"d807d4db-41c2-4fd2-ce2a-728c6fa8e95d\",\n  \"config_body\": {\n    \"key_0\": 539.2222350102094\n  },\n  \"dome_instance_url\": \"string\",\n  \"updated_at\": 1619,\n  \"updated_by\": \"4ef73314-8180-be93-2023-16c4f50b293c\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d654f739-af20-4cf2-8586-92679b77b3f9",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "agent-configurations",
+                    ":agent_id",
+                    "dome-configs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "team_id",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "agent_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "bdf65e77-586f-4eda-8091-0df2be48f2b6",
+          "name": "Get Evaluation Config",
+          "request": {
+            "name": "Get Evaluation Config",
+            "description": {
+              "content": "Get agent configuration for Diamond evaluation.\n\nReturns agent_url, agent_api_key, and agent_model_name needed for evaluation.\nRequires agent:read permission (all team members) or\nagent:read_all permission (super admin).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "agent-configurations",
+                ":id",
+                "evaluation-config"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e8d9fc0d-18ab-4da7-9981-5bb279124ed8",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "agent-configurations",
+                    ":id",
+                    "evaluation-config"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"agent_api_key\": \"string\",\n  \"agent_model_name\": \"string\",\n  \"hub\": \"custom\",\n  \"protocol\": \"chat_completions\",\n  \"agent_url\": \"string\",\n  \"agent_name\": \"string\",\n  \"rate_limit_requests_per_minute\": 100\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b579c296-e58a-471b-97b4-6ffb194589e6",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "agent-configurations",
+                    ":id",
+                    "evaluation-config"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "233e723e-2a6f-44ba-831c-65d0d57094fa",
+    "name": "Vijil Console API (Combined) agent-configurations API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Combined OpenAPI specification for all vijil-console microservices.",
+      "type": "text/plain"
+    }
+  }
+}

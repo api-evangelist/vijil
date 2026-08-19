@@ -1,0 +1,217 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Vijil Console API (Combined) agent-configurations dome-configs API",
+    "version": "0.1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "dome-configs",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Dome Configs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/dome-configs",
+            "params": [
+              {
+                "name": "team_id",
+                "value": "",
+                "type": "query",
+                "description": "Team ID (required)"
+              },
+              {
+                "name": "agent_id",
+                "value": "",
+                "type": "query",
+                "description": "If set, only configs whose dome_configs.agent_id matches (paginated)."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Page size"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Pagination offset"
+              }
+            ]
+          },
+          "docs": "List dome configs for the team; optional filter by bound agent_id column."
+        },
+        {
+          "info": {
+            "name": "Create Dome Config",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/dome-configs",
+            "params": [
+              {
+                "name": "team_id",
+                "value": "",
+                "type": "query",
+                "description": "Team ID (required)"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new Dome configuration.\n\nIf no config_body is provided, uses the default configuration.\nA dome config is standalone and can be assigned to multiple agents via the agent's dome_config_id."
+        },
+        {
+          "info": {
+            "name": "Get Dome Config",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/dome-configs/:config_id",
+            "params": [
+              {
+                "name": "config_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "team_id",
+                "value": "",
+                "type": "query",
+                "description": "Team ID (required)"
+              }
+            ]
+          },
+          "docs": "Get a Dome configuration by ID."
+        },
+        {
+          "info": {
+            "name": "Update Dome Config",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/v1/dome-configs/:config_id",
+            "params": [
+              {
+                "name": "config_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "team_id",
+                "value": "",
+                "type": "query",
+                "description": "Team ID (required)"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a Dome configuration."
+        },
+        {
+          "info": {
+            "name": "Patch Dome Config",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/v1/dome-configs/:config_id",
+            "params": [
+              {
+                "name": "config_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "team_id",
+                "value": "",
+                "type": "query",
+                "description": "Team ID (required)"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Partially update a Dome configuration (e.g. set or clear dome instance URL)."
+        },
+        {
+          "info": {
+            "name": "Delete Dome Config",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v1/dome-configs/:config_id",
+            "params": [
+              {
+                "name": "config_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "team_id",
+                "value": "",
+                "type": "query",
+                "description": "Team ID (required)"
+              }
+            ]
+          },
+          "docs": "Delete a Dome configuration."
+        },
+        {
+          "info": {
+            "name": "Apply Dome Config",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/dome-configs/:config_id/apply",
+            "params": [
+              {
+                "name": "config_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "team_id",
+                "value": "",
+                "type": "query",
+                "description": "Team ID (required)"
+              }
+            ]
+          },
+          "docs": "Apply a saved dome config: promotes config_pending.json to config.json and binds it to the agent.\n\nBacks up the existing config.json as {config_id}_config.json, promotes\nconfig_pending.json to config.json, and sets the agent's dome_config_id\nand protection_status to domed."
+        },
+        {
+          "info": {
+            "name": "Get Default Dome Config",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/default-dome-config"
+          },
+          "docs": "Get the default Dome configuration.\n\nReturns the default guard configuration for new agents.\nThis endpoint does not require authentication."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

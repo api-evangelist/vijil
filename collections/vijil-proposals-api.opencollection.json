@@ -1,0 +1,80 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Vijil Console API (Combined) agent-configurations proposals API",
+    "version": "0.1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "proposals",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Proposal By Id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/proposals/:proposal_id",
+            "params": [
+              {
+                "name": "proposal_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a single mutation proposal by ID.\n\nProxies to Darwin's GET /v1/proposals/{proposal_id} with team_id\nextracted from JWT claims."
+        },
+        {
+          "info": {
+            "name": "Approve Proposal",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/proposals/:proposal_id/approve",
+            "params": [
+              {
+                "name": "proposal_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Approve a mutation proposal.\n\nExtracts user_id from JWT claims — users cannot approve on behalf\nof others. Forwards to Darwin's POST /v1/proposals/{id}/approve."
+        },
+        {
+          "info": {
+            "name": "Reject Proposal",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/proposals/:proposal_id/reject",
+            "params": [
+              {
+                "name": "proposal_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Reject a mutation proposal.\n\nExtracts user_id from JWT claims. Notes default to empty string\nsince Darwin requires notes for rejection."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

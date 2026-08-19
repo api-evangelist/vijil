@@ -1,0 +1,2955 @@
+{
+  "item": [
+    {
+      "id": "cee6bd95-81e7-462a-af76-bb0f0f5bbbc6",
+      "name": "Dome",
+      "description": {
+        "content": "Protection, guardrails, and telemetry",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "ba775e6a-d9c3-4cf7-8b22-61c732a485c0",
+          "name": "Register Dome",
+          "request": {
+            "name": "Register Dome",
+            "description": {
+              "content": "Register a Dome instance URL for an agent (called by Dome at runtime).\n\nIdempotent: safe to call on every Dome restart; each call overwrites the\nstored dome_url for that agent's config.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "webhooks",
+                "register-dome"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "key": "X-Webhook-Api-Key",
+                "value": "<string>",
+                "description": ""
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"agent_id\": \"<uuid>\",\n  \"team_id\": \"<uuid>\",\n  \"dome_url\": \"<uri>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "d9d660da-a63d-4f35-8536-be58274b9679",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "webhooks",
+                    "register-dome"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "key": "X-Webhook-Api-Key",
+                    "value": "<string>",
+                    "description": ""
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"agent_id\": \"<uuid>\",\n  \"team_id\": \"<uuid>\",\n  \"dome_url\": \"<uri>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"agent_id\": \"63e377a0-4fbd-2470-97bf-8a106ebaf600\",\n  \"team_id\": \"c6984351-5201-d8e2-1eb3-a8836dbbe0e3\",\n  \"dome_url\": \"string\",\n  \"status\": \"ok\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "035cac5c-8f03-447f-939c-8ff329cab384",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "webhooks",
+                    "register-dome"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "key": "X-Webhook-Api-Key",
+                    "value": "<string>",
+                    "description": ""
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"agent_id\": \"<uuid>\",\n  \"team_id\": \"<uuid>\",\n  \"dome_url\": \"<uri>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "75d6310a-a463-41e7-b9f4-4996f95520b6",
+          "name": "Create Detection",
+          "request": {
+            "name": "Create Detection",
+            "description": {
+              "content": "Create a new detection request.\n\nThis endpoint accepts a detection request and starts processing it\nasynchronously. The response includes the detection ID which can be\nused to poll for results via GET /detections/{id}.\n\nNote: This endpoint does not require authentication to support\nthe Execution Flow test input feature.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "detections"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"<string>\",\n  \"detector_id\": \"<string>\",\n  \"detector_inputs\": [\n    {\n      \"response\": \"<string>\",\n      \"question\": \"<string>\",\n      \"prompt\": \"<string>\",\n      \"dome_detection_method\": \"<string>\"\n    },\n    {\n      \"response\": \"<string>\",\n      \"question\": \"<string>\",\n      \"prompt\": \"<string>\",\n      \"dome_detection_method\": \"<string>\"\n    }\n  ],\n  \"detector_params\": {\n    \"api_key_proxy\": \"<string>\",\n    \"hub\": \"<string>\",\n    \"model\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "c7d82b13-223e-48c6-883b-58946bbdc1ad",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "detections"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<string>\",\n  \"detector_id\": \"<string>\",\n  \"detector_inputs\": [\n    {\n      \"response\": \"string\",\n      \"question\": \"string\",\n      \"prompt\": \"string\",\n      \"dome_detection_method\": \"string\"\n    },\n    {\n      \"response\": \"string\",\n      \"question\": \"string\",\n      \"prompt\": \"string\",\n      \"dome_detection_method\": \"string\"\n    }\n  ],\n  \"detector_params\": {\n    \"api_key_proxy\": \"string\",\n    \"hub\": \"string\",\n    \"model\": \"string\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"status\": \"string\",\n  \"detector_inputs\": [\n    {\n      \"response\": \"string\",\n      \"question\": \"string\",\n      \"prompt\": \"string\",\n      \"dome_detection_method\": \"string\"\n    },\n    {\n      \"response\": \"string\",\n      \"question\": \"string\",\n      \"prompt\": \"string\",\n      \"dome_detection_method\": \"string\"\n    }\n  ],\n  \"detector_outputs\": [\n    {\n      \"score\": 0,\n      \"label\": \"string\",\n      \"details\": {\n        \"key_0\": 6637,\n        \"key_1\": false\n      }\n    },\n    {\n      \"score\": 0,\n      \"label\": \"string\",\n      \"details\": {\n        \"key_0\": 9419\n      }\n    }\n  ],\n  \"error_message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "79fd0208-7fd4-4022-ae59-338e255be3ab",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "detections"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<string>\",\n  \"detector_id\": \"<string>\",\n  \"detector_inputs\": [\n    {\n      \"response\": \"string\",\n      \"question\": \"string\",\n      \"prompt\": \"string\",\n      \"dome_detection_method\": \"string\"\n    },\n    {\n      \"response\": \"string\",\n      \"question\": \"string\",\n      \"prompt\": \"string\",\n      \"dome_detection_method\": \"string\"\n    }\n  ],\n  \"detector_params\": {\n    \"api_key_proxy\": \"string\",\n    \"hub\": \"string\",\n    \"model\": \"string\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "80d230b2-4e79-403f-918a-c1e9bc514a3c",
+          "name": "Get Detection",
+          "request": {
+            "name": "Get Detection",
+            "description": {
+              "content": "Get a detection by ID.\n\nReturns the current status and results of a detection.\nStatus values:\n- CREATED: Detection is queued for processing\n- PROCESSING: Detection is being processed\n- COMPLETED: Detection finished successfully\n- ERROR: Detection failed\n\nNote: This endpoint does not require authentication to support\nthe Execution Flow test input feature.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "detections",
+                ":detection_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "detection_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "280927bf-9dbf-42b2-aca7-d41e8d8a950c",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "detections",
+                    ":detection_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "detection_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"status\": \"string\",\n  \"detector_inputs\": [\n    {\n      \"response\": \"string\",\n      \"question\": \"string\",\n      \"prompt\": \"string\",\n      \"dome_detection_method\": \"string\"\n    },\n    {\n      \"response\": \"string\",\n      \"question\": \"string\",\n      \"prompt\": \"string\",\n      \"dome_detection_method\": \"string\"\n    }\n  ],\n  \"detector_outputs\": [\n    {\n      \"score\": 0,\n      \"label\": \"string\",\n      \"details\": {\n        \"key_0\": 6637,\n        \"key_1\": false\n      }\n    },\n    {\n      \"score\": 0,\n      \"label\": \"string\",\n      \"details\": {\n        \"key_0\": 9419\n      }\n    }\n  ],\n  \"error_message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b223eb0d-2c7d-456b-aba2-fe52d8c003cb",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "detections",
+                    ":detection_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "detection_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8f7f5f2c-1cf8-496a-9304-e4356be1b618",
+          "name": "Create Dome Config",
+          "request": {
+            "name": "Create Dome Config",
+            "description": {
+              "content": "Create a new Dome configuration.\n\nIf no config_body is provided, uses the default configuration.\nA dome config is standalone and can be assigned to multiple agents via the agent's dome_config_id.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "dome-configs"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "team_id",
+                  "value": "<uuid>",
+                  "description": "(Required) Team ID (required)"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"config_body\": {\n    \"key_0\": false,\n    \"key_1\": \"string\"\n  },\n  \"agent_id\": \"<uuid>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "10f6062d-3160-4e1e-9ffa-310a63f3ae27",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "dome-configs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "team_id",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"config_body\": {\n    \"key_0\": \"string\",\n    \"key_1\": 4266\n  },\n  \"agent_id\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"77860692-bef9-f249-ae20-2ec162bd810e\",\n  \"created_at\": 7723,\n  \"created_by\": \"c5220ef0-afae-f9db-3d44-02068a122cc4\",\n  \"status\": \"pending\",\n  \"agent_id\": \"a246271c-8bef-a613-24ef-219360c1fa87\",\n  \"config_body\": {\n    \"key_0\": 2907,\n    \"key_1\": 4261.405449282255\n  },\n  \"dome_instance_url\": \"string\",\n  \"updated_at\": 9656,\n  \"updated_by\": \"36036f54-54b2-6457-0571-e2aba9914f8a\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "401029fb-965e-4a1b-ac2e-b9f53d164952",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "dome-configs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "team_id",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"config_body\": {\n    \"key_0\": \"string\",\n    \"key_1\": 4266\n  },\n  \"agent_id\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7ae4f8ff-5052-413d-b78c-5f06424273bc",
+          "name": "List Dome Configs",
+          "request": {
+            "name": "List Dome Configs",
+            "description": {
+              "content": "List dome configs for the team; optional filter by bound agent_id column.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "dome-configs"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "team_id",
+                  "value": "<uuid>",
+                  "description": "(Required) Team ID (required)"
+                },
+                {
+                  "disabled": false,
+                  "key": "agent_id",
+                  "value": "<uuid>",
+                  "description": "If set, only configs whose dome_configs.agent_id matches (paginated)."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "100",
+                  "description": "Page size"
+                },
+                {
+                  "disabled": false,
+                  "key": "offset",
+                  "value": "0",
+                  "description": "Pagination offset"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "8a406eda-1fec-452c-83f2-2b2a4f6ec65c",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "dome-configs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "team_id",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "agent_id",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"dome_configs\": [\n    {\n      \"id\": \"ca303f51-bef1-5aab-e5a1-764f95ecdd19\",\n      \"created_at\": 6433,\n      \"created_by\": \"d77dbd9b-6efc-c797-dcb0-3734e01e8c8c\",\n      \"status\": \"pending\",\n      \"agent_id\": \"fd6c6e5d-da46-0ca3-2a21-1a00e04479d6\",\n      \"config_body\": {\n        \"key_0\": 1540\n      },\n      \"dome_instance_url\": \"string\",\n      \"updated_at\": 4478,\n      \"updated_by\": \"d971de11-191b-da5e-561d-b22b9e399f09\"\n    },\n    {\n      \"id\": \"fc110ef8-329f-6159-d541-167253b285e0\",\n      \"created_at\": 3579,\n      \"created_by\": \"6babfc82-8fe6-9836-aca7-1cecbe6eaa4d\",\n      \"status\": \"pending\",\n      \"agent_id\": \"21b85976-dce5-b848-6e78-df59aab2677f\",\n      \"config_body\": {\n        \"key_0\": false,\n        \"key_1\": \"string\"\n      },\n      \"dome_instance_url\": \"string\",\n      \"updated_at\": 7409,\n      \"updated_by\": \"96c5d1ea-c3d6-b4cd-9cbf-93f47229e902\"\n    }\n  ],\n  \"count\": 5939\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0c78572b-048b-4931-8e12-b0a982747eca",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "dome-configs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "team_id",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "agent_id",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2a00b77f-2bfb-4e57-b204-73af279b9be1",
+          "name": "Get Dome Config",
+          "request": {
+            "name": "Get Dome Config",
+            "description": {
+              "content": "Get a Dome configuration by ID.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "dome-configs",
+                ":config_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "team_id",
+                  "value": "<uuid>",
+                  "description": "(Required) Team ID (required)"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "config_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "5def504a-7df1-4692-a090-9c130fac9448",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "dome-configs",
+                    ":config_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "team_id",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "config_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"77860692-bef9-f249-ae20-2ec162bd810e\",\n  \"created_at\": 7723,\n  \"created_by\": \"c5220ef0-afae-f9db-3d44-02068a122cc4\",\n  \"status\": \"pending\",\n  \"agent_id\": \"a246271c-8bef-a613-24ef-219360c1fa87\",\n  \"config_body\": {\n    \"key_0\": 2907,\n    \"key_1\": 4261.405449282255\n  },\n  \"dome_instance_url\": \"string\",\n  \"updated_at\": 9656,\n  \"updated_by\": \"36036f54-54b2-6457-0571-e2aba9914f8a\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "671d2431-069d-4d56-a0bd-a3a9a66495c1",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "dome-configs",
+                    ":config_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "team_id",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "config_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "72ad0522-cf01-4988-88a4-7ba4622c2087",
+          "name": "Update Dome Config",
+          "request": {
+            "name": "Update Dome Config",
+            "description": {
+              "content": "Update a Dome configuration.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "dome-configs",
+                ":config_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "team_id",
+                  "value": "<uuid>",
+                  "description": "(Required) Team ID (required)"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "config_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"config_body\": {\n    \"key_0\": \"string\",\n    \"key_1\": 9766.606760451405\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "21a542b1-286c-4753-946b-cc96284270ac",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "dome-configs",
+                    ":config_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "team_id",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "config_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"config_body\": {\n    \"key_0\": 8256.91294055512,\n    \"key_1\": 3073\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"77860692-bef9-f249-ae20-2ec162bd810e\",\n  \"created_at\": 7723,\n  \"created_by\": \"c5220ef0-afae-f9db-3d44-02068a122cc4\",\n  \"status\": \"pending\",\n  \"agent_id\": \"a246271c-8bef-a613-24ef-219360c1fa87\",\n  \"config_body\": {\n    \"key_0\": 2907,\n    \"key_1\": 4261.405449282255\n  },\n  \"dome_instance_url\": \"string\",\n  \"updated_at\": 9656,\n  \"updated_by\": \"36036f54-54b2-6457-0571-e2aba9914f8a\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "717c60db-b0e9-49bf-b23f-e40226a57f12",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "dome-configs",
+                    ":config_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "team_id",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "config_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"config_body\": {\n    \"key_0\": 8256.91294055512,\n    \"key_1\": 3073\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ff4988dc-a4fc-415f-b1ec-fbecfc4f0596",
+          "name": "Patch Dome Config",
+          "request": {
+            "name": "Patch Dome Config",
+            "description": {
+              "content": "Partially update a Dome configuration (e.g. set or clear dome instance URL).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "dome-configs",
+                ":config_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "team_id",
+                  "value": "<uuid>",
+                  "description": "(Required) Team ID (required)"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "config_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"dome_instance_url\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "a1d7df45-4318-4739-b09c-293d10da59c9",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "dome-configs",
+                    ":config_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "team_id",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "config_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"dome_instance_url\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"77860692-bef9-f249-ae20-2ec162bd810e\",\n  \"created_at\": 7723,\n  \"created_by\": \"c5220ef0-afae-f9db-3d44-02068a122cc4\",\n  \"status\": \"pending\",\n  \"agent_id\": \"a246271c-8bef-a613-24ef-219360c1fa87\",\n  \"config_body\": {\n    \"key_0\": 2907,\n    \"key_1\": 4261.405449282255\n  },\n  \"dome_instance_url\": \"string\",\n  \"updated_at\": 9656,\n  \"updated_by\": \"36036f54-54b2-6457-0571-e2aba9914f8a\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2d3ec324-3fc8-4bb8-8f57-b07ce99ab81c",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "dome-configs",
+                    ":config_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "team_id",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "config_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"dome_instance_url\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b5c50eaf-b960-4f0b-983b-6086e4c030d5",
+          "name": "Delete Dome Config",
+          "request": {
+            "name": "Delete Dome Config",
+            "description": {
+              "content": "Delete a Dome configuration.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "dome-configs",
+                ":config_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "team_id",
+                  "value": "<uuid>",
+                  "description": "(Required) Team ID (required)"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "config_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "8657dcfa-f9d8-48d7-a47e-970127f6a038",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "dome-configs",
+                    ":config_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "team_id",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "config_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "da8d5a25-5492-4b77-b381-e76c1d426fc9",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "dome-configs",
+                    ":config_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "team_id",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "config_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "032f4550-a07b-4110-91a9-d2359a1a50e6",
+          "name": "Apply Dome Config",
+          "request": {
+            "name": "Apply Dome Config",
+            "description": {
+              "content": "Apply a saved dome config: promotes config_pending.json to config.json and binds it to the agent.\n\nBacks up the existing config.json as {config_id}_config.json, promotes\nconfig_pending.json to config.json, and sets the agent's dome_config_id\nand protection_status to domed.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "dome-configs",
+                ":config_id",
+                "apply"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "team_id",
+                  "value": "<uuid>",
+                  "description": "(Required) Team ID (required)"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "config_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "54ccbe63-8f53-41df-b406-2661a0f291ab",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "dome-configs",
+                    ":config_id",
+                    "apply"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "team_id",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "config_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"77860692-bef9-f249-ae20-2ec162bd810e\",\n  \"created_at\": 7723,\n  \"created_by\": \"c5220ef0-afae-f9db-3d44-02068a122cc4\",\n  \"status\": \"pending\",\n  \"agent_id\": \"a246271c-8bef-a613-24ef-219360c1fa87\",\n  \"config_body\": {\n    \"key_0\": 2907,\n    \"key_1\": 4261.405449282255\n  },\n  \"dome_instance_url\": \"string\",\n  \"updated_at\": 9656,\n  \"updated_by\": \"36036f54-54b2-6457-0571-e2aba9914f8a\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f03d27b5-9c33-4d13-861a-8f4f4b0dc871",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "dome-configs",
+                    ":config_id",
+                    "apply"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "team_id",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "config_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "90eafc90-d4ab-4332-ad1e-31899dbbd610",
+          "name": "Get Default Dome Config",
+          "request": {
+            "name": "Get Default Dome Config",
+            "description": {
+              "content": "Get the default Dome configuration.\n\nReturns the default guard configuration for new agents.\nThis endpoint does not require authentication.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "default-dome-config"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2c9bb962-6889-425c-9bc9-ae57a7e3e342",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "default-dome-config"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"key_0\": 7405.170111511084,\n  \"key_1\": 4354.438169176794\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f68bbe53-08a4-4aa3-a06b-5f81d7d03a57",
+          "name": "Get Counter Total",
+          "request": {
+            "name": "Get Counter Total",
+            "description": {
+              "content": "Get total counter value.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "telemetry",
+                "counters",
+                ":metric_name",
+                "total"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "time_range",
+                  "value": "1d",
+                  "description": "Time range: 15m, 30m, 1h, 2h, 6h, 1d, 7d, 30d"
+                },
+                {
+                  "disabled": false,
+                  "key": "evaluation_id",
+                  "value": "<string>",
+                  "description": "Filter by evaluation ID"
+                },
+                {
+                  "disabled": false,
+                  "key": "test_id",
+                  "value": "<string>",
+                  "description": "Filter by test ID"
+                },
+                {
+                  "disabled": false,
+                  "key": "probe_id",
+                  "value": "<string>",
+                  "description": "Filter by probe ID"
+                },
+                {
+                  "disabled": false,
+                  "key": "agent_configuration_id",
+                  "value": "<string>",
+                  "description": "Filter by agent configuration ID"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "metric_name",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "4d06be18-ce26-438a-85df-3842d0ed56c0",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "telemetry",
+                    "counters",
+                    ":metric_name",
+                    "total"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "time_range",
+                      "value": "1d"
+                    },
+                    {
+                      "key": "evaluation_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "test_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "probe_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "agent_configuration_id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "metric_name",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"metric\": \"string\",\n  \"total_count\": 6405.905314696011,\n  \"labels\": {\n    \"agent_id\": \"string\",\n    \"deployment_environment\": \"string\",\n    \"exported_job\": \"string\",\n    \"job\": \"string\",\n    \"service_name\": \"string\",\n    \"service_namespace\": \"string\",\n    \"service_version\": \"string\",\n    \"team_id\": \"string\",\n    \"user_id\": \"string\",\n    \"evaluation_id\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0e6cab06-73f9-47e6-8a44-39a7148e51e8",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "telemetry",
+                    "counters",
+                    ":metric_name",
+                    "total"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "time_range",
+                      "value": "1d"
+                    },
+                    {
+                      "key": "evaluation_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "test_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "probe_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "agent_configuration_id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "metric_name",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f05cdefb-1264-474c-80d0-1512df4e5411",
+          "name": "Get Counter Time Series",
+          "request": {
+            "name": "Get Counter Time Series",
+            "description": {
+              "content": "Get counter time series.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "telemetry",
+                "counters",
+                ":metric_name",
+                "time_series"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "time_range",
+                  "value": "1d",
+                  "description": "Time range: 15m, 30m, 1h, 2h, 6h, 1d, 7d, 30d"
+                },
+                {
+                  "disabled": false,
+                  "key": "evaluation_id",
+                  "value": "<string>",
+                  "description": "Filter by evaluation ID"
+                },
+                {
+                  "disabled": false,
+                  "key": "agent_configuration_id",
+                  "value": "<string>",
+                  "description": "Filter by agent configuration ID"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "metric_name",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "9328cee0-7fba-4863-9667-f7862f1a5d87",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "telemetry",
+                    "counters",
+                    ":metric_name",
+                    "time_series"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "time_range",
+                      "value": "1d"
+                    },
+                    {
+                      "key": "evaluation_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "agent_configuration_id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "metric_name",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"metric\": \"string\",\n  \"series\": [\n    {\n      \"points\": [\n        {\n          \"timestamp\": 4531,\n          \"value\": 9203.685470579234\n        },\n        {\n          \"timestamp\": 1247,\n          \"value\": 8778.28583495301\n        }\n      ],\n      \"labels\": {\n        \"agent_id\": \"string\",\n        \"deployment_environment\": \"string\",\n        \"exported_job\": \"string\",\n        \"job\": \"string\",\n        \"service_name\": \"string\",\n        \"service_namespace\": \"string\",\n        \"service_version\": \"string\",\n        \"team_id\": \"string\",\n        \"user_id\": \"string\",\n        \"evaluation_id\": \"string\"\n      }\n    },\n    {\n      \"points\": [\n        {\n          \"timestamp\": 7766,\n          \"value\": 6725.534545947065\n        },\n        {\n          \"timestamp\": 3638,\n          \"value\": 2342.9328560428476\n        }\n      ],\n      \"labels\": {\n        \"agent_id\": \"string\",\n        \"deployment_environment\": \"string\",\n        \"exported_job\": \"string\",\n        \"job\": \"string\",\n        \"service_name\": \"string\",\n        \"service_namespace\": \"string\",\n        \"service_version\": \"string\",\n        \"team_id\": \"string\",\n        \"user_id\": \"string\",\n        \"evaluation_id\": \"string\"\n      }\n    }\n  ],\n  \"labels\": {\n    \"agent_id\": \"string\",\n    \"deployment_environment\": \"string\",\n    \"exported_job\": \"string\",\n    \"job\": \"string\",\n    \"service_name\": \"string\",\n    \"service_namespace\": \"string\",\n    \"service_version\": \"string\",\n    \"team_id\": \"string\",\n    \"user_id\": \"string\",\n    \"evaluation_id\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "00d76f89-b88d-4e31-b211-32b0a6998a5a",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "telemetry",
+                    "counters",
+                    ":metric_name",
+                    "time_series"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "time_range",
+                      "value": "1d"
+                    },
+                    {
+                      "key": "evaluation_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "agent_configuration_id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "metric_name",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3cd1fa26-1652-4235-ad61-5445e0dd61cb",
+          "name": "Get Latency Over Time",
+          "request": {
+            "name": "Get Latency Over Time",
+            "description": {
+              "content": "Get latency over time.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "telemetry",
+                "latency",
+                ":metric_name"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "time_range",
+                  "value": "1h",
+                  "description": "Time range: 15m, 30m, 1h, 2h, 6h, 1d, 7d, 30d"
+                },
+                {
+                  "disabled": false,
+                  "key": "time_window",
+                  "value": "1m",
+                  "description": "Time window for aggregation (e.g., '1m', '5m', '15m')"
+                },
+                {
+                  "disabled": false,
+                  "key": "percentiles",
+                  "value": "<string>",
+                  "description": "Comma-separated list of percentiles to query (e.g., '0.5,0.95'). If not specified, defaults to [0.5, 0.9, 0.95, 0.99]"
+                },
+                {
+                  "disabled": false,
+                  "key": "evaluation_id",
+                  "value": "<string>",
+                  "description": "Filter by evaluation ID"
+                },
+                {
+                  "disabled": false,
+                  "key": "test_id",
+                  "value": "<string>",
+                  "description": "Filter by test ID"
+                },
+                {
+                  "disabled": false,
+                  "key": "probe_id",
+                  "value": "<string>",
+                  "description": "Filter by probe ID"
+                },
+                {
+                  "disabled": false,
+                  "key": "agent_configuration_id",
+                  "value": "<string>",
+                  "description": "Filter by agent configuration ID"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "metric_name",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c983aeb0-76d6-4f30-b9d2-7241a8142ea9",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "telemetry",
+                    "latency",
+                    ":metric_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "time_range",
+                      "value": "1h"
+                    },
+                    {
+                      "key": "time_window",
+                      "value": "1m"
+                    },
+                    {
+                      "key": "percentiles",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "evaluation_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "test_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "probe_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "agent_configuration_id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "metric_name",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"metric_name\": \"string\",\n    \"time_window\": \"string\",\n    \"percentile\": \"string\",\n    \"values\": [\n      {\n        \"timestamp\": 5959,\n        \"value\": 9099.80285133973\n      },\n      {\n        \"timestamp\": 3400,\n        \"value\": 6999.471492262347\n      }\n    ]\n  },\n  {\n    \"metric_name\": \"string\",\n    \"time_window\": \"string\",\n    \"percentile\": \"string\",\n    \"values\": [\n      {\n        \"timestamp\": 8362,\n        \"value\": 9928.835267173614\n      },\n      {\n        \"timestamp\": 603,\n        \"value\": 7539.991337347553\n      }\n    ]\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3c46808f-cec4-4d2d-a3eb-c662cced0284",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "telemetry",
+                    "latency",
+                    ":metric_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "time_range",
+                      "value": "1h"
+                    },
+                    {
+                      "key": "time_window",
+                      "value": "1m"
+                    },
+                    {
+                      "key": "percentiles",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "evaluation_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "test_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "probe_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "agent_configuration_id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "metric_name",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c464ebf0-447e-4159-8069-db08529166a3",
+          "name": "Get Logs",
+          "request": {
+            "name": "Get Logs",
+            "description": {
+              "content": "Get logs.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "telemetry",
+                "logs"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "time_range",
+                  "value": "1h",
+                  "description": "Window to pull logs for"
+                },
+                {
+                  "disabled": false,
+                  "key": "service_name",
+                  "value": "<string>",
+                  "description": "Filter by service_name label"
+                },
+                {
+                  "disabled": false,
+                  "key": "level",
+                  "value": "<string>",
+                  "description": "Filter by level label"
+                },
+                {
+                  "disabled": false,
+                  "key": "job",
+                  "value": "<string>",
+                  "description": "Filter by job label"
+                },
+                {
+                  "disabled": false,
+                  "key": "exporter",
+                  "value": "<string>",
+                  "description": "Filter by exporter label"
+                },
+                {
+                  "disabled": false,
+                  "key": "agent_configuration_id",
+                  "value": "<string>",
+                  "description": "Restrict to a specific agent configuration id"
+                },
+                {
+                  "disabled": false,
+                  "key": "evaluation_id",
+                  "value": "<string>",
+                  "description": "Restrict logs to an evaluation id"
+                },
+                {
+                  "disabled": false,
+                  "key": "test_id",
+                  "value": "<string>",
+                  "description": "Restrict logs to a test id"
+                },
+                {
+                  "disabled": false,
+                  "key": "probe_id",
+                  "value": "<string>",
+                  "description": "Restrict logs to a probe id"
+                },
+                {
+                  "disabled": false,
+                  "key": "search",
+                  "value": "<string>",
+                  "description": "Substring search applied via LogQL pipeline"
+                },
+                {
+                  "disabled": false,
+                  "key": "logql",
+                  "value": "<string>",
+                  "description": "Advanced LogQL expression (overrides generated selector when provided)"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "200",
+                  "description": "Maximum log lines to return"
+                },
+                {
+                  "disabled": false,
+                  "key": "direction",
+                  "value": "backward",
+                  "description": "Return order for log entries"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "77a88deb-7bcc-4ebf-82bb-b9d162031ab9",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "telemetry",
+                    "logs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "time_range",
+                      "value": "1h"
+                    },
+                    {
+                      "key": "service_name",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "level",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "job",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "exporter",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "agent_configuration_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "evaluation_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "test_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "probe_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "search",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "logql",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "200"
+                    },
+                    {
+                      "key": "direction",
+                      "value": "backward"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"query\": \"string\",\n  \"direction\": \"forward\",\n  \"start_ns\": 2161,\n  \"end_ns\": 8849,\n  \"streams\": [\n    {\n      \"labels\": {\n        \"key_0\": \"string\",\n        \"key_1\": \"string\",\n        \"key_2\": \"string\"\n      },\n      \"entries\": [\n        {\n          \"timestamp\": 6971,\n          \"line\": \"string\"\n        },\n        {\n          \"timestamp\": 5243,\n          \"line\": \"string\"\n        }\n      ]\n    },\n    {\n      \"labels\": {\n        \"key_0\": \"string\",\n        \"key_1\": \"string\",\n        \"key_2\": \"string\",\n        \"key_3\": \"string\",\n        \"key_4\": \"string\"\n      },\n      \"entries\": [\n        {\n          \"timestamp\": 844,\n          \"line\": \"string\"\n        },\n        {\n          \"timestamp\": 9463,\n          \"line\": \"string\"\n        }\n      ]\n    }\n  ],\n  \"next_timestamp\": 637\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b49f3cd3-ae57-4cbc-9609-9c7f3d5322d1",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "telemetry",
+                    "logs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "time_range",
+                      "value": "1h"
+                    },
+                    {
+                      "key": "service_name",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "level",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "job",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "exporter",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "agent_configuration_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "evaluation_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "test_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "probe_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "search",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "logql",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "200"
+                    },
+                    {
+                      "key": "direction",
+                      "value": "backward"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "eec4bca0-1a40-42b6-a007-b1db1cbf31c5",
+          "name": "Search Traces",
+          "request": {
+            "name": "Search Traces",
+            "description": {
+              "content": "Search traces.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "telemetry",
+                "traces"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "time_range",
+                  "value": "1h",
+                  "description": "Window to search for traces"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "20",
+                  "description": "Maximum number of traces to return"
+                },
+                {
+                  "disabled": false,
+                  "key": "service_name",
+                  "value": "<string>",
+                  "description": "Filter by root service"
+                },
+                {
+                  "disabled": false,
+                  "key": "agent_configuration_id",
+                  "value": "<string>",
+                  "description": "Filter by agent id"
+                },
+                {
+                  "disabled": false,
+                  "key": "min_duration_ms",
+                  "value": "<integer>",
+                  "description": "Lower bound on trace duration (ms)"
+                },
+                {
+                  "disabled": false,
+                  "key": "max_duration_ms",
+                  "value": "<integer>",
+                  "description": "Upper bound on trace duration (ms)"
+                },
+                {
+                  "disabled": false,
+                  "key": "query",
+                  "value": "<string>",
+                  "description": "Advanced TraceQL query"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d1ff6d2e-56dd-4f77-b3ae-1fb5240056f9",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "telemetry",
+                    "traces"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "time_range",
+                      "value": "1h"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "20"
+                    },
+                    {
+                      "key": "service_name",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "agent_configuration_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "min_duration_ms",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "max_duration_ms",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "query",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"traces\": [\n    {\n      \"trace_id\": \"string\",\n      \"root_service_name\": \"string\",\n      \"root_trace_name\": \"string\",\n      \"start_time_unix_nano\": 1078,\n      \"duration_ms\": 9596.567268327475\n    },\n    {\n      \"trace_id\": \"string\",\n      \"root_service_name\": \"string\",\n      \"root_trace_name\": \"string\",\n      \"start_time_unix_nano\": 762,\n      \"duration_ms\": 2417.019990948077\n    }\n  ],\n  \"metrics\": {\n    \"inspectedTraces\": 8871,\n    \"inspectedBytes\": \"string\",\n    \"completedJobs\": 6463,\n    \"totalJobs\": 989\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "244a7995-cf00-4890-8e0d-394048ab810f",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "telemetry",
+                    "traces"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "time_range",
+                      "value": "1h"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "20"
+                    },
+                    {
+                      "key": "service_name",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "agent_configuration_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "min_duration_ms",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "max_duration_ms",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "query",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ff83b808-c3da-4192-a056-ab68670b7d81",
+          "name": "Get Trace By Id",
+          "request": {
+            "name": "Get Trace By Id",
+            "description": {
+              "content": "Get trace by ID.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "telemetry",
+                "traces",
+                ":trace_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "trace_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f936697a-7187-4813-b169-e12c2162bfa2",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "telemetry",
+                    "traces",
+                    ":trace_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "trace_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"trace_id\": \"string\",\n  \"trace_id_base64\": \"string\",\n  \"batches\": [\n    {\n      \"key_0\": \"string\",\n      \"key_1\": true,\n      \"key_2\": true\n    },\n    {\n      \"key_0\": 8916,\n      \"key_1\": \"string\",\n      \"key_2\": 276.62939859059657\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ac05c72b-4cf4-439e-9902-a28f0d1c8894",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "telemetry",
+                    "traces",
+                    ":trace_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "trace_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "dc11c3f4-50b4-426a-bb86-3ee5628860ab",
+    "name": "Vijil Console API (Combined) agent-configurations Dome API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Combined OpenAPI specification for all vijil-console microservices.",
+      "type": "text/plain"
+    }
+  }
+}

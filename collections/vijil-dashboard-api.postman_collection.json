@@ -1,0 +1,106 @@
+{
+  "item": [
+    {
+      "id": "1c87ce10-b3de-4633-8309-177f9cd0a935",
+      "name": "dashboard",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "26bf09cf-7c18-43f2-a4fc-7815a2fc517d",
+          "name": "Get Trust Dashboard",
+          "request": {
+            "name": "Get Trust Dashboard",
+            "description": {
+              "content": "Return the Trust Dashboard for the authenticated user's team.\n\nAggregates:\n- Agent list from Agent Registry (DB)\n- Latest evaluation scores from Diamond (S3)\n- Darwin proposal stats (DB)\n- Dome attack status (V1: stub)",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "dashboard",
+                "trust"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "60e796c1-182b-42d8-a636-1cf08f67105d",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "dashboard",
+                    "trust"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"time_to_trust\": {\n    \"average_days\": 601.7230536011086,\n    \"trend_pct\": 6839.77959819404,\n    \"recovery_avg_days\": 5441.173112154016\n  },\n  \"fleet_health\": {\n    \"by_stage\": {\n      \"key_0\": 89\n    },\n    \"under_attack\": 0\n  },\n  \"adaptivity\": {\n    \"acceptance_rate\": 5805.2675163258045,\n    \"proposed\": 0,\n    \"merged\": 0,\n    \"trend_pct\": 6386.596203823182\n  },\n  \"agents\": [\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"stage\": \"hardened\",\n      \"trust_scores\": {\n        \"key_0\": 867.9607996548822,\n        \"key_1\": 7677.401772681467\n      },\n      \"trust_breakdown\": {\n        \"key_0\": {\n          \"overall\": 0,\n          \"detectors\": {\n            \"key_0\": false,\n            \"key_1\": true\n          }\n        }\n      },\n      \"redteam_findings_by_category\": {\n        \"key_0\": 1801,\n        \"key_1\": 6633\n      },\n      \"under_attack\": false,\n      \"pending_prs\": 0,\n      \"evaluating\": false,\n      \"darwin_cycles\": 0,\n      \"time_in_stage_hours\": 0,\n      \"ttt_days\": 9578.813530928848,\n      \"dome_protected\": false,\n      \"owner_name\": \"string\"\n    },\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"stage\": \"hardened\",\n      \"trust_scores\": {\n        \"key_0\": 3117.41589352755,\n        \"key_1\": 5662.558847048344\n      },\n      \"trust_breakdown\": {\n        \"key_0\": {\n          \"overall\": 0,\n          \"detectors\": {\n            \"key_0\": 9959,\n            \"key_1\": \"string\"\n          }\n        }\n      },\n      \"redteam_findings_by_category\": {\n        \"key_0\": 3477\n      },\n      \"under_attack\": false,\n      \"pending_prs\": 0,\n      \"evaluating\": false,\n      \"darwin_cycles\": 0,\n      \"time_in_stage_hours\": 0,\n      \"ttt_days\": 9853.075816283885,\n      \"dome_protected\": false,\n      \"owner_name\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "e7701c38-8fba-4478-bdf4-48e99c699a1d",
+    "name": "Vijil Console API (Combined) agent-configurations dashboard API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Combined OpenAPI specification for all vijil-console microservices.",
+      "type": "text/plain"
+    }
+  }
+}

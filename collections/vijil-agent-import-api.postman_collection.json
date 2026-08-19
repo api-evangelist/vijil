@@ -1,0 +1,315 @@
+{
+  "item": [
+    {
+      "id": "fde8d4c6-0b50-4649-ac53-aaba0508135b",
+      "name": "agent-import",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "750577e9-04fd-4036-bea8-58a3167151b8",
+          "name": "Validate Agent Import",
+          "request": {
+            "name": "Validate Agent Import",
+            "description": {
+              "content": "Validate an agent import request without saving.\n\nSupports three input methods with deterministic access levels:\n- agent_url:   Remote black_box - Just an endpoint URL to call\n- agent_card:  Local grey_box - Upload agent configuration/card JSON\n- source_code: Local white_box - Upload agent source code files\n\nReturns validation status, access level, and parsed agent card for preview.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "agent-configurations",
+                "import",
+                "validate"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"agent_url\": \"<string>\",\n  \"agent_card\": {\n    \"key_0\": false\n  },\n  \"source_code\": {\n    \"files\": {\n      \"key_0\": \"<string>\"\n    },\n    \"entry_point\": \"main.py\",\n    \"framework\": \"unknown\",\n    \"agent_name\": \"<string>\",\n    \"model_name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"system_prompt\": \"<string>\",\n    \"tools\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"framework\": \"<string>\",\n  \"entry_point\": \"<string>\",\n  \"override_name\": \"<string>\",\n  \"rate_limit_requests_per_minute\": 100,\n  \"api_key\": \"<string>\",\n  \"external_id\": \"<string>\",\n  \"identity_provider\": \"<string>\",\n  \"idp_metadata\": {\n    \"key_0\": 7216,\n    \"key_1\": 8684.618328245722\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "7b4ca9c8-d88d-431b-b77c-b987164de69b",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "agent-configurations",
+                    "import",
+                    "validate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"agent_url\": \"<string>\",\n  \"agent_card\": {\n    \"key_0\": 3870,\n    \"key_1\": false\n  },\n  \"source_code\": {\n    \"files\": {\n      \"key_0\": \"string\"\n    },\n    \"entry_point\": \"main.py\",\n    \"framework\": \"unknown\",\n    \"agent_name\": \"string\",\n    \"model_name\": \"string\",\n    \"description\": \"string\",\n    \"system_prompt\": \"string\",\n    \"tools\": [\n      \"string\",\n      \"string\"\n    ]\n  },\n  \"framework\": \"<string>\",\n  \"entry_point\": \"<string>\",\n  \"override_name\": \"<string>\",\n  \"rate_limit_requests_per_minute\": 100,\n  \"api_key\": \"<string>\",\n  \"external_id\": \"<string>\",\n  \"identity_provider\": \"<string>\",\n  \"idp_metadata\": {\n    \"key_0\": true,\n    \"key_1\": 8659,\n    \"key_2\": false,\n    \"key_3\": \"string\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"valid\": false,\n  \"access_level\": \"string\",\n  \"agent_card\": {\n    \"key_0\": 3996,\n    \"key_1\": false\n  },\n  \"external_id\": \"string\",\n  \"identity_provider\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "19a60328-64f1-4e4a-8000-7eada4d4c4a7",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "agent-configurations",
+                    "import",
+                    "validate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"agent_url\": \"<string>\",\n  \"agent_card\": {\n    \"key_0\": 3870,\n    \"key_1\": false\n  },\n  \"source_code\": {\n    \"files\": {\n      \"key_0\": \"string\"\n    },\n    \"entry_point\": \"main.py\",\n    \"framework\": \"unknown\",\n    \"agent_name\": \"string\",\n    \"model_name\": \"string\",\n    \"description\": \"string\",\n    \"system_prompt\": \"string\",\n    \"tools\": [\n      \"string\",\n      \"string\"\n    ]\n  },\n  \"framework\": \"<string>\",\n  \"entry_point\": \"<string>\",\n  \"override_name\": \"<string>\",\n  \"rate_limit_requests_per_minute\": 100,\n  \"api_key\": \"<string>\",\n  \"external_id\": \"<string>\",\n  \"identity_provider\": \"<string>\",\n  \"idp_metadata\": {\n    \"key_0\": true,\n    \"key_1\": 8659,\n    \"key_2\": false,\n    \"key_3\": \"string\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a9f34ae9-5c8a-442e-a0ad-d9ae256dc5a0",
+          "name": "Import Agent Unified",
+          "request": {
+            "name": "Import Agent Unified",
+            "description": {
+              "content": "Import an agent using the unified import endpoint.\n\nSupports three input methods with deterministic access levels:\n- agent_url:   Remote black_box - Just an endpoint URL to call\n- agent_card:  Local grey_box - Upload agent configuration/card JSON\n- source_code: Local white_box - Upload agent source code files\n\nAccess level is determined by input method (not content).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "agent-configurations",
+                "import"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"agent_url\": \"<string>\",\n  \"agent_card\": {\n    \"key_0\": false\n  },\n  \"source_code\": {\n    \"files\": {\n      \"key_0\": \"<string>\"\n    },\n    \"entry_point\": \"main.py\",\n    \"framework\": \"unknown\",\n    \"agent_name\": \"<string>\",\n    \"model_name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"system_prompt\": \"<string>\",\n    \"tools\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  },\n  \"framework\": \"<string>\",\n  \"entry_point\": \"<string>\",\n  \"override_name\": \"<string>\",\n  \"rate_limit_requests_per_minute\": 100,\n  \"api_key\": \"<string>\",\n  \"external_id\": \"<string>\",\n  \"identity_provider\": \"<string>\",\n  \"idp_metadata\": {\n    \"key_0\": 7216,\n    \"key_1\": 8684.618328245722\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "f703e69b-40c5-4e80-a4de-cf2b10e11f0d",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "agent-configurations",
+                    "import"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"agent_url\": \"<string>\",\n  \"agent_card\": {\n    \"key_0\": 3870,\n    \"key_1\": false\n  },\n  \"source_code\": {\n    \"files\": {\n      \"key_0\": \"string\"\n    },\n    \"entry_point\": \"main.py\",\n    \"framework\": \"unknown\",\n    \"agent_name\": \"string\",\n    \"model_name\": \"string\",\n    \"description\": \"string\",\n    \"system_prompt\": \"string\",\n    \"tools\": [\n      \"string\",\n      \"string\"\n    ]\n  },\n  \"framework\": \"<string>\",\n  \"entry_point\": \"<string>\",\n  \"override_name\": \"<string>\",\n  \"rate_limit_requests_per_minute\": 100,\n  \"api_key\": \"<string>\",\n  \"external_id\": \"<string>\",\n  \"identity_provider\": \"<string>\",\n  \"idp_metadata\": {\n    \"key_0\": true,\n    \"key_1\": 8659,\n    \"key_2\": false,\n    \"key_3\": \"string\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"agent\": {\n    \"id\": \"d6e3f00d-4d1d-cac9-eb2c-fd772e36e923\",\n    \"agent_name\": \"string\",\n    \"model_name\": \"string\",\n    \"team_id\": \"b0a1db2b-d70d-07fe-63e7-8173dde5b804\",\n    \"created_by\": \"cac17cd3-2eff-27ef-deff-1c30b203edd0\",\n    \"created_at\": 5592,\n    \"updated_at\": 7944,\n    \"agent_url\": \"string\",\n    \"hub\": \"custom\",\n    \"api_key\": \"string\",\n    \"agent_system_prompt\": \"string\",\n    \"rate_limit_requests_per_minute\": 100,\n    \"status\": \"active\",\n    \"access_level\": \"black_box\",\n    \"agent_params\": {\n      \"temperature\": 8823.554226678258,\n      \"top_p\": 8112.618055296251,\n      \"max_tokens\": 6613,\n      \"timeout\": 2979,\n      \"rag_params\": {\n        \"key_0\": 1730.6806636053784,\n        \"key_1\": 1449\n      },\n      \"function_route_params\": {\n        \"key_0\": \"string\",\n        \"key_1\": 4096.771867175338\n      }\n    },\n    \"mcp_config\": {\n      \"proxy_url\": \"https://lyvQZovsYyZawJRdCuxutixq.hbvpAOJ2CkgR1Asdb,QM8vZOVfmAOlMWc,8nQEcs6ODohKzRiQiGm75sLtmEVNvLWsRC4T0YaTC.j\",\n      \"access_level\": \"read\",\n      \"server_urls\": [\n        \"https://KCRZFPtgdfbCvuzo.cmaob0j9jcUSR7ybZ05ilQYr,Qtqs5D0a,rvKUfmdwHpFwaa\",\n        \"http://zoCb.tesuyqlDm4yNBrXbjOXaH1q,nRCK7Ztlycxu,lZMdLg3nwGSh4Ip\"\n      ]\n    },\n    \"delegated_agents\": [\n      {\n        \"url\": \"string\",\n        \"agent_card_url\": \"string\",\n        \"name\": \"string\",\n        \"capabilities\": [\n          \"string\",\n          \"string\"\n        ]\n      },\n      {\n        \"url\": \"string\",\n        \"agent_card_url\": \"string\",\n        \"name\": \"string\",\n        \"capabilities\": [\n          \"string\",\n          \"string\"\n        ]\n      }\n    ],\n    \"white_box_config\": {\n      \"source_code\": \"string\",\n      \"repo_url\": \"string\",\n      \"github_username\": \"string\",\n      \"repo_branch\": \"string\",\n      \"entry_point\": \"string\"\n    },\n    \"agent_metadata\": {\n      \"role\": \"string\",\n      \"job_description\": \"string\",\n      \"version\": \"string\",\n      \"author\": \"string\",\n      \"tags\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    \"purpose\": \"string\",\n    \"protocol\": \"chat_completions\",\n    \"test_score\": \"+00000000002275855372116658\",\n    \"last_tested_by\": \"string\",\n    \"evaluated_harnesses\": [\n      \"string\",\n      \"string\"\n    ],\n    \"last_evaluated_at\": 8954,\n    \"protection_status\": \"unprotected\",\n    \"trust_stage\": \"registered\",\n    \"trusted_at\": 4149,\n    \"ttt_days\": 8718.60134536151,\n    \"dome_config_id\": \"99297c2b-32f0-2e8b-6485-d6c7e23f1a44\",\n    \"dome_manually_configured\": false,\n    \"import_metadata\": {\n      \"source\": \"manual\",\n      \"source_url\": \"string\",\n      \"imported_at\": 447,\n      \"original_format\": \"string\"\n    },\n    \"capabilities\": {\n      \"streaming\": false,\n      \"push_notifications\": false,\n      \"code_execution\": false,\n      \"memory\": false,\n      \"delegation\": false,\n      \"tools\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    \"skills\": [\n      {\n        \"id\": \"string\",\n        \"name\": \"string\",\n        \"description\": \"string\",\n        \"input_modes\": [\n          \"string\",\n          \"string\"\n        ],\n        \"output_modes\": [\n          \"string\",\n          \"string\"\n        ]\n      },\n      {\n        \"id\": \"string\",\n        \"name\": \"string\",\n        \"description\": \"string\",\n        \"input_modes\": [\n          \"string\",\n          \"string\"\n        ],\n        \"output_modes\": [\n          \"string\",\n          \"string\"\n        ]\n      }\n    ],\n    \"latest_evaluation\": {\n      \"evaluation_id\": \"403f3bc4-6d7e-abb0-3240-af91b78e1261\",\n      \"overall_score\": 9624.214248552407,\n      \"reliability_score\": 2514.4439942783547,\n      \"security_score\": 5157.382386349765,\n      \"safety_score\": 6470.464847652607,\n      \"completed_at\": 8602\n    }\n  },\n  \"access_level\": \"string\",\n  \"external_id\": \"string\",\n  \"identity_provider\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1d5c79de-152a-4e5e-956f-59d74c8b9fb9",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "agent-configurations",
+                    "import"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"agent_url\": \"<string>\",\n  \"agent_card\": {\n    \"key_0\": 3870,\n    \"key_1\": false\n  },\n  \"source_code\": {\n    \"files\": {\n      \"key_0\": \"string\"\n    },\n    \"entry_point\": \"main.py\",\n    \"framework\": \"unknown\",\n    \"agent_name\": \"string\",\n    \"model_name\": \"string\",\n    \"description\": \"string\",\n    \"system_prompt\": \"string\",\n    \"tools\": [\n      \"string\",\n      \"string\"\n    ]\n  },\n  \"framework\": \"<string>\",\n  \"entry_point\": \"<string>\",\n  \"override_name\": \"<string>\",\n  \"rate_limit_requests_per_minute\": 100,\n  \"api_key\": \"<string>\",\n  \"external_id\": \"<string>\",\n  \"identity_provider\": \"<string>\",\n  \"idp_metadata\": {\n    \"key_0\": true,\n    \"key_1\": 8659,\n    \"key_2\": false,\n    \"key_3\": \"string\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "d519449e-924b-43eb-b5b6-e704d76951b5",
+    "name": "Vijil Console API (Combined) agent-configurations agent-import API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Combined OpenAPI specification for all vijil-console microservices.",
+      "type": "text/plain"
+    }
+  }
+}

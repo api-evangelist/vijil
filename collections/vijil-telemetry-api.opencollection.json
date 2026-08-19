@@ -1,0 +1,326 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Vijil Console API (Combined) agent-configurations Telemetry API",
+    "version": "0.1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Telemetry",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Counter Total",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/telemetry/counters/:metric_name/total",
+            "params": [
+              {
+                "name": "metric_name",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "time_range",
+                "value": "",
+                "type": "query",
+                "description": "Time range: 15m, 30m, 1h, 2h, 6h, 1d, 7d, 30d"
+              },
+              {
+                "name": "evaluation_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter by evaluation ID"
+              },
+              {
+                "name": "test_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter by test ID"
+              },
+              {
+                "name": "probe_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter by probe ID"
+              },
+              {
+                "name": "agent_configuration_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter by agent configuration ID"
+              }
+            ]
+          },
+          "docs": "Get total counter value."
+        },
+        {
+          "info": {
+            "name": "Get Counter Time Series",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/telemetry/counters/:metric_name/time_series",
+            "params": [
+              {
+                "name": "metric_name",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "time_range",
+                "value": "",
+                "type": "query",
+                "description": "Time range: 15m, 30m, 1h, 2h, 6h, 1d, 7d, 30d"
+              },
+              {
+                "name": "evaluation_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter by evaluation ID"
+              },
+              {
+                "name": "agent_configuration_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter by agent configuration ID"
+              }
+            ]
+          },
+          "docs": "Get counter time series."
+        },
+        {
+          "info": {
+            "name": "Get Latency Over Time",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/telemetry/latency/:metric_name",
+            "params": [
+              {
+                "name": "metric_name",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "time_range",
+                "value": "",
+                "type": "query",
+                "description": "Time range: 15m, 30m, 1h, 2h, 6h, 1d, 7d, 30d"
+              },
+              {
+                "name": "time_window",
+                "value": "",
+                "type": "query",
+                "description": "Time window for aggregation (e.g., '1m', '5m', '15m')"
+              },
+              {
+                "name": "percentiles",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of percentiles to query (e.g., '0.5,0.95'). If not specified, defaults to [0.5, 0.9, 0.95, 0.99]"
+              },
+              {
+                "name": "evaluation_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter by evaluation ID"
+              },
+              {
+                "name": "test_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter by test ID"
+              },
+              {
+                "name": "probe_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter by probe ID"
+              },
+              {
+                "name": "agent_configuration_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter by agent configuration ID"
+              }
+            ]
+          },
+          "docs": "Get latency over time."
+        },
+        {
+          "info": {
+            "name": "Get Logs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/telemetry/logs",
+            "params": [
+              {
+                "name": "time_range",
+                "value": "",
+                "type": "query",
+                "description": "Window to pull logs for"
+              },
+              {
+                "name": "service_name",
+                "value": "",
+                "type": "query",
+                "description": "Filter by service_name label"
+              },
+              {
+                "name": "level",
+                "value": "",
+                "type": "query",
+                "description": "Filter by level label"
+              },
+              {
+                "name": "job",
+                "value": "",
+                "type": "query",
+                "description": "Filter by job label"
+              },
+              {
+                "name": "exporter",
+                "value": "",
+                "type": "query",
+                "description": "Filter by exporter label"
+              },
+              {
+                "name": "agent_configuration_id",
+                "value": "",
+                "type": "query",
+                "description": "Restrict to a specific agent configuration id"
+              },
+              {
+                "name": "evaluation_id",
+                "value": "",
+                "type": "query",
+                "description": "Restrict logs to an evaluation id"
+              },
+              {
+                "name": "test_id",
+                "value": "",
+                "type": "query",
+                "description": "Restrict logs to a test id"
+              },
+              {
+                "name": "probe_id",
+                "value": "",
+                "type": "query",
+                "description": "Restrict logs to a probe id"
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Substring search applied via LogQL pipeline"
+              },
+              {
+                "name": "logql",
+                "value": "",
+                "type": "query",
+                "description": "Advanced LogQL expression (overrides generated selector when provided)"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum log lines to return"
+              },
+              {
+                "name": "direction",
+                "value": "",
+                "type": "query",
+                "description": "Return order for log entries"
+              }
+            ]
+          },
+          "docs": "Get logs."
+        },
+        {
+          "info": {
+            "name": "Search Traces",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/telemetry/traces",
+            "params": [
+              {
+                "name": "time_range",
+                "value": "",
+                "type": "query",
+                "description": "Window to search for traces"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of traces to return"
+              },
+              {
+                "name": "service_name",
+                "value": "",
+                "type": "query",
+                "description": "Filter by root service"
+              },
+              {
+                "name": "agent_configuration_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter by agent id"
+              },
+              {
+                "name": "min_duration_ms",
+                "value": "",
+                "type": "query",
+                "description": "Lower bound on trace duration (ms)"
+              },
+              {
+                "name": "max_duration_ms",
+                "value": "",
+                "type": "query",
+                "description": "Upper bound on trace duration (ms)"
+              },
+              {
+                "name": "query",
+                "value": "",
+                "type": "query",
+                "description": "Advanced TraceQL query"
+              }
+            ]
+          },
+          "docs": "Search traces."
+        },
+        {
+          "info": {
+            "name": "Get Trace By Id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/telemetry/traces/:trace_id",
+            "params": [
+              {
+                "name": "trace_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get trace by ID."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

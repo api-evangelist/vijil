@@ -1,0 +1,81 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Vijil Console API (Combined) agent-configurations auth API",
+    "version": "0.1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "auth",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Jwt Login",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/auth/jwt/login",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Authenticate with email + password, sets JWT token in httpOnly cookie.\n\nArgs:\n    login_request: Login credentials (email and password)\n    response: FastAPI response object to set cookies\n    user_manager: FastAPI Users user manager\n\nReturns:\n    JWT token response with access_token and token_type (token also set in httpOnly cookie)\n\nRaises:\n    HTTPException: If authentication fails"
+        },
+        {
+          "info": {
+            "name": "Jwt Logout",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/auth/jwt/logout"
+          },
+          "docs": "Logout user by clearing the authentication cookie.\n\nArgs:\n    response: FastAPI response object to clear cookies\n\nReturns:\n    Success message"
+        },
+        {
+          "info": {
+            "name": "Get Current User Info",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/auth/users/me"
+          },
+          "docs": "Get the currently authenticated user's information.\n\nArgs:\n    current_user: Current authenticated user (from JWT claims)\n\nReturns:\n    Current user information"
+        },
+        {
+          "info": {
+            "name": "Jwt Refresh",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/auth/jwt/refresh"
+          },
+          "docs": "Refresh JWT token.\n\nAccepts a valid or expired JWT token and returns a new token with\nfresh expiration. The token can be provided in a cookie or Authorization header.\n\nArgs:\n    request: FastAPI request object\n    response: FastAPI response object to set cookies\n    user_manager: FastAPI Users user manager\n    session: Database session\n\nReturns:\n    JWT token response with access_token and token_type (also sets cookie)\n\nRaises:\n    HTTPException: If token is invalid or user not found"
+        },
+        {
+          "info": {
+            "name": "Change Password",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/auth/change-password",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Change the current user's password.\n\nVerifies the current password, updates to the new password,\nclears the password_change_required flag, and returns a fresh JWT.\n\nArgs:\n    request: Change password request with current and new passwords\n    response: FastAPI response object to set cookies\n    claims: JWT claims from middleware\n    user_manager: FastAPI Users user manager\n    session: Database session\n\nReturns:\n    JWT token response with access_token and token_type\n\nRaises:\n    Unauthenticated"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

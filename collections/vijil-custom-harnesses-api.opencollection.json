@@ -1,0 +1,180 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Vijil Console API (Combined) agent-configurations custom-harnesses API",
+    "version": "0.1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "custom-harnesses",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Custom Harnesses",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/custom-harnesses/",
+            "params": [
+              {
+                "name": "team_id",
+                "value": "",
+                "type": "query",
+                "description": "Team ID (required)"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results (default 10)"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to skip for paging"
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Filter by status"
+              },
+              {
+                "name": "agent_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter by agent ID"
+              }
+            ]
+          },
+          "docs": "List custom harnesses for the specified team with pagination and filtering.\n\nReturns paginated list of harnesses owned by the specified team.\nSupports filtering by status.\n\nRequires agent:read permission."
+        },
+        {
+          "info": {
+            "name": "Create Custom Harness",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/custom-harnesses/",
+            "params": [
+              {
+                "name": "team_id",
+                "value": "",
+                "type": "query",
+                "description": "Team ID (required)"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new custom harness.\n\nCreates a harness in 'draft' status. The harness can be configured with\nan agent, personas, and policies before being activated.\n\nNote: Harnesses are immutable once created - they cannot be updated.\n\nRequires agent:write permission."
+        },
+        {
+          "info": {
+            "name": "Get Custom Harness",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/custom-harnesses/:harness_id",
+            "params": [
+              {
+                "name": "harness_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "team_id",
+                "value": "",
+                "type": "query",
+                "description": "Team ID (required)"
+              }
+            ]
+          },
+          "docs": "Get a single custom harness by ID with optional workflow status.\n\nReturns the harness (business status: DRAFT/ACTIVE/ARCHIVED) enriched with\nworkflow status (execution state: RUNNING/SUCCEEDED/FAILED) if a workflow exists.\n\nClient interpretation:\n- harness.status=DRAFT + no workflow = Not started yet\n- harness.status=DRAFT + workflow.status=RUNNING = Generation in progress\n- harness.status=DRAFT + workflow.status=FAILED = Generation failed, can retry\n- harness.status=ACTIVE = Generation complete"
+        },
+        {
+          "info": {
+            "name": "Delete Custom Harness",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v1/custom-harnesses/:harness_id",
+            "params": [
+              {
+                "name": "harness_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "team_id",
+                "value": "",
+                "type": "query",
+                "description": "Team ID (required)"
+              }
+            ]
+          },
+          "docs": "Delete a custom harness.\n\nPermanently deletes the harness and any associated data.\n\nRequires agent:write permission."
+        },
+        {
+          "info": {
+            "name": "Cancel Custom Harness",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/custom-harnesses/:harness_id/cancel",
+            "params": [
+              {
+                "name": "harness_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "team_id",
+                "value": "",
+                "type": "query",
+                "description": "Team ID (required)"
+              }
+            ]
+          },
+          "docs": "Cancel a running custom harness creation workflow.\n\nUses harness_id to load the harness from S3, then the harness's workflow_id to load the\nworkflow. If workflow_specific_fields (task_id, session_id) are present, sends cancel to the\nagent; otherwise marks the workflow as cancelled so the worker will not overwrite with\nsuccess/failure. Requires agent:write permission."
+        },
+        {
+          "info": {
+            "name": "Get Custom Harness Prompts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/custom-harnesses/:harness_id/prompts",
+            "params": [
+              {
+                "name": "harness_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "team_id",
+                "value": "",
+                "type": "query",
+                "description": "Team ID (required)"
+              }
+            ]
+          },
+          "docs": "Return taxonomy prompts from ``harness_prompts.jsonl`` for a custom harness.\n\nServed by service-diamond; loads JSONL from the team custom-harness S3 path.\nDoes not read Trust Score ``prompt.jsonl``.\n\nReturns an empty list if the file is missing or empty (e.g. harness still in DRAFT).\n\nRequires agent:read permission."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

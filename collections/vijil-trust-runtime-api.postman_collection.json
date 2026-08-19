@@ -1,0 +1,170 @@
+{
+  "item": [
+    {
+      "id": "642bf541-082c-45b8-8e70-5b44527d4718",
+      "name": "Trust Runtime",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "d6efff5d-1e37-483c-8844-f342cb4a3123",
+          "name": "Fetch agent trust constraints",
+          "request": {
+            "name": "Fetch agent trust constraints",
+            "description": {
+              "content": "Returns the agent's trust constraints (Dome guard config, tool permissions, organization rules, enforcement mode) in the format consumed by the vijil-sdk Trust Runtime at boot.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "agents",
+                ":agent_id",
+                "constraints"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "agent_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "bc84cef5-a4d1-4095-890c-417bdf3f4e17",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "agents",
+                    ":agent_id",
+                    "constraints"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "agent_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"agent_id\": \"string\",\n  \"dome_config\": {\n    \"input_guards\": [\n      \"string\",\n      \"string\"\n    ],\n    \"output_guards\": [\n      \"string\",\n      \"string\"\n    ],\n    \"guards\": {\n      \"key_0\": {\n        \"key_0\": 6113.270466380183\n      },\n      \"key_1\": {\n        \"key_0\": 587\n      }\n    }\n  },\n  \"tool_permissions\": [\n    {\n      \"name\": \"string\",\n      \"identity\": \"string\",\n      \"endpoint\": \"string\",\n      \"allowed_actions\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    {\n      \"name\": \"string\",\n      \"identity\": \"string\",\n      \"endpoint\": \"string\",\n      \"allowed_actions\": [\n        \"string\",\n        \"string\"\n      ]\n    }\n  ],\n  \"organization\": {\n    \"required_input_guards\": [\n      \"string\",\n      \"string\"\n    ],\n    \"required_output_guards\": [\n      \"string\",\n      \"string\"\n    ],\n    \"denied_tools\": [\n      \"string\",\n      \"string\"\n    ],\n    \"max_model_tier\": \"string\"\n  },\n  \"enforcement_mode\": \"warn\",\n  \"updated_at\": \"1988-08-02T03:11:03.978Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b6d7008a-f2eb-459f-97e3-8e6ec1bfb5dd",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "agents",
+                    ":agent_id",
+                    "constraints"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "agent_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "96576682-b4a1-4324-99cc-c2903d372caf",
+    "name": "Vijil Console API (Combined) agent-configurations Trust Runtime API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Combined OpenAPI specification for all vijil-console microservices.",
+      "type": "text/plain"
+    }
+  }
+}

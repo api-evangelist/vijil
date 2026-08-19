@@ -1,0 +1,194 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Vijil Console API (Combined) agent-configurations evaluations API",
+    "version": "0.1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "evaluations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Team Evaluations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/evaluations/"
+          },
+          "docs": "List all evaluations for the authenticated user's teams.\n\nThis endpoint lists all evaluations (running and completed) from the job repository.\nFor completed evaluations stored in S3, use GET /evaluations-results/ instead.\n\nArgs:\n    claims: JWT claims with user and team info\n    diamond_domain: Diamond domain orchestrator\n\nReturns:\n    Dict with \"evaluations\" key containing list of evaluation summaries"
+        },
+        {
+          "info": {
+            "name": "Create Evaluation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/evaluations/",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new evaluation job.\n\nCreates a Kubernetes Job to run the evaluation and tracks it in memory.\nFetches agent configuration from Agent Registry using the provided agent_id.\nJWT token is retrieved from request context (set by JWTAuthMiddleware).\n\nArgs:\n    request: Evaluation configuration with agent_id and team_id\n    claims: JWT claims with user and team info\n    diamond_domain: Diamond domain orchestrator\n\nReturns:\n    Evaluation ID, status, and status URL"
+        },
+        {
+          "info": {
+            "name": "Get Evaluation Html Report",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/evaluations/:evaluation_id/html",
+            "params": [
+              {
+                "name": "evaluation_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "team_id",
+                "value": "",
+                "type": "query",
+                "description": "Team ID that owns this evaluation"
+              }
+            ]
+          },
+          "docs": "Get HTML trust report for an evaluation.\n\nReturns the HTML content directly for browser viewing.\nHTML reports are automatically generated when evaluations complete.\n\nArgs:\n    evaluation_id: UUID of the evaluation\n    team_id: Team ID that owns this evaluation\n    claims: JWT claims with user and team info\n    report_storage: Report storage adapter\n\nReturns:\n    HTML response with the report content\n\nRaises:\n    HTTPException: 401 if unauthorized, 403 if no permission, 404 if report not found"
+        },
+        {
+          "info": {
+            "name": "Get Evaluation Pdf Report",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/evaluations/:evaluation_id/pdf",
+            "params": [
+              {
+                "name": "evaluation_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "team_id",
+                "value": "",
+                "type": "query",
+                "description": "Team ID that owns this evaluation"
+              }
+            ]
+          },
+          "docs": "Get PDF trust report for an evaluation.\n\nPDF reports are automatically generated when evaluations complete\n(same flow as HTML reports).\n\nArgs:\n    evaluation_id: UUID of the evaluation\n    team_id: Team ID that owns this evaluation\n    claims: JWT claims with user and team info\n    report_storage: Report storage adapter\n\nReturns:\n    PDF response with the report content\n\nRaises:\n    HTTPException: 401 if unauthorized, 403 if no permission, 404 if report not found"
+        },
+        {
+          "info": {
+            "name": "Get Evaluation Logs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/evaluations/:evaluation_id/logs",
+            "params": [
+              {
+                "name": "evaluation_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get evaluation job logs from Kubernetes.\n\nArgs:\n    evaluation_id: UUID of the evaluation\n    claims: JWT claims with user and team info\n    diamond_domain: Diamond domain orchestrator\n\nReturns:\n    Job logs as dict with \"logs\" key\n\nRaises:\n    HTTPException: 404 if logs not available"
+        },
+        {
+          "info": {
+            "name": "Get Evaluation",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/evaluations/:evaluation_id",
+            "params": [
+              {
+                "name": "evaluation_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get evaluation status.\n\nArgs:\n    evaluation_id: UUID of the evaluation (can be job_id or evaluation_id)\n    claims: JWT claims with user and team info\n    diamond_domain: Diamond domain orchestrator\n\nReturns:\n    Current evaluation status with timestamps (returns Diamond's evaluation_id as source of truth)\n\nRaises:\n    HTTPException: 404 if evaluation not found or user lacks access\n    HTTPException: 503 if evaluation status cannot be retrieved"
+        },
+        {
+          "info": {
+            "name": "Delete Evaluation",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v1/evaluations/:evaluation_id",
+            "params": [
+              {
+                "name": "evaluation_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete evaluation (Kubernetes Job + repository entry + S3 storage).\n\nDeletes the evaluation from:\n- Kubernetes Job (via domain)\n- Repository entry (via domain)\n- S3 storage (request, results, report files)\n\nArgs:\n    evaluation_id: UUID of the evaluation\n    claims: JWT claims with user and team info\n    diamond_domain: Diamond domain orchestrator\n    storage: Evaluation storage adapter\n\nReturns:\n    Status dict with \"deleted\" status\n\nRaises:\n    HTTPException: 404 if evaluation not found"
+        },
+        {
+          "info": {
+            "name": "Cancel Evaluation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/evaluations/:evaluation_id/cancel",
+            "params": [
+              {
+                "name": "evaluation_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Cancel a running evaluation (Kubernetes Job cancellation + workflow status update).\n\nCancels an evaluation that is in progress (CREATED, STARTING, or RUNNING status).\nThis will:\n- Delete the Kubernetes Job (which cancels the running pod)\n- Update workflow status to CANCELLED\n- Optionally clean up partial S3 data (request file is kept for audit)\n\nArgs:\n    evaluation_id: UUID of the evaluation to cancel\n    claims: JWT claims with user and team info\n    diamond_domain: Diamond domain orchestrator"
+        },
+        {
+          "info": {
+            "name": "Generate Report On Demand",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/evaluations/:evaluation_id/report",
+            "params": [
+              {
+                "name": "evaluation_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "team_id",
+                "value": "",
+                "type": "query",
+                "description": "Team that owns this evaluation"
+              },
+              {
+                "name": "force_regenerate",
+                "value": "",
+                "type": "query",
+                "description": "Force regeneration even if cached"
+              }
+            ]
+          },
+          "docs": "Generate a trust report on demand (Layer 3).\n\nThis endpoint triggers LLM analysis + HTML/PDF report generation\nfor a completed evaluation. Reports are cached in S3 — subsequent\ncalls return the cached version unless force_regenerate=True.\n\nReports are NOT auto-generated on evaluation completion (CON-256).\nUsers explicitly request reports when they need proof of compliance\nor want a printable summary."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

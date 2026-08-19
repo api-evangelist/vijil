@@ -1,0 +1,199 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Vijil Console API (Combined) agent-configurations Red Team API",
+    "version": "0.1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Red Team",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Tools",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/tools"
+          },
+          "docs": "List available red team tools and their supported attack categories."
+        },
+        {
+          "info": {
+            "name": "List Campaigns",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/campaigns"
+          },
+          "docs": "List all red team campaigns across all teams the user belongs to (subject to per-team permissions)."
+        },
+        {
+          "info": {
+            "name": "Create Campaign",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/campaigns",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new red team campaign.\n\nLaunches a K8s Job to run the selected tool against the target agent.\nReturns immediately with a pending status; poll via GET for updates."
+        },
+        {
+          "info": {
+            "name": "Get Campaign Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/campaigns/:campaign_id",
+            "params": [
+              {
+                "name": "campaign_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "team_id",
+                "value": "",
+                "type": "query",
+                "description": "Team that owns this campaign"
+              }
+            ]
+          },
+          "docs": "Get the status of a red team campaign."
+        },
+        {
+          "info": {
+            "name": "Delete Campaign",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v1/campaigns/:campaign_id",
+            "params": [
+              {
+                "name": "campaign_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "team_id",
+                "value": "",
+                "type": "query",
+                "description": "Team that owns this campaign"
+              }
+            ]
+          },
+          "docs": "Delete a red team campaign and all its S3 artifacts."
+        },
+        {
+          "info": {
+            "name": "Download Campaign Results",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/campaigns/:campaign_id/results/download",
+            "params": [
+              {
+                "name": "campaign_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "team_id",
+                "value": "",
+                "type": "query",
+                "description": "Team that owns this campaign"
+              }
+            ]
+          },
+          "docs": "Download campaign results as a JSON file (attachment).\n\nReturns the same data as GET .../results but with Content-Disposition\nso the browser prompts to save as results_{tool}_{campaign_id}.json."
+        },
+        {
+          "info": {
+            "name": "Get Campaign Results",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/campaigns/:campaign_id/results",
+            "params": [
+              {
+                "name": "campaign_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "team_id",
+                "value": "",
+                "type": "query",
+                "description": "Team that owns this campaign"
+              }
+            ]
+          },
+          "docs": "Get normalized results of a completed red team campaign."
+        },
+        {
+          "info": {
+            "name": "Get Campaign Logs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/campaigns/:campaign_id/logs",
+            "params": [
+              {
+                "name": "campaign_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "team_id",
+                "value": "",
+                "type": "query",
+                "description": "Team that owns this campaign"
+              }
+            ]
+          },
+          "docs": "Get logs from the campaign's Kubernetes job pod.\n\nReturns pod stdout/stderr. Useful when the job fails or results are missing."
+        },
+        {
+          "info": {
+            "name": "Cancel Campaign",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/campaigns/:campaign_id/cancel",
+            "params": [
+              {
+                "name": "campaign_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "team_id",
+                "value": "",
+                "type": "query",
+                "description": "Team that owns this campaign"
+              }
+            ]
+          },
+          "docs": "Cancel a running red team campaign."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,253 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Vijil Console API (Combined) agent-configurations Teams API",
+    "version": "0.1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Teams",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Jwt Login",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/auth/jwt/login",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Authenticate with email + password, sets JWT token in httpOnly cookie.\n\nArgs:\n    login_request: Login credentials (email and password)\n    response: FastAPI response object to set cookies\n    user_manager: FastAPI Users user manager\n\nReturns:\n    JWT token response with access_token and token_type (token also set in httpOnly cookie)\n\nRaises:\n    HTTPException: If authentication fails"
+        },
+        {
+          "info": {
+            "name": "Jwt Logout",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/auth/jwt/logout"
+          },
+          "docs": "Logout user by clearing the authentication cookie.\n\nArgs:\n    response: FastAPI response object to clear cookies\n\nReturns:\n    Success message"
+        },
+        {
+          "info": {
+            "name": "Get Current User Info",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/auth/users/me"
+          },
+          "docs": "Get the currently authenticated user's information.\n\nArgs:\n    current_user: Current authenticated user (from JWT claims)\n\nReturns:\n    Current user information"
+        },
+        {
+          "info": {
+            "name": "Jwt Refresh",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/auth/jwt/refresh"
+          },
+          "docs": "Refresh JWT token.\n\nAccepts a valid or expired JWT token and returns a new token with\nfresh expiration. The token can be provided in a cookie or Authorization header.\n\nArgs:\n    request: FastAPI request object\n    response: FastAPI response object to set cookies\n    user_manager: FastAPI Users user manager\n    session: Database session\n\nReturns:\n    JWT token response with access_token and token_type (also sets cookie)\n\nRaises:\n    HTTPException: If token is invalid or user not found"
+        },
+        {
+          "info": {
+            "name": "Change Password",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/auth/change-password",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Change the current user's password.\n\nVerifies the current password, updates to the new password,\nclears the password_change_required flag, and returns a fresh JWT.\n\nArgs:\n    request: Change password request with current and new passwords\n    response: FastAPI response object to set cookies\n    claims: JWT claims from middleware\n    user_manager: FastAPI Users user manager\n    session: Database session\n\nReturns:\n    JWT token response with access_token and token_type\n\nRaises:\n    Unauthenticated"
+        },
+        {
+          "info": {
+            "name": "Get User",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/users/",
+            "params": [
+              {
+                "name": "email",
+                "value": "",
+                "type": "query",
+                "description": "Email address of the user to retrieve"
+              }
+            ]
+          },
+          "docs": "Get a user by query parameters.\n\nCurrently supports:\n- email: Get user by email address\n\nAdditional query parameters can be added in the future."
+        },
+        {
+          "info": {
+            "name": "Create User",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/users/",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new user.\n\nRequires team:write_user permission for the specified team (team owners and admins) or\nteam:write_user_all permission (super admin)."
+        },
+        {
+          "info": {
+            "name": "Get Current User",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/users/me"
+          },
+          "docs": "Get the current authenticated user's information.\n\nReturns the user information for the authenticated user based on JWT claims."
+        },
+        {
+          "info": {
+            "name": "Get My Teams",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/users/me/teams"
+          },
+          "docs": "Get the current user's team memberships.\n\nReturns all teams the authenticated user is a member of, along with\ntheir role, name, and description."
+        },
+        {
+          "info": {
+            "name": "Get User By Id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/users/:user_id",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a user by ID."
+        },
+        {
+          "info": {
+            "name": "Create Team",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/teams/",
+            "params": [
+              {
+                "name": "owner_id",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new team.\n\nRequires team:create_all permission (super admin only)."
+        },
+        {
+          "info": {
+            "name": "Invite Users",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/teams/:team_id/invites",
+            "params": [
+              {
+                "name": "team_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Invite a user to a team by email.\n\nRequires teams:invite permission (team owners and admins) or\nteam:invite_all permission (super admin)."
+        },
+        {
+          "info": {
+            "name": "Accept Invite",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/teams/invites/:invitation_id/accept",
+            "params": [
+              {
+                "name": "invitation_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Accept a team invitation.\n\nOnly the target user (the one who was invited) can accept their invitation.\nThe user_id and email come from the authenticated JWT token."
+        },
+        {
+          "info": {
+            "name": "Get Team Users",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/teams/:team_id/users",
+            "params": [
+              {
+                "name": "team_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "List all users in a team.\n\nRequires team:read permission (all team members) or\nteam:read_all permission (super admin)."
+        },
+        {
+          "info": {
+            "name": "Get Team",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/teams/:team_id",
+            "params": [
+              {
+                "name": "team_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a team by ID.\n\nRequires team:read permission (all team members) or\nteam:read_all permission (super admin).\n\nNote: This route must come after more specific routes like /{team_id}/users\nto avoid route conflicts."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

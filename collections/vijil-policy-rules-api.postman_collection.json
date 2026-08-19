@@ -1,0 +1,948 @@
+{
+  "item": [
+    {
+      "id": "963990f8-3931-43db-a340-ab5aed29b1a9",
+      "name": "policy-rules",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "676b1c93-2029-4fce-9077-4397681bfa93",
+          "name": "Get Rule",
+          "request": {
+            "name": "Get Rule",
+            "description": {
+              "content": "Get a rule by ID.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "rules",
+                ":rule_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "rule_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "14592cec-a0c1-4f34-82b8-6f07689a9677",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "rules",
+                    ":rule_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "rule_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"178b7368-e0f1-613f-9967-cbf3449faf20\",\n  \"policy_id\": \"05f47901-c28f-809e-fba4-44f759ffcc21\",\n  \"rule_id\": \"string\",\n  \"rule_type\": \"prohibition\",\n  \"action\": \"string\",\n  \"consequence\": {\n    \"action\": \"warn\",\n    \"severity\": \"medium\",\n    \"message\": \"string\"\n  },\n  \"natural_language\": \"string\",\n  \"created_at\": 1124,\n  \"updated_at\": 1579,\n  \"target\": \"string\",\n  \"assignee\": \"string\",\n  \"constraints\": [\n    {\n      \"condition_type\": \"string\",\n      \"field\": \"string\",\n      \"operator\": \"string\",\n      \"value\": \"string\"\n    },\n    {\n      \"condition_type\": \"string\",\n      \"field\": \"string\",\n      \"operator\": \"string\",\n      \"value\": \"string\"\n    }\n  ],\n  \"constraint_logic\": \"all\",\n  \"provenance\": {\n    \"extracted_by\": \"manual\",\n    \"model_used\": \"string\",\n    \"confidence_score\": 9095.789073011854,\n    \"source_location\": {\n      \"section\": \"string\",\n      \"paragraph\": 958,\n      \"char_start\": 2348,\n      \"char_end\": 2638,\n      \"source_text\": \"string\"\n    }\n  },\n  \"category\": \"security\",\n  \"tags\": [\n    \"string\",\n    \"string\"\n  ],\n  \"status\": \"draft\",\n  \"reviewed_by\": \"600fa629-87c2-9f9a-77cb-c2f3fb709ba2\",\n  \"reviewed_at\": 3726,\n  \"review_notes\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "96fe9d64-4315-4b63-99aa-ba9d48cf46c5",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "rules",
+                    ":rule_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "rule_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "55128d15-facf-4fce-9299-e3dc7ef02ec0",
+          "name": "Update Rule",
+          "request": {
+            "name": "Update Rule",
+            "description": {
+              "content": "Update a rule.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "rules",
+                ":rule_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "rule_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"rule_id\": \"<string>\",\n  \"rule_type\": \"<string>\",\n  \"action\": \"<string>\",\n  \"target\": \"<string>\",\n  \"assignee\": \"<string>\",\n  \"constraints\": [\n    {\n      \"condition_type\": \"<string>\",\n      \"field\": \"<string>\",\n      \"operator\": \"<string>\",\n      \"value\": \"<string>\"\n    },\n    {\n      \"condition_type\": \"<string>\",\n      \"field\": \"<string>\",\n      \"operator\": \"<string>\",\n      \"value\": \"<string>\"\n    }\n  ],\n  \"conditions\": [\n    {\n      \"key_0\": 713.4992883246538,\n      \"key_1\": 7542\n    },\n    {\n      \"key_0\": \"string\",\n      \"key_1\": true,\n      \"key_2\": \"string\",\n      \"key_3\": \"string\"\n    }\n  ],\n  \"constraint_logic\": \"<string>\",\n  \"consequence\": {\n    \"action\": \"warn\",\n    \"severity\": \"medium\",\n    \"message\": \"<string>\"\n  },\n  \"natural_language\": \"<string>\",\n  \"category\": \"<string>\",\n  \"status\": \"<string>\",\n  \"tags\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "863ae245-d36f-40b2-934e-06a765c75611",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "rules",
+                    ":rule_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "rule_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"rule_id\": \"<string>\",\n  \"rule_type\": \"obligation\",\n  \"action\": \"<string>\",\n  \"target\": \"<string>\",\n  \"assignee\": \"<string>\",\n  \"constraints\": [\n    {\n      \"condition_type\": \"string\",\n      \"field\": \"string\",\n      \"operator\": \"string\",\n      \"value\": \"string\"\n    },\n    {\n      \"condition_type\": \"string\",\n      \"field\": \"string\",\n      \"operator\": \"string\",\n      \"value\": \"string\"\n    }\n  ],\n  \"conditions\": [\n    {\n      \"key_0\": 2772.976119913072,\n      \"key_1\": \"string\",\n      \"key_2\": 2806.1907408950715,\n      \"key_3\": 5698\n    },\n    {\n      \"key_0\": \"string\"\n    }\n  ],\n  \"constraint_logic\": \"<string>\",\n  \"consequence\": {\n    \"action\": \"warn\",\n    \"severity\": \"medium\",\n    \"message\": \"string\"\n  },\n  \"natural_language\": \"<string>\",\n  \"category\": \"compliance\",\n  \"status\": \"rejected\",\n  \"tags\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"178b7368-e0f1-613f-9967-cbf3449faf20\",\n  \"policy_id\": \"05f47901-c28f-809e-fba4-44f759ffcc21\",\n  \"rule_id\": \"string\",\n  \"rule_type\": \"prohibition\",\n  \"action\": \"string\",\n  \"consequence\": {\n    \"action\": \"warn\",\n    \"severity\": \"medium\",\n    \"message\": \"string\"\n  },\n  \"natural_language\": \"string\",\n  \"created_at\": 1124,\n  \"updated_at\": 1579,\n  \"target\": \"string\",\n  \"assignee\": \"string\",\n  \"constraints\": [\n    {\n      \"condition_type\": \"string\",\n      \"field\": \"string\",\n      \"operator\": \"string\",\n      \"value\": \"string\"\n    },\n    {\n      \"condition_type\": \"string\",\n      \"field\": \"string\",\n      \"operator\": \"string\",\n      \"value\": \"string\"\n    }\n  ],\n  \"constraint_logic\": \"all\",\n  \"provenance\": {\n    \"extracted_by\": \"manual\",\n    \"model_used\": \"string\",\n    \"confidence_score\": 9095.789073011854,\n    \"source_location\": {\n      \"section\": \"string\",\n      \"paragraph\": 958,\n      \"char_start\": 2348,\n      \"char_end\": 2638,\n      \"source_text\": \"string\"\n    }\n  },\n  \"category\": \"security\",\n  \"tags\": [\n    \"string\",\n    \"string\"\n  ],\n  \"status\": \"draft\",\n  \"reviewed_by\": \"600fa629-87c2-9f9a-77cb-c2f3fb709ba2\",\n  \"reviewed_at\": 3726,\n  \"review_notes\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c80a40bc-8aa0-44a2-b033-85255cc4d943",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "rules",
+                    ":rule_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "rule_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"rule_id\": \"<string>\",\n  \"rule_type\": \"obligation\",\n  \"action\": \"<string>\",\n  \"target\": \"<string>\",\n  \"assignee\": \"<string>\",\n  \"constraints\": [\n    {\n      \"condition_type\": \"string\",\n      \"field\": \"string\",\n      \"operator\": \"string\",\n      \"value\": \"string\"\n    },\n    {\n      \"condition_type\": \"string\",\n      \"field\": \"string\",\n      \"operator\": \"string\",\n      \"value\": \"string\"\n    }\n  ],\n  \"conditions\": [\n    {\n      \"key_0\": 2772.976119913072,\n      \"key_1\": \"string\",\n      \"key_2\": 2806.1907408950715,\n      \"key_3\": 5698\n    },\n    {\n      \"key_0\": \"string\"\n    }\n  ],\n  \"constraint_logic\": \"<string>\",\n  \"consequence\": {\n    \"action\": \"warn\",\n    \"severity\": \"medium\",\n    \"message\": \"string\"\n  },\n  \"natural_language\": \"<string>\",\n  \"category\": \"compliance\",\n  \"status\": \"rejected\",\n  \"tags\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9abe8936-4781-4574-9437-38408efeb2fe",
+          "name": "Delete Rule",
+          "request": {
+            "name": "Delete Rule",
+            "description": {
+              "content": "Delete a rule.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "rules",
+                ":rule_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "rule_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2eeb57fe-fac4-4be5-b601-b0913b7d6358",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "rules",
+                    ":rule_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "rule_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "c4e49c85-d35c-4a17-95e2-52e1def3561d",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "rules",
+                    ":rule_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "rule_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d77fe3be-18d3-4652-afe8-f28e3e4c3868",
+          "name": "List Rules",
+          "request": {
+            "name": "List Rules",
+            "description": {
+              "content": "List rules with optional filters.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "rules",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "policy_id",
+                  "value": "<uuid>"
+                },
+                {
+                  "disabled": false,
+                  "key": "status",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "category",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "100"
+                },
+                {
+                  "disabled": false,
+                  "key": "offset",
+                  "value": "0"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "5d9b2ed2-1e79-4c6c-99d4-43c5bc848eef",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "rules",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "policy_id",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "status",
+                      "value": "modified"
+                    },
+                    {
+                      "key": "category",
+                      "value": "custom"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"results\": [\n    {\n      \"id\": \"0b3b16cd-cf1f-f9e3-d133-36ca8e8cd072\",\n      \"policy_id\": \"76f598a0-2140-b4c4-aac8-6d8ebd9e67d2\",\n      \"rule_id\": \"string\",\n      \"rule_type\": \"prohibition\",\n      \"action\": \"string\",\n      \"consequence\": {\n        \"action\": \"warn\",\n        \"severity\": \"medium\",\n        \"message\": \"string\"\n      },\n      \"natural_language\": \"string\",\n      \"created_at\": 8340,\n      \"updated_at\": 2312,\n      \"target\": \"string\",\n      \"assignee\": \"string\",\n      \"constraints\": [\n        {\n          \"condition_type\": \"string\",\n          \"field\": \"string\",\n          \"operator\": \"string\",\n          \"value\": \"string\"\n        },\n        {\n          \"condition_type\": \"string\",\n          \"field\": \"string\",\n          \"operator\": \"string\",\n          \"value\": \"string\"\n        }\n      ],\n      \"constraint_logic\": \"all\",\n      \"provenance\": {\n        \"extracted_by\": \"manual\",\n        \"model_used\": \"string\",\n        \"confidence_score\": 1143.0292308327816,\n        \"source_location\": {\n          \"section\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"paragraph\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"char_start\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"char_end\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"source_text\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      },\n      \"category\": \"custom\",\n      \"tags\": [\n        \"string\",\n        \"string\"\n      ],\n      \"status\": \"draft\",\n      \"reviewed_by\": \"d31b3d08-025a-d07e-9e27-f0db02c8a9ac\",\n      \"reviewed_at\": 7249,\n      \"review_notes\": \"string\"\n    },\n    {\n      \"id\": \"2fb89928-f433-26be-0446-ab73cb1c10c7\",\n      \"policy_id\": \"b6407d2f-f449-84ee-1f05-158b48feb0fe\",\n      \"rule_id\": \"string\",\n      \"rule_type\": \"permission\",\n      \"action\": \"string\",\n      \"consequence\": {\n        \"action\": \"warn\",\n        \"severity\": \"medium\",\n        \"message\": \"string\"\n      },\n      \"natural_language\": \"string\",\n      \"created_at\": 2787,\n      \"updated_at\": 6009,\n      \"target\": \"string\",\n      \"assignee\": \"string\",\n      \"constraints\": [\n        {\n          \"condition_type\": \"string\",\n          \"field\": \"string\",\n          \"operator\": \"string\",\n          \"value\": \"string\"\n        },\n        {\n          \"condition_type\": \"string\",\n          \"field\": \"string\",\n          \"operator\": \"string\",\n          \"value\": \"string\"\n        }\n      ],\n      \"constraint_logic\": \"all\",\n      \"provenance\": {\n        \"extracted_by\": \"manual\",\n        \"model_used\": \"string\",\n        \"confidence_score\": 9391.043841972778,\n        \"source_location\": {\n          \"section\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"paragraph\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"char_start\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"char_end\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"source_text\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      },\n      \"category\": \"security\",\n      \"tags\": [\n        \"string\",\n        \"string\"\n      ],\n      \"status\": \"draft\",\n      \"reviewed_by\": \"731a29fe-fb57-fdc0-85e6-b696d6c33e9a\",\n      \"reviewed_at\": 9394,\n      \"review_notes\": \"string\"\n    }\n  ],\n  \"count\": 4341\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2814baf6-1df3-4233-88fa-1aef4e1b0fb7",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "rules",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "policy_id",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "status",
+                      "value": "modified"
+                    },
+                    {
+                      "key": "category",
+                      "value": "custom"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "62811989-4c66-4572-833d-adc388f8fdb3",
+          "name": "Approve Rule",
+          "request": {
+            "name": "Approve Rule",
+            "description": {
+              "content": "Approve a rule.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "rules",
+                ":rule_id",
+                "approve"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "notes",
+                  "value": "<string>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "rule_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "9b48390b-1d3f-4bb2-9983-1e58872b000f",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "rules",
+                    ":rule_id",
+                    "approve"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "notes",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "rule_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"178b7368-e0f1-613f-9967-cbf3449faf20\",\n  \"policy_id\": \"05f47901-c28f-809e-fba4-44f759ffcc21\",\n  \"rule_id\": \"string\",\n  \"rule_type\": \"prohibition\",\n  \"action\": \"string\",\n  \"consequence\": {\n    \"action\": \"warn\",\n    \"severity\": \"medium\",\n    \"message\": \"string\"\n  },\n  \"natural_language\": \"string\",\n  \"created_at\": 1124,\n  \"updated_at\": 1579,\n  \"target\": \"string\",\n  \"assignee\": \"string\",\n  \"constraints\": [\n    {\n      \"condition_type\": \"string\",\n      \"field\": \"string\",\n      \"operator\": \"string\",\n      \"value\": \"string\"\n    },\n    {\n      \"condition_type\": \"string\",\n      \"field\": \"string\",\n      \"operator\": \"string\",\n      \"value\": \"string\"\n    }\n  ],\n  \"constraint_logic\": \"all\",\n  \"provenance\": {\n    \"extracted_by\": \"manual\",\n    \"model_used\": \"string\",\n    \"confidence_score\": 9095.789073011854,\n    \"source_location\": {\n      \"section\": \"string\",\n      \"paragraph\": 958,\n      \"char_start\": 2348,\n      \"char_end\": 2638,\n      \"source_text\": \"string\"\n    }\n  },\n  \"category\": \"security\",\n  \"tags\": [\n    \"string\",\n    \"string\"\n  ],\n  \"status\": \"draft\",\n  \"reviewed_by\": \"600fa629-87c2-9f9a-77cb-c2f3fb709ba2\",\n  \"reviewed_at\": 3726,\n  \"review_notes\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "cf6d9303-0215-4bad-83ee-33c6ad00666a",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "rules",
+                    ":rule_id",
+                    "approve"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "notes",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "rule_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b79bd441-db7c-4d79-bf94-f8ab4075f536",
+          "name": "Reject Rule",
+          "request": {
+            "name": "Reject Rule",
+            "description": {
+              "content": "Reject a rule with a reason.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "rules",
+                ":rule_id",
+                "reject"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "reason",
+                  "value": "<string>",
+                  "description": "(Required) "
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "rule_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "51928420-8683-47c4-8ca4-42b108535be2",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "rules",
+                    ":rule_id",
+                    "reject"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "reason",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "rule_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"178b7368-e0f1-613f-9967-cbf3449faf20\",\n  \"policy_id\": \"05f47901-c28f-809e-fba4-44f759ffcc21\",\n  \"rule_id\": \"string\",\n  \"rule_type\": \"prohibition\",\n  \"action\": \"string\",\n  \"consequence\": {\n    \"action\": \"warn\",\n    \"severity\": \"medium\",\n    \"message\": \"string\"\n  },\n  \"natural_language\": \"string\",\n  \"created_at\": 1124,\n  \"updated_at\": 1579,\n  \"target\": \"string\",\n  \"assignee\": \"string\",\n  \"constraints\": [\n    {\n      \"condition_type\": \"string\",\n      \"field\": \"string\",\n      \"operator\": \"string\",\n      \"value\": \"string\"\n    },\n    {\n      \"condition_type\": \"string\",\n      \"field\": \"string\",\n      \"operator\": \"string\",\n      \"value\": \"string\"\n    }\n  ],\n  \"constraint_logic\": \"all\",\n  \"provenance\": {\n    \"extracted_by\": \"manual\",\n    \"model_used\": \"string\",\n    \"confidence_score\": 9095.789073011854,\n    \"source_location\": {\n      \"section\": \"string\",\n      \"paragraph\": 958,\n      \"char_start\": 2348,\n      \"char_end\": 2638,\n      \"source_text\": \"string\"\n    }\n  },\n  \"category\": \"security\",\n  \"tags\": [\n    \"string\",\n    \"string\"\n  ],\n  \"status\": \"draft\",\n  \"reviewed_by\": \"600fa629-87c2-9f9a-77cb-c2f3fb709ba2\",\n  \"reviewed_at\": 3726,\n  \"review_notes\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d8ef05b1-7313-4ffa-8219-9ad49004c5c2",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "rules",
+                    ":rule_id",
+                    "reject"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "reason",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "rule_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "696f0810-5148-43b2-a4a6-853cb1b90bfc",
+    "name": "Vijil Console API (Combined) agent-configurations policy-rules API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Combined OpenAPI specification for all vijil-console microservices.",
+      "type": "text/plain"
+    }
+  }
+}

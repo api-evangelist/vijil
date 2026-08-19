@@ -1,0 +1,198 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Vijil Console API (Combined) agent-configurations API",
+    "version": "0.1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "agent-configurations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Agent Configurations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/agent-configurations/",
+            "params": [
+              {
+                "name": "statuses",
+                "value": "",
+                "type": "query",
+                "description": "Filter by status(es). If not provided, defaults to non-archived statuses."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to skip"
+              },
+              {
+                "name": "include_scores",
+                "value": "",
+                "type": "query",
+                "description": "When true, sideloads the latest completed evaluation scores onto each agent."
+              }
+            ]
+          },
+          "docs": "List agent configurations with filtering and pagination.\n\nRequires agent:read permission (all team members) or\nagent:read_all permission (super admin)."
+        },
+        {
+          "info": {
+            "name": "Create Agent Configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/agent-configurations/",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new agent configuration.\n\nThis endpoint accepts AgentConfigRequest format from the frontend and transforms it\nto the internal AgentCreate format. The agent_url field is preserved.\n\nRequires agent:write permission."
+        },
+        {
+          "info": {
+            "name": "Get Agent Configuration By Id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/agent-configurations/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "include_scores",
+                "value": "",
+                "type": "query",
+                "description": "When true, sideloads the latest completed evaluation scores onto the agent."
+              }
+            ]
+          },
+          "docs": "Get a single agent configuration by ID.\n\nRequires agent:read permission (all team members) or\nagent:read_all permission (super admin)."
+        },
+        {
+          "info": {
+            "name": "Update Agent Configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/v1/agent-configurations/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update an existing agent configuration.\n\nSupports partial updates - you can update just the api_key field, or any other field(s).\nAll fields in the request body are optional.\n\nRequires agent:write permission + billing feature 'write_custom_agent'.\n\nExample:\n    # Update only the API key\n    PUT /agent-configurations/{id}\n    {\n      \"api_key\": \"sk-new-key-value\"\n    }\n    \n    # Update multiple fields\n    PUT /agent-configurations/{id}\n    {\n      \"agent_name\": \"New Name\",\n      \"api_key\": \"sk-n"
+        },
+        {
+          "info": {
+            "name": "Archive Agent Configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/v1/agent-configurations/:id/archive",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Archive agent configuration.\n\nSets the agent status to ARCHIVED.\nRequires agent:write permission (all team members) or\nagent:write_all permission (super admin)."
+        },
+        {
+          "info": {
+            "name": "Update Agent Lifecycle",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/v1/agent-configurations/:id/lifecycle",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update agent trust lifecycle stage.\n\nRequires agent:write permission (all team members) or\nagent:write_all permission (super admin).\n\nSetting trust_stage to 'hardened' captures trusted_at and computes ttt_days."
+        },
+        {
+          "info": {
+            "name": "Get Agent Dome Config",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/agent-configurations/:agent_id/dome-configs",
+            "params": [
+              {
+                "name": "agent_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "team_id",
+                "value": "",
+                "type": "query",
+                "description": "Team ID (required)"
+              }
+            ]
+          },
+          "docs": "Return the dome configuration this agent is using (row-bound and/or ``dome_config_id``)."
+        },
+        {
+          "info": {
+            "name": "Get Evaluation Config",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/agent-configurations/:id/evaluation-config",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get agent configuration for Diamond evaluation.\n\nReturns agent_url, agent_api_key, and agent_model_name needed for evaluation.\nRequires agent:read permission (all team members) or\nagent:read_all permission (super admin)."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

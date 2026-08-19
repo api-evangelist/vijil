@@ -1,0 +1,1907 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Vijil Console API (Combined) agent-configurations Agent Environment API",
+    "version": "0.1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Agent Environment",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Agent Configurations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/agent-configurations/",
+            "params": [
+              {
+                "name": "statuses",
+                "value": "",
+                "type": "query",
+                "description": "Filter by status(es). If not provided, defaults to non-archived statuses."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to skip"
+              },
+              {
+                "name": "include_scores",
+                "value": "",
+                "type": "query",
+                "description": "When true, sideloads the latest completed evaluation scores onto each agent."
+              }
+            ]
+          },
+          "docs": "List agent configurations with filtering and pagination.\n\nRequires agent:read permission (all team members) or\nagent:read_all permission (super admin)."
+        },
+        {
+          "info": {
+            "name": "Create Agent Configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/agent-configurations/",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new agent configuration.\n\nThis endpoint accepts AgentConfigRequest format from the frontend and transforms it\nto the internal AgentCreate format. The agent_url field is preserved.\n\nRequires agent:write permission."
+        },
+        {
+          "info": {
+            "name": "Get Agent Configuration By Id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/agent-configurations/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "include_scores",
+                "value": "",
+                "type": "query",
+                "description": "When true, sideloads the latest completed evaluation scores onto the agent."
+              }
+            ]
+          },
+          "docs": "Get a single agent configuration by ID.\n\nRequires agent:read permission (all team members) or\nagent:read_all permission (super admin)."
+        },
+        {
+          "info": {
+            "name": "Update Agent Configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/v1/agent-configurations/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update an existing agent configuration.\n\nSupports partial updates - you can update just the api_key field, or any other field(s).\nAll fields in the request body are optional.\n\nRequires agent:write permission + billing feature 'write_custom_agent'.\n\nExample:\n    # Update only the API key\n    PUT /agent-configurations/{id}\n    {\n      \"api_key\": \"sk-new-key-value\"\n    }\n    \n    # Update multiple fields\n    PUT /agent-configurations/{id}\n    {\n      \"agent_name\": \"New Name\",\n      \"api_key\": \"sk-n"
+        },
+        {
+          "info": {
+            "name": "Archive Agent Configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/v1/agent-configurations/:id/archive",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Archive agent configuration.\n\nSets the agent status to ARCHIVED.\nRequires agent:write permission (all team members) or\nagent:write_all permission (super admin)."
+        },
+        {
+          "info": {
+            "name": "Update Agent Lifecycle",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/v1/agent-configurations/:id/lifecycle",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update agent trust lifecycle stage.\n\nRequires agent:write permission (all team members) or\nagent:write_all permission (super admin).\n\nSetting trust_stage to 'hardened' captures trusted_at and computes ttt_days."
+        },
+        {
+          "info": {
+            "name": "Get Agent Dome Config",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/agent-configurations/:agent_id/dome-configs",
+            "params": [
+              {
+                "name": "agent_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "team_id",
+                "value": "",
+                "type": "query",
+                "description": "Team ID (required)"
+              }
+            ]
+          },
+          "docs": "Return the dome configuration this agent is using (row-bound and/or ``dome_config_id``)."
+        },
+        {
+          "info": {
+            "name": "Get Evaluation Config",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/agent-configurations/:id/evaluation-config",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get agent configuration for Diamond evaluation.\n\nReturns agent_url, agent_api_key, and agent_model_name needed for evaluation.\nRequires agent:read permission (all team members) or\nagent:read_all permission (super admin)."
+        },
+        {
+          "info": {
+            "name": "Fetch agent trust constraints",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/agents/:agent_id/constraints",
+            "params": [
+              {
+                "name": "agent_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Returns the agent's trust constraints (Dome guard config, tool permissions, organization rules, enforcement mode) in the format consumed by the vijil-sdk Trust Runtime at boot."
+        },
+        {
+          "info": {
+            "name": "Validate Agent Import",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/agent-configurations/import/validate",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Validate an agent import request without saving.\n\nSupports three input methods with deterministic access levels:\n- agent_url:   Remote black_box - Just an endpoint URL to call\n- agent_card:  Local grey_box - Upload agent configuration/card JSON\n- source_code: Local white_box - Upload agent source code files\n\nReturns validation status, access level, and parsed agent card for preview."
+        },
+        {
+          "info": {
+            "name": "Import Agent Unified",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/agent-configurations/import",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Import an agent using the unified import endpoint.\n\nSupports three input methods with deterministic access levels:\n- agent_url:   Remote black_box - Just an endpoint URL to call\n- agent_card:  Local grey_box - Upload agent configuration/card JSON\n- source_code: Local white_box - Upload agent source code files\n\nAccess level is determined by input method (not content)."
+        },
+        {
+          "info": {
+            "name": "Get Persona",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/personas/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "team_id",
+                "value": "",
+                "type": "query",
+                "description": "Team scope (required); must match a team the user has access to"
+              }
+            ]
+          },
+          "docs": "Get a single persona by ID.\n\nRequires persona:read permission and team_id query parameter. The user's JWT must be scoped to that team."
+        },
+        {
+          "info": {
+            "name": "Update Persona",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/v1/personas/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update an existing persona.\n\nSupports partial updates - only provided fields will be updated.\nRequires persona:write permission."
+        },
+        {
+          "info": {
+            "name": "Delete Persona",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v1/personas/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete a persona.\n\nRequires persona:write permission."
+        },
+        {
+          "info": {
+            "name": "List Personas",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/personas/",
+            "params": [
+              {
+                "name": "team_id",
+                "value": "",
+                "type": "query",
+                "description": "Team scope (required); must match a team the user has access to"
+              },
+              {
+                "name": "intents",
+                "value": "",
+                "type": "query",
+                "description": "Filter by intent(s): benign, curious, adversarial, malicious"
+              },
+              {
+                "name": "is_preset",
+                "value": "",
+                "type": "query",
+                "description": "Filter by preset status"
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Search in name, description, and role"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results (default 10)"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to skip for paging"
+              }
+            ]
+          },
+          "docs": "List personas with filtering and pagination.\n\nRequires persona:read permission and team_id query parameter. The user's JWT must be scoped to that team."
+        },
+        {
+          "info": {
+            "name": "Create Persona",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/personas/",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new persona.\n\nRequires persona:write permission for the team_id in the request body."
+        },
+        {
+          "info": {
+            "name": "List Presets",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/personas/presets/",
+            "params": [
+              {
+                "name": "team_id",
+                "value": "",
+                "type": "query",
+                "description": "Team scope (required); must match a team the user has access to"
+              },
+              {
+                "name": "preset_category",
+                "value": "",
+                "type": "query",
+                "description": "Filter by preset category: professional, adversarial, support"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to skip"
+              }
+            ]
+          },
+          "docs": "List system preset personas.\n\nRequires persona:read permission and team_id query parameter. The user's JWT must be scoped to that team."
+        },
+        {
+          "info": {
+            "name": "Create From Preset",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/personas/from-preset/:preset_id",
+            "params": [
+              {
+                "name": "preset_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new persona from a system preset.\n\nRequires persona:write permission."
+        },
+        {
+          "info": {
+            "name": "List Dimensions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/demographics/",
+            "params": [
+              {
+                "name": "protected_class_only",
+                "value": "",
+                "type": "query",
+                "description": "Filter to only protected class dimensions"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to skip"
+              }
+            ]
+          },
+          "docs": "List demographic dimensions.\n\nRequires agent:read permission (dimensions are global reference data)."
+        },
+        {
+          "info": {
+            "name": "Create Dimension",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/demographics/",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new demographic dimension.\n\nRequires super admin permission (dimensions are global)."
+        },
+        {
+          "info": {
+            "name": "Get Dimension",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/demographics/:dimension_id",
+            "params": [
+              {
+                "name": "dimension_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a dimension by ID, including its values."
+        },
+        {
+          "info": {
+            "name": "Update Dimension",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/v1/demographics/:dimension_id",
+            "params": [
+              {
+                "name": "dimension_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a demographic dimension.\n\nRequires super admin permission."
+        },
+        {
+          "info": {
+            "name": "Delete Dimension",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v1/demographics/:dimension_id",
+            "params": [
+              {
+                "name": "dimension_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete a demographic dimension and all its values.\n\nRequires super admin permission."
+        },
+        {
+          "info": {
+            "name": "Get Dimension By Name",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/demographics/by-name/:name",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a dimension by name, including its values."
+        },
+        {
+          "info": {
+            "name": "List Values",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/demographics/:dimension_id/values",
+            "params": [
+              {
+                "name": "dimension_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to skip"
+              }
+            ]
+          },
+          "docs": "List values for a dimension."
+        },
+        {
+          "info": {
+            "name": "Add Value",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/demographics/:dimension_id/values",
+            "params": [
+              {
+                "name": "dimension_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Add a value to a dimension.\n\nRequires super admin permission."
+        },
+        {
+          "info": {
+            "name": "Bulk Add Values",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/demographics/:dimension_id/values/bulk",
+            "params": [
+              {
+                "name": "dimension_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Bulk add values to a dimension.\n\nRequires super admin permission."
+        },
+        {
+          "info": {
+            "name": "Update Value",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/v1/demographics/values/:value_id",
+            "params": [
+              {
+                "name": "value_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a value.\n\nRequires super admin permission."
+        },
+        {
+          "info": {
+            "name": "Delete Value",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v1/demographics/values/:value_id",
+            "params": [
+              {
+                "name": "value_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete a value.\n\nRequires super admin permission."
+        },
+        {
+          "info": {
+            "name": "List Dimensions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/dimensions/",
+            "params": [
+              {
+                "name": "protected_class_only",
+                "value": "",
+                "type": "query",
+                "description": "Filter to only protected class dimensions"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to skip"
+              }
+            ]
+          },
+          "docs": "List demographic dimensions.\n\nRequires agent:read permission (dimensions are global reference data)."
+        },
+        {
+          "info": {
+            "name": "Create Dimension",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/dimensions/",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new demographic dimension.\n\nRequires super admin permission (dimensions are global)."
+        },
+        {
+          "info": {
+            "name": "Get Dimension",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/dimensions/:dimension_id",
+            "params": [
+              {
+                "name": "dimension_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a dimension by ID, including its values."
+        },
+        {
+          "info": {
+            "name": "Update Dimension",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/v1/dimensions/:dimension_id",
+            "params": [
+              {
+                "name": "dimension_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a demographic dimension.\n\nRequires super admin permission."
+        },
+        {
+          "info": {
+            "name": "Delete Dimension",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v1/dimensions/:dimension_id",
+            "params": [
+              {
+                "name": "dimension_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete a demographic dimension and all its values.\n\nRequires super admin permission."
+        },
+        {
+          "info": {
+            "name": "Get Dimension By Name",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/dimensions/by-name/:name",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a dimension by name, including its values."
+        },
+        {
+          "info": {
+            "name": "List Values",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/dimensions/:dimension_id/values",
+            "params": [
+              {
+                "name": "dimension_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to skip"
+              }
+            ]
+          },
+          "docs": "List values for a dimension."
+        },
+        {
+          "info": {
+            "name": "Add Value",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/dimensions/:dimension_id/values",
+            "params": [
+              {
+                "name": "dimension_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Add a value to a dimension.\n\nRequires super admin permission."
+        },
+        {
+          "info": {
+            "name": "Bulk Add Values",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/dimensions/:dimension_id/values/bulk",
+            "params": [
+              {
+                "name": "dimension_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Bulk add values to a dimension.\n\nRequires super admin permission."
+        },
+        {
+          "info": {
+            "name": "Update Value",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/v1/dimensions/values/:value_id",
+            "params": [
+              {
+                "name": "value_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a value.\n\nRequires super admin permission."
+        },
+        {
+          "info": {
+            "name": "Delete Value",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v1/dimensions/values/:value_id",
+            "params": [
+              {
+                "name": "value_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete a value.\n\nRequires super admin permission."
+        },
+        {
+          "info": {
+            "name": "Get Policy",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/policies/:policy_id",
+            "params": [
+              {
+                "name": "policy_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a policy by ID."
+        },
+        {
+          "info": {
+            "name": "Update Policy",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/v1/policies/:policy_id",
+            "params": [
+              {
+                "name": "policy_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a policy."
+        },
+        {
+          "info": {
+            "name": "Delete Policy",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v1/policies/:policy_id",
+            "params": [
+              {
+                "name": "policy_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete a policy."
+        },
+        {
+          "info": {
+            "name": "List Policies",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/policies/",
+            "params": [
+              {
+                "name": "category",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results (default 10)"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to skip for paging"
+              }
+            ]
+          },
+          "docs": "List policies with optional filters and paging."
+        },
+        {
+          "info": {
+            "name": "Create Policy",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/policies/",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new policy."
+        },
+        {
+          "info": {
+            "name": "List Presets",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/policies/presets/",
+            "params": [
+              {
+                "name": "category",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "List system preset policies."
+        },
+        {
+          "info": {
+            "name": "Copy Preset",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/policies/presets/:preset_id/copy",
+            "params": [
+              {
+                "name": "preset_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "name_override",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Create a copy of a preset policy for the team."
+        },
+        {
+          "info": {
+            "name": "Upload File",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/policies/:policy_id/upload",
+            "params": [
+              {
+                "name": "policy_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": []
+            }
+          },
+          "docs": "Upload a policy document file (PDF, TXT, MD) using streaming.\n\nThe file will be streamed to S3 without loading entirely into memory.\nMaximum file size: 10 MB."
+        },
+        {
+          "info": {
+            "name": "Activate Policy",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/policies/:policy_id/activate",
+            "params": [
+              {
+                "name": "policy_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Activate a policy (requires all rules to be approved)."
+        },
+        {
+          "info": {
+            "name": "Download File",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/policies/:policy_id/file",
+            "params": [
+              {
+                "name": "policy_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Download the policy's attached file.\n\nReturns the file content with appropriate headers for download."
+        },
+        {
+          "info": {
+            "name": "Delete File",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v1/policies/:policy_id/file",
+            "params": [
+              {
+                "name": "policy_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete the attached file from a policy.\n\nThis removes the file from storage and clears file metadata,\nbut preserves any extracted source text."
+        },
+        {
+          "info": {
+            "name": "Download Converted File",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/policies/:policy_id/converted",
+            "params": [
+              {
+                "name": "policy_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Download the converted markdown file for a policy.\n\nReturns the markdown file that was generated from the uploaded PDF.\nReturns 400 if no converted file exists."
+        },
+        {
+          "info": {
+            "name": "List Policy Rules",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/policies/:policy_id/rules",
+            "params": [
+              {
+                "name": "policy_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "List rules for a specific policy."
+        },
+        {
+          "info": {
+            "name": "Create Policy Rule",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/policies/:policy_id/rules",
+            "params": [
+              {
+                "name": "policy_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new manual rule for a policy."
+        },
+        {
+          "info": {
+            "name": "Get Rule",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/rules/:rule_id",
+            "params": [
+              {
+                "name": "rule_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a rule by ID."
+        },
+        {
+          "info": {
+            "name": "Update Rule",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/v1/rules/:rule_id",
+            "params": [
+              {
+                "name": "rule_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a rule."
+        },
+        {
+          "info": {
+            "name": "Delete Rule",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v1/rules/:rule_id",
+            "params": [
+              {
+                "name": "rule_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete a rule."
+        },
+        {
+          "info": {
+            "name": "List Rules",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/rules/",
+            "params": [
+              {
+                "name": "policy_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "category",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "List rules with optional filters."
+        },
+        {
+          "info": {
+            "name": "Approve Rule",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/rules/:rule_id/approve",
+            "params": [
+              {
+                "name": "rule_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "notes",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Approve a rule."
+        },
+        {
+          "info": {
+            "name": "Reject Rule",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/rules/:rule_id/reject",
+            "params": [
+              {
+                "name": "rule_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "reason",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Reject a rule with a reason."
+        },
+        {
+          "info": {
+            "name": "Get Trust Dashboard",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/dashboard/trust"
+          },
+          "docs": "Return the Trust Dashboard for the authenticated user's team.\n\nAggregates:\n- Agent list from Agent Registry (DB)\n- Latest evaluation scores from Diamond (S3)\n- Darwin proposal stats (DB)\n- Dome attack status (V1: stub)"
+        },
+        {
+          "info": {
+            "name": "List Evolution Jobs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/agents/:agent_id/evolutions",
+            "params": [
+              {
+                "name": "agent_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "List evolution jobs for an agent (paginated).\n\nProxies to Darwin's GET /v1/evolutions with team_id and agent_id."
+        },
+        {
+          "info": {
+            "name": "Trigger Evolution",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/agents/:agent_id/evolutions",
+            "params": [
+              {
+                "name": "agent_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Trigger evolution for an agent.\n\nSends the agent's configuration/identifiers to Darwin to start an\nevolution job. Optional config overrides (sample_size, target_dimensions,\netc.) are forwarded to Darwin when provided.\nReturns 201 Created with a Location header for the new job resource."
+        },
+        {
+          "info": {
+            "name": "Get Evolution Job Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/agents/:agent_id/evolutions/:evolution_id",
+            "params": [
+              {
+                "name": "agent_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "evolution_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Poll evolution status.\n\nDelegates to EvolutionService which proxies to Darwin's\nGET /v1/evolutions/{evolution_id} with team_id for access control."
+        },
+        {
+          "info": {
+            "name": "List Proposals",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/agents/:agent_id/evolution/proposals",
+            "params": [
+              {
+                "name": "agent_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "List mutation proposals for an agent.\n\nRead-only view for business owners and risk owners to see what Darwin\nhas proposed, evaluated, and whether improvements were verified."
+        },
+        {
+          "info": {
+            "name": "Get Proposal",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/agents/:agent_id/evolution/proposals/:proposal_id",
+            "params": [
+              {
+                "name": "agent_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "proposal_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a single mutation proposal.\n\nReturns the full proposal including proposed mutations, fitness deltas,\nevaluation results, and review status. Read-only for visibility."
+        },
+        {
+          "info": {
+            "name": "Get Proposal By Id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/proposals/:proposal_id",
+            "params": [
+              {
+                "name": "proposal_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a single mutation proposal by ID.\n\nProxies to Darwin's GET /v1/proposals/{proposal_id} with team_id\nextracted from JWT claims."
+        },
+        {
+          "info": {
+            "name": "Approve Proposal",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/proposals/:proposal_id/approve",
+            "params": [
+              {
+                "name": "proposal_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Approve a mutation proposal.\n\nExtracts user_id from JWT claims — users cannot approve on behalf\nof others. Forwards to Darwin's POST /v1/proposals/{id}/approve."
+        },
+        {
+          "info": {
+            "name": "Reject Proposal",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/proposals/:proposal_id/reject",
+            "params": [
+              {
+                "name": "proposal_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Reject a mutation proposal.\n\nExtracts user_id from JWT claims. Notes default to empty string\nsince Darwin requires notes for rejection."
+        },
+        {
+          "info": {
+            "name": "Get Evolution Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/evolution/status/:agent_id",
+            "params": [
+              {
+                "name": "agent_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get evolution proposal status for an agent.\n\nProxies to Darwin's GET /evolution/status/{agent_id} with JWT auth."
+        },
+        {
+          "info": {
+            "name": "Get Genome Map",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/evolution/genome-map",
+            "params": [
+              {
+                "name": "highlight_agent_id",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get UMAP genome map for the caller's team.\n\nTeam ID is derived from JWT claims to prevent cross-team data access.\nProxies to Darwin's GET /evolution/genome-map with JWT auth."
+        },
+        {
+          "info": {
+            "name": "List Genomes",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/genomes/",
+            "params": [
+              {
+                "name": "agent_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter by agent"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "List genomes with filtering and pagination. Proxies to Darwin."
+        },
+        {
+          "info": {
+            "name": "Create Genome",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/genomes/",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create (seed) a new genome. Proxies to Darwin POST /v1/genomes."
+        },
+        {
+          "info": {
+            "name": "Get Genome By Agent",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/genomes/by-agent/:agent_id",
+            "params": [
+              {
+                "name": "agent_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "query",
+                "description": "Specific version (None = latest)"
+              }
+            ]
+          },
+          "docs": "Get a genome by agent ID. Proxies to Darwin."
+        },
+        {
+          "info": {
+            "name": "Get Mutation History",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/genomes/by-agent/:agent_id/mutation-history",
+            "params": [
+              {
+                "name": "agent_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get mutation history for an agent's genome. Proxies to Darwin."
+        },
+        {
+          "info": {
+            "name": "Get Genome",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/genomes/:genome_id",
+            "params": [
+              {
+                "name": "genome_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "query",
+                "description": "Specific version (None = latest)"
+              }
+            ]
+          },
+          "docs": "Get a genome by ID. Proxies to Darwin."
+        },
+        {
+          "info": {
+            "name": "Delete Genome",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v1/genomes/:genome_id",
+            "params": [
+              {
+                "name": "genome_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete a genome and all its versions. Proxies to Darwin."
+        },
+        {
+          "info": {
+            "name": "List Genome Versions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/genomes/:genome_id/versions",
+            "params": [
+              {
+                "name": "genome_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "List all versions of a genome. Proxies to Darwin."
+        },
+        {
+          "info": {
+            "name": "Get Genome Version",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/genomes/:genome_id/versions/:version",
+            "params": [
+              {
+                "name": "genome_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a specific genome version. Proxies to Darwin."
+        },
+        {
+          "info": {
+            "name": "Get Genome Ancestry",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/genomes/:genome_id/ancestry",
+            "params": [
+              {
+                "name": "genome_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "max_depth",
+                "value": "",
+                "type": "query",
+                "description": "Maximum ancestor depth"
+              }
+            ]
+          },
+          "docs": "Get ancestry chain for a genome. Proxies to Darwin."
+        },
+        {
+          "info": {
+            "name": "Diff Genome Versions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/genomes/:genome_id/diff",
+            "params": [
+              {
+                "name": "genome_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "version_a",
+                "value": "",
+                "type": "query",
+                "description": "First version"
+              },
+              {
+                "name": "version_b",
+                "value": "",
+                "type": "query",
+                "description": "Second version"
+              }
+            ]
+          },
+          "docs": "Compare two genome versions. Proxies to Darwin."
+        },
+        {
+          "info": {
+            "name": "Find Similar Genomes",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/genomes/:genome_id/similar",
+            "params": [
+              {
+                "name": "genome_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "query",
+                "description": "Genome version"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Find similar genomes. Proxies to Darwin."
+        },
+        {
+          "info": {
+            "name": "Extract Genome From Agent",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/genomes/extract-from-agent/:agent_id",
+            "params": [
+              {
+                "name": "agent_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Extract a genome from an existing agent and seed it in Darwin.\n\nFetches the agent config, builds a Genome model from it, and seeds\nthe genome in Darwin via POST /v1/genomes."
+        },
+        {
+          "info": {
+            "name": "Genome To Agent Update",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/genomes/:genome_id/to-agent-update",
+            "params": [
+              {
+                "name": "genome_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "query",
+                "description": "Specific version"
+              }
+            ]
+          },
+          "docs": "Convert a genome to an agent update payload.\n\nReads genome from Darwin, then uses dome_converters locally to\ntransform dome_genes into a DomeConfig-compatible format."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

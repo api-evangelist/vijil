@@ -1,0 +1,1317 @@
+{
+  "item": [
+    {
+      "id": "f6bd0e4c-5a37-4347-a75a-bdd6666d88f7",
+      "name": "Telemetry",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "0934ca99-82af-4402-88ec-bb0fb804b09f",
+          "name": "Get Counter Total",
+          "request": {
+            "name": "Get Counter Total",
+            "description": {
+              "content": "Get total counter value.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "telemetry",
+                "counters",
+                ":metric_name",
+                "total"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "time_range",
+                  "value": "1d",
+                  "description": "Time range: 15m, 30m, 1h, 2h, 6h, 1d, 7d, 30d"
+                },
+                {
+                  "disabled": false,
+                  "key": "evaluation_id",
+                  "value": "<string>",
+                  "description": "Filter by evaluation ID"
+                },
+                {
+                  "disabled": false,
+                  "key": "test_id",
+                  "value": "<string>",
+                  "description": "Filter by test ID"
+                },
+                {
+                  "disabled": false,
+                  "key": "probe_id",
+                  "value": "<string>",
+                  "description": "Filter by probe ID"
+                },
+                {
+                  "disabled": false,
+                  "key": "agent_configuration_id",
+                  "value": "<string>",
+                  "description": "Filter by agent configuration ID"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "metric_name",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "48d60931-6620-4867-8539-8d46353260cb",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "telemetry",
+                    "counters",
+                    ":metric_name",
+                    "total"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "time_range",
+                      "value": "1d"
+                    },
+                    {
+                      "key": "evaluation_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "test_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "probe_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "agent_configuration_id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "metric_name",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"metric\": \"string\",\n  \"total_count\": 9371.857343429194,\n  \"labels\": {\n    \"agent_id\": \"string\",\n    \"deployment_environment\": \"string\",\n    \"exported_job\": \"string\",\n    \"job\": \"string\",\n    \"service_name\": \"string\",\n    \"service_namespace\": \"string\",\n    \"service_version\": \"string\",\n    \"team_id\": \"string\",\n    \"user_id\": \"string\",\n    \"evaluation_id\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "486874a2-9af8-45bb-8644-b08eee494c77",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "telemetry",
+                    "counters",
+                    ":metric_name",
+                    "total"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "time_range",
+                      "value": "1d"
+                    },
+                    {
+                      "key": "evaluation_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "test_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "probe_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "agent_configuration_id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "metric_name",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ce8a7985-136f-462a-b5a1-d905b2238b31",
+          "name": "Get Counter Time Series",
+          "request": {
+            "name": "Get Counter Time Series",
+            "description": {
+              "content": "Get counter time series.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "telemetry",
+                "counters",
+                ":metric_name",
+                "time_series"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "time_range",
+                  "value": "1d",
+                  "description": "Time range: 15m, 30m, 1h, 2h, 6h, 1d, 7d, 30d"
+                },
+                {
+                  "disabled": false,
+                  "key": "evaluation_id",
+                  "value": "<string>",
+                  "description": "Filter by evaluation ID"
+                },
+                {
+                  "disabled": false,
+                  "key": "agent_configuration_id",
+                  "value": "<string>",
+                  "description": "Filter by agent configuration ID"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "metric_name",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "0643e947-f36d-4b14-8dad-d9df90503f29",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "telemetry",
+                    "counters",
+                    ":metric_name",
+                    "time_series"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "time_range",
+                      "value": "1d"
+                    },
+                    {
+                      "key": "evaluation_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "agent_configuration_id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "metric_name",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"metric\": \"string\",\n  \"series\": [\n    {\n      \"points\": [\n        {\n          \"timestamp\": 9446,\n          \"value\": 9355.374445129568\n        },\n        {\n          \"timestamp\": 4367,\n          \"value\": 5204.780871048897\n        }\n      ],\n      \"labels\": {\n        \"agent_id\": \"string\",\n        \"deployment_environment\": \"string\",\n        \"exported_job\": \"string\",\n        \"job\": \"string\",\n        \"service_name\": \"string\",\n        \"service_namespace\": \"string\",\n        \"service_version\": \"string\",\n        \"team_id\": \"string\",\n        \"user_id\": \"string\",\n        \"evaluation_id\": \"string\"\n      }\n    },\n    {\n      \"points\": [\n        {\n          \"timestamp\": 718,\n          \"value\": 5153.746343760756\n        },\n        {\n          \"timestamp\": 2284,\n          \"value\": 7472.753773584753\n        }\n      ],\n      \"labels\": {\n        \"agent_id\": \"string\",\n        \"deployment_environment\": \"string\",\n        \"exported_job\": \"string\",\n        \"job\": \"string\",\n        \"service_name\": \"string\",\n        \"service_namespace\": \"string\",\n        \"service_version\": \"string\",\n        \"team_id\": \"string\",\n        \"user_id\": \"string\",\n        \"evaluation_id\": \"string\"\n      }\n    }\n  ],\n  \"labels\": {\n    \"agent_id\": \"string\",\n    \"deployment_environment\": \"string\",\n    \"exported_job\": \"string\",\n    \"job\": \"string\",\n    \"service_name\": \"string\",\n    \"service_namespace\": \"string\",\n    \"service_version\": \"string\",\n    \"team_id\": \"string\",\n    \"user_id\": \"string\",\n    \"evaluation_id\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "cc0c7c13-2f9f-41df-a22b-931eccbacb42",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "telemetry",
+                    "counters",
+                    ":metric_name",
+                    "time_series"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "time_range",
+                      "value": "1d"
+                    },
+                    {
+                      "key": "evaluation_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "agent_configuration_id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "metric_name",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "bbc61842-c34d-480d-8b72-1f77d83a3baf",
+          "name": "Get Latency Over Time",
+          "request": {
+            "name": "Get Latency Over Time",
+            "description": {
+              "content": "Get latency over time.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "telemetry",
+                "latency",
+                ":metric_name"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "time_range",
+                  "value": "1h",
+                  "description": "Time range: 15m, 30m, 1h, 2h, 6h, 1d, 7d, 30d"
+                },
+                {
+                  "disabled": false,
+                  "key": "time_window",
+                  "value": "1m",
+                  "description": "Time window for aggregation (e.g., '1m', '5m', '15m')"
+                },
+                {
+                  "disabled": false,
+                  "key": "percentiles",
+                  "value": "<string>",
+                  "description": "Comma-separated list of percentiles to query (e.g., '0.5,0.95'). If not specified, defaults to [0.5, 0.9, 0.95, 0.99]"
+                },
+                {
+                  "disabled": false,
+                  "key": "evaluation_id",
+                  "value": "<string>",
+                  "description": "Filter by evaluation ID"
+                },
+                {
+                  "disabled": false,
+                  "key": "test_id",
+                  "value": "<string>",
+                  "description": "Filter by test ID"
+                },
+                {
+                  "disabled": false,
+                  "key": "probe_id",
+                  "value": "<string>",
+                  "description": "Filter by probe ID"
+                },
+                {
+                  "disabled": false,
+                  "key": "agent_configuration_id",
+                  "value": "<string>",
+                  "description": "Filter by agent configuration ID"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "metric_name",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2599a497-14d0-44e0-8c11-0a8cb6ba2894",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "telemetry",
+                    "latency",
+                    ":metric_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "time_range",
+                      "value": "1h"
+                    },
+                    {
+                      "key": "time_window",
+                      "value": "1m"
+                    },
+                    {
+                      "key": "percentiles",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "evaluation_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "test_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "probe_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "agent_configuration_id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "metric_name",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"metric_name\": \"string\",\n    \"time_window\": \"string\",\n    \"percentile\": \"string\",\n    \"values\": [\n      {\n        \"timestamp\": 5369,\n        \"value\": 994.8667914367481\n      },\n      {\n        \"timestamp\": 2946,\n        \"value\": 8662.85385700996\n      }\n    ]\n  },\n  {\n    \"metric_name\": \"string\",\n    \"time_window\": \"string\",\n    \"percentile\": \"string\",\n    \"values\": [\n      {\n        \"timestamp\": 2580,\n        \"value\": 6321.5321731741105\n      },\n      {\n        \"timestamp\": 7046,\n        \"value\": 3702.2567039621413\n      }\n    ]\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bd325588-0a01-420c-b553-f1d9912037ca",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "telemetry",
+                    "latency",
+                    ":metric_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "time_range",
+                      "value": "1h"
+                    },
+                    {
+                      "key": "time_window",
+                      "value": "1m"
+                    },
+                    {
+                      "key": "percentiles",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "evaluation_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "test_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "probe_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "agent_configuration_id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "metric_name",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8ba42251-e3e9-4f24-9742-e3c95852a32d",
+          "name": "Get Logs",
+          "request": {
+            "name": "Get Logs",
+            "description": {
+              "content": "Get logs.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "telemetry",
+                "logs"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "time_range",
+                  "value": "1h",
+                  "description": "Window to pull logs for"
+                },
+                {
+                  "disabled": false,
+                  "key": "service_name",
+                  "value": "<string>",
+                  "description": "Filter by service_name label"
+                },
+                {
+                  "disabled": false,
+                  "key": "level",
+                  "value": "<string>",
+                  "description": "Filter by level label"
+                },
+                {
+                  "disabled": false,
+                  "key": "job",
+                  "value": "<string>",
+                  "description": "Filter by job label"
+                },
+                {
+                  "disabled": false,
+                  "key": "exporter",
+                  "value": "<string>",
+                  "description": "Filter by exporter label"
+                },
+                {
+                  "disabled": false,
+                  "key": "agent_configuration_id",
+                  "value": "<string>",
+                  "description": "Restrict to a specific agent configuration id"
+                },
+                {
+                  "disabled": false,
+                  "key": "evaluation_id",
+                  "value": "<string>",
+                  "description": "Restrict logs to an evaluation id"
+                },
+                {
+                  "disabled": false,
+                  "key": "test_id",
+                  "value": "<string>",
+                  "description": "Restrict logs to a test id"
+                },
+                {
+                  "disabled": false,
+                  "key": "probe_id",
+                  "value": "<string>",
+                  "description": "Restrict logs to a probe id"
+                },
+                {
+                  "disabled": false,
+                  "key": "search",
+                  "value": "<string>",
+                  "description": "Substring search applied via LogQL pipeline"
+                },
+                {
+                  "disabled": false,
+                  "key": "logql",
+                  "value": "<string>",
+                  "description": "Advanced LogQL expression (overrides generated selector when provided)"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "200",
+                  "description": "Maximum log lines to return"
+                },
+                {
+                  "disabled": false,
+                  "key": "direction",
+                  "value": "backward",
+                  "description": "Return order for log entries"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "bf6ffc21-3232-4a2f-8270-45000f4df64d",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "telemetry",
+                    "logs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "time_range",
+                      "value": "1h"
+                    },
+                    {
+                      "key": "service_name",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "level",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "job",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "exporter",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "agent_configuration_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "evaluation_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "test_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "probe_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "search",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "logql",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "200"
+                    },
+                    {
+                      "key": "direction",
+                      "value": "backward"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"query\": \"string\",\n  \"direction\": \"backward\",\n  \"start_ns\": 4685,\n  \"end_ns\": 591,\n  \"streams\": [\n    {\n      \"labels\": {\n        \"key_0\": \"string\",\n        \"key_1\": \"string\",\n        \"key_2\": \"string\"\n      },\n      \"entries\": [\n        {\n          \"timestamp\": 4916,\n          \"line\": \"string\"\n        },\n        {\n          \"timestamp\": 816,\n          \"line\": \"string\"\n        }\n      ]\n    },\n    {\n      \"labels\": {\n        \"key_0\": \"string\"\n      },\n      \"entries\": [\n        {\n          \"timestamp\": 918,\n          \"line\": \"string\"\n        },\n        {\n          \"timestamp\": 4914,\n          \"line\": \"string\"\n        }\n      ]\n    }\n  ],\n  \"next_timestamp\": 9577\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f2d53c95-beed-4757-831b-547eb0e28968",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "telemetry",
+                    "logs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "time_range",
+                      "value": "1h"
+                    },
+                    {
+                      "key": "service_name",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "level",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "job",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "exporter",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "agent_configuration_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "evaluation_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "test_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "probe_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "search",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "logql",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "200"
+                    },
+                    {
+                      "key": "direction",
+                      "value": "backward"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "447d0b01-1aca-4cb2-84e4-dbc221dae48b",
+          "name": "Search Traces",
+          "request": {
+            "name": "Search Traces",
+            "description": {
+              "content": "Search traces.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "telemetry",
+                "traces"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "time_range",
+                  "value": "1h",
+                  "description": "Window to search for traces"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "20",
+                  "description": "Maximum number of traces to return"
+                },
+                {
+                  "disabled": false,
+                  "key": "service_name",
+                  "value": "<string>",
+                  "description": "Filter by root service"
+                },
+                {
+                  "disabled": false,
+                  "key": "agent_configuration_id",
+                  "value": "<string>",
+                  "description": "Filter by agent id"
+                },
+                {
+                  "disabled": false,
+                  "key": "min_duration_ms",
+                  "value": "<integer>",
+                  "description": "Lower bound on trace duration (ms)"
+                },
+                {
+                  "disabled": false,
+                  "key": "max_duration_ms",
+                  "value": "<integer>",
+                  "description": "Upper bound on trace duration (ms)"
+                },
+                {
+                  "disabled": false,
+                  "key": "query",
+                  "value": "<string>",
+                  "description": "Advanced TraceQL query"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e77066b0-76f1-4d69-94d4-6f8cbc0a8072",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "telemetry",
+                    "traces"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "time_range",
+                      "value": "1h"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "20"
+                    },
+                    {
+                      "key": "service_name",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "agent_configuration_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "min_duration_ms",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "max_duration_ms",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "query",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"traces\": [\n    {\n      \"trace_id\": \"string\",\n      \"root_service_name\": \"string\",\n      \"root_trace_name\": \"string\",\n      \"start_time_unix_nano\": 5188,\n      \"duration_ms\": 8219.846804762821\n    },\n    {\n      \"trace_id\": \"string\",\n      \"root_service_name\": \"string\",\n      \"root_trace_name\": \"string\",\n      \"start_time_unix_nano\": 9711,\n      \"duration_ms\": 6369.282847586146\n    }\n  ],\n  \"metrics\": {\n    \"inspectedTraces\": 5314,\n    \"inspectedBytes\": \"string\",\n    \"completedJobs\": 4546,\n    \"totalJobs\": 1192\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4b5685e7-8fab-42d2-aa17-1e225b9c31d5",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "telemetry",
+                    "traces"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "time_range",
+                      "value": "1h"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "20"
+                    },
+                    {
+                      "key": "service_name",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "agent_configuration_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "min_duration_ms",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "max_duration_ms",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "query",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3e951013-c8f6-43e0-aec0-de1fab9f07a4",
+          "name": "Get Trace By Id",
+          "request": {
+            "name": "Get Trace By Id",
+            "description": {
+              "content": "Get trace by ID.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "telemetry",
+                "traces",
+                ":trace_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "trace_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "20284ff3-23f3-44ee-8dfd-71d3dea4f8be",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "telemetry",
+                    "traces",
+                    ":trace_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "trace_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"trace_id\": \"string\",\n  \"trace_id_base64\": \"string\",\n  \"batches\": [\n    {\n      \"key_0\": 7796.468225479235,\n      \"key_1\": 2940,\n      \"key_2\": false\n    },\n    {\n      \"key_0\": true,\n      \"key_1\": 960.0668513120758\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d76a5f31-dd70-41c7-9d6a-349f76b8582f",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "telemetry",
+                    "traces",
+                    ":trace_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "trace_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "518fd769-c21f-40fa-a392-a44d881544d4",
+    "name": "Vijil Console API (Combined) agent-configurations Telemetry API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Combined OpenAPI specification for all vijil-console microservices.",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,981 @@
+{
+  "item": [
+    {
+      "id": "b3acbf1a-6639-467d-a0d7-5e38ba33817f",
+      "name": "custom-harnesses",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "febc8ecf-90d7-4802-a840-869c91910ae1",
+          "name": "List Custom Harnesses",
+          "request": {
+            "name": "List Custom Harnesses",
+            "description": {
+              "content": "List custom harnesses for the specified team with pagination and filtering.\n\nReturns paginated list of harnesses owned by the specified team.\nSupports filtering by status.\n\nRequires agent:read permission.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "custom-harnesses",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "team_id",
+                  "value": "<uuid>",
+                  "description": "Team ID (required)"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "10",
+                  "description": "Maximum number of results (default 10)"
+                },
+                {
+                  "disabled": false,
+                  "key": "offset",
+                  "value": "0",
+                  "description": "Number of results to skip for paging"
+                },
+                {
+                  "disabled": false,
+                  "key": "status",
+                  "value": "<string>",
+                  "description": "Filter by status"
+                },
+                {
+                  "disabled": false,
+                  "key": "agent_id",
+                  "value": "<uuid>",
+                  "description": "Filter by agent ID"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "fe960039-fa90-4806-a157-874150ada86c",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "custom-harnesses",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "team_id",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "key": "status",
+                      "value": "archived"
+                    },
+                    {
+                      "key": "agent_id",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"results\": [\n    {\n      \"id\": \"596209ef-a8b1-9342-5db5-08f6d27216c6\",\n      \"name\": \"string\",\n      \"status\": \"active\",\n      \"created_at\": 1930,\n      \"updated_at\": 4848,\n      \"agent_id\": \"528935c4-c6b2-c2d7-5140-20a3009c0a5c\",\n      \"description\": \"string\",\n      \"agent_name\": \"string\",\n      \"policy_ids\": [\n        \"fa34eee9-a25c-f1c8-5099-437e2d597cbd\",\n        \"d77157c6-2fc3-782d-9c30-5e262dc9a725\"\n      ],\n      \"persona_ids\": [\n        \"c4bb3599-aab5-310b-eb60-e565b0e6c2ea\",\n        \"25924b73-f186-2b3f-c3c0-929ea0a37548\"\n      ]\n    },\n    {\n      \"id\": \"75e8dfda-0fac-aea0-354a-a0e79978ce48\",\n      \"name\": \"string\",\n      \"status\": \"active\",\n      \"created_at\": 2989,\n      \"updated_at\": 6243,\n      \"agent_id\": \"cb56bacb-7205-62f7-9e65-f350043ee87f\",\n      \"description\": \"string\",\n      \"agent_name\": \"string\",\n      \"policy_ids\": [\n        \"9923d163-4ab1-b1f5-0710-f55aef64f09c\",\n        \"5d311961-b6aa-c7ba-991f-368837198e2c\"\n      ],\n      \"persona_ids\": [\n        \"28007c7f-beed-3875-550b-c150e3daa3b0\",\n        \"c4054ade-9b9f-bd19-1d81-95d75f22df25\"\n      ]\n    }\n  ],\n  \"total\": 8818\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bda5af21-4575-4d87-91d8-8e9fafd88e73",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "custom-harnesses",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "team_id",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "key": "status",
+                      "value": "archived"
+                    },
+                    {
+                      "key": "agent_id",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "cbf50a3b-0a07-4b44-9577-896669465323",
+          "name": "Create Custom Harness",
+          "request": {
+            "name": "Create Custom Harness",
+            "description": {
+              "content": "Create a new custom harness.\n\nCreates a harness in 'draft' status. The harness can be configured with\nan agent, personas, and policies before being activated.\n\nNote: Harnesses are immutable once created - they cannot be updated.\n\nRequires agent:write permission.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "custom-harnesses",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "team_id",
+                  "value": "<uuid>",
+                  "description": "Team ID (required)"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"agent_id\": \"<uuid>\",\n  \"id\": \"<uuid>\",\n  \"description\": \"<string>\",\n  \"persona_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"policy_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"system_prompt\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "bdc5eb26-2b23-4bfa-a1a9-ecb1968a8f81",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "custom-harnesses",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "team_id",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"agent_id\": \"<uuid>\",\n  \"id\": \"<uuid>\",\n  \"description\": \"<string>\",\n  \"persona_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"policy_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"system_prompt\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"c0ffa15d-361d-56c1-e22c-3a33d4ff27fe\",\n  \"team_id\": \"1e09b88b-c1f2-2dbd-442f-1af991e2b846\",\n  \"name\": \"string\",\n  \"agent_id\": \"658b4d10-99ef-fe7f-8f04-45b02a019ca2\",\n  \"created_at\": 4993,\n  \"updated_at\": 3856,\n  \"created_by\": \"31110c93-65e2-96f1-6f2d-70089a9f2c35\",\n  \"description\": \"string\",\n  \"persona_ids\": [\n    \"d74e1aad-1e8b-9f1f-08b9-e16cf266d0a9\",\n    \"c2fb122d-9373-0ea9-eb6d-4ee668b91f12\"\n  ],\n  \"policy_ids\": [\n    \"82fd5066-1a4f-d209-4e2e-4ad065634a30\",\n    \"2780888c-885c-f26b-868f-137b66b21776\"\n  ],\n  \"status\": \"draft\",\n  \"workflow_id\": \"e52a0b5f-c3f6-4b67-b36b-0520e2c11017\",\n  \"s3_key\": \"string\",\n  \"generated_at\": 1916,\n  \"prompt_count\": 5568,\n  \"creation_error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e43d0ad3-93ae-4593-9e32-b53b02434555",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "custom-harnesses",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "team_id",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"agent_id\": \"<uuid>\",\n  \"id\": \"<uuid>\",\n  \"description\": \"<string>\",\n  \"persona_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"policy_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"system_prompt\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b79bba98-61de-46f9-ac21-bfc2cd8cc03a",
+          "name": "Get Custom Harness",
+          "request": {
+            "name": "Get Custom Harness",
+            "description": {
+              "content": "Get a single custom harness by ID with optional workflow status.\n\nReturns the harness (business status: DRAFT/ACTIVE/ARCHIVED) enriched with\nworkflow status (execution state: RUNNING/SUCCEEDED/FAILED) if a workflow exists.\n\nClient interpretation:\n- harness.status=DRAFT + no workflow = Not started yet\n- harness.status=DRAFT + workflow.status=RUNNING = Generation in progress\n- harness.status=DRAFT + workflow.status=FAILED = Generation failed, can retry\n- harness.status=ACTIVE = Generation completed successfully\n\nRequires agent:read permission.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "custom-harnesses",
+                ":harness_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "team_id",
+                  "value": "<uuid>",
+                  "description": "Team ID (required)"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "harness_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "230c695f-f66f-43aa-80f2-e23ff7614a9d",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "custom-harnesses",
+                    ":harness_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "team_id",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "harness_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"harness\": {\n    \"id\": \"3039e7ca-348e-37d0-6528-2333540b8740\",\n    \"team_id\": \"9759435f-2ead-ccee-555e-0b1c6b73bb1e\",\n    \"name\": \"string\",\n    \"agent_id\": \"907a7cfe-1c80-b2f2-41b5-7b69af2ed199\",\n    \"created_at\": 7190,\n    \"updated_at\": 2112,\n    \"created_by\": \"5fc0ddb9-de32-5dd4-dd06-183f5df25b62\",\n    \"description\": \"string\",\n    \"persona_ids\": [\n      \"f11410ec-9298-26a3-cdd0-b68f9e9b1aaa\",\n      \"a75ee86d-9031-583b-7799-db99021547c9\"\n    ],\n    \"policy_ids\": [\n      \"a3edf577-3e13-eb31-d397-d1635b500069\",\n      \"23651258-bc3a-1540-08d3-9bb081f9b2d5\"\n    ],\n    \"status\": \"draft\",\n    \"workflow_id\": \"2662bb3c-ac68-6fce-68c8-e0ea8b56cf5f\",\n    \"s3_key\": \"string\",\n    \"generated_at\": 8815,\n    \"prompt_count\": 8698,\n    \"creation_error\": \"string\"\n  },\n  \"workflow\": {\n    \"status\": \"cancelled\",\n    \"phase\": \"string\",\n    \"error_message\": \"string\",\n    \"task_id\": \"string\",\n    \"session_id\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d2b58d9b-771c-4f2a-adb3-bb36edc6f0f2",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "custom-harnesses",
+                    ":harness_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "team_id",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "harness_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8202d883-71bd-4b5a-b9af-e9bb77f9279d",
+          "name": "Delete Custom Harness",
+          "request": {
+            "name": "Delete Custom Harness",
+            "description": {
+              "content": "Delete a custom harness.\n\nPermanently deletes the harness and any associated data.\n\nRequires agent:write permission.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "custom-harnesses",
+                ":harness_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "team_id",
+                  "value": "<uuid>",
+                  "description": "Team ID (required)"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "harness_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "77cee10e-d24d-48f9-890e-07902b2b4a17",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "custom-harnesses",
+                    ":harness_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "team_id",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "harness_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "3d1d3d41-f630-476e-88ea-aa04b740d0ab",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "custom-harnesses",
+                    ":harness_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "team_id",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "harness_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2aa9cc55-dbd6-4c2e-9608-0e4de79f6672",
+          "name": "Cancel Custom Harness",
+          "request": {
+            "name": "Cancel Custom Harness",
+            "description": {
+              "content": "Cancel a running custom harness creation workflow.\n\nUses harness_id to load the harness from S3, then the harness's workflow_id to load the\nworkflow. If workflow_specific_fields (task_id, session_id) are present, sends cancel to the\nagent; otherwise marks the workflow as cancelled so the worker will not overwrite with\nsuccess/failure. Requires agent:write permission.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "custom-harnesses",
+                ":harness_id",
+                "cancel"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "team_id",
+                  "value": "<uuid>",
+                  "description": "Team ID (required)"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "harness_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "4d3ebb5a-a343-41f7-89d2-869ac793ab08",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "custom-harnesses",
+                    ":harness_id",
+                    "cancel"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "team_id",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "harness_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"key_0\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ddbd65a8-4cbc-400f-a6c1-cf6dfb18502e",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "custom-harnesses",
+                    ":harness_id",
+                    "cancel"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "team_id",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "harness_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "86627474-57c9-42fd-99ff-b08b78e500cf",
+          "name": "Get Custom Harness Prompts",
+          "request": {
+            "name": "Get Custom Harness Prompts",
+            "description": {
+              "content": "Return taxonomy prompts from ``harness_prompts.jsonl`` for a custom harness.\n\nServed by service-diamond; loads JSONL from the team custom-harness S3 path.\nDoes not read Trust Score ``prompt.jsonl``.\n\nReturns an empty list if the file is missing or empty (e.g. harness still in DRAFT).\n\nRequires agent:read permission.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "custom-harnesses",
+                ":harness_id",
+                "prompts"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "team_id",
+                  "value": "<uuid>",
+                  "description": "Team ID (required)"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "harness_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c08770b2-b370-413b-9b23-1d63c806fb0a",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "custom-harnesses",
+                    ":harness_id",
+                    "prompts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "team_id",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "harness_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"count\": 7839,\n  \"prompts\": [\n    {\n      \"dimension_name\": \"string\",\n      \"prompt_text\": \"string\",\n      \"pass_criteria\": \"string\",\n      \"lineage\": {\n        \"principle\": \"\",\n        \"theme\": \"\",\n        \"policy_section\": \"\",\n        \"persona\": \"\",\n        \"diagnostic_hooks\": [\n          \"string\",\n          \"string\"\n        ]\n      }\n    },\n    {\n      \"dimension_name\": \"string\",\n      \"prompt_text\": \"string\",\n      \"pass_criteria\": \"string\",\n      \"lineage\": {\n        \"principle\": \"\",\n        \"theme\": \"\",\n        \"policy_section\": \"\",\n        \"persona\": \"\",\n        \"diagnostic_hooks\": [\n          \"string\",\n          \"string\"\n        ]\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9a9d590f-55b1-4f55-9cf9-e0c565ea1148",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "custom-harnesses",
+                    ":harness_id",
+                    "prompts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "team_id",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "harness_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "41c2e54a-6deb-43aa-b9ae-a0874abe00e3",
+    "name": "Vijil Console API (Combined) agent-configurations custom-harnesses API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Combined OpenAPI specification for all vijil-console microservices.",
+      "type": "text/plain"
+    }
+  }
+}

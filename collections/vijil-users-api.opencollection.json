@@ -1,0 +1,92 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Vijil Console API (Combined) agent-configurations users API",
+    "version": "0.1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "users",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get User",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/users/",
+            "params": [
+              {
+                "name": "email",
+                "value": "",
+                "type": "query",
+                "description": "Email address of the user to retrieve"
+              }
+            ]
+          },
+          "docs": "Get a user by query parameters.\n\nCurrently supports:\n- email: Get user by email address\n\nAdditional query parameters can be added in the future."
+        },
+        {
+          "info": {
+            "name": "Create User",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/users/",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new user.\n\nRequires team:write_user permission for the specified team (team owners and admins) or\nteam:write_user_all permission (super admin)."
+        },
+        {
+          "info": {
+            "name": "Get Current User",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/users/me"
+          },
+          "docs": "Get the current authenticated user's information.\n\nReturns the user information for the authenticated user based on JWT claims."
+        },
+        {
+          "info": {
+            "name": "Get My Teams",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/users/me/teams"
+          },
+          "docs": "Get the current user's team memberships.\n\nReturns all teams the authenticated user is a member of, along with\ntheir role, name, and description."
+        },
+        {
+          "info": {
+            "name": "Get User By Id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/users/:user_id",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a user by ID."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

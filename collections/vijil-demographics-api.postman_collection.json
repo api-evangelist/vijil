@@ -1,0 +1,3366 @@
+{
+  "item": [
+    {
+      "id": "5cbcfb04-dff4-4313-b92f-e16a91afa3fd",
+      "name": "demographics",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "57b8a5b2-8c60-4306-b5e8-3597c5e3516e",
+          "name": "List Dimensions",
+          "request": {
+            "name": "List Dimensions",
+            "description": {
+              "content": "List demographic dimensions.\n\nRequires agent:read permission (dimensions are global reference data).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "demographics",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "protected_class_only",
+                  "value": "<boolean>",
+                  "description": "Filter to only protected class dimensions"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "100",
+                  "description": "Maximum number of results"
+                },
+                {
+                  "disabled": false,
+                  "key": "offset",
+                  "value": "0",
+                  "description": "Number of results to skip"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "4ef5d589-2d93-4999-8cc8-906da1523c59",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "demographics",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "protected_class_only",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"results\": [\n    {\n      \"id\": \"b4630871-e711-7470-4201-31edfb36bd3f\",\n      \"name\": \"string\",\n      \"display_name\": \"string\",\n      \"created_at\": 4359,\n      \"protected_class\": true,\n      \"description\": \"string\",\n      \"values\": [\n        {\n          \"id\": \"bf6d1b86-33b9-5bed-b3a0-0db7412898bf\",\n          \"dimension_id\": \"ff861b35-8aa7-2a87-dcf2-21086cf9ec10\",\n          \"value\": \"string\",\n          \"created_at\": 9857,\n          \"display_name\": \"string\",\n          \"value_metadata\": {\n            \"key_0\": false,\n            \"key_1\": 6489.4135789573875\n          },\n          \"sort_order\": 0\n        },\n        {\n          \"id\": \"d777f06a-5754-f601-6e7f-ea18b46abcac\",\n          \"dimension_id\": \"b13bc376-144c-4e67-d983-c6542c06e6da\",\n          \"value\": \"string\",\n          \"created_at\": 1627,\n          \"display_name\": \"string\",\n          \"value_metadata\": {\n            \"key_0\": 2087\n          },\n          \"sort_order\": 0\n        }\n      ]\n    },\n    {\n      \"id\": \"8194a44b-9d99-f493-a58b-57a5c1182d76\",\n      \"name\": \"string\",\n      \"display_name\": \"string\",\n      \"created_at\": 2606,\n      \"protected_class\": true,\n      \"description\": \"string\",\n      \"values\": [\n        {\n          \"id\": \"b456e838-c243-63bd-0389-0b652a3262a7\",\n          \"dimension_id\": \"d072ce2d-1535-fe1c-2b2b-e30a0845300f\",\n          \"value\": \"string\",\n          \"created_at\": 9926,\n          \"display_name\": \"string\",\n          \"value_metadata\": {\n            \"key_0\": true\n          },\n          \"sort_order\": 0\n        },\n        {\n          \"id\": \"9f43ce8b-e8fa-277d-5453-96f66efe4565\",\n          \"dimension_id\": \"4e61168d-79fb-6571-20b6-83a7c6d47632\",\n          \"value\": \"string\",\n          \"created_at\": 4397,\n          \"display_name\": \"string\",\n          \"value_metadata\": {\n            \"key_0\": 2135,\n            \"key_1\": 864.147410997711\n          },\n          \"sort_order\": 0\n        }\n      ]\n    }\n  ],\n  \"count\": 7490\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7d8f3e5f-a0df-495f-b99b-a40a272d8557",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "demographics",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "protected_class_only",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6cb25b90-a2c6-4643-90ff-fa566f580806",
+          "name": "Create Dimension",
+          "request": {
+            "name": "Create Dimension",
+            "description": {
+              "content": "Create a new demographic dimension.\n\nRequires super admin permission (dimensions are global).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "demographics",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"display_name\": \"<string>\",\n  \"protected_class\": true,\n  \"description\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "0fe0bb12-e1bd-4004-85b2-a4990446bc41",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "demographics",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"display_name\": \"<string>\",\n  \"protected_class\": true,\n  \"description\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"5357b1ce-73a6-74d9-6c02-1e9b18e14c58\",\n  \"name\": \"string\",\n  \"display_name\": \"string\",\n  \"created_at\": 6457,\n  \"protected_class\": true,\n  \"description\": \"string\",\n  \"values\": [\n    {\n      \"id\": \"1dcf0740-2b09-fa00-8341-8e03141d285d\",\n      \"dimension_id\": \"5cdf1bea-e1ae-edac-28a5-92dbb16d0c1c\",\n      \"value\": \"string\",\n      \"created_at\": 6456,\n      \"display_name\": \"string\",\n      \"value_metadata\": {\n        \"key_0\": \"string\",\n        \"key_1\": \"string\",\n        \"key_2\": true\n      },\n      \"sort_order\": 0\n    },\n    {\n      \"id\": \"689ec7d7-0eef-fe3e-427e-075ab69cd21b\",\n      \"dimension_id\": \"4b2935e4-7005-8819-bac0-5cb1d750dcb8\",\n      \"value\": \"string\",\n      \"created_at\": 9054,\n      \"display_name\": \"string\",\n      \"value_metadata\": {\n        \"key_0\": 5024.899102143689,\n        \"key_1\": 4384.762152974235\n      },\n      \"sort_order\": 0\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8b8da069-20ee-41ec-9858-0f61264bd03d",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "demographics",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"display_name\": \"<string>\",\n  \"protected_class\": true,\n  \"description\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "46d72835-3a37-411d-bbcb-86e22d783346",
+          "name": "Get Dimension",
+          "request": {
+            "name": "Get Dimension",
+            "description": {
+              "content": "Get a dimension by ID, including its values.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "demographics",
+                ":dimension_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "dimension_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f591269e-8142-4905-b678-5eb925e82b5b",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "demographics",
+                    ":dimension_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "dimension_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"5357b1ce-73a6-74d9-6c02-1e9b18e14c58\",\n  \"name\": \"string\",\n  \"display_name\": \"string\",\n  \"created_at\": 6457,\n  \"protected_class\": true,\n  \"description\": \"string\",\n  \"values\": [\n    {\n      \"id\": \"1dcf0740-2b09-fa00-8341-8e03141d285d\",\n      \"dimension_id\": \"5cdf1bea-e1ae-edac-28a5-92dbb16d0c1c\",\n      \"value\": \"string\",\n      \"created_at\": 6456,\n      \"display_name\": \"string\",\n      \"value_metadata\": {\n        \"key_0\": \"string\",\n        \"key_1\": \"string\",\n        \"key_2\": true\n      },\n      \"sort_order\": 0\n    },\n    {\n      \"id\": \"689ec7d7-0eef-fe3e-427e-075ab69cd21b\",\n      \"dimension_id\": \"4b2935e4-7005-8819-bac0-5cb1d750dcb8\",\n      \"value\": \"string\",\n      \"created_at\": 9054,\n      \"display_name\": \"string\",\n      \"value_metadata\": {\n        \"key_0\": 5024.899102143689,\n        \"key_1\": 4384.762152974235\n      },\n      \"sort_order\": 0\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8b74b301-f10c-4492-b08b-408155559722",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "demographics",
+                    ":dimension_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "dimension_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0eea5da1-c41b-409d-984c-083f7c3d007a",
+          "name": "Update Dimension",
+          "request": {
+            "name": "Update Dimension",
+            "description": {
+              "content": "Update a demographic dimension.\n\nRequires super admin permission.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "demographics",
+                ":dimension_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "dimension_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"display_name\": \"<string>\",\n  \"protected_class\": \"<boolean>\",\n  \"description\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "7b88b68d-d535-4645-bd0b-9dc9dfb79c51",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "demographics",
+                    ":dimension_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "dimension_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"display_name\": \"<string>\",\n  \"protected_class\": \"<boolean>\",\n  \"description\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"5357b1ce-73a6-74d9-6c02-1e9b18e14c58\",\n  \"name\": \"string\",\n  \"display_name\": \"string\",\n  \"created_at\": 6457,\n  \"protected_class\": true,\n  \"description\": \"string\",\n  \"values\": [\n    {\n      \"id\": \"1dcf0740-2b09-fa00-8341-8e03141d285d\",\n      \"dimension_id\": \"5cdf1bea-e1ae-edac-28a5-92dbb16d0c1c\",\n      \"value\": \"string\",\n      \"created_at\": 6456,\n      \"display_name\": \"string\",\n      \"value_metadata\": {\n        \"key_0\": \"string\",\n        \"key_1\": \"string\",\n        \"key_2\": true\n      },\n      \"sort_order\": 0\n    },\n    {\n      \"id\": \"689ec7d7-0eef-fe3e-427e-075ab69cd21b\",\n      \"dimension_id\": \"4b2935e4-7005-8819-bac0-5cb1d750dcb8\",\n      \"value\": \"string\",\n      \"created_at\": 9054,\n      \"display_name\": \"string\",\n      \"value_metadata\": {\n        \"key_0\": 5024.899102143689,\n        \"key_1\": 4384.762152974235\n      },\n      \"sort_order\": 0\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "91586123-2294-484c-88fd-34e6a14a4d16",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "demographics",
+                    ":dimension_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "dimension_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"display_name\": \"<string>\",\n  \"protected_class\": \"<boolean>\",\n  \"description\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7ffca178-5364-45ae-812e-d706a9692022",
+          "name": "Delete Dimension",
+          "request": {
+            "name": "Delete Dimension",
+            "description": {
+              "content": "Delete a demographic dimension and all its values.\n\nRequires super admin permission.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "demographics",
+                ":dimension_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "dimension_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "8b096a95-7f38-4997-99e5-2c77babd7e85",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "demographics",
+                    ":dimension_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "dimension_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "636c9d75-9eab-4c9b-8057-54eb5646afcf",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "demographics",
+                    ":dimension_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "dimension_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "fb75fce7-5028-445a-a0bc-7c017859e536",
+          "name": "Get Dimension By Name",
+          "request": {
+            "name": "Get Dimension By Name",
+            "description": {
+              "content": "Get a dimension by name, including its values.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "demographics",
+                "by-name",
+                ":name"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "name",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e00849a5-8962-428b-a815-2db09e423f61",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "demographics",
+                    "by-name",
+                    ":name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"5357b1ce-73a6-74d9-6c02-1e9b18e14c58\",\n  \"name\": \"string\",\n  \"display_name\": \"string\",\n  \"created_at\": 6457,\n  \"protected_class\": true,\n  \"description\": \"string\",\n  \"values\": [\n    {\n      \"id\": \"1dcf0740-2b09-fa00-8341-8e03141d285d\",\n      \"dimension_id\": \"5cdf1bea-e1ae-edac-28a5-92dbb16d0c1c\",\n      \"value\": \"string\",\n      \"created_at\": 6456,\n      \"display_name\": \"string\",\n      \"value_metadata\": {\n        \"key_0\": \"string\",\n        \"key_1\": \"string\",\n        \"key_2\": true\n      },\n      \"sort_order\": 0\n    },\n    {\n      \"id\": \"689ec7d7-0eef-fe3e-427e-075ab69cd21b\",\n      \"dimension_id\": \"4b2935e4-7005-8819-bac0-5cb1d750dcb8\",\n      \"value\": \"string\",\n      \"created_at\": 9054,\n      \"display_name\": \"string\",\n      \"value_metadata\": {\n        \"key_0\": 5024.899102143689,\n        \"key_1\": 4384.762152974235\n      },\n      \"sort_order\": 0\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "dfd2984c-809c-4ab4-a352-6a15d4a264f3",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "demographics",
+                    "by-name",
+                    ":name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4125af66-b350-4e3b-a8b1-a75a846709c1",
+          "name": "List Values",
+          "request": {
+            "name": "List Values",
+            "description": {
+              "content": "List values for a dimension.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "demographics",
+                ":dimension_id",
+                "values"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "250",
+                  "description": "Maximum number of results"
+                },
+                {
+                  "disabled": false,
+                  "key": "offset",
+                  "value": "0",
+                  "description": "Number of results to skip"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "dimension_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "64be29ce-9307-4630-a09e-3717fdd312c3",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "demographics",
+                    ":dimension_id",
+                    "values"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "250"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "dimension_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"results\": [\n    {\n      \"id\": \"08158257-b528-1ef0-3387-3e7ff0ce7d47\",\n      \"dimension_id\": \"36437d65-e141-a01d-f31c-dd54f80c2a53\",\n      \"value\": \"string\",\n      \"created_at\": 7008,\n      \"display_name\": \"string\",\n      \"value_metadata\": {\n        \"key_0\": false\n      },\n      \"sort_order\": 0\n    },\n    {\n      \"id\": \"7d348ee2-131c-f6d8-b586-317084dfd5fe\",\n      \"dimension_id\": \"f8909c18-6329-a992-26fb-d9f48b75550d\",\n      \"value\": \"string\",\n      \"created_at\": 573,\n      \"display_name\": \"string\",\n      \"value_metadata\": {\n        \"key_0\": 9329.640763758436,\n        \"key_1\": \"string\"\n      },\n      \"sort_order\": 0\n    }\n  ],\n  \"count\": 735\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "77db1b02-e22a-4a8f-9525-8793a2dd038d",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "demographics",
+                    ":dimension_id",
+                    "values"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "250"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "dimension_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a84bfa7f-cf23-4a64-a90f-dfa0210bc5ce",
+          "name": "Add Value",
+          "request": {
+            "name": "Add Value",
+            "description": {
+              "content": "Add a value to a dimension.\n\nRequires super admin permission.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "demographics",
+                ":dimension_id",
+                "values"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "dimension_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"value\": \"<string>\",\n  \"display_name\": \"<string>\",\n  \"metadata\": {\n    \"key_0\": \"string\"\n  },\n  \"sort_order\": 0\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "734f586d-20ff-4f28-bdf1-d026ea58a5fd",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "demographics",
+                    ":dimension_id",
+                    "values"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "dimension_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"value\": \"<string>\",\n  \"display_name\": \"<string>\",\n  \"metadata\": {\n    \"key_0\": 8175\n  },\n  \"sort_order\": 0\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"fdf06db5-b101-d9fc-3878-d2ca63542e11\",\n  \"dimension_id\": \"d741e440-1b8d-cbbe-320b-8b52e72e775d\",\n  \"value\": \"string\",\n  \"created_at\": 9002,\n  \"display_name\": \"string\",\n  \"value_metadata\": {\n    \"key_0\": 8343.843518502952,\n    \"key_1\": true,\n    \"key_2\": \"string\"\n  },\n  \"sort_order\": 0\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "433ccad3-07c8-46c1-8923-3f9413aed4fd",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "demographics",
+                    ":dimension_id",
+                    "values"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "dimension_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"value\": \"<string>\",\n  \"display_name\": \"<string>\",\n  \"metadata\": {\n    \"key_0\": 8175\n  },\n  \"sort_order\": 0\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5549aff9-e5c9-4e15-bff3-eeb691ef413c",
+          "name": "Bulk Add Values",
+          "request": {
+            "name": "Bulk Add Values",
+            "description": {
+              "content": "Bulk add values to a dimension.\n\nRequires super admin permission.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "demographics",
+                ":dimension_id",
+                "values",
+                "bulk"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "dimension_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"values\": [\n    {\n      \"value\": \"<string>\",\n      \"display_name\": \"<string>\",\n      \"metadata\": {\n        \"key_0\": 1656.1538816349153,\n        \"key_1\": false\n      },\n      \"sort_order\": 0\n    },\n    {\n      \"value\": \"<string>\",\n      \"display_name\": \"<string>\",\n      \"metadata\": {\n        \"key_0\": true,\n        \"key_1\": 3311.3046121210778\n      },\n      \"sort_order\": 0\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "84c36400-c6e1-46e5-ba0f-289c8ae3cde8",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "demographics",
+                    ":dimension_id",
+                    "values",
+                    "bulk"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "dimension_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"values\": [\n    {\n      \"value\": \"string\",\n      \"display_name\": \"string\",\n      \"metadata\": {\n        \"key_0\": 2207,\n        \"key_1\": \"string\"\n      },\n      \"sort_order\": 0\n    },\n    {\n      \"value\": \"string\",\n      \"display_name\": \"string\",\n      \"metadata\": {\n        \"key_0\": 4202.054743052802,\n        \"key_1\": 3467\n      },\n      \"sort_order\": 0\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"6f4898b5-45bc-9362-7cce-777d3f91d1df\",\n    \"dimension_id\": \"b5ed6a19-36ae-96fc-99dc-e3d331dd6557\",\n    \"value\": \"string\",\n    \"created_at\": 8283,\n    \"display_name\": \"string\",\n    \"value_metadata\": {\n      \"key_0\": false,\n      \"key_1\": \"string\",\n      \"key_2\": 6336\n    },\n    \"sort_order\": 0\n  },\n  {\n    \"id\": \"8e4c943f-47b6-80a6-9c74-02f62eda5be3\",\n    \"dimension_id\": \"1cf05602-1c2a-e36d-b874-f2ff3dc90252\",\n    \"value\": \"string\",\n    \"created_at\": 659,\n    \"display_name\": \"string\",\n    \"value_metadata\": {\n      \"key_0\": 5235\n    },\n    \"sort_order\": 0\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "10f3c822-0fd3-46cc-b55e-2733c4be0337",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "demographics",
+                    ":dimension_id",
+                    "values",
+                    "bulk"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "dimension_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"values\": [\n    {\n      \"value\": \"string\",\n      \"display_name\": \"string\",\n      \"metadata\": {\n        \"key_0\": 2207,\n        \"key_1\": \"string\"\n      },\n      \"sort_order\": 0\n    },\n    {\n      \"value\": \"string\",\n      \"display_name\": \"string\",\n      \"metadata\": {\n        \"key_0\": 4202.054743052802,\n        \"key_1\": 3467\n      },\n      \"sort_order\": 0\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "321bd027-c294-4548-9938-6632d3b821fa",
+          "name": "Update Value",
+          "request": {
+            "name": "Update Value",
+            "description": {
+              "content": "Update a value.\n\nRequires super admin permission.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "demographics",
+                "values",
+                ":value_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "value_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"value\": \"<string>\",\n  \"display_name\": \"<string>\",\n  \"metadata\": {\n    \"key_0\": \"string\"\n  },\n  \"sort_order\": \"<integer>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "5c59b4be-df10-4b73-8e58-08a2a2e31e3c",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "demographics",
+                    "values",
+                    ":value_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "value_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"value\": \"<string>\",\n  \"display_name\": \"<string>\",\n  \"metadata\": {\n    \"key_0\": true\n  },\n  \"sort_order\": \"<integer>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"fdf06db5-b101-d9fc-3878-d2ca63542e11\",\n  \"dimension_id\": \"d741e440-1b8d-cbbe-320b-8b52e72e775d\",\n  \"value\": \"string\",\n  \"created_at\": 9002,\n  \"display_name\": \"string\",\n  \"value_metadata\": {\n    \"key_0\": 8343.843518502952,\n    \"key_1\": true,\n    \"key_2\": \"string\"\n  },\n  \"sort_order\": 0\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "49e52eb2-f7cd-4feb-a2dd-8d6558901591",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "demographics",
+                    "values",
+                    ":value_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "value_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"value\": \"<string>\",\n  \"display_name\": \"<string>\",\n  \"metadata\": {\n    \"key_0\": true\n  },\n  \"sort_order\": \"<integer>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c3a7efa5-85ec-43ca-98fc-2f0a460c5638",
+          "name": "Delete Value",
+          "request": {
+            "name": "Delete Value",
+            "description": {
+              "content": "Delete a value.\n\nRequires super admin permission.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "demographics",
+                "values",
+                ":value_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "value_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "5f9eb93f-10a2-465d-ad44-951201cc1ab6",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "demographics",
+                    "values",
+                    ":value_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "value_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "04cfb60f-11b0-40e9-af83-b94bd41a1bc9",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "demographics",
+                    "values",
+                    ":value_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "value_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "da17732d-d693-4291-b5ce-090fa47d503d",
+          "name": "List Dimensions",
+          "request": {
+            "name": "List Dimensions",
+            "description": {
+              "content": "List demographic dimensions.\n\nRequires agent:read permission (dimensions are global reference data).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "dimensions",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "protected_class_only",
+                  "value": "<boolean>",
+                  "description": "Filter to only protected class dimensions"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "100",
+                  "description": "Maximum number of results"
+                },
+                {
+                  "disabled": false,
+                  "key": "offset",
+                  "value": "0",
+                  "description": "Number of results to skip"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c3ea7da3-70db-4d9e-82a7-c2b2b6de87ac",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "dimensions",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "protected_class_only",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"results\": [\n    {\n      \"id\": \"b4630871-e711-7470-4201-31edfb36bd3f\",\n      \"name\": \"string\",\n      \"display_name\": \"string\",\n      \"created_at\": 4359,\n      \"protected_class\": true,\n      \"description\": \"string\",\n      \"values\": [\n        {\n          \"id\": \"bf6d1b86-33b9-5bed-b3a0-0db7412898bf\",\n          \"dimension_id\": \"ff861b35-8aa7-2a87-dcf2-21086cf9ec10\",\n          \"value\": \"string\",\n          \"created_at\": 9857,\n          \"display_name\": \"string\",\n          \"value_metadata\": {\n            \"key_0\": false,\n            \"key_1\": 6489.4135789573875\n          },\n          \"sort_order\": 0\n        },\n        {\n          \"id\": \"d777f06a-5754-f601-6e7f-ea18b46abcac\",\n          \"dimension_id\": \"b13bc376-144c-4e67-d983-c6542c06e6da\",\n          \"value\": \"string\",\n          \"created_at\": 1627,\n          \"display_name\": \"string\",\n          \"value_metadata\": {\n            \"key_0\": 2087\n          },\n          \"sort_order\": 0\n        }\n      ]\n    },\n    {\n      \"id\": \"8194a44b-9d99-f493-a58b-57a5c1182d76\",\n      \"name\": \"string\",\n      \"display_name\": \"string\",\n      \"created_at\": 2606,\n      \"protected_class\": true,\n      \"description\": \"string\",\n      \"values\": [\n        {\n          \"id\": \"b456e838-c243-63bd-0389-0b652a3262a7\",\n          \"dimension_id\": \"d072ce2d-1535-fe1c-2b2b-e30a0845300f\",\n          \"value\": \"string\",\n          \"created_at\": 9926,\n          \"display_name\": \"string\",\n          \"value_metadata\": {\n            \"key_0\": true\n          },\n          \"sort_order\": 0\n        },\n        {\n          \"id\": \"9f43ce8b-e8fa-277d-5453-96f66efe4565\",\n          \"dimension_id\": \"4e61168d-79fb-6571-20b6-83a7c6d47632\",\n          \"value\": \"string\",\n          \"created_at\": 4397,\n          \"display_name\": \"string\",\n          \"value_metadata\": {\n            \"key_0\": 2135,\n            \"key_1\": 864.147410997711\n          },\n          \"sort_order\": 0\n        }\n      ]\n    }\n  ],\n  \"count\": 7490\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "72b17d38-fda3-4dd9-bd90-5402b917ebaa",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "dimensions",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "protected_class_only",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "51fc638e-0a60-412a-85e9-c8e870960439",
+          "name": "Create Dimension",
+          "request": {
+            "name": "Create Dimension",
+            "description": {
+              "content": "Create a new demographic dimension.\n\nRequires super admin permission (dimensions are global).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "dimensions",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"display_name\": \"<string>\",\n  \"protected_class\": true,\n  \"description\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "bb355101-6802-475c-b753-616e8c6bfe2c",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "dimensions",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"display_name\": \"<string>\",\n  \"protected_class\": true,\n  \"description\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"5357b1ce-73a6-74d9-6c02-1e9b18e14c58\",\n  \"name\": \"string\",\n  \"display_name\": \"string\",\n  \"created_at\": 6457,\n  \"protected_class\": true,\n  \"description\": \"string\",\n  \"values\": [\n    {\n      \"id\": \"1dcf0740-2b09-fa00-8341-8e03141d285d\",\n      \"dimension_id\": \"5cdf1bea-e1ae-edac-28a5-92dbb16d0c1c\",\n      \"value\": \"string\",\n      \"created_at\": 6456,\n      \"display_name\": \"string\",\n      \"value_metadata\": {\n        \"key_0\": \"string\",\n        \"key_1\": \"string\",\n        \"key_2\": true\n      },\n      \"sort_order\": 0\n    },\n    {\n      \"id\": \"689ec7d7-0eef-fe3e-427e-075ab69cd21b\",\n      \"dimension_id\": \"4b2935e4-7005-8819-bac0-5cb1d750dcb8\",\n      \"value\": \"string\",\n      \"created_at\": 9054,\n      \"display_name\": \"string\",\n      \"value_metadata\": {\n        \"key_0\": 5024.899102143689,\n        \"key_1\": 4384.762152974235\n      },\n      \"sort_order\": 0\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "799d3435-0194-441e-92df-38edb9abe20d",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "dimensions",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"display_name\": \"<string>\",\n  \"protected_class\": true,\n  \"description\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e49a0762-d6f8-4401-a8c3-178d6f927c01",
+          "name": "Get Dimension",
+          "request": {
+            "name": "Get Dimension",
+            "description": {
+              "content": "Get a dimension by ID, including its values.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "dimensions",
+                ":dimension_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "dimension_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "fc8f9c5c-841a-451d-a73a-a9b98d2ac94b",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "dimensions",
+                    ":dimension_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "dimension_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"5357b1ce-73a6-74d9-6c02-1e9b18e14c58\",\n  \"name\": \"string\",\n  \"display_name\": \"string\",\n  \"created_at\": 6457,\n  \"protected_class\": true,\n  \"description\": \"string\",\n  \"values\": [\n    {\n      \"id\": \"1dcf0740-2b09-fa00-8341-8e03141d285d\",\n      \"dimension_id\": \"5cdf1bea-e1ae-edac-28a5-92dbb16d0c1c\",\n      \"value\": \"string\",\n      \"created_at\": 6456,\n      \"display_name\": \"string\",\n      \"value_metadata\": {\n        \"key_0\": \"string\",\n        \"key_1\": \"string\",\n        \"key_2\": true\n      },\n      \"sort_order\": 0\n    },\n    {\n      \"id\": \"689ec7d7-0eef-fe3e-427e-075ab69cd21b\",\n      \"dimension_id\": \"4b2935e4-7005-8819-bac0-5cb1d750dcb8\",\n      \"value\": \"string\",\n      \"created_at\": 9054,\n      \"display_name\": \"string\",\n      \"value_metadata\": {\n        \"key_0\": 5024.899102143689,\n        \"key_1\": 4384.762152974235\n      },\n      \"sort_order\": 0\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "37482bb4-1920-4519-9a5b-25045fe9fe25",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "dimensions",
+                    ":dimension_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "dimension_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "57c7f34f-127f-474d-a220-6e0ab4624a53",
+          "name": "Update Dimension",
+          "request": {
+            "name": "Update Dimension",
+            "description": {
+              "content": "Update a demographic dimension.\n\nRequires super admin permission.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "dimensions",
+                ":dimension_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "dimension_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"display_name\": \"<string>\",\n  \"protected_class\": \"<boolean>\",\n  \"description\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "74162fb9-9940-4a77-8e58-1395e204b132",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "dimensions",
+                    ":dimension_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "dimension_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"display_name\": \"<string>\",\n  \"protected_class\": \"<boolean>\",\n  \"description\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"5357b1ce-73a6-74d9-6c02-1e9b18e14c58\",\n  \"name\": \"string\",\n  \"display_name\": \"string\",\n  \"created_at\": 6457,\n  \"protected_class\": true,\n  \"description\": \"string\",\n  \"values\": [\n    {\n      \"id\": \"1dcf0740-2b09-fa00-8341-8e03141d285d\",\n      \"dimension_id\": \"5cdf1bea-e1ae-edac-28a5-92dbb16d0c1c\",\n      \"value\": \"string\",\n      \"created_at\": 6456,\n      \"display_name\": \"string\",\n      \"value_metadata\": {\n        \"key_0\": \"string\",\n        \"key_1\": \"string\",\n        \"key_2\": true\n      },\n      \"sort_order\": 0\n    },\n    {\n      \"id\": \"689ec7d7-0eef-fe3e-427e-075ab69cd21b\",\n      \"dimension_id\": \"4b2935e4-7005-8819-bac0-5cb1d750dcb8\",\n      \"value\": \"string\",\n      \"created_at\": 9054,\n      \"display_name\": \"string\",\n      \"value_metadata\": {\n        \"key_0\": 5024.899102143689,\n        \"key_1\": 4384.762152974235\n      },\n      \"sort_order\": 0\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "69c4ae4f-7daa-426e-9df4-8c82813b22cb",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "dimensions",
+                    ":dimension_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "dimension_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"display_name\": \"<string>\",\n  \"protected_class\": \"<boolean>\",\n  \"description\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "303c8476-11f7-4559-864e-834ab1413cba",
+          "name": "Delete Dimension",
+          "request": {
+            "name": "Delete Dimension",
+            "description": {
+              "content": "Delete a demographic dimension and all its values.\n\nRequires super admin permission.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "dimensions",
+                ":dimension_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "dimension_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "557441dd-29df-4395-ad4a-f7b8ee3ea597",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "dimensions",
+                    ":dimension_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "dimension_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "8c635be9-1ddc-4f1b-8734-9f45df96e40f",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "dimensions",
+                    ":dimension_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "dimension_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "867fb878-ed47-4f6d-b88c-7ad4528b0f0b",
+          "name": "Get Dimension By Name",
+          "request": {
+            "name": "Get Dimension By Name",
+            "description": {
+              "content": "Get a dimension by name, including its values.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "dimensions",
+                "by-name",
+                ":name"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "name",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "40b20ff6-35f0-4355-8a6b-99be96370cfb",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "dimensions",
+                    "by-name",
+                    ":name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"5357b1ce-73a6-74d9-6c02-1e9b18e14c58\",\n  \"name\": \"string\",\n  \"display_name\": \"string\",\n  \"created_at\": 6457,\n  \"protected_class\": true,\n  \"description\": \"string\",\n  \"values\": [\n    {\n      \"id\": \"1dcf0740-2b09-fa00-8341-8e03141d285d\",\n      \"dimension_id\": \"5cdf1bea-e1ae-edac-28a5-92dbb16d0c1c\",\n      \"value\": \"string\",\n      \"created_at\": 6456,\n      \"display_name\": \"string\",\n      \"value_metadata\": {\n        \"key_0\": \"string\",\n        \"key_1\": \"string\",\n        \"key_2\": true\n      },\n      \"sort_order\": 0\n    },\n    {\n      \"id\": \"689ec7d7-0eef-fe3e-427e-075ab69cd21b\",\n      \"dimension_id\": \"4b2935e4-7005-8819-bac0-5cb1d750dcb8\",\n      \"value\": \"string\",\n      \"created_at\": 9054,\n      \"display_name\": \"string\",\n      \"value_metadata\": {\n        \"key_0\": 5024.899102143689,\n        \"key_1\": 4384.762152974235\n      },\n      \"sort_order\": 0\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1296a039-5afd-4546-960d-b2a239100647",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "dimensions",
+                    "by-name",
+                    ":name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "name",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "64eed116-f6e6-4e0b-a1af-0baa57843f07",
+          "name": "List Values",
+          "request": {
+            "name": "List Values",
+            "description": {
+              "content": "List values for a dimension.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "dimensions",
+                ":dimension_id",
+                "values"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "250",
+                  "description": "Maximum number of results"
+                },
+                {
+                  "disabled": false,
+                  "key": "offset",
+                  "value": "0",
+                  "description": "Number of results to skip"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "dimension_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2b7eb411-45fd-4d21-b4d0-2dc0b0e0a7a4",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "dimensions",
+                    ":dimension_id",
+                    "values"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "250"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "dimension_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"results\": [\n    {\n      \"id\": \"08158257-b528-1ef0-3387-3e7ff0ce7d47\",\n      \"dimension_id\": \"36437d65-e141-a01d-f31c-dd54f80c2a53\",\n      \"value\": \"string\",\n      \"created_at\": 7008,\n      \"display_name\": \"string\",\n      \"value_metadata\": {\n        \"key_0\": false\n      },\n      \"sort_order\": 0\n    },\n    {\n      \"id\": \"7d348ee2-131c-f6d8-b586-317084dfd5fe\",\n      \"dimension_id\": \"f8909c18-6329-a992-26fb-d9f48b75550d\",\n      \"value\": \"string\",\n      \"created_at\": 573,\n      \"display_name\": \"string\",\n      \"value_metadata\": {\n        \"key_0\": 9329.640763758436,\n        \"key_1\": \"string\"\n      },\n      \"sort_order\": 0\n    }\n  ],\n  \"count\": 735\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f93b050c-1bd4-4a51-9caf-cca56c89b118",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "dimensions",
+                    ":dimension_id",
+                    "values"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "250"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "dimension_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "578bfeed-392a-4c08-b404-142e0c588bcc",
+          "name": "Add Value",
+          "request": {
+            "name": "Add Value",
+            "description": {
+              "content": "Add a value to a dimension.\n\nRequires super admin permission.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "dimensions",
+                ":dimension_id",
+                "values"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "dimension_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"value\": \"<string>\",\n  \"display_name\": \"<string>\",\n  \"metadata\": {\n    \"key_0\": \"string\"\n  },\n  \"sort_order\": 0\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "5c373948-b6f5-42ff-b691-9764072021a1",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "dimensions",
+                    ":dimension_id",
+                    "values"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "dimension_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"value\": \"<string>\",\n  \"display_name\": \"<string>\",\n  \"metadata\": {\n    \"key_0\": 8175\n  },\n  \"sort_order\": 0\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"fdf06db5-b101-d9fc-3878-d2ca63542e11\",\n  \"dimension_id\": \"d741e440-1b8d-cbbe-320b-8b52e72e775d\",\n  \"value\": \"string\",\n  \"created_at\": 9002,\n  \"display_name\": \"string\",\n  \"value_metadata\": {\n    \"key_0\": 8343.843518502952,\n    \"key_1\": true,\n    \"key_2\": \"string\"\n  },\n  \"sort_order\": 0\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "40c671db-7c9d-4de9-8bfb-a4f56ba30cf4",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "dimensions",
+                    ":dimension_id",
+                    "values"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "dimension_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"value\": \"<string>\",\n  \"display_name\": \"<string>\",\n  \"metadata\": {\n    \"key_0\": 8175\n  },\n  \"sort_order\": 0\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e83e15cf-d593-41a6-8304-a560d0d1060d",
+          "name": "Bulk Add Values",
+          "request": {
+            "name": "Bulk Add Values",
+            "description": {
+              "content": "Bulk add values to a dimension.\n\nRequires super admin permission.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "dimensions",
+                ":dimension_id",
+                "values",
+                "bulk"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "dimension_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"values\": [\n    {\n      \"value\": \"<string>\",\n      \"display_name\": \"<string>\",\n      \"metadata\": {\n        \"key_0\": 1656.1538816349153,\n        \"key_1\": false\n      },\n      \"sort_order\": 0\n    },\n    {\n      \"value\": \"<string>\",\n      \"display_name\": \"<string>\",\n      \"metadata\": {\n        \"key_0\": true,\n        \"key_1\": 3311.3046121210778\n      },\n      \"sort_order\": 0\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "5702e69a-1fad-4edf-8bd2-b400c3e219c1",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "dimensions",
+                    ":dimension_id",
+                    "values",
+                    "bulk"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "dimension_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"values\": [\n    {\n      \"value\": \"string\",\n      \"display_name\": \"string\",\n      \"metadata\": {\n        \"key_0\": 2207,\n        \"key_1\": \"string\"\n      },\n      \"sort_order\": 0\n    },\n    {\n      \"value\": \"string\",\n      \"display_name\": \"string\",\n      \"metadata\": {\n        \"key_0\": 4202.054743052802,\n        \"key_1\": 3467\n      },\n      \"sort_order\": 0\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"6e77b80c-1736-f4ab-5cde-3273ea25aefa\",\n    \"dimension_id\": \"ac66f3ae-a444-bded-ed0d-be1b05698630\",\n    \"value\": \"string\",\n    \"created_at\": 1129,\n    \"display_name\": \"string\",\n    \"value_metadata\": {\n      \"key_0\": 9929.096245817529,\n      \"key_1\": 6536\n    },\n    \"sort_order\": 0\n  },\n  {\n    \"id\": \"0ffabd78-0d5e-c440-8d86-b2ade870c63d\",\n    \"dimension_id\": \"3460023d-af95-0a22-1c1f-e2509fb51dbe\",\n    \"value\": \"string\",\n    \"created_at\": 2528,\n    \"display_name\": \"string\",\n    \"value_metadata\": {\n      \"key_0\": 9221.297361080115,\n      \"key_1\": 7673.977184287168\n    },\n    \"sort_order\": 0\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b9d4b625-863f-417e-8fc0-66eda0eda772",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "dimensions",
+                    ":dimension_id",
+                    "values",
+                    "bulk"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "dimension_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"values\": [\n    {\n      \"value\": \"string\",\n      \"display_name\": \"string\",\n      \"metadata\": {\n        \"key_0\": 2207,\n        \"key_1\": \"string\"\n      },\n      \"sort_order\": 0\n    },\n    {\n      \"value\": \"string\",\n      \"display_name\": \"string\",\n      \"metadata\": {\n        \"key_0\": 4202.054743052802,\n        \"key_1\": 3467\n      },\n      \"sort_order\": 0\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1e66adda-4ff1-4dd9-8eb4-f2b3db8c470c",
+          "name": "Update Value",
+          "request": {
+            "name": "Update Value",
+            "description": {
+              "content": "Update a value.\n\nRequires super admin permission.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "dimensions",
+                "values",
+                ":value_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "value_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"value\": \"<string>\",\n  \"display_name\": \"<string>\",\n  \"metadata\": {\n    \"key_0\": \"string\"\n  },\n  \"sort_order\": \"<integer>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "39e778d5-1258-4ba4-ad64-d9ababa1d000",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "dimensions",
+                    "values",
+                    ":value_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "value_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"value\": \"<string>\",\n  \"display_name\": \"<string>\",\n  \"metadata\": {\n    \"key_0\": true\n  },\n  \"sort_order\": \"<integer>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"fdf06db5-b101-d9fc-3878-d2ca63542e11\",\n  \"dimension_id\": \"d741e440-1b8d-cbbe-320b-8b52e72e775d\",\n  \"value\": \"string\",\n  \"created_at\": 9002,\n  \"display_name\": \"string\",\n  \"value_metadata\": {\n    \"key_0\": 8343.843518502952,\n    \"key_1\": true,\n    \"key_2\": \"string\"\n  },\n  \"sort_order\": 0\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fea50bc0-d6db-44e4-88b3-9c1e05d76bc6",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "dimensions",
+                    "values",
+                    ":value_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "value_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"value\": \"<string>\",\n  \"display_name\": \"<string>\",\n  \"metadata\": {\n    \"key_0\": true\n  },\n  \"sort_order\": \"<integer>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5c52c43b-e601-4192-9ae1-47d5d5d64821",
+          "name": "Delete Value",
+          "request": {
+            "name": "Delete Value",
+            "description": {
+              "content": "Delete a value.\n\nRequires super admin permission.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "dimensions",
+                "values",
+                ":value_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "value_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e6aee61e-d1e4-4150-909e-751dc69bb38d",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "dimensions",
+                    "values",
+                    ":value_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "value_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "e12686f2-5e30-4910-a614-81f1f9a69d7a",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "dimensions",
+                    "values",
+                    ":value_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "value_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "69dd06f6-e856-4c8c-814d-de8a09b92eb3",
+    "name": "Vijil Console API (Combined) agent-configurations demographics API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Combined OpenAPI specification for all vijil-console microservices.",
+      "type": "text/plain"
+    }
+  }
+}

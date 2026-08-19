@@ -1,0 +1,599 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Vijil Console API (Combined) agent-configurations Diamond API",
+    "version": "0.1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Diamond",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Team Evaluations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/evaluations/"
+          },
+          "docs": "List all evaluations for the authenticated user's teams.\n\nThis endpoint lists all evaluations (running and completed) from the job repository.\nFor completed evaluations stored in S3, use GET /evaluations-results/ instead.\n\nArgs:\n    claims: JWT claims with user and team info\n    diamond_domain: Diamond domain orchestrator\n\nReturns:\n    Dict with \"evaluations\" key containing list of evaluation summaries"
+        },
+        {
+          "info": {
+            "name": "Create Evaluation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/evaluations/",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new evaluation job.\n\nCreates a Kubernetes Job to run the evaluation and tracks it in memory.\nFetches agent configuration from Agent Registry using the provided agent_id.\nJWT token is retrieved from request context (set by JWTAuthMiddleware).\n\nArgs:\n    request: Evaluation configuration with agent_id and team_id\n    claims: JWT claims with user and team info\n    diamond_domain: Diamond domain orchestrator\n\nReturns:\n    Evaluation ID, status, and status URL"
+        },
+        {
+          "info": {
+            "name": "Get Evaluation Html Report",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/evaluations/:evaluation_id/html",
+            "params": [
+              {
+                "name": "evaluation_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "team_id",
+                "value": "",
+                "type": "query",
+                "description": "Team ID that owns this evaluation"
+              }
+            ]
+          },
+          "docs": "Get HTML trust report for an evaluation.\n\nReturns the HTML content directly for browser viewing.\nHTML reports are automatically generated when evaluations complete.\n\nArgs:\n    evaluation_id: UUID of the evaluation\n    team_id: Team ID that owns this evaluation\n    claims: JWT claims with user and team info\n    report_storage: Report storage adapter\n\nReturns:\n    HTML response with the report content\n\nRaises:\n    HTTPException: 401 if unauthorized, 403 if no permission, 404 if report not found"
+        },
+        {
+          "info": {
+            "name": "Get Evaluation Pdf Report",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/evaluations/:evaluation_id/pdf",
+            "params": [
+              {
+                "name": "evaluation_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "team_id",
+                "value": "",
+                "type": "query",
+                "description": "Team ID that owns this evaluation"
+              }
+            ]
+          },
+          "docs": "Get PDF trust report for an evaluation.\n\nPDF reports are automatically generated when evaluations complete\n(same flow as HTML reports).\n\nArgs:\n    evaluation_id: UUID of the evaluation\n    team_id: Team ID that owns this evaluation\n    claims: JWT claims with user and team info\n    report_storage: Report storage adapter\n\nReturns:\n    PDF response with the report content\n\nRaises:\n    HTTPException: 401 if unauthorized, 403 if no permission, 404 if report not found"
+        },
+        {
+          "info": {
+            "name": "Get Evaluation Logs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/evaluations/:evaluation_id/logs",
+            "params": [
+              {
+                "name": "evaluation_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get evaluation job logs from Kubernetes.\n\nArgs:\n    evaluation_id: UUID of the evaluation\n    claims: JWT claims with user and team info\n    diamond_domain: Diamond domain orchestrator\n\nReturns:\n    Job logs as dict with \"logs\" key\n\nRaises:\n    HTTPException: 404 if logs not available"
+        },
+        {
+          "info": {
+            "name": "Get Evaluation",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/evaluations/:evaluation_id",
+            "params": [
+              {
+                "name": "evaluation_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get evaluation status.\n\nArgs:\n    evaluation_id: UUID of the evaluation (can be job_id or evaluation_id)\n    claims: JWT claims with user and team info\n    diamond_domain: Diamond domain orchestrator\n\nReturns:\n    Current evaluation status with timestamps (returns Diamond's evaluation_id as source of truth)\n\nRaises:\n    HTTPException: 404 if evaluation not found or user lacks access\n    HTTPException: 503 if evaluation status cannot be retrieved"
+        },
+        {
+          "info": {
+            "name": "Delete Evaluation",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v1/evaluations/:evaluation_id",
+            "params": [
+              {
+                "name": "evaluation_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete evaluation (Kubernetes Job + repository entry + S3 storage).\n\nDeletes the evaluation from:\n- Kubernetes Job (via domain)\n- Repository entry (via domain)\n- S3 storage (request, results, report files)\n\nArgs:\n    evaluation_id: UUID of the evaluation\n    claims: JWT claims with user and team info\n    diamond_domain: Diamond domain orchestrator\n    storage: Evaluation storage adapter\n\nReturns:\n    Status dict with \"deleted\" status\n\nRaises:\n    HTTPException: 404 if evaluation not found"
+        },
+        {
+          "info": {
+            "name": "Cancel Evaluation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/evaluations/:evaluation_id/cancel",
+            "params": [
+              {
+                "name": "evaluation_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Cancel a running evaluation (Kubernetes Job cancellation + workflow status update).\n\nCancels an evaluation that is in progress (CREATED, STARTING, or RUNNING status).\nThis will:\n- Delete the Kubernetes Job (which cancels the running pod)\n- Update workflow status to CANCELLED\n- Optionally clean up partial S3 data (request file is kept for audit)\n\nArgs:\n    evaluation_id: UUID of the evaluation to cancel\n    claims: JWT claims with user and team info\n    diamond_domain: Diamond domain orchestrator"
+        },
+        {
+          "info": {
+            "name": "Generate Report On Demand",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/evaluations/:evaluation_id/report",
+            "params": [
+              {
+                "name": "evaluation_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "team_id",
+                "value": "",
+                "type": "query",
+                "description": "Team that owns this evaluation"
+              },
+              {
+                "name": "force_regenerate",
+                "value": "",
+                "type": "query",
+                "description": "Force regeneration even if cached"
+              }
+            ]
+          },
+          "docs": "Generate a trust report on demand (Layer 3).\n\nThis endpoint triggers LLM analysis + HTML/PDF report generation\nfor a completed evaluation. Reports are cached in S3 — subsequent\ncalls return the cached version unless force_regenerate=True.\n\nReports are NOT auto-generated on evaluation completion (CON-256).\nUsers explicitly request reports when they need proof of compliance\nor want a printable summary."
+        },
+        {
+          "info": {
+            "name": "List Completed Evaluations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/evaluation-results/",
+            "params": [
+              {
+                "name": "team_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to skip for paging"
+              }
+            ]
+          },
+          "docs": "List completed evaluations from S3 storage for a specific team.\n\nThis endpoint lists only completed evaluations that have results stored in S3.\nIt requires the team_id as a query parameter and respects permission checks.\nSupports paging via limit (default 10) and offset.\n\nArgs:\n    team_id: Team ID to list evaluations for (required query parameter)\n    limit: Max number of results (default 10, max 100)\n    offset: Number of results to skip for paging\n    claims: JWT claims with user and team inf"
+        },
+        {
+          "info": {
+            "name": "Get Evaluation Results",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/evaluation-results/:evaluation_id/results",
+            "params": [
+              {
+                "name": "evaluation_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "team_id",
+                "value": "",
+                "type": "query",
+                "description": "Team ID that owns this evaluation"
+              }
+            ]
+          },
+          "docs": "Get evaluation results from S3 storage.\n\nThe results are saved to S3 after the evaluation job completes.\nThis endpoint searches S3 directly (no repository dependency).\n\nArgs:\n    evaluation_id: UUID of the evaluation\n    team_id: Team ID that owns this evaluation (required query parameter)\n    claims: JWT claims with user and team info\n    diamond_domain: Diamond domain orchestrator (not used, kept for API consistency)\n    storage: Evaluation storage adapter\n\nReturns:\n    Evaluation results as J"
+        },
+        {
+          "info": {
+            "name": "Get Evaluation Report",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/evaluation-results/:evaluation_id/report",
+            "params": [
+              {
+                "name": "evaluation_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "team_id",
+                "value": "",
+                "type": "query",
+                "description": "Team ID that owns this evaluation"
+              }
+            ]
+          },
+          "docs": "Download evaluation report PDF from S3 storage.\n\nThe report is saved to S3 after the evaluation job completes.\nThis endpoint searches S3 directly (no repository dependency).\n\nArgs:\n    evaluation_id: UUID of the evaluation\n    team_id: Team ID that owns this evaluation (required query parameter)\n    claims: JWT claims with user and team info\n    diamond_domain: Diamond domain orchestrator (not used, kept for API consistency)\n    storage: Evaluation storage adapter\n\nReturns:\n    PDF file response"
+        },
+        {
+          "info": {
+            "name": "Get Evaluation Report Html",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/evaluation-results/:evaluation_id/report.html",
+            "params": [
+              {
+                "name": "evaluation_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "team_id",
+                "value": "",
+                "type": "query",
+                "description": "Team ID that owns this evaluation"
+              }
+            ]
+          },
+          "docs": "Download evaluation report HTML from S3 storage.\n\nThe HTML report is saved to S3 after the evaluation job completes.\nThis is the preferred report format - can be viewed in browser or printed to PDF.\n\nArgs:\n    evaluation_id: UUID of the evaluation\n    team_id: Team ID that owns this evaluation (required query parameter)\n    claims: JWT claims with user and team info\n    diamond_domain: Diamond domain orchestrator (not used, kept for API consistency)\n    storage: Evaluation storage adapter\n\nRetur"
+        },
+        {
+          "info": {
+            "name": "List Evaluation Summaries",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/evaluation-summaries/",
+            "params": [
+              {
+                "name": "team_id",
+                "value": "",
+                "type": "query",
+                "description": "Team ID to list summaries for"
+              },
+              {
+                "name": "agent_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter by agent ID"
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Filter by status (running, completed, failed, cancelled)"
+              },
+              {
+                "name": "harness_type",
+                "value": "",
+                "type": "query",
+                "description": "Filter by harness type (standard or custom)"
+              },
+              {
+                "name": "tested_by",
+                "value": "",
+                "type": "query",
+                "description": "Filter by tool that ran the evaluation"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to skip for paging"
+              }
+            ]
+          },
+          "docs": "List evaluation summaries for a team with optional filters and pagination.\n\nArgs:\n    team_id: Team ID to list summaries for (required)\n    agent_id: Optional filter by agent ID\n    status: Optional filter by status (running, completed, failed, cancelled)\n    harness_type: Optional filter by harness type\n    tested_by: Optional filter by evaluation tool\n    limit: Max number of results (default 10, max 100)\n    offset: Number of results to skip for paging\n    claims: JWT claims with user and tea"
+        },
+        {
+          "info": {
+            "name": "List Latest Evaluation Summaries By Agent",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/evaluation-summaries/latest-by-agent",
+            "params": [
+              {
+                "name": "team_id",
+                "value": "",
+                "type": "query",
+                "description": "Team ID to list latest summary per agent for"
+              }
+            ]
+          },
+          "docs": "Return the latest completed evaluation summary per agent for the team.\n\nUses server-side grouping (one row per agent_id with max completed_at).\nNo pagination; returns at most one summary per agent that has a completed evaluation."
+        },
+        {
+          "info": {
+            "name": "Get Evaluation Summary",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/evaluation-summaries/:evaluation_id",
+            "params": [
+              {
+                "name": "evaluation_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "team_id",
+                "value": "",
+                "type": "query",
+                "description": "Team ID that owns this evaluation"
+              }
+            ]
+          },
+          "docs": "Get a single evaluation summary by evaluation ID.\n\nArgs:\n    evaluation_id: UUID of the evaluation (same as summary ID)\n    team_id: Team ID that owns this evaluation\n    claims: JWT claims with user and team info\n    summary_repo: Evaluation summary repository\n\nReturns:\n    Evaluation summary with scores and metadata\n\nRaises:\n    HTTPException: 401 if unauthorized, 403 if no permission, 404 if not found"
+        },
+        {
+          "info": {
+            "name": "Delete Evaluation Summary",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v1/evaluation-summaries/:evaluation_id",
+            "params": [
+              {
+                "name": "evaluation_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "team_id",
+                "value": "",
+                "type": "query",
+                "description": "Team ID that owns this evaluation"
+              }
+            ]
+          },
+          "docs": "Delete an evaluation summary row.\n\nThis endpoint only removes the summary cache row — it does not delete\nthe underlying evaluation job or S3 artifacts. To fully delete an\nevaluation, use DELETE /evaluations/{evaluation_id}.\n\nArgs:\n    evaluation_id: UUID of the evaluation summary to delete\n    team_id: Team ID that owns this evaluation\n    claims: JWT claims with user and team info\n    summary_repo: Evaluation summary repository\n\nRaises:\n    HTTPException: 401 if unauthorized, 403 if no permissi"
+        },
+        {
+          "info": {
+            "name": "List Harnesses",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/harnesses/",
+            "params": [
+              {
+                "name": "team_id",
+                "value": "",
+                "type": "query",
+                "description": "Team ID (required)"
+              }
+            ]
+          },
+          "docs": "List all standard harnesses (global resources).\n\nStandard harnesses are global and not scoped to a team.\nThey are read-only and managed externally.\n\nArgs:\n    team_id: Team ID (required for permission checks)\n    claims: JWT claims with user and team info\n    harness_service: Harness service instance\n    \nReturns:\n    List of harness items, ordered by updated_at descending\n    \nRaises:\n    HTTPException: 422 if team_id is missing, 403 if user lacks permission, 500 on server errors"
+        },
+        {
+          "info": {
+            "name": "List Custom Harnesses",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/custom-harnesses/",
+            "params": [
+              {
+                "name": "team_id",
+                "value": "",
+                "type": "query",
+                "description": "Team ID (required)"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results (default 10)"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to skip for paging"
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Filter by status"
+              },
+              {
+                "name": "agent_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter by agent ID"
+              }
+            ]
+          },
+          "docs": "List custom harnesses for the specified team with pagination and filtering.\n\nReturns paginated list of harnesses owned by the specified team.\nSupports filtering by status.\n\nRequires agent:read permission."
+        },
+        {
+          "info": {
+            "name": "Create Custom Harness",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/custom-harnesses/",
+            "params": [
+              {
+                "name": "team_id",
+                "value": "",
+                "type": "query",
+                "description": "Team ID (required)"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new custom harness.\n\nCreates a harness in 'draft' status. The harness can be configured with\nan agent, personas, and policies before being activated.\n\nNote: Harnesses are immutable once created - they cannot be updated.\n\nRequires agent:write permission."
+        },
+        {
+          "info": {
+            "name": "Get Custom Harness",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/custom-harnesses/:harness_id",
+            "params": [
+              {
+                "name": "harness_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "team_id",
+                "value": "",
+                "type": "query",
+                "description": "Team ID (required)"
+              }
+            ]
+          },
+          "docs": "Get a single custom harness by ID with optional workflow status.\n\nReturns the harness (business status: DRAFT/ACTIVE/ARCHIVED) enriched with\nworkflow status (execution state: RUNNING/SUCCEEDED/FAILED) if a workflow exists.\n\nClient interpretation:\n- harness.status=DRAFT + no workflow = Not started yet\n- harness.status=DRAFT + workflow.status=RUNNING = Generation in progress\n- harness.status=DRAFT + workflow.status=FAILED = Generation failed, can retry\n- harness.status=ACTIVE = Generation complete"
+        },
+        {
+          "info": {
+            "name": "Delete Custom Harness",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v1/custom-harnesses/:harness_id",
+            "params": [
+              {
+                "name": "harness_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "team_id",
+                "value": "",
+                "type": "query",
+                "description": "Team ID (required)"
+              }
+            ]
+          },
+          "docs": "Delete a custom harness.\n\nPermanently deletes the harness and any associated data.\n\nRequires agent:write permission."
+        },
+        {
+          "info": {
+            "name": "Cancel Custom Harness",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/custom-harnesses/:harness_id/cancel",
+            "params": [
+              {
+                "name": "harness_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "team_id",
+                "value": "",
+                "type": "query",
+                "description": "Team ID (required)"
+              }
+            ]
+          },
+          "docs": "Cancel a running custom harness creation workflow.\n\nUses harness_id to load the harness from S3, then the harness's workflow_id to load the\nworkflow. If workflow_specific_fields (task_id, session_id) are present, sends cancel to the\nagent; otherwise marks the workflow as cancelled so the worker will not overwrite with\nsuccess/failure. Requires agent:write permission."
+        },
+        {
+          "info": {
+            "name": "Get Custom Harness Prompts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/custom-harnesses/:harness_id/prompts",
+            "params": [
+              {
+                "name": "harness_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "team_id",
+                "value": "",
+                "type": "query",
+                "description": "Team ID (required)"
+              }
+            ]
+          },
+          "docs": "Return taxonomy prompts from ``harness_prompts.jsonl`` for a custom harness.\n\nServed by service-diamond; loads JSONL from the team custom-harness S3 path.\nDoes not read Trust Score ``prompt.jsonl``.\n\nReturns an empty list if the file is missing or empty (e.g. harness still in DRAFT).\n\nRequires agent:read permission."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,39 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Vijil Console API (Combined) agent-configurations webhooks API",
+    "version": "0.1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "webhooks",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Register Dome",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/webhooks/register-dome",
+            "headers": [
+              {
+                "name": "X-Webhook-Api-Key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Register a Dome instance URL for an agent (called by Dome at runtime).\n\nIdempotent: safe to call on every Dome restart; each call overwrites the\nstored dome_url for that agent's config."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

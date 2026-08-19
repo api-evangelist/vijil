@@ -1,0 +1,304 @@
+{
+  "item": [
+    {
+      "id": "ac1f3c24-69e2-4bc7-8285-b27178b110f5",
+      "name": "detections",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "ed74f2b0-e4c1-44e9-b0ab-9cadef45570f",
+          "name": "Create Detection",
+          "request": {
+            "name": "Create Detection",
+            "description": {
+              "content": "Create a new detection request.\n\nThis endpoint accepts a detection request and starts processing it\nasynchronously. The response includes the detection ID which can be\nused to poll for results via GET /detections/{id}.\n\nNote: This endpoint does not require authentication to support\nthe Execution Flow test input feature.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "detections"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"<string>\",\n  \"detector_id\": \"<string>\",\n  \"detector_inputs\": [\n    {\n      \"response\": \"<string>\",\n      \"question\": \"<string>\",\n      \"prompt\": \"<string>\",\n      \"dome_detection_method\": \"<string>\"\n    },\n    {\n      \"response\": \"<string>\",\n      \"question\": \"<string>\",\n      \"prompt\": \"<string>\",\n      \"dome_detection_method\": \"<string>\"\n    }\n  ],\n  \"detector_params\": {\n    \"api_key_proxy\": \"<string>\",\n    \"hub\": \"<string>\",\n    \"model\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "8670396c-59b3-4b03-b41c-81c25cf42891",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "detections"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<string>\",\n  \"detector_id\": \"<string>\",\n  \"detector_inputs\": [\n    {\n      \"response\": \"string\",\n      \"question\": \"string\",\n      \"prompt\": \"string\",\n      \"dome_detection_method\": \"string\"\n    },\n    {\n      \"response\": \"string\",\n      \"question\": \"string\",\n      \"prompt\": \"string\",\n      \"dome_detection_method\": \"string\"\n    }\n  ],\n  \"detector_params\": {\n    \"api_key_proxy\": \"string\",\n    \"hub\": \"string\",\n    \"model\": \"string\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"status\": \"string\",\n  \"detector_inputs\": [\n    {\n      \"response\": \"string\",\n      \"question\": \"string\",\n      \"prompt\": \"string\",\n      \"dome_detection_method\": \"string\"\n    },\n    {\n      \"response\": \"string\",\n      \"question\": \"string\",\n      \"prompt\": \"string\",\n      \"dome_detection_method\": \"string\"\n    }\n  ],\n  \"detector_outputs\": [\n    {\n      \"score\": 0,\n      \"label\": \"string\",\n      \"details\": {\n        \"key_0\": 8438,\n        \"key_1\": 14,\n        \"key_2\": 1871.4413998125378\n      }\n    },\n    {\n      \"score\": 0,\n      \"label\": \"string\",\n      \"details\": {\n        \"key_0\": 9111,\n        \"key_1\": \"string\",\n        \"key_2\": 9995.418140942442,\n        \"key_3\": true\n      }\n    }\n  ],\n  \"error_message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1745eeea-bbbd-4929-8766-17bcf007dbf0",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "detections"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<string>\",\n  \"detector_id\": \"<string>\",\n  \"detector_inputs\": [\n    {\n      \"response\": \"string\",\n      \"question\": \"string\",\n      \"prompt\": \"string\",\n      \"dome_detection_method\": \"string\"\n    },\n    {\n      \"response\": \"string\",\n      \"question\": \"string\",\n      \"prompt\": \"string\",\n      \"dome_detection_method\": \"string\"\n    }\n  ],\n  \"detector_params\": {\n    \"api_key_proxy\": \"string\",\n    \"hub\": \"string\",\n    \"model\": \"string\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "25f7fc61-3270-448d-aeb5-4a11399d1022",
+          "name": "Get Detection",
+          "request": {
+            "name": "Get Detection",
+            "description": {
+              "content": "Get a detection by ID.\n\nReturns the current status and results of a detection.\nStatus values:\n- CREATED: Detection is queued for processing\n- PROCESSING: Detection is being processed\n- COMPLETED: Detection finished successfully\n- ERROR: Detection failed\n\nNote: This endpoint does not require authentication to support\nthe Execution Flow test input feature.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "detections",
+                ":detection_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "detection_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "5e4fa2eb-f72e-4882-b6f4-12b500e79d77",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "detections",
+                    ":detection_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "detection_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"status\": \"string\",\n  \"detector_inputs\": [\n    {\n      \"response\": \"string\",\n      \"question\": \"string\",\n      \"prompt\": \"string\",\n      \"dome_detection_method\": \"string\"\n    },\n    {\n      \"response\": \"string\",\n      \"question\": \"string\",\n      \"prompt\": \"string\",\n      \"dome_detection_method\": \"string\"\n    }\n  ],\n  \"detector_outputs\": [\n    {\n      \"score\": 0,\n      \"label\": \"string\",\n      \"details\": {\n        \"key_0\": 8438,\n        \"key_1\": 14,\n        \"key_2\": 1871.4413998125378\n      }\n    },\n    {\n      \"score\": 0,\n      \"label\": \"string\",\n      \"details\": {\n        \"key_0\": 9111,\n        \"key_1\": \"string\",\n        \"key_2\": 9995.418140942442,\n        \"key_3\": true\n      }\n    }\n  ],\n  \"error_message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3e247963-4f36-47a0-8d53-cf5d994c09aa",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "detections",
+                    ":detection_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "detection_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "3d6dbdd9-1b46-482d-aba9-a958f890b4c8",
+    "name": "Vijil Console API (Combined) agent-configurations detections API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Combined OpenAPI specification for all vijil-console microservices.",
+      "type": "text/plain"
+    }
+  }
+}

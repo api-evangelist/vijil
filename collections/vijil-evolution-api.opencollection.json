@@ -1,0 +1,188 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Vijil Console API (Combined) agent-configurations evolution API",
+    "version": "0.1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "evolution",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Evolution Jobs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/agents/:agent_id/evolutions",
+            "params": [
+              {
+                "name": "agent_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "List evolution jobs for an agent (paginated).\n\nProxies to Darwin's GET /v1/evolutions with team_id and agent_id."
+        },
+        {
+          "info": {
+            "name": "Trigger Evolution",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/agents/:agent_id/evolutions",
+            "params": [
+              {
+                "name": "agent_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Trigger evolution for an agent.\n\nSends the agent's configuration/identifiers to Darwin to start an\nevolution job. Optional config overrides (sample_size, target_dimensions,\netc.) are forwarded to Darwin when provided.\nReturns 201 Created with a Location header for the new job resource."
+        },
+        {
+          "info": {
+            "name": "Get Evolution Job Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/agents/:agent_id/evolutions/:evolution_id",
+            "params": [
+              {
+                "name": "agent_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "evolution_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Poll evolution status.\n\nDelegates to EvolutionService which proxies to Darwin's\nGET /v1/evolutions/{evolution_id} with team_id for access control."
+        },
+        {
+          "info": {
+            "name": "List Proposals",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/agents/:agent_id/evolution/proposals",
+            "params": [
+              {
+                "name": "agent_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "List mutation proposals for an agent.\n\nRead-only view for business owners and risk owners to see what Darwin\nhas proposed, evaluated, and whether improvements were verified."
+        },
+        {
+          "info": {
+            "name": "Get Proposal",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/agents/:agent_id/evolution/proposals/:proposal_id",
+            "params": [
+              {
+                "name": "agent_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "proposal_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a single mutation proposal.\n\nReturns the full proposal including proposed mutations, fitness deltas,\nevaluation results, and review status. Read-only for visibility."
+        },
+        {
+          "info": {
+            "name": "Get Evolution Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/evolution/status/:agent_id",
+            "params": [
+              {
+                "name": "agent_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get evolution proposal status for an agent.\n\nProxies to Darwin's GET /evolution/status/{agent_id} with JWT auth."
+        },
+        {
+          "info": {
+            "name": "Get Genome Map",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/evolution/genome-map",
+            "params": [
+              {
+                "name": "highlight_agent_id",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get UMAP genome map for the caller's team.\n\nTeam ID is derived from JWT claims to prevent cross-team data access.\nProxies to Darwin's GET /evolution/genome-map with JWT auth."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

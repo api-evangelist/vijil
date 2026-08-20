@@ -35,6 +35,19 @@ created: '2026-07-17'
 modified: '2026-07-21'
 tags:
 - Company
+- Artificial Intelligence
+- AI Agents
+- Agent Security
+- AI Safety
+- Trust
+- Red Teaming
+- Guardrails
+- LLM Security
+- Evaluation
+- Observability
+- MCP
+tags_raw:
+- Company
 - AI
 - AI Agents
 - Agent Security
@@ -100,6 +113,8 @@ apis:
   humanURL: https://docs.vijil.ai/
   baseURL: https://console-api.vijil.ai
   tags:
+  - Authentication
+  tags_raw:
   - auth
   properties:
   - type: OpenAPI
@@ -128,6 +143,8 @@ apis:
   humanURL: https://docs.vijil.ai/
   baseURL: https://console-api.vijil.ai
   tags:
+  - Dashboard
+  tags_raw:
   - dashboard
   properties:
   - type: OpenAPI
@@ -142,6 +159,8 @@ apis:
   humanURL: https://docs.vijil.ai/
   baseURL: https://console-api.vijil.ai
   tags:
+  - Demographics
+  tags_raw:
   - demographics
   properties:
   - type: OpenAPI
@@ -156,6 +175,8 @@ apis:
   humanURL: https://docs.vijil.ai/
   baseURL: https://console-api.vijil.ai
   tags:
+  - Detections
+  tags_raw:
   - detections
   properties:
   - type: OpenAPI
@@ -240,6 +261,8 @@ apis:
   humanURL: https://docs.vijil.ai/
   baseURL: https://console-api.vijil.ai
   tags:
+  - Evaluations
+  tags_raw:
   - evaluations
   properties:
   - type: OpenAPI
@@ -254,6 +277,8 @@ apis:
   humanURL: https://docs.vijil.ai/
   baseURL: https://console-api.vijil.ai
   tags:
+  - Evolution
+  tags_raw:
   - evolution
   properties:
   - type: OpenAPI
@@ -268,6 +293,8 @@ apis:
   humanURL: https://docs.vijil.ai/
   baseURL: https://console-api.vijil.ai
   tags:
+  - Genomes
+  tags_raw:
   - genomes
   properties:
   - type: OpenAPI
@@ -296,6 +323,8 @@ apis:
   humanURL: https://docs.vijil.ai/
   baseURL: https://console-api.vijil.ai
   tags:
+  - Personas
+  tags_raw:
   - personas
   properties:
   - type: OpenAPI
@@ -310,6 +339,8 @@ apis:
   humanURL: https://docs.vijil.ai/
   baseURL: https://console-api.vijil.ai
   tags:
+  - Policies
+  tags_raw:
   - policies
   properties:
   - type: OpenAPI
@@ -338,6 +369,8 @@ apis:
   humanURL: https://docs.vijil.ai/
   baseURL: https://console-api.vijil.ai
   tags:
+  - Proposals
+  tags_raw:
   - proposals
   properties:
   - type: OpenAPI
@@ -366,6 +399,8 @@ apis:
   humanURL: https://docs.vijil.ai/
   baseURL: https://console-api.vijil.ai
   tags:
+  - Red Team
+  tags_raw:
   - redteam
   properties:
   - type: OpenAPI
@@ -380,6 +415,8 @@ apis:
   humanURL: https://docs.vijil.ai/
   baseURL: https://console-api.vijil.ai
   tags:
+  - Team
+  tags_raw:
   - Teams
   properties:
   - type: OpenAPI
@@ -422,6 +459,8 @@ apis:
   humanURL: https://docs.vijil.ai/
   baseURL: https://console-api.vijil.ai
   tags:
+  - User
+  tags_raw:
   - users
   properties:
   - type: OpenAPI
@@ -436,6 +475,8 @@ apis:
   humanURL: https://docs.vijil.ai/
   baseURL: https://console-api.vijil.ai
   tags:
+  - Webhook
+  tags_raw:
   - webhooks
   properties:
   - type: OpenAPI

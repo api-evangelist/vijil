@@ -1,0 +1,36 @@
+# Front Door AI Index — vijil — 2026-09-17
+# AI vocabulary counted on the provider's root page. Generated; do not edit.
+# `score` is null unless ownership is `own` — see front_door_ai.py.
+front_door_ai:
+  slug: vijil
+  lexicon_version: '1.0'
+  probed_at: '2026-09-17'
+  host: vijil.ai
+  final_host: vijil.ai
+  ownership: own
+  owner: vijil
+  shares_host_with: null
+  inherited_from: null
+  verdict: scored
+  score: 50
+  host_score: 50
+  density: 34.32
+  words: 1457
+  tiers:
+    agentic: 18
+    core: 30
+    model: 2
+  ambiguous: 51
+  top_terms:
+    agent: 51
+    AI: 20
+    AI agent: 8
+    LLMs: 6
+    prompts: 5
+    ML: 3
+    Hugging Face: 2
+    MCP: 2
+    agentic: 1
+    embedding: 1
+    fine-tune: 1
+    generative ai: 1

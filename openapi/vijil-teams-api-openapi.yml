@@ -525,146 +525,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    LoginRequest:
-      properties:
-        email:
-          type: string
-          title: Email
-        password:
-          type: string
-          title: Password
-      type: object
-      required:
-      - email
-      - password
-      title: LoginRequest
-      description: Login request model.
-    TeamCreate:
-      properties:
-        name:
-          type: string
-          maxLength: 255
-          minLength: 1
-          title: Name
-        description:
-          anyOf:
-          - type: string
-            maxLength: 1000
-          - type: 'null'
-          title: Description
-      type: object
-      required:
-      - name
-      title: TeamCreate
-      description: Model for creating a new team.
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    Team:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        name:
-          type: string
-          maxLength: 255
-          minLength: 1
-          title: Name
-        description:
-          anyOf:
-          - type: string
-            maxLength: 1000
-          - type: 'null'
-          title: Description
-        created_by:
-          type: string
-          format: uuid
-          title: Created By
-        created_at:
-          type: integer
-          title: Created At
-        updated_at:
-          type: integer
-          title: Updated At
-      type: object
-      required:
-      - id
-      - name
-      - created_by
-      - created_at
-      - updated_at
-      title: Team
-      description: Team domains model.
-    Invitation:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        team_id:
-          type: string
-          format: uuid
-          title: Team Id
-        email:
-          type: string
-          title: Email
-        invited_by:
-          type: string
-          format: uuid
-          title: Invited By
-        role:
-          $ref: '#/components/schemas/TeamRole'
-        status:
-          $ref: '#/components/schemas/InvitationStatus'
-        created_at:
-          type: integer
-          title: Created At
-        expires_at:
-          type: integer
-          title: Expires At
-      type: object
-      required:
-      - id
-      - team_id
-      - email
-      - invited_by
-      - role
-      - status
-      - created_at
-      - expires_at
-      title: Invitation
-      description: Team invitation domains model.
-    TeamRole:
-      type: string
-      enum:
-      - OWNER
-      - ADMIN
-      - MEMBER
-      title: TeamRole
-      description: Team membership roles.
-    InviteUserRequest:
-      properties:
-        email:
-          type: string
-          minLength: 1
-          title: Email
-          description: Email address of the user to invite
-        role:
-          $ref: '#/components/schemas/TeamRole'
-          description: Role to assign to the invited user
-          default: MEMBER
-      type: object
-      required:
-      - email
-      title: InviteUserRequest
-      description: Request model for inviting a user to a team (team_id comes from path).
     MembershipWithTeam:
       properties:
         id:
@@ -722,65 +582,33 @@ components:
       - new_password
       title: ChangePasswordRequest
       description: Request model for changing password.
-    UserRead:
+    TeamCreate:
       properties:
-        id:
+        name:
           type: string
-          format: uuid
-          title: Id
-        email:
-          type: string
-          format: email
-          title: Email
-        is_active:
-          type: boolean
-          title: Is Active
-          default: true
-        is_superuser:
-          type: boolean
-          title: Is Superuser
-          default: false
-        is_verified:
-          type: boolean
-          title: Is Verified
-          default: false
-        given_name:
+          maxLength: 255
+          minLength: 1
+          title: Name
+        description:
           anyOf:
           - type: string
+            maxLength: 1000
           - type: 'null'
-          title: Given Name
-        family_name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Family Name
-        external_user_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: External User Id
-        profile_image:
-          anyOf:
-          - type: string
-            maxLength: 2083
-            minLength: 1
-            format: uri
-          - type: 'null'
-          title: Profile Image
-        password_change_required:
-          type: boolean
-          title: Password Change Required
-          default: false
-        is_super_admin:
-          type: boolean
-          title: Is Super Admin
-          default: false
+          title: Description
       type: object
       required:
-      - id
-      - email
-      title: UserRead
-      description: Returned to clients when reading user info.
+      - name
+      title: TeamCreate
+      description: Model for creating a new team.
+    InvitationStatus:
+      type: string
+      enum:
+      - PENDING
+      - ACCEPTED
+      - DECLINED
+      - EXPIRED
+      title: InvitationStatus
+      description: Invitation status.
     Membership:
       properties:
         id:
@@ -929,15 +757,105 @@ components:
       - team_id
       title: CreateUserRequest
       description: Request model for creating a user with team assignment.
-    InvitationStatus:
+    Invitation:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        team_id:
+          type: string
+          format: uuid
+          title: Team Id
+        email:
+          type: string
+          title: Email
+        invited_by:
+          type: string
+          format: uuid
+          title: Invited By
+        role:
+          $ref: '#/components/schemas/TeamRole'
+        status:
+          $ref: '#/components/schemas/InvitationStatus'
+        created_at:
+          type: integer
+          title: Created At
+        expires_at:
+          type: integer
+          title: Expires At
+      type: object
+      required:
+      - id
+      - team_id
+      - email
+      - invited_by
+      - role
+      - status
+      - created_at
+      - expires_at
+      title: Invitation
+      description: Team invitation domains model.
+    TeamRole:
       type: string
       enum:
-      - PENDING
-      - ACCEPTED
-      - DECLINED
-      - EXPIRED
-      title: InvitationStatus
-      description: Invitation status.
+      - OWNER
+      - ADMIN
+      - MEMBER
+      title: TeamRole
+      description: Team membership roles.
+    Team:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        name:
+          type: string
+          maxLength: 255
+          minLength: 1
+          title: Name
+        description:
+          anyOf:
+          - type: string
+            maxLength: 1000
+          - type: 'null'
+          title: Description
+        created_by:
+          type: string
+          format: uuid
+          title: Created By
+        created_at:
+          type: integer
+          title: Created At
+        updated_at:
+          type: integer
+          title: Updated At
+      type: object
+      required:
+      - id
+      - name
+      - created_by
+      - created_at
+      - updated_at
+      title: Team
+      description: Team domains model.
+    InviteUserRequest:
+      properties:
+        email:
+          type: string
+          minLength: 1
+          title: Email
+          description: Email address of the user to invite
+        role:
+          $ref: '#/components/schemas/TeamRole'
+          description: Role to assign to the invited user
+          default: MEMBER
+      type: object
+      required:
+      - email
+      title: InviteUserRequest
+      description: Request model for inviting a user to a team (team_id comes from path).
     ValidationError:
       properties:
         loc:
@@ -959,3 +877,85 @@ components:
       - msg
       - type
       title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    UserRead:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        email:
+          type: string
+          format: email
+          title: Email
+        is_active:
+          type: boolean
+          title: Is Active
+          default: true
+        is_superuser:
+          type: boolean
+          title: Is Superuser
+          default: false
+        is_verified:
+          type: boolean
+          title: Is Verified
+          default: false
+        given_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Given Name
+        family_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Family Name
+        external_user_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: External User Id
+        profile_image:
+          anyOf:
+          - type: string
+            maxLength: 2083
+            minLength: 1
+            format: uri
+          - type: 'null'
+          title: Profile Image
+        password_change_required:
+          type: boolean
+          title: Password Change Required
+          default: false
+        is_super_admin:
+          type: boolean
+          title: Is Super Admin
+          default: false
+      type: object
+      required:
+      - id
+      - email
+      title: UserRead
+      description: Returned to clients when reading user info.
+    LoginRequest:
+      properties:
+        email:
+          type: string
+          title: Email
+        password:
+          type: string
+          title: Password
+      type: object
+      required:
+      - email
+      - password
+      title: LoginRequest
+      description: Login request model.

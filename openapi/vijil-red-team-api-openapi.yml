@@ -313,40 +313,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    ToolInfo:
-      properties:
-        tool:
-          type: string
-          title: Tool
-        categories:
-          items:
-            type: string
-          type: array
-          title: Categories
-      type: object
-      required:
-      - tool
-      - categories
-      title: ToolInfo
-      description: Summary of a red team tool's capabilities.
-    AttackCategory:
-      type: string
-      enum:
-      - injection
-      - jailbreak
-      - harmful
-      - pii
-      - toxicity
-      - hallucination
-      - overreliance
-      - custom
-      title: AttackCategory
-      description: 'Abstract attack categories (tool-agnostic).
-
-
-        Each adapter maps these to tool-native plugin/probe/strategy names.
-
-        Use CUSTOM with custom_plugins for tool-native passthrough.'
     Finding:
       properties:
         category:
@@ -417,6 +383,86 @@ components:
 
 
         Each tool adapter maps its native output format into this structure.'
+    RedteamTool:
+      type: string
+      enum:
+      - diamond_security
+      - promptfoo
+      - garak
+      - pyrit
+      - unknown
+      title: RedteamTool
+      description: Supported red team tools.
+    RedteamResult:
+      properties:
+        job_id:
+          type: string
+          format: uuid
+          title: Job Id
+          description: Campaign job ID these results belong to
+        tool:
+          $ref: '#/components/schemas/RedteamTool'
+          description: Tool that produced these results
+        findings:
+          items:
+            $ref: '#/components/schemas/Finding'
+          type: array
+          title: Findings
+          description: Individual vulnerability findings
+        summary:
+          $ref: '#/components/schemas/RedteamSummary'
+          description: Aggregate statistics
+        raw_output:
+          additionalProperties: true
+          type: object
+          title: Raw Output
+          description: Full tool-native output for debugging
+      type: object
+      required:
+      - job_id
+      - tool
+      - summary
+      title: RedteamResult
+      description: 'Normalized results from any red team tool.
+
+
+        Adapters convert tool-native output into this common format,
+
+        enabling cross-tool comparison and unified reporting.'
+    ToolInfo:
+      properties:
+        tool:
+          type: string
+          title: Tool
+        categories:
+          items:
+            type: string
+          type: array
+          title: Categories
+      type: object
+      required:
+      - tool
+      - categories
+      title: ToolInfo
+      description: Summary of a red team tool's capabilities.
+    AttackCategory:
+      type: string
+      enum:
+      - injection
+      - jailbreak
+      - harmful
+      - pii
+      - toxicity
+      - hallucination
+      - overreliance
+      - custom
+      title: AttackCategory
+      description: 'Abstract attack categories (tool-agnostic).
+
+
+        Each adapter maps these to tool-native plugin/probe/strategy names.
+
+        Use CUSTOM with custom_plugins for tool-native passthrough.'
     CreateCampaignResponse:
       properties:
         campaign_id:
@@ -432,6 +478,65 @@ components:
       - status
       title: CreateCampaignResponse
       description: Response after creating a campaign.
+    CampaignStatusResponse:
+      properties:
+        campaign_id:
+          type: string
+          format: uuid
+          title: Campaign Id
+        status:
+          type: string
+          title: Status
+        tool:
+          type: string
+          title: Tool
+        created_at:
+          type: integer
+          title: Created At
+        started_at:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Started At
+        completed_at:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Completed At
+        error_message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Error Message
+      type: object
+      required:
+      - campaign_id
+      - status
+      - tool
+      - created_at
+      title: CampaignStatusResponse
+      description: Response for campaign status queries.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     RedteamSummary:
       properties:
         total_tests:
@@ -474,120 +579,6 @@ components:
       - vulnerabilities_found
       title: RedteamSummary
       description: Aggregate statistics for a red team campaign.
-    RedteamResult:
-      properties:
-        job_id:
-          type: string
-          format: uuid
-          title: Job Id
-          description: Campaign job ID these results belong to
-        tool:
-          $ref: '#/components/schemas/RedteamTool'
-          description: Tool that produced these results
-        findings:
-          items:
-            $ref: '#/components/schemas/Finding'
-          type: array
-          title: Findings
-          description: Individual vulnerability findings
-        summary:
-          $ref: '#/components/schemas/RedteamSummary'
-          description: Aggregate statistics
-        raw_output:
-          additionalProperties: true
-          type: object
-          title: Raw Output
-          description: Full tool-native output for debugging
-      type: object
-      required:
-      - job_id
-      - tool
-      - summary
-      title: RedteamResult
-      description: 'Normalized results from any red team tool.
-
-
-        Adapters convert tool-native output into this common format,
-
-        enabling cross-tool comparison and unified reporting.'
-    RedteamTool:
-      type: string
-      enum:
-      - diamond_security
-      - promptfoo
-      - garak
-      - pyrit
-      - unknown
-      title: RedteamTool
-      description: Supported red team tools.
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    CampaignStatusResponse:
-      properties:
-        campaign_id:
-          type: string
-          format: uuid
-          title: Campaign Id
-        status:
-          type: string
-          title: Status
-        tool:
-          type: string
-          title: Tool
-        created_at:
-          type: integer
-          title: Created At
-        started_at:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Started At
-        completed_at:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Completed At
-        error_message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Error Message
-      type: object
-      required:
-      - campaign_id
-      - status
-      - tool
-      - created_at
-      title: CampaignStatusResponse
-      description: Response for campaign status queries.
     CreateCampaignRequest:
       properties:
         team_id:
@@ -676,3 +667,12 @@ components:
       - categories
       title: CreateCampaignRequest
       description: Request body for creating a red team campaign.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError

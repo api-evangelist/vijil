@@ -1436,218 +1436,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    CustomHarnessLineage:
-      properties:
-        principle:
-          type: string
-          title: Principle
-          default: ''
-        theme:
-          type: string
-          title: Theme
-          default: ''
-        policy_section:
-          type: string
-          title: Policy Section
-          default: ''
-        persona:
-          type: string
-          title: Persona
-          default: ''
-        diagnostic_hooks:
-          items:
-            type: string
-          type: array
-          title: Diagnostic Hooks
-      type: object
-      title: CustomHarnessLineage
-      description: Structured lineage for a custom-harness taxonomy prompt (``harness_prompts.jsonl``).
-    CustomHarnessCreate:
-      properties:
-        id:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Id
-        name:
-          type: string
-          maxLength: 255
-          minLength: 1
-          title: Name
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-        agent_id:
-          type: string
-          format: uuid
-          title: Agent Id
-        persona_ids:
-          items:
-            type: string
-            format: uuid
-          type: array
-          title: Persona Ids
-        policy_ids:
-          items:
-            type: string
-            format: uuid
-          type: array
-          title: Policy Ids
-        system_prompt:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: System Prompt
-          description: AUT description or system prompt for harness generation. If not provided, agent description will be used.
-      type: object
-      required:
-      - name
-      - agent_id
-      title: CustomHarnessCreate
-      description: Request model for creating a custom harness.
-    CreateEvaluationResponse:
-      properties:
-        evaluation_id:
-          type: string
-          format: uuid
-          title: Evaluation Id
-        status:
-          type: string
-          title: Status
-      type: object
-      required:
-      - evaluation_id
-      - status
-      title: CreateEvaluationResponse
-      description: Response model for evaluation creation.
-    CustomHarnessStatus:
-      type: string
-      enum:
-      - draft
-      - active
-      - archived
-      - failed
-      title: CustomHarnessStatus
-      description: Status values for custom harnesses.
-    CustomHarnessPrompt:
-      properties:
-        dimension_name:
-          type: string
-          title: Dimension Name
-        prompt_text:
-          type: string
-          title: Prompt Text
-        pass_criteria:
-          type: string
-          title: Pass Criteria
-        lineage:
-          $ref: '#/components/schemas/CustomHarnessLineage'
-      type: object
-      required:
-      - dimension_name
-      - prompt_text
-      - pass_criteria
-      - lineage
-      title: CustomHarnessPrompt
-      description: A row from ``harness_prompts.jsonl`` (taxonomy / rich prompts for custom harnesses).
-    EvaluationSummaryListResponse:
-      properties:
-        results:
-          items:
-            $ref: '#/components/schemas/EvaluationSummaryResponse'
-          type: array
-          title: Results
-        total:
-          type: integer
-          title: Total
-        limit:
-          type: integer
-          title: Limit
-        offset:
-          type: integer
-          title: Offset
-      type: object
-      required:
-      - results
-      - total
-      - limit
-      - offset
-      title: EvaluationSummaryListResponse
-      description: Response model for a paginated list of evaluation summaries.
-    CustomHarnessListItem:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        name:
-          type: string
-          title: Name
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-        status:
-          $ref: '#/components/schemas/CustomHarnessStatus'
-        created_at:
-          type: integer
-          title: Created At
-        updated_at:
-          type: integer
-          title: Updated At
-        agent_id:
-          type: string
-          format: uuid
-          title: Agent Id
-        agent_name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Agent Name
-        policy_ids:
-          items:
-            type: string
-            format: uuid
-          type: array
-          title: Policy Ids
-        persona_ids:
-          items:
-            type: string
-            format: uuid
-          type: array
-          title: Persona Ids
-      type: object
-      required:
-      - id
-      - name
-      - status
-      - created_at
-      - updated_at
-      - agent_id
-      title: CustomHarnessListItem
-      description: 'List-item model for a custom harness (id, name, status, timestamps, agent, policies, personas).
-
-
-        Returned by the list endpoint; full details are available via get by id.'
-    HarnessPromptsResponse:
-      properties:
-        prompts:
-          items:
-            $ref: '#/components/schemas/CustomHarnessPrompt'
-          type: array
-          title: Prompts
-        count:
-          type: integer
-          title: Count
-      type: object
-      required:
-      - count
-      title: HarnessPromptsResponse
-      description: Response model for taxonomy prompts from ``harness_prompts.jsonl`` (not ``prompt.jsonl``).
     CustomHarness:
       properties:
         id:
@@ -1743,6 +1531,85 @@ components:
 
 
         Stored as metadata.json in S3.'
+    CreateEvaluationResponse:
+      properties:
+        evaluation_id:
+          type: string
+          format: uuid
+          title: Evaluation Id
+        status:
+          type: string
+          title: Status
+      type: object
+      required:
+      - evaluation_id
+      - status
+      title: CreateEvaluationResponse
+      description: Response model for evaluation creation.
+    EvaluationTool:
+      type: string
+      enum:
+      - diamond
+      - promptfoo
+      - garak
+      - pyrit
+      title: EvaluationTool
+      description: Tools that can produce evaluation results.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    CustomHarnessCreate:
+      properties:
+        id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Id
+        name:
+          type: string
+          maxLength: 255
+          minLength: 1
+          title: Name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        agent_id:
+          type: string
+          format: uuid
+          title: Agent Id
+        persona_ids:
+          items:
+            type: string
+            format: uuid
+          type: array
+          title: Persona Ids
+        policy_ids:
+          items:
+            type: string
+            format: uuid
+          type: array
+          title: Policy Ids
+        system_prompt:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: System Prompt
+          description: AUT description or system prompt for harness generation. If not provided, agent description will be used.
+      type: object
+      required:
+      - name
+      - agent_id
+      title: CustomHarnessCreate
+      description: Request model for creating a custom harness.
     EvaluationSummaryResponse:
       properties:
         id:
@@ -1832,22 +1699,104 @@ components:
       - created_at
       title: EvaluationSummaryResponse
       description: Response model for a single evaluation summary.
-    CustomHarnessListResponse:
+    WorkflowStatusInfo:
+      properties:
+        status:
+          $ref: '#/components/schemas/WorkflowStatus'
+        phase:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Phase
+        error_message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Error Message
+        task_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Task Id
+        session_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Session Id
+      type: object
+      required:
+      - status
+      title: WorkflowStatusInfo
+      description: 'Workflow status information for enrichment.
+
+
+        For custom harness workflows, task_id and session_id (when present) are
+
+        persisted in the workflow S3 file under workflow_specific_fields and
+
+        exposed here for cancel/debugging.'
+    EvaluationSummaryListResponse:
       properties:
         results:
           items:
-            $ref: '#/components/schemas/CustomHarnessListItem'
+            $ref: '#/components/schemas/EvaluationSummaryResponse'
           type: array
           title: Results
         total:
           type: integer
           title: Total
+        limit:
+          type: integer
+          title: Limit
+        offset:
+          type: integer
+          title: Offset
       type: object
       required:
       - results
       - total
-      title: CustomHarnessListResponse
-      description: Response model for paginated list of custom harnesses.
+      - limit
+      - offset
+      title: EvaluationSummaryListResponse
+      description: Response model for a paginated list of evaluation summaries.
+    EvaluationListResponse:
+      properties:
+        results:
+          items:
+            $ref: '#/components/schemas/EvaluationListItem'
+          type: array
+          title: Results
+          description: List of completed evaluations with results in S3 (current page)
+        total:
+          type: integer
+          title: Total
+          description: Total number of completed evaluations (before limit/offset)
+      type: object
+      required:
+      - total
+      title: EvaluationListResponse
+      description: "Response model for listing completed evaluations.\n    "
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     EvaluationListItem:
       properties:
         evaluation_id:
@@ -1898,36 +1847,57 @@ components:
       - team_id
       title: EvaluationListItem
       description: Item in the list of completed evaluations.
-    ValidationError:
+    CustomHarnessListResponse:
       properties:
-        loc:
+        results:
           items:
-            anyOf:
-            - type: string
-            - type: integer
+            $ref: '#/components/schemas/CustomHarnessListItem'
           type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
+          title: Results
+        total:
+          type: integer
+          title: Total
       type: object
       required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    HTTPValidationError:
+      - results
+      - total
+      title: CustomHarnessListResponse
+      description: Response model for paginated list of custom harnesses.
+    CustomHarnessResponse:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
+        harness:
+          $ref: '#/components/schemas/CustomHarness'
+        workflow:
+          anyOf:
+          - $ref: '#/components/schemas/WorkflowStatusInfo'
+          - type: 'null'
       type: object
-      title: HTTPValidationError
+      required:
+      - harness
+      title: CustomHarnessResponse
+      description: Response model for custom harness with optional workflow status.
+    HarnessType:
+      type: string
+      enum:
+      - standard
+      - custom
+      title: HarnessType
+      description: Type of harness.
+    HarnessPromptsResponse:
+      properties:
+        prompts:
+          items:
+            $ref: '#/components/schemas/CustomHarnessPrompt'
+          type: array
+          title: Prompts
+        count:
+          type: integer
+          title: Count
+      type: object
+      required:
+      - count
+      title: HarnessPromptsResponse
+      description: Response model for taxonomy prompts from ``harness_prompts.jsonl`` (not ``prompt.jsonl``).
     WorkflowStatus:
       type: string
       enum:
@@ -1944,160 +1914,62 @@ components:
         These are universal statuses that apply to all workflow types.
 
         Workflow-specific phases can be tracked using the optional `phase` field.'
-    HarnessType:
-      type: string
-      enum:
-      - standard
-      - custom
-      title: HarnessType
-      description: Type of harness.
-    WorkflowStatusInfo:
+    CustomHarnessListItem:
       properties:
-        status:
-          $ref: '#/components/schemas/WorkflowStatus'
-        phase:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Phase
-        error_message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Error Message
-        task_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Task Id
-        session_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Session Id
-      type: object
-      required:
-      - status
-      title: WorkflowStatusInfo
-      description: 'Workflow status information for enrichment.
-
-
-        For custom harness workflows, task_id and session_id (when present) are
-
-        persisted in the workflow S3 file under workflow_specific_fields and
-
-        exposed here for cancel/debugging.'
-    EvaluationListResponse:
-      properties:
-        results:
-          items:
-            $ref: '#/components/schemas/EvaluationListItem'
-          type: array
-          title: Results
-          description: List of completed evaluations with results in S3 (current page)
-        total:
-          type: integer
-          title: Total
-          description: Total number of completed evaluations (before limit/offset)
-      type: object
-      required:
-      - total
-      title: EvaluationListResponse
-      description: "Response model for listing completed evaluations.\n    "
-    EvaluationTool:
-      type: string
-      enum:
-      - diamond
-      - promptfoo
-      - garak
-      - pyrit
-      title: EvaluationTool
-      description: Tools that can produce evaluation results.
-    HarnessListItem:
-      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
         name:
           type: string
           title: Name
-        updated_at:
-          type: integer
-          title: Updated At
-      type: object
-      required:
-      - name
-      - updated_at
-      title: HarnessListItem
-      description: "Domain model for a harness list item (S3-based standard harnesses).\n\nAttributes:\n    name: Harness name/identifier\n    updated_at: Unix epoch timestamp in seconds (not milliseconds)"
-    EvaluationStatusResponse:
-      properties:
-        evaluation_id:
-          type: string
-          format: uuid
-          title: Evaluation Id
-        status:
-          type: string
-          title: Status
-        scores:
+        description:
           anyOf:
-          - additionalProperties:
-              type: number
-            type: object
+          - type: string
           - type: 'null'
-          title: Scores
+          title: Description
+        status:
+          $ref: '#/components/schemas/CustomHarnessStatus'
         created_at:
           type: integer
           title: Created At
-        started_at:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Started At
-        completed_at:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Completed At
-        error_message:
+        updated_at:
+          type: integer
+          title: Updated At
+        agent_id:
+          type: string
+          format: uuid
+          title: Agent Id
+        agent_name:
           anyOf:
           - type: string
           - type: 'null'
-          title: Error Message
-        status_message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Status Message
+          title: Agent Name
+        policy_ids:
+          items:
+            type: string
+            format: uuid
+          type: array
+          title: Policy Ids
+        persona_ids:
+          items:
+            type: string
+            format: uuid
+          type: array
+          title: Persona Ids
       type: object
       required:
-      - evaluation_id
+      - id
+      - name
       - status
       - created_at
-      - started_at
-      - completed_at
-      - error_message
-      title: EvaluationStatusResponse
-      description: Response model for evaluation status.
-    EvaluationStatus:
-      type: string
-      enum:
-      - running
-      - completed
-      - failed
-      - cancelled
-      title: EvaluationStatus
-      description: Statuses for an evaluation run (mirrors the workflow lifecycle).
-    CustomHarnessResponse:
-      properties:
-        harness:
-          $ref: '#/components/schemas/CustomHarness'
-        workflow:
-          anyOf:
-          - $ref: '#/components/schemas/WorkflowStatusInfo'
-          - type: 'null'
-      type: object
-      required:
-      - harness
-      title: CustomHarnessResponse
-      description: Response model for custom harness with optional workflow status.
+      - updated_at
+      - agent_id
+      title: CustomHarnessListItem
+      description: 'List-item model for a custom harness (id, name, status, timestamps, agent, policies, personas).
+
+
+        Returned by the list endpoint; full details are available via get by id.'
     CreateEvaluationRequest:
       properties:
         agent_id:
@@ -2148,3 +2020,131 @@ components:
       - harness_names
       title: CreateEvaluationRequest
       description: Request model for creating a new evaluation.
+    EvaluationStatus:
+      type: string
+      enum:
+      - running
+      - completed
+      - failed
+      - cancelled
+      title: EvaluationStatus
+      description: Statuses for an evaluation run (mirrors the workflow lifecycle).
+    EvaluationStatusResponse:
+      properties:
+        evaluation_id:
+          type: string
+          format: uuid
+          title: Evaluation Id
+        status:
+          type: string
+          title: Status
+        scores:
+          anyOf:
+          - additionalProperties:
+              type: number
+            type: object
+          - type: 'null'
+          title: Scores
+        created_at:
+          type: integer
+          title: Created At
+        started_at:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Started At
+        completed_at:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Completed At
+        error_message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Error Message
+        status_message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Status Message
+      type: object
+      required:
+      - evaluation_id
+      - status
+      - created_at
+      - started_at
+      - completed_at
+      - error_message
+      title: EvaluationStatusResponse
+      description: Response model for evaluation status.
+    CustomHarnessStatus:
+      type: string
+      enum:
+      - draft
+      - active
+      - archived
+      - failed
+      title: CustomHarnessStatus
+      description: Status values for custom harnesses.
+    CustomHarnessLineage:
+      properties:
+        principle:
+          type: string
+          title: Principle
+          default: ''
+        theme:
+          type: string
+          title: Theme
+          default: ''
+        policy_section:
+          type: string
+          title: Policy Section
+          default: ''
+        persona:
+          type: string
+          title: Persona
+          default: ''
+        diagnostic_hooks:
+          items:
+            type: string
+          type: array
+          title: Diagnostic Hooks
+      type: object
+      title: CustomHarnessLineage
+      description: Structured lineage for a custom-harness taxonomy prompt (``harness_prompts.jsonl``).
+    HarnessListItem:
+      properties:
+        name:
+          type: string
+          title: Name
+        updated_at:
+          type: integer
+          title: Updated At
+      type: object
+      required:
+      - name
+      - updated_at
+      title: HarnessListItem
+      description: "Domain model for a harness list item (S3-based standard harnesses).\n\nAttributes:\n    name: Harness name/identifier\n    updated_at: Unix epoch timestamp in seconds (not milliseconds)"
+    CustomHarnessPrompt:
+      properties:
+        dimension_name:
+          type: string
+          title: Dimension Name
+        prompt_text:
+          type: string
+          title: Prompt Text
+        pass_criteria:
+          type: string
+          title: Pass Criteria
+        lineage:
+          $ref: '#/components/schemas/CustomHarnessLineage'
+      type: object
+      required:
+      - dimension_name
+      - prompt_text
+      - pass_criteria
+      - lineage
+      title: CustomHarnessPrompt
+      description: A row from ``harness_prompts.jsonl`` (taxonomy / rich prompts for custom harnesses).

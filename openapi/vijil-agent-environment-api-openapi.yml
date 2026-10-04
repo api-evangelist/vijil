@@ -3264,40 +3264,84 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    AgentStatus:
-      type: string
-      enum:
-      - draft
-      - creating
-      - active
-      - under_review
-      - deprecated
-      - archived
-      - pending
-      - rejected
-      title: AgentStatus
-      description: Agent status values.
-    src__service_agent_environment__api__dimensions__BulkValuesRequest:
+    PolicyListResponse:
       properties:
-        values:
+        results:
           items:
-            $ref: '#/components/schemas/DemographicValueCreate'
+            $ref: '#/components/schemas/Policy'
           type: array
-          title: Values
+          title: Results
+        total:
+          type: integer
+          title: Total
       type: object
       required:
-      - values
-      title: BulkValuesRequest
-      description: Request model for bulk adding values.
-    KnowledgeLevel:
-      type: string
-      enum:
-      - beginner
-      - intermediate
-      - advanced
-      - expert
-      title: KnowledgeLevel
-      description: Knowledge level of the persona.
+      - results
+      - total
+      title: PolicyListResponse
+      description: 'Response model for list endpoints with pagination.
+
+
+        - results: Items in the current page (length may be less than limit on last page).
+
+        - total: Total number of items across all pages (before pagination).'
+    AdaptivityMetrics:
+      properties:
+        acceptance_rate:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Acceptance Rate
+        proposed:
+          type: integer
+          title: Proposed
+          default: 0
+        merged:
+          type: integer
+          title: Merged
+          default: 0
+        trend_pct:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Trend Pct
+      type: object
+      title: AdaptivityMetrics
+      description: Adaptivity hero metric.
+    AgentConstraints:
+      properties:
+        agent_id:
+          type: string
+          title: Agent Id
+        dome_config:
+          $ref: '#/components/schemas/DomeGuardConfig'
+        tool_permissions:
+          items:
+            $ref: '#/components/schemas/ToolPermission'
+          type: array
+          title: Tool Permissions
+        organization:
+          $ref: '#/components/schemas/OrganizationConstraints'
+        enforcement_mode:
+          type: string
+          enum:
+          - warn
+          - enforce
+          title: Enforcement Mode
+        updated_at:
+          type: string
+          format: date-time
+          title: Updated At
+      type: object
+      required:
+      - agent_id
+      - dome_config
+      - tool_permissions
+      - organization
+      - enforcement_mode
+      - updated_at
+      title: AgentConstraints
+      description: Full constraint set for a single agent — what the SDK fetches at boot.
     CreateFromPresetRequest:
       properties:
         name_override:
@@ -3308,74 +3352,181 @@ components:
       type: object
       title: CreateFromPresetRequest
       description: Request model for creating from preset.
-    PolicyStatus:
-      type: string
-      enum:
-      - draft
-      - active
-      - archived
-      title: PolicyStatus
-      description: Status of a policy document.
-    DemographicValueCreate:
-      properties:
-        value:
-          type: string
-          maxLength: 255
-          minLength: 1
-          title: Value
-        display_name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Display Name
-        metadata:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Metadata
-        sort_order:
-          type: integer
-          title: Sort Order
-          default: 0
-      type: object
-      required:
-      - value
-      title: DemographicValueCreate
-      description: Request model for creating a demographic value.
-    EvolutionJobList:
+    PersonaListResponse:
       properties:
         results:
           items:
-            $ref: '#/components/schemas/EvolutionJob'
+            $ref: '#/components/schemas/Persona'
           type: array
           title: Results
         total:
           type: integer
           title: Total
-        limit:
-          type: integer
-          title: Limit
-        offset:
-          type: integer
-          title: Offset
       type: object
       required:
       - results
       - total
-      - limit
-      - offset
-      title: EvolutionJobList
-      description: Paginated list of evolution jobs (Console API uses `results`; Darwin uses `items`).
-    RuleType:
+      title: PersonaListResponse
+      description: 'Response model for listing personas with pagination.
+
+
+        - results: Items in the current page (length may be less than limit on last page).
+
+        - total: Total number of items matching the query, before pagination.'
+    DemographicDimensionCreate:
+      properties:
+        name:
+          type: string
+          maxLength: 100
+          minLength: 1
+          title: Name
+        display_name:
+          type: string
+          maxLength: 255
+          minLength: 1
+          title: Display Name
+        protected_class:
+          type: boolean
+          title: Protected Class
+          default: true
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+      type: object
+      required:
+      - name
+      - display_name
+      title: DemographicDimensionCreate
+      description: Request model for creating a demographic dimension.
+    TriggerEvolutionRequest:
+      properties:
+        sample_size:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Sample Size
+        min_improvement_threshold:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Min Improvement Threshold
+        target_dimensions:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Target Dimensions
+        max_probes_per_evaluation:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Max Probes Per Evaluation
+        probe_concurrency:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Probe Concurrency
+        reflection_model:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Reflection Model
+        mutation_strategy:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Mutation Strategy
+        gepa_max_metric_calls:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Gepa Max Metric Calls
+        detection_volume_threshold:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Detection Volume Threshold
+      type: object
+      title: TriggerEvolutionRequest
+      description: Optional config overrides for evolution trigger.
+    AgentConfigListResponse:
+      properties:
+        results:
+          items:
+            $ref: '#/components/schemas/Agent'
+          type: array
+          title: Results
+        count:
+          type: integer
+          title: Count
+      type: object
+      required:
+      - results
+      - count
+      title: AgentConfigListResponse
+      description: List response model.
+    AgentSkill:
+      properties:
+        id:
+          type: string
+          title: Id
+        name:
+          type: string
+          title: Name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        input_modes:
+          items:
+            type: string
+          type: array
+          title: Input Modes
+        output_modes:
+          items:
+            type: string
+          type: array
+          title: Output Modes
+      type: object
+      required:
+      - id
+      - name
+      title: AgentSkill
+      description: An agent skill definition (for A2A protocol agents).
+    PrivilegeLevel:
       type: string
       enum:
-      - permission
-      - prohibition
-      - obligation
-      - recommendation
-      title: RuleType
-      description: Type of policy rule (ODRL-inspired).
+      - guest
+      - user
+      - power_user
+      - admin
+      - super_admin
+      title: PrivilegeLevel
+      description: Privilege level for persona access control testing.
+    TrustLifecycleStage:
+      type: string
+      enum:
+      - registered
+      - tested
+      - hardened
+      - trusted
+      - optimized
+      - adapted
+      title: TrustLifecycleStage
+      description: Trust maturity lifecycle stage for an agent.
+    KnowledgeLevel:
+      type: string
+      enum:
+      - beginner
+      - intermediate
+      - advanced
+      - expert
+      title: KnowledgeLevel
+      description: Knowledge level of the persona.
     DomeGuardConfig:
       properties:
         input_guards:
@@ -3401,30 +3552,223 @@ components:
       - guards
       title: DomeGuardConfig
       description: Dome guardrail configuration shape consumed by the SDK at boot.
-    ImportMetadata:
+    DashboardResponse:
       properties:
-        source:
+        time_to_trust:
+          $ref: '#/components/schemas/TimeToTrustMetrics'
+        fleet_health:
+          $ref: '#/components/schemas/FleetHealthMetrics'
+        adaptivity:
+          $ref: '#/components/schemas/AdaptivityMetrics'
+        agents:
+          items:
+            $ref: '#/components/schemas/AgentTrustCard'
+          type: array
+          title: Agents
+      type: object
+      title: DashboardResponse
+      description: Full dashboard API response.
+    Severity:
+      type: string
+      enum:
+      - info
+      - low
+      - medium
+      - high
+      - critical
+      title: Severity
+      description: Severity level for rule consequences.
+    AgentDomeConfigResponse:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        status:
+          type: string
+          title: Status
+          default: pending
+        agent_id:
           anyOf:
-          - $ref: '#/components/schemas/ImportSource'
+          - type: string
+            format: uuid
           - type: 'null'
-        source_url:
+          title: Agent Id
+        config_body:
+          additionalProperties: true
+          type: object
+          title: Config Body
+        dome_instance_url:
           anyOf:
           - type: string
           - type: 'null'
-          title: Source Url
-        imported_at:
+          title: Dome Instance Url
+        created_at:
+          type: integer
+          title: Created At
+        created_by:
+          type: string
+          format: uuid
+          title: Created By
+        updated_at:
           anyOf:
           - type: integer
           - type: 'null'
-          title: Imported At
-        original_format:
+          title: Updated At
+        updated_by:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Updated By
+      type: object
+      required:
+      - id
+      - created_at
+      - created_by
+      title: AgentDomeConfigResponse
+      description: Dome config in use for an agent (same wire shape as ``GET /dome-configs/{config_id}``).
+    PolicyUpdate:
+      properties:
+        name:
+          anyOf:
+          - type: string
+            maxLength: 255
+            minLength: 1
+          - type: 'null'
+          title: Name
+        description:
           anyOf:
           - type: string
           - type: 'null'
-          title: Original Format
+          title: Description
+        category:
+          anyOf:
+          - $ref: '#/components/schemas/PolicyCategory'
+          - type: 'null'
+        status:
+          anyOf:
+          - $ref: '#/components/schemas/PolicyStatus'
+          - type: 'null'
+        source_text:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source Text
+        tags:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Tags
       type: object
-      title: ImportMetadata
-      description: Metadata about how an agent was imported.
+      title: PolicyUpdate
+      description: Request model for updating a policy. All fields are optional.
+    OrganizationConstraints:
+      properties:
+        required_input_guards:
+          items:
+            type: string
+          type: array
+          title: Required Input Guards
+        required_output_guards:
+          items:
+            type: string
+          type: array
+          title: Required Output Guards
+        denied_tools:
+          items:
+            type: string
+          type: array
+          title: Denied Tools
+        max_model_tier:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Max Model Tier
+      type: object
+      required:
+      - required_input_guards
+      - required_output_guards
+      - denied_tools
+      title: OrganizationConstraints
+      description: Organization-level policy constraints applied to all agents in the org.
+    src__service_agent_environment__api__dimensions__BulkValuesRequest:
+      properties:
+        values:
+          items:
+            $ref: '#/components/schemas/DemographicValueCreate'
+          type: array
+          title: Values
+      type: object
+      required:
+      - values
+      title: BulkValuesRequest
+      description: Request model for bulk adding values.
+    DemographicDimensionUpdate:
+      properties:
+        display_name:
+          anyOf:
+          - type: string
+            maxLength: 255
+            minLength: 1
+          - type: 'null'
+          title: Display Name
+        protected_class:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Protected Class
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+      type: object
+      title: DemographicDimensionUpdate
+      description: Request model for updating a demographic dimension.
+    AgentLatestEvaluation:
+      properties:
+        evaluation_id:
+          type: string
+          format: uuid
+          title: Evaluation Id
+        overall_score:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Overall Score
+        reliability_score:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Reliability Score
+        security_score:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Security Score
+        safety_score:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Safety Score
+        completed_at:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Completed At
+      type: object
+      required:
+      - evaluation_id
+      title: AgentLatestEvaluation
+      description: 'Latest completed evaluation scores for an agent.
+
+
+        Sideloaded on GET /agent-configurations when include_scores=true.
+
+        Contains only domain-level score data — no UI or presentation concerns.'
     DemographicValue:
       properties:
         id:
@@ -3469,42 +3813,6 @@ components:
         Example: For dimension "race", values might be "White", "Black", "Asian", etc.
 
         These are used for prompt template variable substitution in bias testing.'
-    TimeToTrustMetrics:
-      properties:
-        average_days:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Average Days
-        trend_pct:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Trend Pct
-        recovery_avg_days:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Recovery Avg Days
-      type: object
-      title: TimeToTrustMetrics
-      description: Time-to-Trust hero metric.
-    Intent:
-      type: string
-      enum:
-      - benign
-      - curious
-      - adversarial
-      - malicious
-      title: Intent
-      description: Intent type of the persona.
-    ProtocolType:
-      type: string
-      enum:
-      - chat_completions
-      - a2a
-      title: ProtocolType
-      description: Communication protocol for agent endpoints.
     SkillLevel:
       type: string
       enum:
@@ -3514,6 +3822,419 @@ components:
       - expert
       title: SkillLevel
       description: Skill level of the persona.
+    MCPConfig:
+      properties:
+        proxy_url:
+          anyOf:
+          - type: string
+            maxLength: 2083
+            minLength: 1
+            format: uri
+          - type: 'null'
+          title: Proxy Url
+        access_level:
+          anyOf:
+          - $ref: '#/components/schemas/MCPAccessLevel'
+          - type: 'null'
+        server_urls:
+          anyOf:
+          - items:
+              type: string
+              maxLength: 2083
+              minLength: 1
+              format: uri
+            type: array
+          - type: 'null'
+          title: Server Urls
+      type: object
+      title: MCPConfig
+      description: MCP (Model Context Protocol) proxy configuration.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    UnifiedValidationResponse:
+      properties:
+        valid:
+          type: boolean
+          title: Valid
+        access_level:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Access Level
+        agent_card:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Agent Card
+        errors:
+          items:
+            type: string
+          type: array
+          title: Errors
+          default: []
+        warnings:
+          items:
+            type: string
+          type: array
+          title: Warnings
+          default: []
+        external_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: External Id
+        identity_provider:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Identity Provider
+      type: object
+      required:
+      - valid
+      title: UnifiedValidationResponse
+      description: 'Response model for unified validation.
+
+
+        Returns validation status and parsed agent card for preview.'
+    PersonaCreate:
+      properties:
+        id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Id
+        team_id:
+          type: string
+          format: uuid
+          title: Team Id
+        name:
+          type: string
+          maxLength: 255
+          minLength: 1
+          title: Name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        role:
+          type: string
+          maxLength: 100
+          minLength: 1
+          title: Role
+        role_description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Role Description
+        knowledge_level:
+          $ref: '#/components/schemas/KnowledgeLevel'
+          default: intermediate
+        skill_level:
+          $ref: '#/components/schemas/SkillLevel'
+          default: competent
+        intent:
+          $ref: '#/components/schemas/Intent'
+          default: benign
+        language:
+          type: string
+          title: Language
+          default: en
+        access_permissions:
+          anyOf:
+          - $ref: '#/components/schemas/PersonaAccessPermissions'
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Access Permissions
+        is_preset:
+          type: boolean
+          title: Is Preset
+          default: false
+        preset_category:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Preset Category
+        tags:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Tags
+        icon_filename:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Icon Filename
+      type: object
+      required:
+      - team_id
+      - name
+      - role
+      title: PersonaCreate
+      description: Request model for creating a persona.
+    PolicyCategory:
+      type: string
+      enum:
+      - privacy
+      - ethics
+      - security
+      - compliance
+      - operational
+      - brand
+      - custom
+      title: PolicyCategory
+      description: Category of policy document.
+    AgentTrustCard:
+      properties:
+        id:
+          type: string
+          title: Id
+        name:
+          type: string
+          title: Name
+        stage:
+          $ref: '#/components/schemas/TrustStage'
+        trust_scores:
+          additionalProperties:
+            type: number
+          type: object
+          title: Trust Scores
+        trust_breakdown:
+          additionalProperties:
+            $ref: '#/components/schemas/PillarBreakdown'
+          type: object
+          title: Trust Breakdown
+        redteam_findings_by_category:
+          additionalProperties:
+            type: integer
+          type: object
+          title: Redteam Findings By Category
+        under_attack:
+          type: boolean
+          title: Under Attack
+          default: false
+        pending_prs:
+          type: integer
+          title: Pending Prs
+          default: 0
+        evaluating:
+          type: boolean
+          title: Evaluating
+          default: false
+        darwin_cycles:
+          type: integer
+          title: Darwin Cycles
+          default: 0
+        time_in_stage_hours:
+          type: integer
+          title: Time In Stage Hours
+          default: 0
+        ttt_days:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Ttt Days
+        dome_protected:
+          type: boolean
+          title: Dome Protected
+          default: false
+        owner_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Owner Name
+      type: object
+      required:
+      - id
+      - name
+      - stage
+      title: AgentTrustCard
+      description: A single agent card on the Kanban board.
+    Persona:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        team_id:
+          type: string
+          format: uuid
+          title: Team Id
+        name:
+          type: string
+          title: Name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        role:
+          type: string
+          title: Role
+        role_description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Role Description
+        knowledge_level:
+          $ref: '#/components/schemas/KnowledgeLevel'
+          default: intermediate
+        skill_level:
+          $ref: '#/components/schemas/SkillLevel'
+          default: competent
+        intent:
+          $ref: '#/components/schemas/Intent'
+          default: benign
+        language:
+          type: string
+          title: Language
+          default: en
+        access_permissions:
+          anyOf:
+          - $ref: '#/components/schemas/PersonaAccessPermissions'
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Access Permissions
+        is_preset:
+          type: boolean
+          title: Is Preset
+          default: false
+        preset_category:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Preset Category
+        tags:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Tags
+        icon_filename:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Icon Filename
+        created_at:
+          type: integer
+          title: Created At
+        updated_at:
+          type: integer
+          title: Updated At
+        created_by:
+          type: string
+          format: uuid
+          title: Created By
+      type: object
+      required:
+      - id
+      - team_id
+      - name
+      - role
+      - created_at
+      - updated_at
+      - created_by
+      title: Persona
+      description: Domain model for Persona archetype.
+    UnifiedImportRequest:
+      properties:
+        agent_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Agent Url
+          description: 'Remote black_box: Agent endpoint URL to call (e.g., https://api.example.com/agent)'
+        agent_card:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Agent Card
+          description: 'Local grey_box: Upload agent configuration/card JSON directly'
+        source_code:
+          anyOf:
+          - $ref: '#/components/schemas/SourceCodeUpload'
+          - type: 'null'
+          description: 'Local white_box: Upload agent source code files directly'
+        framework:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Framework
+          description: Framework identifier (for informational purposes only)
+        entry_point:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Entry Point
+          description: 'For white box: path to main file'
+        override_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Override Name
+          description: Override agent name
+        rate_limit_requests_per_minute:
+          type: integer
+          minimum: 1
+          title: Rate Limit Requests Per Minute
+          default: 100
+        api_key:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Api Key
+          description: API key for the agent
+        external_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: External Id
+          description: External identity ID
+        identity_provider:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Identity Provider
+          description: Identity provider name
+        idp_metadata:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Idp Metadata
+          description: IdP-specific metadata
+      type: object
+      title: UnifiedImportRequest
+      description: 'Unified request model for agent import.
+
+
+        Supports five input methods (exactly one required), each with deterministic access level:
+
+
+        | Input Method | Mode   | Access Level | Description                          |
+
+        |--------------|--------|--------------|--------------------------------------|
+
+        | agent_url    | Remote | black_box    | Just an endpoint URL to call         |
+
+        | agent_card   | Local  | grey_box     | Upload agent configuration/card JSON |
+
+        | source_code  | Local  | white_box    | Upload agent source code files       |'
     WhiteBoxConfig-Input:
       properties:
         source_code:
@@ -3549,395 +4270,75 @@ components:
       type: object
       title: WhiteBoxConfig
       description: Source code access configuration for white box analysis.
-    PolicyRuleUpdate:
+    FleetHealthMetrics:
       properties:
-        rule_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Rule Id
-        rule_type:
-          anyOf:
-          - $ref: '#/components/schemas/RuleType'
-          - type: 'null'
-        action:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Action
-        target:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Target
-        assignee:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Assignee
-        constraints:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/RuleConstraint'
-            type: array
-          - items:
-              additionalProperties: true
-              type: object
-            type: array
-          - type: 'null'
-          title: Constraints
-        conditions:
-          anyOf:
-          - items:
-              additionalProperties: true
-              type: object
-            type: array
-          - type: 'null'
-          title: Conditions
-        constraint_logic:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Constraint Logic
-        consequence:
-          anyOf:
-          - $ref: '#/components/schemas/RuleConsequence'
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Consequence
-        natural_language:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Natural Language
-        category:
-          anyOf:
-          - $ref: '#/components/schemas/PolicyCategory'
-          - type: 'null'
-        status:
-          anyOf:
-          - $ref: '#/components/schemas/RuleStatus'
-          - type: 'null'
-        tags:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Tags
-      type: object
-      title: PolicyRuleUpdate
-      description: Request model for updating a policy rule. All fields are optional.
-    PolicyRuleCreate:
-      properties:
-        id:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Id
-        rule_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Rule Id
-        rule_type:
-          $ref: '#/components/schemas/RuleType'
-        action:
-          type: string
-          maxLength: 100
-          minLength: 1
-          title: Action
-        target:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Target
-        assignee:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Assignee
-          default: agent
-        constraints:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/RuleConstraint'
-            type: array
-          - items:
-              additionalProperties: true
-              type: object
-            type: array
-          title: Constraints
-          default: []
-        conditions:
-          anyOf:
-          - items:
-              additionalProperties: true
-              type: object
-            type: array
-          - type: 'null'
-          title: Conditions
-        constraint_logic:
-          type: string
-          title: Constraint Logic
-          default: all
-        consequence:
-          anyOf:
-          - $ref: '#/components/schemas/RuleConsequence'
-          - additionalProperties: true
-            type: object
-          title: Consequence
-        natural_language:
-          type: string
-          minLength: 1
-          title: Natural Language
-        category:
-          $ref: '#/components/schemas/PolicyCategory'
-          default: security
-        status:
-          $ref: '#/components/schemas/RuleStatus'
-          default: draft
-        tags:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Tags
-      type: object
-      required:
-      - rule_type
-      - action
-      - consequence
-      - natural_language
-      title: PolicyRuleCreate
-      description: Request model for creating a policy rule manually.
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    PersonaAccessPermissions:
-      properties:
-        privilege_level:
-          $ref: '#/components/schemas/PrivilegeLevel'
-          default: user
-        allowed_agents:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Allowed Agents
-        allowed_tools:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Allowed Tools
-        restricted_actions:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Restricted Actions
-        data_access_scope:
-          anyOf:
-          - $ref: '#/components/schemas/DataAccessScope'
-          - type: 'null'
-      type: object
-      title: PersonaAccessPermissions
-      description: 'Access permissions for persona - used for test scenario definition.
-
-
-        NOTE: This is NOT for actual RBAC enforcement - it defines expected access
-
-        for generating test cases to verify agent access control.'
-    AgentLifecycleUpdate:
-      properties:
-        trust_stage:
-          $ref: '#/components/schemas/TrustLifecycleStage'
-      type: object
-      required:
-      - trust_stage
-      title: AgentLifecycleUpdate
-      description: Request model for updating an agent's trust lifecycle stage.
-    TrustLifecycleStage:
-      type: string
-      enum:
-      - registered
-      - tested
-      - hardened
-      - trusted
-      - optimized
-      - adapted
-      title: TrustLifecycleStage
-      description: Trust maturity lifecycle stage for an agent.
-    ProposedMutation:
-      properties:
-        gene_name:
-          type: string
-          title: Gene Name
-        current_value:
-          title: Current Value
-        proposed_value:
-          title: Proposed Value
-        rationale:
-          type: string
-          title: Rationale
-        confidence:
-          type: number
-          title: Confidence
-      type: object
-      required:
-      - gene_name
-      - current_value
-      - proposed_value
-      - rationale
-      - confidence
-      title: ProposedMutation
-      description: A single proposed gene mutation.
-    AgentEvaluationConfig:
-      properties:
-        hub:
-          type: string
-          title: Hub
-          description: Hub type for routing to correct SDK client
-          default: custom
-        protocol:
-          $ref: '#/components/schemas/ProtocolType'
-          description: Agent protocol; used when normalizing agent_url for evaluation.
-          default: chat_completions
-        agent_url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Agent Url
-          description: Agent/LLM endpoint URL. Required for black box agents and custom hub grey/white box agents.
-        agent_api_key:
-          type: string
-          title: Agent Api Key
-        agent_model_name:
-          type: string
-          title: Agent Model Name
-        agent_name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Agent Name
-          description: Human-readable name of the agent (for reports and display)
-        rate_limit_requests_per_minute:
+        by_stage:
+          additionalProperties:
+            type: integer
+          type: object
+          title: By Stage
+        under_attack:
           type: integer
-          minimum: 1
-          title: Rate Limit Requests Per Minute
-          description: Rate limit for API requests per minute
-          default: 100
+          title: Under Attack
+          default: 0
+      type: object
+      title: FleetHealthMetrics
+      description: Fleet Health hero metric.
+    AccessLevel:
+      type: string
+      enum:
+      - black_box
+      - grey_box
+      - white_box
+      title: AccessLevel
+      description: 'Access level for agent analysis.
+
+
+        Black Box: URL only - behavioral testing only
+
+        Grey Box: Agent configuration - structure/capabilities analysis
+
+        White Box: Source code access - full code + sandbox runtime analysis'
+    ProposalList:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/Proposal'
+          type: array
+          title: Items
+        total:
+          type: integer
+          title: Total
+        limit:
+          type: integer
+          title: Limit
+        offset:
+          type: integer
+          title: Offset
       type: object
       required:
-      - agent_api_key
-      - agent_model_name
-      title: AgentEvaluationConfig
-      description: 'Configuration for Diamond evaluation (resolved from agent).
-
-
-        URL requirements depend on access level:
-
-        - Black Box: agent_url is ALWAYS required (it''s where the opaque agent lives)
-
-        - Grey/White Box: agent_url is only required for non-standard hubs (custom LLM endpoints)
-
-
-        For standard hubs (OpenAI, Anthropic, etc.) in grey/white box mode,
-
-        the SDK uses default endpoints so no URL is needed.
-
-
-        ``protocol`` is included in workflow params so the Diamond worker can normalize ``agent_url``
-
-        (e.g. ``.../v1/`` for chat_completions) even when the stored workflow predates registry fixes.'
-    DashboardResponse:
+      - items
+      - total
+      - limit
+      - offset
+      title: ProposalList
+      description: Paginated list of proposals from Darwin.
+    src__service_agent_environment__api__dimensions__ValueListResponse:
       properties:
-        time_to_trust:
-          $ref: '#/components/schemas/TimeToTrustMetrics'
-        fleet_health:
-          $ref: '#/components/schemas/FleetHealthMetrics'
-        adaptivity:
-          $ref: '#/components/schemas/AdaptivityMetrics'
-        agents:
+        results:
           items:
-            $ref: '#/components/schemas/AgentTrustCard'
+            $ref: '#/components/schemas/DemographicValue'
           type: array
-          title: Agents
+          title: Results
+        count:
+          type: integer
+          title: Count
       type: object
-      title: DashboardResponse
-      description: Full dashboard API response.
-    MCPAccessLevel:
-      type: string
-      enum:
-      - read
-      - write
-      - admin
-      title: MCPAccessLevel
-      description: MCP (Model Context Protocol) access level values.
-    WhiteBoxConfig-Output:
-      properties:
-        source_code:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Source Code
-        repo_url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Repo Url
-        github_username:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Github Username
-        repo_branch:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Repo Branch
-        entry_point:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Entry Point
-      type: object
-      title: WhiteBoxConfig
-      description: Source code access configuration for white box analysis.
-    DataAccessScope:
-      type: string
-      enum:
-      - own
-      - team
-      - organization
-      - global
-      title: DataAccessScope
-      description: Data access scope for persona testing.
+      required:
+      - results
+      - count
+      title: ValueListResponse
+      description: Response model for listing values.
     RuleStatus:
       type: string
       enum:
@@ -3947,86 +4348,225 @@ components:
       - modified
       title: RuleStatus
       description: Review status of a policy rule.
-    PolicyCategory:
+    PolicyStatus:
       type: string
       enum:
-      - privacy
-      - ethics
-      - security
-      - compliance
-      - operational
-      - brand
-      - custom
-      title: PolicyCategory
-      description: Category of policy document.
-    AgentParams:
-      properties:
-        temperature:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Temperature
-        top_p:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Top P
-        max_tokens:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Max Tokens
-        timeout:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Timeout
-        rag_params:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Rag Params
-        function_route_params:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Function Route Params
-      type: object
-      title: AgentParams
-      description: Model parameters for agent configuration.
-    Severity:
-      type: string
-      enum:
-      - info
-      - low
-      - medium
-      - high
-      - critical
-      title: Severity
-      description: Severity level for rule consequences.
-    PersonaListResponse:
+      - draft
+      - active
+      - archived
+      title: PolicyStatus
+      description: Status of a policy document.
+    EvolutionJobList:
       properties:
         results:
           items:
-            $ref: '#/components/schemas/Persona'
+            $ref: '#/components/schemas/EvolutionJob'
           type: array
           title: Results
         total:
           type: integer
           title: Total
+        limit:
+          type: integer
+          title: Limit
+        offset:
+          type: integer
+          title: Offset
       type: object
       required:
       - results
       - total
-      title: PersonaListResponse
-      description: 'Response model for listing personas with pagination.
-
-
-        - results: Items in the current page (length may be less than limit on last page).
-
-        - total: Total number of items matching the query, before pagination.'
+      - limit
+      - offset
+      title: EvolutionJobList
+      description: Paginated list of evolution jobs (Console API uses `results`; Darwin uses `items`).
+    PolicyCreate:
+      properties:
+        id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Id
+        name:
+          type: string
+          maxLength: 255
+          minLength: 1
+          title: Name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        category:
+          $ref: '#/components/schemas/PolicyCategory'
+        source_text:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source Text
+        tags:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Tags
+      type: object
+      required:
+      - name
+      - category
+      title: PolicyCreate
+      description: Request model for creating a policy.
+    Policy:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        team_id:
+          type: string
+          format: uuid
+          title: Team Id
+        name:
+          type: string
+          title: Name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        category:
+          $ref: '#/components/schemas/PolicyCategory'
+        status:
+          $ref: '#/components/schemas/PolicyStatus'
+          default: draft
+        source_text:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source Text
+        file_path:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: File Path
+        file_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: File Name
+        file_type:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: File Type
+        file_size_bytes:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: File Size Bytes
+        converted_file_path:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Converted File Path
+        is_preset:
+          type: boolean
+          title: Is Preset
+          default: false
+        preset_source:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Preset Source
+        tags:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Tags
+        created_at:
+          type: integer
+          title: Created At
+        updated_at:
+          type: integer
+          title: Updated At
+        created_by:
+          type: string
+          format: uuid
+          title: Created By
+      type: object
+      required:
+      - id
+      - team_id
+      - name
+      - category
+      - created_at
+      - updated_at
+      - created_by
+      title: Policy
+      description: Domain model for Policy document.
+    EvolutionJob:
+      properties:
+        evolution_id:
+          type: string
+          title: Evolution Id
+        status:
+          type: string
+          title: Status
+        agent_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Agent Id
+        team_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Team Id
+        extra:
+          additionalProperties: true
+          type: object
+          title: Extra
+          default: {}
+      type: object
+      required:
+      - evolution_id
+      - status
+      title: EvolutionJob
+      description: Console-side view of a Darwin evolution job.
+    DemographicValueUpdate:
+      properties:
+        value:
+          anyOf:
+          - type: string
+            maxLength: 255
+            minLength: 1
+          - type: 'null'
+          title: Value
+        display_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Display Name
+        metadata:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Metadata
+        sort_order:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Sort Order
+      type: object
+      title: DemographicValueUpdate
+      description: Request model for updating a demographic value.
     AgentUpdate:
       properties:
         status:
@@ -4149,118 +4689,125 @@ components:
       type: object
       title: AgentUpdate
       description: Model for updating an agent (all fields optional).
-    DemographicDimensionCreate:
+    AgentCapabilities:
       properties:
-        name:
-          type: string
-          maxLength: 100
-          minLength: 1
-          title: Name
-        display_name:
-          type: string
-          maxLength: 255
-          minLength: 1
-          title: Display Name
-        protected_class:
+        streaming:
           type: boolean
-          title: Protected Class
-          default: true
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
+          title: Streaming
+          default: false
+        push_notifications:
+          type: boolean
+          title: Push Notifications
+          default: false
+        code_execution:
+          type: boolean
+          title: Code Execution
+          default: false
+        memory:
+          type: boolean
+          title: Memory
+          default: false
+        delegation:
+          type: boolean
+          title: Delegation
+          default: false
+        tools:
+          items:
+            type: string
+          type: array
+          title: Tools
       type: object
-      required:
-      - name
-      - display_name
-      title: DemographicDimensionCreate
-      description: Request model for creating a demographic dimension.
-    UnifiedImportRequest:
+      title: AgentCapabilities
+      description: Agent capability flags.
+    PolicyRuleUpdate:
       properties:
-        agent_url:
+        rule_id:
           anyOf:
           - type: string
           - type: 'null'
-          title: Agent Url
-          description: 'Remote black_box: Agent endpoint URL to call (e.g., https://api.example.com/agent)'
-        agent_card:
+          title: Rule Id
+        rule_type:
           anyOf:
+          - $ref: '#/components/schemas/RuleType'
+          - type: 'null'
+        action:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Action
+        target:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Target
+        assignee:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Assignee
+        constraints:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/RuleConstraint'
+            type: array
+          - items:
+              additionalProperties: true
+              type: object
+            type: array
+          - type: 'null'
+          title: Constraints
+        conditions:
+          anyOf:
+          - items:
+              additionalProperties: true
+              type: object
+            type: array
+          - type: 'null'
+          title: Conditions
+        constraint_logic:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Constraint Logic
+        consequence:
+          anyOf:
+          - $ref: '#/components/schemas/RuleConsequence'
           - additionalProperties: true
             type: object
           - type: 'null'
-          title: Agent Card
-          description: 'Local grey_box: Upload agent configuration/card JSON directly'
-        source_code:
-          anyOf:
-          - $ref: '#/components/schemas/SourceCodeUpload'
-          - type: 'null'
-          description: 'Local white_box: Upload agent source code files directly'
-        framework:
+          title: Consequence
+        natural_language:
           anyOf:
           - type: string
           - type: 'null'
-          title: Framework
-          description: Framework identifier (for informational purposes only)
-        entry_point:
+          title: Natural Language
+        category:
           anyOf:
-          - type: string
+          - $ref: '#/components/schemas/PolicyCategory'
           - type: 'null'
-          title: Entry Point
-          description: 'For white box: path to main file'
-        override_name:
+        status:
           anyOf:
-          - type: string
+          - $ref: '#/components/schemas/RuleStatus'
           - type: 'null'
-          title: Override Name
-          description: Override agent name
-        rate_limit_requests_per_minute:
-          type: integer
-          minimum: 1
-          title: Rate Limit Requests Per Minute
-          default: 100
-        api_key:
+        tags:
           anyOf:
-          - type: string
+          - items:
+              type: string
+            type: array
           - type: 'null'
-          title: Api Key
-          description: API key for the agent
-        external_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: External Id
-          description: External identity ID
-        identity_provider:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Identity Provider
-          description: Identity provider name
-        idp_metadata:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Idp Metadata
-          description: IdP-specific metadata
+          title: Tags
       type: object
-      title: UnifiedImportRequest
-      description: 'Unified request model for agent import.
-
-
-        Supports five input methods (exactly one required), each with deterministic access level:
-
-
-        | Input Method | Mode   | Access Level | Description                          |
-
-        |--------------|--------|--------------|--------------------------------------|
-
-        | agent_url    | Remote | black_box    | Just an endpoint URL to call         |
-
-        | agent_card   | Local  | grey_box     | Upload agent configuration/card JSON |
-
-        | source_code  | Local  | white_box    | Upload agent source code files       |'
+      title: PolicyRuleUpdate
+      description: Request model for updating a policy rule. All fields are optional.
+    ApproveProposalRequest:
+      properties:
+        notes:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Notes
+      type: object
+      title: ApproveProposalRequest
     RuleProvenance:
       properties:
         extracted_by:
@@ -4287,7 +4834,7 @@ components:
       type: object
       title: RuleProvenance
       description: Provenance information for rule extraction.
-    ApproveProposalRequest:
+    RejectProposalRequest:
       properties:
         notes:
           anyOf:
@@ -4295,12 +4842,344 @@ components:
           - type: 'null'
           title: Notes
       type: object
-      title: ApproveProposalRequest
-    src__service_agent_environment__api__dimensions__ValueListResponse:
+      title: RejectProposalRequest
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    RuleConsequence:
+      properties:
+        action:
+          type: string
+          title: Action
+          default: warn
+        severity:
+          $ref: '#/components/schemas/Severity'
+          default: medium
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+      type: object
+      title: RuleConsequence
+      description: Consequence when rule is triggered.
+    ImportMetadata:
+      properties:
+        source:
+          anyOf:
+          - $ref: '#/components/schemas/ImportSource'
+          - type: 'null'
+        source_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source Url
+        imported_at:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Imported At
+        original_format:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Original Format
+      type: object
+      title: ImportMetadata
+      description: Metadata about how an agent was imported.
+    AgentConfigRequest:
+      properties:
+        id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Id
+        hub:
+          type: string
+          title: Hub
+          default: custom
+        model_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Model Name
+        agent_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Agent Name
+        agent_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Agent Url
+        hub_config:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Hub Config
+        status:
+          type: string
+          title: Status
+          default: active
+        api_key_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Api Key Id
+        api_key:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Api Key
+        agent_system_prompt:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Agent System Prompt
+        agent_policy_files:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Agent Policy Files
+        rag_params:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Rag Params
+        function_route_params:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Function Route Params
+        mcp_config:
+          anyOf:
+          - $ref: '#/components/schemas/MCPConfig'
+          - type: 'null'
+      type: object
+      title: AgentConfigRequest
+      description: 'Request model for creating agent configurations (POST /agent-configurations).
+
+
+        Used only by the create endpoint. The update endpoint (PUT /{id}) accepts
+
+        AgentUpdate instead.
+
+        model_name and agent_name are required for create (validated in endpoint).
+
+        hub_config, api_key_id, agent_policy_files are ignored for backward compat.'
+    Intent:
+      type: string
+      enum:
+      - benign
+      - curious
+      - adversarial
+      - malicious
+      title: Intent
+      description: Intent type of the persona.
+    AgentMetadata:
+      properties:
+        role:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Role
+        job_description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Job Description
+        version:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Version
+        author:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Author
+        tags:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Tags
+      type: object
+      title: AgentMetadata
+      description: Agent metadata for display and organization.
+    PersonaUpdate:
+      properties:
+        name:
+          anyOf:
+          - type: string
+            maxLength: 255
+            minLength: 1
+          - type: 'null'
+          title: Name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        role:
+          anyOf:
+          - type: string
+            maxLength: 100
+            minLength: 1
+          - type: 'null'
+          title: Role
+        role_description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Role Description
+        knowledge_level:
+          anyOf:
+          - $ref: '#/components/schemas/KnowledgeLevel'
+          - type: 'null'
+        skill_level:
+          anyOf:
+          - $ref: '#/components/schemas/SkillLevel'
+          - type: 'null'
+        intent:
+          anyOf:
+          - $ref: '#/components/schemas/Intent'
+          - type: 'null'
+        language:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Language
+        access_permissions:
+          anyOf:
+          - $ref: '#/components/schemas/PersonaAccessPermissions'
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Access Permissions
+        is_preset:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Is Preset
+        preset_category:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Preset Category
+        tags:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Tags
+        icon_filename:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Icon Filename
+      type: object
+      title: PersonaUpdate
+      description: Request model for updating a persona. All fields are optional.
+    DemographicDimension:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        name:
+          type: string
+          title: Name
+        display_name:
+          type: string
+          title: Display Name
+        protected_class:
+          type: boolean
+          title: Protected Class
+          default: true
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        created_at:
+          type: integer
+          title: Created At
+        values:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/DemographicValue'
+            type: array
+          - type: 'null'
+          title: Values
+      type: object
+      required:
+      - id
+      - name
+      - display_name
+      - created_at
+      title: DemographicDimension
+      description: 'A demographic dimension category for bias testing.
+
+
+        NOTE: Demographics are NOT persona attributes. They are dimension tables
+
+        used to substitute variables in prompt templates for bias testing.
+
+
+        Example: "Immigrants from {country} are a menace" - {country} is substituted
+
+        with each value from the country dimension to compare agent responses.
+
+
+        Protected Class Dimensions (US Law):
+
+        - race: White, Black, Asian, Hispanic, Native American
+
+        - religion: Christian, Muslim, Jewish, Hindu, Buddhist, Atheist
+
+        - national_origin: Mexico, China, India, Nigeria, Germany, ...
+
+        - sex: Male, Female
+
+        - age_group: 18-25, 26-40, 41-55, 56-65, 65+
+
+        - disability_status: None, Physical, Cognitive, Sensory
+
+        - veteran_status: Veteran, Non-veteran, Active duty
+
+        - pregnancy_status: Pregnant, Not pregnant'
+    src__service_agent_environment__api__dimensions__DimensionListResponse:
       properties:
         results:
           items:
-            $ref: '#/components/schemas/DemographicValue'
+            $ref: '#/components/schemas/DemographicDimension'
           type: array
           title: Results
         count:
@@ -4310,16 +5189,14 @@ components:
       required:
       - results
       - count
-      title: ValueListResponse
-      description: Response model for listing values.
-    DemographicValueUpdate:
+      title: DimensionListResponse
+      description: Response model for listing dimensions.
+    DemographicValueCreate:
       properties:
         value:
-          anyOf:
-          - type: string
-            maxLength: 255
-            minLength: 1
-          - type: 'null'
+          type: string
+          maxLength: 255
+          minLength: 1
           title: Value
         display_name:
           anyOf:
@@ -4333,13 +5210,677 @@ components:
           - type: 'null'
           title: Metadata
         sort_order:
+          type: integer
+          title: Sort Order
+          default: 0
+      type: object
+      required:
+      - value
+      title: DemographicValueCreate
+      description: Request model for creating a demographic value.
+    src__service_agent_environment__api__policies__RuleListResponse:
+      properties:
+        results:
+          items:
+            $ref: '#/components/schemas/PolicyRule'
+          type: array
+          title: Results
+        total:
+          type: integer
+          title: Total
+      type: object
+      required:
+      - results
+      - total
+      title: RuleListResponse
+      description: 'Response model for rules list with pagination.
+
+
+        - results: Items in the current page.
+
+        - total: Total number of rules (across all pages if paginated).'
+    AgentStatus:
+      type: string
+      enum:
+      - draft
+      - creating
+      - active
+      - under_review
+      - deprecated
+      - archived
+      - pending
+      - rejected
+      title: AgentStatus
+      description: Agent status values.
+    ProtocolType:
+      type: string
+      enum:
+      - chat_completions
+      - a2a
+      title: ProtocolType
+      description: Communication protocol for agent endpoints.
+    DelegatedAgent:
+      properties:
+        url:
+          type: string
+          title: Url
+        agent_card_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Agent Card Url
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+        capabilities:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Capabilities
+      type: object
+      required:
+      - url
+      title: DelegatedAgent
+      description: Reference to a delegated agent.
+    AgentLifecycleUpdate:
+      properties:
+        trust_stage:
+          $ref: '#/components/schemas/TrustLifecycleStage'
+      type: object
+      required:
+      - trust_stage
+      title: AgentLifecycleUpdate
+      description: Request model for updating an agent's trust lifecycle stage.
+    PolicyRuleCreate:
+      properties:
+        id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Id
+        rule_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Rule Id
+        rule_type:
+          $ref: '#/components/schemas/RuleType'
+        action:
+          type: string
+          maxLength: 100
+          minLength: 1
+          title: Action
+        target:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Target
+        assignee:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Assignee
+          default: agent
+        constraints:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/RuleConstraint'
+            type: array
+          - items:
+              additionalProperties: true
+              type: object
+            type: array
+          title: Constraints
+          default: []
+        conditions:
+          anyOf:
+          - items:
+              additionalProperties: true
+              type: object
+            type: array
+          - type: 'null'
+          title: Conditions
+        constraint_logic:
+          type: string
+          title: Constraint Logic
+          default: all
+        consequence:
+          anyOf:
+          - $ref: '#/components/schemas/RuleConsequence'
+          - additionalProperties: true
+            type: object
+          title: Consequence
+        natural_language:
+          type: string
+          minLength: 1
+          title: Natural Language
+        category:
+          $ref: '#/components/schemas/PolicyCategory'
+          default: security
+        status:
+          $ref: '#/components/schemas/RuleStatus'
+          default: draft
+        tags:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Tags
+      type: object
+      required:
+      - rule_type
+      - action
+      - consequence
+      - natural_language
+      title: PolicyRuleCreate
+      description: Request model for creating a policy rule manually.
+    RuleConstraint:
+      properties:
+        condition_type:
+          type: string
+          title: Condition Type
+        field:
+          type: string
+          title: Field
+        operator:
+          type: string
+          title: Operator
+        value:
+          anyOf:
+          - type: string
+          - type: integer
+          - type: number
+          - type: boolean
+          - items:
+              type: string
+            type: array
+          title: Value
+      type: object
+      required:
+      - condition_type
+      - field
+      - operator
+      - value
+      title: RuleConstraint
+      description: Constraint for conditional rule application.
+    DataAccessScope:
+      type: string
+      enum:
+      - own
+      - team
+      - organization
+      - global
+      title: DataAccessScope
+      description: Data access scope for persona testing.
+    ProtectionStatus:
+      type: string
+      enum:
+      - unprotected
+      - configured
+      - domed
+      title: ProtectionStatus
+      description: Dome protection lifecycle state.
+    MCPAccessLevel:
+      type: string
+      enum:
+      - read
+      - write
+      - admin
+      title: MCPAccessLevel
+      description: MCP (Model Context Protocol) access level values.
+    src__service_agent_environment__api__rules__RuleListResponse:
+      properties:
+        results:
+          items:
+            $ref: '#/components/schemas/PolicyRule'
+          type: array
+          title: Results
+        count:
+          type: integer
+          title: Count
+      type: object
+      required:
+      - results
+      - count
+      title: RuleListResponse
+      description: Response model for list endpoints with pagination.
+    ImportSource:
+      type: string
+      enum:
+      - manual
+      title: ImportSource
+      description: Import source for agent configuration.
+    PersonaAccessPermissions:
+      properties:
+        privilege_level:
+          $ref: '#/components/schemas/PrivilegeLevel'
+          default: user
+        allowed_agents:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Allowed Agents
+        allowed_tools:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Allowed Tools
+        restricted_actions:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Restricted Actions
+        data_access_scope:
+          anyOf:
+          - $ref: '#/components/schemas/DataAccessScope'
+          - type: 'null'
+      type: object
+      title: PersonaAccessPermissions
+      description: 'Access permissions for persona - used for test scenario definition.
+
+
+        NOTE: This is NOT for actual RBAC enforcement - it defines expected access
+
+        for generating test cases to verify agent access control.'
+    SourceCodeUpload:
+      properties:
+        files:
+          additionalProperties:
+            type: string
+          type: object
+          title: Files
+          description: Map of filename to content. Use 'main.py' for single file uploads.
+        entry_point:
+          type: string
+          title: Entry Point
+          description: Main entry point file (must exist in files)
+          default: main.py
+        framework:
+          type: string
+          title: Framework
+          description: Framework identifier (for informational purposes only)
+          default: unknown
+        agent_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Agent Name
+          description: Agent name (extracted from code if not provided)
+        model_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Model Name
+          description: Model name used by the agent
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: Agent description
+        system_prompt:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: System Prompt
+          description: System prompt if known
+        tools:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Tools
+          description: List of tools/functions the agent uses
+      type: object
+      required:
+      - files
+      title: SourceCodeUpload
+      description: 'Model for direct source code upload.
+
+
+        Supports single file or multi-file upload for white box agent import.'
+    TrustStage:
+      type: string
+      enum:
+      - registered
+      - tested
+      - hardened
+      - trusted
+      - optimized
+      - adapted
+      title: TrustStage
+      description: 'Trust maturity stages for the Kanban board.
+
+
+        Agents flow left-to-right as they mature:
+
+        Registered -> Tested -> Hardened -> Trusted -> Optimized -> Adapted'
+    PolicyRule:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        policy_id:
+          type: string
+          format: uuid
+          title: Policy Id
+        rule_id:
+          type: string
+          title: Rule Id
+        rule_type:
+          $ref: '#/components/schemas/RuleType'
+        action:
+          type: string
+          title: Action
+        target:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Target
+        assignee:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Assignee
+          default: agent
+        constraints:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/RuleConstraint'
+            type: array
+          - items:
+              additionalProperties: true
+              type: object
+            type: array
+          title: Constraints
+          default: []
+        constraint_logic:
+          type: string
+          title: Constraint Logic
+          default: all
+        consequence:
+          anyOf:
+          - $ref: '#/components/schemas/RuleConsequence'
+          - additionalProperties: true
+            type: object
+          title: Consequence
+        natural_language:
+          type: string
+          title: Natural Language
+        provenance:
+          anyOf:
+          - $ref: '#/components/schemas/RuleProvenance'
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Provenance
+        category:
+          anyOf:
+          - $ref: '#/components/schemas/PolicyCategory'
+          - type: 'null'
+        tags:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Tags
+        status:
+          $ref: '#/components/schemas/RuleStatus'
+          default: draft
+        reviewed_by:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Reviewed By
+        reviewed_at:
           anyOf:
           - type: integer
           - type: 'null'
-          title: Sort Order
+          title: Reviewed At
+        review_notes:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Review Notes
+        created_at:
+          type: integer
+          title: Created At
+        updated_at:
+          type: integer
+          title: Updated At
       type: object
-      title: DemographicValueUpdate
-      description: Request model for updating a demographic value.
+      required:
+      - id
+      - policy_id
+      - rule_id
+      - rule_type
+      - action
+      - consequence
+      - natural_language
+      - created_at
+      - updated_at
+      title: PolicyRule
+      description: 'Domain model for Policy Rule.
+
+
+        This follows an ODRL-inspired schema:
+
+        - rule_type: permission/prohibition/obligation/recommendation
+
+        - action: what action this rule governs
+
+        - target: what asset/data is affected
+
+        - assignee: who must comply (usually "agent")
+
+        - constraints: conditions under which rule applies
+
+        - consequence: what happens when rule is violated'
+    SourceLocation:
+      properties:
+        section:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Section
+        paragraph:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Paragraph
+        char_start:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Char Start
+        char_end:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Char End
+        source_text:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source Text
+      type: object
+      title: SourceLocation
+      description: Location in source document where rule was extracted from.
+    WhiteBoxConfig-Output:
+      properties:
+        source_code:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source Code
+        repo_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Repo Url
+        github_username:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Github Username
+        repo_branch:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Repo Branch
+        entry_point:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Entry Point
+      type: object
+      title: WhiteBoxConfig
+      description: Source code access configuration for white box analysis.
+    ProposedMutation:
+      properties:
+        gene_name:
+          type: string
+          title: Gene Name
+        current_value:
+          title: Current Value
+        proposed_value:
+          title: Proposed Value
+        rationale:
+          type: string
+          title: Rationale
+        confidence:
+          type: number
+          title: Confidence
+      type: object
+      required:
+      - gene_name
+      - current_value
+      - proposed_value
+      - rationale
+      - confidence
+      title: ProposedMutation
+      description: A single proposed gene mutation.
+    Proposal:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        team_id:
+          type: string
+          format: uuid
+          title: Team Id
+        agent_id:
+          type: string
+          format: uuid
+          title: Agent Id
+        genome_id:
+          type: string
+          format: uuid
+          title: Genome Id
+        genome_version:
+          type: integer
+          title: Genome Version
+        status:
+          type: string
+          title: Status
+        created_at:
+          type: integer
+          title: Created At
+        trigger_summary:
+          type: string
+          title: Trigger Summary
+          default: ''
+        mutations:
+          items:
+            $ref: '#/components/schemas/ProposedMutation'
+          type: array
+          title: Mutations
+          default: []
+        pre_fitness:
+          anyOf:
+          - additionalProperties:
+              type: number
+            type: object
+          - type: 'null'
+          title: Pre Fitness
+        post_fitness:
+          anyOf:
+          - additionalProperties:
+              type: number
+            type: object
+          - type: 'null'
+          title: Post Fitness
+        fitness_delta:
+          anyOf:
+          - additionalProperties:
+              type: number
+            type: object
+          - type: 'null'
+          title: Fitness Delta
+        net_fitness_delta:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Net Fitness Delta
+        reviewed_at:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Reviewed At
+        reviewed_by:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Reviewed By
+        reviewer_notes:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Reviewer Notes
+        engine_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Engine Name
+        extra:
+          additionalProperties: true
+          type: object
+          title: Extra
+          default: {}
+      type: object
+      required:
+      - id
+      - team_id
+      - agent_id
+      - genome_id
+      - genome_version
+      - status
+      - created_at
+      title: Proposal
+      description: 'Console-side view of a Darwin mutation proposal.
+
+
+        Captures the fields Console needs for display and review workflow.
+
+        Additional Darwin-specific fields are preserved in `extra`.'
     ToolPermission:
       properties:
         name:
@@ -4537,611 +6078,94 @@ components:
       - updated_at
       title: Agent
       description: Agent domain model.
-    ProtectionStatus:
-      type: string
-      enum:
-      - unprotected
-      - configured
-      - domed
-      title: ProtectionStatus
-      description: Dome protection lifecycle state.
-    SourceLocation:
+    TimeToTrustMetrics:
       properties:
-        section:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Section
-        paragraph:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Paragraph
-        char_start:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Char Start
-        char_end:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Char End
-        source_text:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Source Text
-      type: object
-      title: SourceLocation
-      description: Location in source document where rule was extracted from.
-    AgentTrustCard:
-      properties:
-        id:
-          type: string
-          title: Id
-        name:
-          type: string
-          title: Name
-        stage:
-          $ref: '#/components/schemas/TrustStage'
-        trust_scores:
-          additionalProperties:
-            type: number
-          type: object
-          title: Trust Scores
-        trust_breakdown:
-          additionalProperties:
-            $ref: '#/components/schemas/PillarBreakdown'
-          type: object
-          title: Trust Breakdown
-        redteam_findings_by_category:
-          additionalProperties:
-            type: integer
-          type: object
-          title: Redteam Findings By Category
-        under_attack:
-          type: boolean
-          title: Under Attack
-          default: false
-        pending_prs:
-          type: integer
-          title: Pending Prs
-          default: 0
-        evaluating:
-          type: boolean
-          title: Evaluating
-          default: false
-        darwin_cycles:
-          type: integer
-          title: Darwin Cycles
-          default: 0
-        time_in_stage_hours:
-          type: integer
-          title: Time In Stage Hours
-          default: 0
-        ttt_days:
+        average_days:
           anyOf:
           - type: number
           - type: 'null'
-          title: Ttt Days
-        dome_protected:
-          type: boolean
-          title: Dome Protected
-          default: false
-        owner_name:
+          title: Average Days
+        trend_pct:
           anyOf:
-          - type: string
+          - type: number
           - type: 'null'
-          title: Owner Name
-      type: object
-      required:
-      - id
-      - name
-      - stage
-      title: AgentTrustCard
-      description: A single agent card on the Kanban board.
-    PillarBreakdown:
-      properties:
-        overall:
-          type: number
-          title: Overall
-          default: 0
-        detectors:
-          additionalProperties: true
-          type: object
-          title: Detectors
-      type: object
-      title: PillarBreakdown
-      description: Nested trust scores for one pillar with detector-level detail.
-    MCPConfig:
-      properties:
-        proxy_url:
+          title: Trend Pct
+        recovery_avg_days:
           anyOf:
-          - type: string
-            maxLength: 2083
-            minLength: 1
-            format: uri
+          - type: number
           - type: 'null'
-          title: Proxy Url
-        access_level:
-          anyOf:
-          - $ref: '#/components/schemas/MCPAccessLevel'
-          - type: 'null'
-        server_urls:
-          anyOf:
-          - items:
-              type: string
-              maxLength: 2083
-              minLength: 1
-              format: uri
-            type: array
-          - type: 'null'
-          title: Server Urls
+          title: Recovery Avg Days
       type: object
-      title: MCPConfig
-      description: MCP (Model Context Protocol) proxy configuration.
-    FleetHealthMetrics:
+      title: TimeToTrustMetrics
+      description: Time-to-Trust hero metric.
+    AgentEvaluationConfig:
       properties:
-        by_stage:
-          additionalProperties:
-            type: integer
-          type: object
-          title: By Stage
-        under_attack:
-          type: integer
-          title: Under Attack
-          default: 0
-      type: object
-      title: FleetHealthMetrics
-      description: Fleet Health hero metric.
-    Policy:
-      properties:
-        id:
+        hub:
           type: string
-          format: uuid
-          title: Id
-        team_id:
+          title: Hub
+          description: Hub type for routing to correct SDK client
+          default: custom
+        protocol:
+          $ref: '#/components/schemas/ProtocolType'
+          description: Agent protocol; used when normalizing agent_url for evaluation.
+          default: chat_completions
+        agent_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Agent Url
+          description: Agent/LLM endpoint URL. Required for black box agents and custom hub grey/white box agents.
+        agent_api_key:
           type: string
-          format: uuid
-          title: Team Id
-        name:
+          title: Agent Api Key
+        agent_model_name:
           type: string
-          title: Name
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-        category:
-          $ref: '#/components/schemas/PolicyCategory'
-        status:
-          $ref: '#/components/schemas/PolicyStatus'
-          default: draft
-        source_text:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Source Text
-        file_path:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: File Path
-        file_name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: File Name
-        file_type:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: File Type
-        file_size_bytes:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: File Size Bytes
-        converted_file_path:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Converted File Path
-        is_preset:
-          type: boolean
-          title: Is Preset
-          default: false
-        preset_source:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Preset Source
-        tags:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Tags
-        created_at:
-          type: integer
-          title: Created At
-        updated_at:
-          type: integer
-          title: Updated At
-        created_by:
-          type: string
-          format: uuid
-          title: Created By
-      type: object
-      required:
-      - id
-      - team_id
-      - name
-      - category
-      - created_at
-      - updated_at
-      - created_by
-      title: Policy
-      description: Domain model for Policy document.
-    OrganizationConstraints:
-      properties:
-        required_input_guards:
-          items:
-            type: string
-          type: array
-          title: Required Input Guards
-        required_output_guards:
-          items:
-            type: string
-          type: array
-          title: Required Output Guards
-        denied_tools:
-          items:
-            type: string
-          type: array
-          title: Denied Tools
-        max_model_tier:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Max Model Tier
-      type: object
-      required:
-      - required_input_guards
-      - required_output_guards
-      - denied_tools
-      title: OrganizationConstraints
-      description: Organization-level policy constraints applied to all agents in the org.
-    ImportSource:
-      type: string
-      enum:
-      - manual
-      title: ImportSource
-      description: Import source for agent configuration.
-    AgentConfigListResponse:
-      properties:
-        results:
-          items:
-            $ref: '#/components/schemas/Agent'
-          type: array
-          title: Results
-        count:
-          type: integer
-          title: Count
-      type: object
-      required:
-      - results
-      - count
-      title: AgentConfigListResponse
-      description: List response model.
-    AgentSkill:
-      properties:
-        id:
-          type: string
-          title: Id
-        name:
-          type: string
-          title: Name
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-        input_modes:
-          items:
-            type: string
-          type: array
-          title: Input Modes
-        output_modes:
-          items:
-            type: string
-          type: array
-          title: Output Modes
-      type: object
-      required:
-      - id
-      - name
-      title: AgentSkill
-      description: An agent skill definition (for A2A protocol agents).
-    src__service_agent_environment__api__policies__RuleListResponse:
-      properties:
-        results:
-          items:
-            $ref: '#/components/schemas/PolicyRule'
-          type: array
-          title: Results
-        total:
-          type: integer
-          title: Total
-      type: object
-      required:
-      - results
-      - total
-      title: RuleListResponse
-      description: 'Response model for rules list with pagination.
-
-
-        - results: Items in the current page.
-
-        - total: Total number of rules (across all pages if paginated).'
-    AccessLevel:
-      type: string
-      enum:
-      - black_box
-      - grey_box
-      - white_box
-      title: AccessLevel
-      description: 'Access level for agent analysis.
-
-
-        Black Box: URL only - behavioral testing only
-
-        Grey Box: Agent configuration - structure/capabilities analysis
-
-        White Box: Source code access - full code + sandbox runtime analysis'
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    UnifiedValidationResponse:
-      properties:
-        valid:
-          type: boolean
-          title: Valid
-        access_level:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Access Level
-        agent_card:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Agent Card
-        errors:
-          items:
-            type: string
-          type: array
-          title: Errors
-          default: []
-        warnings:
-          items:
-            type: string
-          type: array
-          title: Warnings
-          default: []
-        external_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: External Id
-        identity_provider:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Identity Provider
-      type: object
-      required:
-      - valid
-      title: UnifiedValidationResponse
-      description: 'Response model for unified validation.
-
-
-        Returns validation status and parsed agent card for preview.'
-    PolicyUpdate:
-      properties:
-        name:
-          anyOf:
-          - type: string
-            maxLength: 255
-            minLength: 1
-          - type: 'null'
-          title: Name
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-        category:
-          anyOf:
-          - $ref: '#/components/schemas/PolicyCategory'
-          - type: 'null'
-        status:
-          anyOf:
-          - $ref: '#/components/schemas/PolicyStatus'
-          - type: 'null'
-        source_text:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Source Text
-        tags:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Tags
-      type: object
-      title: PolicyUpdate
-      description: Request model for updating a policy. All fields are optional.
-    SourceCodeUpload:
-      properties:
-        files:
-          additionalProperties:
-            type: string
-          type: object
-          title: Files
-          description: Map of filename to content. Use 'main.py' for single file uploads.
-        entry_point:
-          type: string
-          title: Entry Point
-          description: Main entry point file (must exist in files)
-          default: main.py
-        framework:
-          type: string
-          title: Framework
-          description: Framework identifier (for informational purposes only)
-          default: unknown
+          title: Agent Model Name
         agent_name:
           anyOf:
           - type: string
           - type: 'null'
           title: Agent Name
-          description: Agent name (extracted from code if not provided)
-        model_name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Model Name
-          description: Model name used by the agent
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-          description: Agent description
-        system_prompt:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: System Prompt
-          description: System prompt if known
-        tools:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Tools
-          description: List of tools/functions the agent uses
+          description: Human-readable name of the agent (for reports and display)
+        rate_limit_requests_per_minute:
+          type: integer
+          minimum: 1
+          title: Rate Limit Requests Per Minute
+          description: Rate limit for API requests per minute
+          default: 100
       type: object
       required:
-      - files
-      title: SourceCodeUpload
-      description: 'Model for direct source code upload.
+      - agent_api_key
+      - agent_model_name
+      title: AgentEvaluationConfig
+      description: 'Configuration for Diamond evaluation (resolved from agent).
 
 
-        Supports single file or multi-file upload for white box agent import.'
-    PrivilegeLevel:
-      type: string
-      enum:
-      - guest
-      - user
-      - power_user
-      - admin
-      - super_admin
-      title: PrivilegeLevel
-      description: Privilege level for persona access control testing.
-    ProposalList:
+        URL requirements depend on access level:
+
+        - Black Box: agent_url is ALWAYS required (it''s where the opaque agent lives)
+
+        - Grey/White Box: agent_url is only required for non-standard hubs (custom LLM endpoints)
+
+
+        For standard hubs (OpenAI, Anthropic, etc.) in grey/white box mode,
+
+        the SDK uses default endpoints so no URL is needed.
+
+
+        ``protocol`` is included in workflow params so the Diamond worker can normalize ``agent_url``
+
+        (e.g. ``.../v1/`` for chat_completions) even when the stored workflow predates registry fixes.'
+    Body_upload_file_v1_policies__policy_id__upload_post:
       properties:
-        items:
-          items:
-            $ref: '#/components/schemas/Proposal'
-          type: array
-          title: Items
-        total:
-          type: integer
-          title: Total
-        limit:
-          type: integer
-          title: Limit
-        offset:
-          type: integer
-          title: Offset
-      type: object
-      required:
-      - items
-      - total
-      - limit
-      - offset
-      title: ProposalList
-      description: Paginated list of proposals from Darwin.
-    TrustStage:
-      type: string
-      enum:
-      - registered
-      - tested
-      - hardened
-      - trusted
-      - optimized
-      - adapted
-      title: TrustStage
-      description: 'Trust maturity stages for the Kanban board.
-
-
-        Agents flow left-to-right as they mature:
-
-        Registered -> Tested -> Hardened -> Trusted -> Optimized -> Adapted'
-    AgentLatestEvaluation:
-      properties:
-        evaluation_id:
+        file:
           type: string
-          format: uuid
-          title: Evaluation Id
-        overall_score:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Overall Score
-        reliability_score:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Reliability Score
-        security_score:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Security Score
-        safety_score:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Safety Score
-        completed_at:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Completed At
+          format: binary
+          title: File
       type: object
       required:
-      - evaluation_id
-      title: AgentLatestEvaluation
-      description: 'Latest completed evaluation scores for an agent.
-
-
-        Sideloaded on GET /agent-configurations when include_scores=true.
-
-        Contains only domain-level score data — no UI or presentation concerns.'
+      - file
+      title: Body_upload_file_v1_policies__policy_id__upload_post
     UnifiedImportResponse:
       properties:
         agent:
@@ -5171,844 +6195,37 @@ components:
       - access_level
       title: UnifiedImportResponse
       description: Response model for unified import.
-    src__service_agent_environment__api__rules__RuleListResponse:
+    RuleType:
+      type: string
+      enum:
+      - permission
+      - prohibition
+      - obligation
+      - recommendation
+      title: RuleType
+      description: Type of policy rule (ODRL-inspired).
+    AgentParams:
       properties:
-        results:
-          items:
-            $ref: '#/components/schemas/PolicyRule'
-          type: array
-          title: Results
-        count:
-          type: integer
-          title: Count
-      type: object
-      required:
-      - results
-      - count
-      title: RuleListResponse
-      description: Response model for list endpoints with pagination.
-    src__service_agent_environment__api__dimensions__DimensionListResponse:
-      properties:
-        results:
-          items:
-            $ref: '#/components/schemas/DemographicDimension'
-          type: array
-          title: Results
-        count:
-          type: integer
-          title: Count
-      type: object
-      required:
-      - results
-      - count
-      title: DimensionListResponse
-      description: Response model for listing dimensions.
-    PersonaUpdate:
-      properties:
-        name:
-          anyOf:
-          - type: string
-            maxLength: 255
-            minLength: 1
-          - type: 'null'
-          title: Name
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-        role:
-          anyOf:
-          - type: string
-            maxLength: 100
-            minLength: 1
-          - type: 'null'
-          title: Role
-        role_description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Role Description
-        knowledge_level:
-          anyOf:
-          - $ref: '#/components/schemas/KnowledgeLevel'
-          - type: 'null'
-        skill_level:
-          anyOf:
-          - $ref: '#/components/schemas/SkillLevel'
-          - type: 'null'
-        intent:
-          anyOf:
-          - $ref: '#/components/schemas/Intent'
-          - type: 'null'
-        language:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Language
-        access_permissions:
-          anyOf:
-          - $ref: '#/components/schemas/PersonaAccessPermissions'
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Access Permissions
-        is_preset:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Is Preset
-        preset_category:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Preset Category
-        tags:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Tags
-        icon_filename:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Icon Filename
-      type: object
-      title: PersonaUpdate
-      description: Request model for updating a persona. All fields are optional.
-    EvolutionJob:
-      properties:
-        evolution_id:
-          type: string
-          title: Evolution Id
-        status:
-          type: string
-          title: Status
-        agent_id:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Agent Id
-        team_id:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Team Id
-        extra:
-          additionalProperties: true
-          type: object
-          title: Extra
-          default: {}
-      type: object
-      required:
-      - evolution_id
-      - status
-      title: EvolutionJob
-      description: Console-side view of a Darwin evolution job.
-    PolicyListResponse:
-      properties:
-        results:
-          items:
-            $ref: '#/components/schemas/Policy'
-          type: array
-          title: Results
-        total:
-          type: integer
-          title: Total
-      type: object
-      required:
-      - results
-      - total
-      title: PolicyListResponse
-      description: 'Response model for list endpoints with pagination.
-
-
-        - results: Items in the current page (length may be less than limit on last page).
-
-        - total: Total number of items across all pages (before pagination).'
-    AdaptivityMetrics:
-      properties:
-        acceptance_rate:
+        temperature:
           anyOf:
           - type: number
           - type: 'null'
-          title: Acceptance Rate
-        proposed:
-          type: integer
-          title: Proposed
-          default: 0
-        merged:
-          type: integer
-          title: Merged
-          default: 0
-        trend_pct:
+          title: Temperature
+        top_p:
           anyOf:
           - type: number
           - type: 'null'
-          title: Trend Pct
-      type: object
-      title: AdaptivityMetrics
-      description: Adaptivity hero metric.
-    AgentCapabilities:
-      properties:
-        streaming:
-          type: boolean
-          title: Streaming
-          default: false
-        push_notifications:
-          type: boolean
-          title: Push Notifications
-          default: false
-        code_execution:
-          type: boolean
-          title: Code Execution
-          default: false
-        memory:
-          type: boolean
-          title: Memory
-          default: false
-        delegation:
-          type: boolean
-          title: Delegation
-          default: false
-        tools:
-          items:
-            type: string
-          type: array
-          title: Tools
-      type: object
-      title: AgentCapabilities
-      description: Agent capability flags.
-    Proposal:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        team_id:
-          type: string
-          format: uuid
-          title: Team Id
-        agent_id:
-          type: string
-          format: uuid
-          title: Agent Id
-        genome_id:
-          type: string
-          format: uuid
-          title: Genome Id
-        genome_version:
-          type: integer
-          title: Genome Version
-        status:
-          type: string
-          title: Status
-        created_at:
-          type: integer
-          title: Created At
-        trigger_summary:
-          type: string
-          title: Trigger Summary
-          default: ''
-        mutations:
-          items:
-            $ref: '#/components/schemas/ProposedMutation'
-          type: array
-          title: Mutations
-          default: []
-        pre_fitness:
-          anyOf:
-          - additionalProperties:
-              type: number
-            type: object
-          - type: 'null'
-          title: Pre Fitness
-        post_fitness:
-          anyOf:
-          - additionalProperties:
-              type: number
-            type: object
-          - type: 'null'
-          title: Post Fitness
-        fitness_delta:
-          anyOf:
-          - additionalProperties:
-              type: number
-            type: object
-          - type: 'null'
-          title: Fitness Delta
-        net_fitness_delta:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Net Fitness Delta
-        reviewed_at:
+          title: Top P
+        max_tokens:
           anyOf:
           - type: integer
           - type: 'null'
-          title: Reviewed At
-        reviewed_by:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Reviewed By
-        reviewer_notes:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Reviewer Notes
-        engine_name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Engine Name
-        extra:
-          additionalProperties: true
-          type: object
-          title: Extra
-          default: {}
-      type: object
-      required:
-      - id
-      - team_id
-      - agent_id
-      - genome_id
-      - genome_version
-      - status
-      - created_at
-      title: Proposal
-      description: 'Console-side view of a Darwin mutation proposal.
-
-
-        Captures the fields Console needs for display and review workflow.
-
-        Additional Darwin-specific fields are preserved in `extra`.'
-    Body_upload_file_v1_policies__policy_id__upload_post:
-      properties:
-        file:
-          type: string
-          format: binary
-          title: File
-      type: object
-      required:
-      - file
-      title: Body_upload_file_v1_policies__policy_id__upload_post
-    RuleConstraint:
-      properties:
-        condition_type:
-          type: string
-          title: Condition Type
-        field:
-          type: string
-          title: Field
-        operator:
-          type: string
-          title: Operator
-        value:
-          anyOf:
-          - type: string
-          - type: integer
-          - type: number
-          - type: boolean
-          - items:
-              type: string
-            type: array
-          title: Value
-      type: object
-      required:
-      - condition_type
-      - field
-      - operator
-      - value
-      title: RuleConstraint
-      description: Constraint for conditional rule application.
-    DelegatedAgent:
-      properties:
-        url:
-          type: string
-          title: Url
-        agent_card_url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Agent Card Url
-        name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Name
-        capabilities:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Capabilities
-      type: object
-      required:
-      - url
-      title: DelegatedAgent
-      description: Reference to a delegated agent.
-    PersonaCreate:
-      properties:
-        id:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Id
-        team_id:
-          type: string
-          format: uuid
-          title: Team Id
-        name:
-          type: string
-          maxLength: 255
-          minLength: 1
-          title: Name
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-        role:
-          type: string
-          maxLength: 100
-          minLength: 1
-          title: Role
-        role_description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Role Description
-        knowledge_level:
-          $ref: '#/components/schemas/KnowledgeLevel'
-          default: intermediate
-        skill_level:
-          $ref: '#/components/schemas/SkillLevel'
-          default: competent
-        intent:
-          $ref: '#/components/schemas/Intent'
-          default: benign
-        language:
-          type: string
-          title: Language
-          default: en
-        access_permissions:
-          anyOf:
-          - $ref: '#/components/schemas/PersonaAccessPermissions'
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Access Permissions
-        is_preset:
-          type: boolean
-          title: Is Preset
-          default: false
-        preset_category:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Preset Category
-        tags:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Tags
-        icon_filename:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Icon Filename
-      type: object
-      required:
-      - team_id
-      - name
-      - role
-      title: PersonaCreate
-      description: Request model for creating a persona.
-    AgentDomeConfigResponse:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        status:
-          type: string
-          title: Status
-          default: pending
-        agent_id:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Agent Id
-        config_body:
-          additionalProperties: true
-          type: object
-          title: Config Body
-        dome_instance_url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Dome Instance Url
-        created_at:
-          type: integer
-          title: Created At
-        created_by:
-          type: string
-          format: uuid
-          title: Created By
-        updated_at:
+          title: Max Tokens
+        timeout:
           anyOf:
           - type: integer
           - type: 'null'
-          title: Updated At
-        updated_by:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Updated By
-      type: object
-      required:
-      - id
-      - created_at
-      - created_by
-      title: AgentDomeConfigResponse
-      description: Dome config in use for an agent (same wire shape as ``GET /dome-configs/{config_id}``).
-    Persona:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        team_id:
-          type: string
-          format: uuid
-          title: Team Id
-        name:
-          type: string
-          title: Name
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-        role:
-          type: string
-          title: Role
-        role_description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Role Description
-        knowledge_level:
-          $ref: '#/components/schemas/KnowledgeLevel'
-          default: intermediate
-        skill_level:
-          $ref: '#/components/schemas/SkillLevel'
-          default: competent
-        intent:
-          $ref: '#/components/schemas/Intent'
-          default: benign
-        language:
-          type: string
-          title: Language
-          default: en
-        access_permissions:
-          anyOf:
-          - $ref: '#/components/schemas/PersonaAccessPermissions'
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Access Permissions
-        is_preset:
-          type: boolean
-          title: Is Preset
-          default: false
-        preset_category:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Preset Category
-        tags:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Tags
-        icon_filename:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Icon Filename
-        created_at:
-          type: integer
-          title: Created At
-        updated_at:
-          type: integer
-          title: Updated At
-        created_by:
-          type: string
-          format: uuid
-          title: Created By
-      type: object
-      required:
-      - id
-      - team_id
-      - name
-      - role
-      - created_at
-      - updated_at
-      - created_by
-      title: Persona
-      description: Domain model for Persona archetype.
-    PolicyCreate:
-      properties:
-        id:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Id
-        name:
-          type: string
-          maxLength: 255
-          minLength: 1
-          title: Name
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-        category:
-          $ref: '#/components/schemas/PolicyCategory'
-        source_text:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Source Text
-        tags:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Tags
-      type: object
-      required:
-      - name
-      - category
-      title: PolicyCreate
-      description: Request model for creating a policy.
-    RuleConsequence:
-      properties:
-        action:
-          type: string
-          title: Action
-          default: warn
-        severity:
-          $ref: '#/components/schemas/Severity'
-          default: medium
-        message:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Message
-      type: object
-      title: RuleConsequence
-      description: Consequence when rule is triggered.
-    PolicyRule:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        policy_id:
-          type: string
-          format: uuid
-          title: Policy Id
-        rule_id:
-          type: string
-          title: Rule Id
-        rule_type:
-          $ref: '#/components/schemas/RuleType'
-        action:
-          type: string
-          title: Action
-        target:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Target
-        assignee:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Assignee
-          default: agent
-        constraints:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/RuleConstraint'
-            type: array
-          - items:
-              additionalProperties: true
-              type: object
-            type: array
-          title: Constraints
-          default: []
-        constraint_logic:
-          type: string
-          title: Constraint Logic
-          default: all
-        consequence:
-          anyOf:
-          - $ref: '#/components/schemas/RuleConsequence'
-          - additionalProperties: true
-            type: object
-          title: Consequence
-        natural_language:
-          type: string
-          title: Natural Language
-        provenance:
-          anyOf:
-          - $ref: '#/components/schemas/RuleProvenance'
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Provenance
-        category:
-          anyOf:
-          - $ref: '#/components/schemas/PolicyCategory'
-          - type: 'null'
-        tags:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Tags
-        status:
-          $ref: '#/components/schemas/RuleStatus'
-          default: draft
-        reviewed_by:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Reviewed By
-        reviewed_at:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Reviewed At
-        review_notes:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Review Notes
-        created_at:
-          type: integer
-          title: Created At
-        updated_at:
-          type: integer
-          title: Updated At
-      type: object
-      required:
-      - id
-      - policy_id
-      - rule_id
-      - rule_type
-      - action
-      - consequence
-      - natural_language
-      - created_at
-      - updated_at
-      title: PolicyRule
-      description: 'Domain model for Policy Rule.
-
-
-        This follows an ODRL-inspired schema:
-
-        - rule_type: permission/prohibition/obligation/recommendation
-
-        - action: what action this rule governs
-
-        - target: what asset/data is affected
-
-        - assignee: who must comply (usually "agent")
-
-        - constraints: conditions under which rule applies
-
-        - consequence: what happens when rule is violated'
-    AgentConfigRequest:
-      properties:
-        id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Id
-        hub:
-          type: string
-          title: Hub
-          default: custom
-        model_name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Model Name
-        agent_name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Agent Name
-        agent_url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Agent Url
-        hub_config:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Hub Config
-        status:
-          type: string
-          title: Status
-          default: active
-        api_key_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Api Key Id
-        api_key:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Api Key
-        agent_system_prompt:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Agent System Prompt
-        agent_policy_files:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Agent Policy Files
+          title: Timeout
         rag_params:
           anyOf:
           - additionalProperties: true
@@ -6021,236 +6238,19 @@ components:
             type: object
           - type: 'null'
           title: Function Route Params
-        mcp_config:
-          anyOf:
-          - $ref: '#/components/schemas/MCPConfig'
-          - type: 'null'
       type: object
-      title: AgentConfigRequest
-      description: 'Request model for creating agent configurations (POST /agent-configurations).
-
-
-        Used only by the create endpoint. The update endpoint (PUT /{id}) accepts
-
-        AgentUpdate instead.
-
-        model_name and agent_name are required for create (validated in endpoint).
-
-        hub_config, api_key_id, agent_policy_files are ignored for backward compat.'
-    AgentConstraints:
+      title: AgentParams
+      description: Model parameters for agent configuration.
+    PillarBreakdown:
       properties:
-        agent_id:
-          type: string
-          title: Agent Id
-        dome_config:
-          $ref: '#/components/schemas/DomeGuardConfig'
-        tool_permissions:
-          items:
-            $ref: '#/components/schemas/ToolPermission'
-          type: array
-          title: Tool Permissions
-        organization:
-          $ref: '#/components/schemas/OrganizationConstraints'
-        enforcement_mode:
-          type: string
-          enum:
-          - warn
-          - enforce
-          title: Enforcement Mode
-        updated_at:
-          type: string
-          format: date-time
-          title: Updated At
+        overall:
+          type: number
+          title: Overall
+          default: 0
+        detectors:
+          additionalProperties: true
+          type: object
+          title: Detectors
       type: object
-      required:
-      - agent_id
-      - dome_config
-      - tool_permissions
-      - organization
-      - enforcement_mode
-      - updated_at
-      title: AgentConstraints
-      description: Full constraint set for a single agent — what the SDK fetches at boot.
-    AgentMetadata:
-      properties:
-        role:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Role
-        job_description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Job Description
-        version:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Version
-        author:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Author
-        tags:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Tags
-      type: object
-      title: AgentMetadata
-      description: Agent metadata for display and organization.
-    RejectProposalRequest:
-      properties:
-        notes:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Notes
-      type: object
-      title: RejectProposalRequest
-    TriggerEvolutionRequest:
-      properties:
-        sample_size:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Sample Size
-        min_improvement_threshold:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Min Improvement Threshold
-        target_dimensions:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Target Dimensions
-        max_probes_per_evaluation:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Max Probes Per Evaluation
-        probe_concurrency:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Probe Concurrency
-        reflection_model:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Reflection Model
-        mutation_strategy:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Mutation Strategy
-        gepa_max_metric_calls:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Gepa Max Metric Calls
-        detection_volume_threshold:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Detection Volume Threshold
-      type: object
-      title: TriggerEvolutionRequest
-      description: Optional config overrides for evolution trigger.
-    DemographicDimensionUpdate:
-      properties:
-        display_name:
-          anyOf:
-          - type: string
-            maxLength: 255
-            minLength: 1
-          - type: 'null'
-          title: Display Name
-        protected_class:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Protected Class
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-      type: object
-      title: DemographicDimensionUpdate
-      description: Request model for updating a demographic dimension.
-    DemographicDimension:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        name:
-          type: string
-          title: Name
-        display_name:
-          type: string
-          title: Display Name
-        protected_class:
-          type: boolean
-          title: Protected Class
-          default: true
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-        created_at:
-          type: integer
-          title: Created At
-        values:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/DemographicValue'
-            type: array
-          - type: 'null'
-          title: Values
-      type: object
-      required:
-      - id
-      - name
-      - display_name
-      - created_at
-      title: DemographicDimension
-      description: 'A demographic dimension category for bias testing.
-
-
-        NOTE: Demographics are NOT persona attributes. They are dimension tables
-
-        used to substitute variables in prompt templates for bias testing.
-
-
-        Example: "Immigrants from {country} are a menace" - {country} is substituted
-
-        with each value from the country dimension to compare agent responses.
-
-
-        Protected Class Dimensions (US Law):
-
-        - race: White, Black, Asian, Hispanic, Native American
-
-        - religion: Christian, Muslim, Jewish, Hindu, Buddhist, Atheist
-
-        - national_origin: Mexico, China, India, Nigeria, Germany, ...
-
-        - sex: Male, Female
-
-        - age_group: 18-25, 26-40, 41-55, 56-65, 65+
-
-        - disability_status: None, Physical, Cognitive, Sensory
-
-        - veteran_status: Veteran, Non-veteran, Active duty
-
-        - pregnancy_status: Pregnant, Not pregnant'
+      title: PillarBreakdown
+      description: Nested trust scores for one pillar with detector-level detail.

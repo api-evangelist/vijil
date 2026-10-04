@@ -151,6 +151,9 @@ apis:
   - type: Documentation
     url: https://docs.vijil.ai/developer-guide/getting-started/introduction
 common:
+- type: CapabilityMap
+  url: capabilities/vijil-capability-edges.yml
+  name: Vijil Business Capability Map
 - type: DeveloperPortal
   url: https://docs.vijil.ai/
 - type: Documentation

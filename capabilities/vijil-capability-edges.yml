@@ -1,0 +1,50 @@
+slug: vijil
+provider: Vijil
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 3
+edges:
+- tag: Agent Environment
+  spec_file: vijil-agent-environment-api-openapi.yml
+  capability_id: BC-610.60
+  capability_id_l1: BC-610
+  capability_name: Artificial Intelligence Management
+  confidence: 0.78
+  evidence: '''Create Agent Configuration'', ''Update Agent Lifecycle'' (PUT /v1/agent-configurations/{id}/lifecycle),
+    ''Fetch agent trust constraints'', schemas AgentStatus, PolicyRuleCreate, DomeGuardConfig'
+  reason: Operations create, version, archive and lifecycle-manage AI agent configurations plus their
+    guardrail/evaluation policy and personas — the lifecycle and governance of AI assets, which maps to
+    Artificial Intelligence Management (AI/ML lifecycle, responsible AI). Not a generic IT application-management
+    surface because the managed objects are agents, policies and trust constraints.
+- tag: Diamond
+  spec_file: vijil-diamond-api-openapi.yml
+  capability_id: BC-610.60
+  capability_id_l1: BC-610
+  capability_name: Artificial Intelligence Management
+  confidence: 0.7
+  evidence: '''Create Evaluation'', ''Get Evaluation Results'', ''Get Evaluation Html Report'', schemas
+    CustomHarness, CustomHarnessPrompt, EvaluationSummaryResponse'
+  reason: Red-team evaluation runs against AI agents producing trust/reliability/safety reports — model
+    evaluation and responsible-AI assurance, part of the AI/ML lifecycle. Confidence moderated because
+    an alternative reading as software quality/test management (BC-4200.50) is defensible, but the subject
+    under test is an AI agent, not a software build.
+- tag: Teams
+  spec_file: vijil-teams-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.7
+  evidence: '''Jwt Login'', ''Change Password'', ''Create User'', ''Create Team'', ''Invite Users''; schemas
+    ''Membership'', ''TeamRole'', ''Invitation'''
+  reason: Operations are authentication, user accounts, team membership, roles and invitations — identity
+    and access administration for the console. Mapped to Identity & Access Management rather than any
+    product capability.

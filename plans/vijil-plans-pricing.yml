@@ -1,0 +1,68 @@
+# Pricing transcribed from the provider's own page — see provenance. Numbers are quoted, not derived.
+generated: '2026-10-07'
+method: searched
+source: https://www.vijil.ai/pricing/
+sources:
+- https://www.vijil.ai/pricing/
+provenance:
+  tool: all/0-working/economics/harvest_pricing.py
+  run: 20261007T112025
+  grounding: every price_text was found verbatim in the fetched page text
+audience: business-product
+pricing_basis: negotiated
+delivery:
+  delivery: open-core
+  method: page
+  read: '2026-10-07'
+  evidence: Vijil Dome, the control engine, under Apache-2.0 — read it, fork it, change it.
+  free_edition: Open source
+  open_source_license: Apache-2.0
+published: false
+note: 'Pricing page states no numeric prices: free open-source and free hosted single-agent tier, paid
+  air-gapped deployment is ''Flat, quoted once'' with no published number. Dome is Apache-2.0; Diamond/Darwin
+  clients free but not open source.'
+plan_count: 3
+plans:
+- name: Open source
+  price_text: Nothing, forever
+  period: none
+  included_quota: Vijil Dome control engine under Apache-2.0; runs in your own process, bounded by your
+    hardware; Discover endpoint on your machines
+- name: Hosted — free
+  price_text: Nothing
+  period: none
+  included_quota: Runs on console.vijil.ai at our cost; one agent — Discover any scale, Diamond one agent
+    scored, Dome one agent enforced, Darwin one pull request
+- name: Air-gapped
+  price_text: Flat, quoted once
+  period: none
+  included_quota: Runs in your VPC, datacenter, or no-egress network; no agent count, no token meter
+rate_limit_statements:
+- Bounded by One agent
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models: []
+  units: []
+  plans:
+  - name: Open source
+    access: other
+    model: unstated
+    model_how: derived
+    units: []
+    periods:
+    - none
+  - name: Hosted — free
+    access: other
+    model: unstated
+    model_how: derived
+    units: []
+    periods:
+    - none
+  - name: Air-gapped
+    access: other
+    model: unstated
+    model_how: derived
+    units: []
+    periods:
+    - none

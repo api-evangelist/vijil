@@ -313,76 +313,27 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    Finding:
+    ValidationError:
       properties:
-        category:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
           type: string
-          title: Category
-          description: Attack category that produced this finding
-        severity:
+          title: Message
+        type:
           type: string
-          title: Severity
-          description: Severity level (critical, high, medium, low)
-        attack_prompt:
-          type: string
-          title: Attack Prompt
-          description: The adversarial input sent to the agent
-        agent_response:
-          type: string
-          title: Agent Response
-          description: The agent's response to the attack
-        passed:
-          type: boolean
-          title: Passed
-          description: Whether the agent resisted the attack
-        metadata:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Metadata
-          description: 'Normalized structured extras: fields the adapter has explicitly parsed and named (e.g. plugin_id, score_reason). Use when the adapter can provide typed context. Distinct from raw_metadata, which is the verbatim tool output.'
-        attack_type:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Attack Type
-          description: Tool's native attack category name
-        phenotype_category:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Phenotype Category
-          description: Mapped taxonomy path (e.g., 'security.integrity.prompt_injection')
-        attack_score:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Attack Score
-          description: 0-1 score for this specific attack type
-        detector_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Detector Id
-          description: Which detector/plugin scored this
-        raw_metadata:
-          additionalProperties: true
-          type: object
-          title: Raw Metadata
-          description: Verbatim tool-native output preserved as-is for debugging and auditability. Always populated by adapters. Distinct from metadata, which contains selectively parsed and normalized fields.
+          title: Error Type
       type: object
       required:
-      - category
-      - severity
-      - attack_prompt
-      - agent_response
-      - passed
-      title: Finding
-      description: 'A single vulnerability finding, normalized across all tools.
-
-
-        Each tool adapter maps its native output format into this structure.'
+      - loc
+      - msg
+      - type
+      title: ValidationError
     RedteamTool:
       type: string
       enum:
@@ -393,91 +344,6 @@ components:
       - unknown
       title: RedteamTool
       description: Supported red team tools.
-    RedteamResult:
-      properties:
-        job_id:
-          type: string
-          format: uuid
-          title: Job Id
-          description: Campaign job ID these results belong to
-        tool:
-          $ref: '#/components/schemas/RedteamTool'
-          description: Tool that produced these results
-        findings:
-          items:
-            $ref: '#/components/schemas/Finding'
-          type: array
-          title: Findings
-          description: Individual vulnerability findings
-        summary:
-          $ref: '#/components/schemas/RedteamSummary'
-          description: Aggregate statistics
-        raw_output:
-          additionalProperties: true
-          type: object
-          title: Raw Output
-          description: Full tool-native output for debugging
-      type: object
-      required:
-      - job_id
-      - tool
-      - summary
-      title: RedteamResult
-      description: 'Normalized results from any red team tool.
-
-
-        Adapters convert tool-native output into this common format,
-
-        enabling cross-tool comparison and unified reporting.'
-    ToolInfo:
-      properties:
-        tool:
-          type: string
-          title: Tool
-        categories:
-          items:
-            type: string
-          type: array
-          title: Categories
-      type: object
-      required:
-      - tool
-      - categories
-      title: ToolInfo
-      description: Summary of a red team tool's capabilities.
-    AttackCategory:
-      type: string
-      enum:
-      - injection
-      - jailbreak
-      - harmful
-      - pii
-      - toxicity
-      - hallucination
-      - overreliance
-      - custom
-      title: AttackCategory
-      description: 'Abstract attack categories (tool-agnostic).
-
-
-        Each adapter maps these to tool-native plugin/probe/strategy names.
-
-        Use CUSTOM with custom_plugins for tool-native passthrough.'
-    CreateCampaignResponse:
-      properties:
-        campaign_id:
-          type: string
-          format: uuid
-          title: Campaign Id
-        status:
-          type: string
-          title: Status
-      type: object
-      required:
-      - campaign_id
-      - status
-      title: CreateCampaignResponse
-      description: Response after creating a campaign.
     CampaignStatusResponse:
       properties:
         campaign_id:
@@ -516,27 +382,66 @@ components:
       - created_at
       title: CampaignStatusResponse
       description: Response for campaign status queries.
-    ValidationError:
+    HTTPValidationError:
       properties:
-        loc:
+        detail:
           items:
-            anyOf:
-            - type: string
-            - type: integer
+            $ref: '#/components/schemas/ValidationError'
           type: array
-          title: Location
-        msg:
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    CreateCampaignResponse:
+      properties:
+        campaign_id:
           type: string
-          title: Message
-        type:
+          format: uuid
+          title: Campaign Id
+        status:
           type: string
-          title: Error Type
+          title: Status
       type: object
       required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      - campaign_id
+      - status
+      title: CreateCampaignResponse
+      description: Response after creating a campaign.
+    RedteamResult:
+      properties:
+        job_id:
+          type: string
+          format: uuid
+          title: Job Id
+          description: Campaign job ID these results belong to
+        tool:
+          $ref: '#/components/schemas/RedteamTool'
+          description: Tool that produced these results
+        findings:
+          items:
+            $ref: '#/components/schemas/Finding'
+          type: array
+          title: Findings
+          description: Individual vulnerability findings
+        summary:
+          $ref: '#/components/schemas/RedteamSummary'
+          description: Aggregate statistics
+        raw_output:
+          additionalProperties: true
+          type: object
+          title: Raw Output
+          description: Full tool-native output for debugging
+      type: object
+      required:
+      - job_id
+      - tool
+      - summary
+      title: RedteamResult
+      description: 'Normalized results from any red team tool.
+
+
+        Adapters convert tool-native output into this common format,
+
+        enabling cross-tool comparison and unified reporting.'
     RedteamSummary:
       properties:
         total_tests:
@@ -579,6 +484,22 @@ components:
       - vulnerabilities_found
       title: RedteamSummary
       description: Aggregate statistics for a red team campaign.
+    ToolInfo:
+      properties:
+        tool:
+          type: string
+          title: Tool
+        categories:
+          items:
+            type: string
+          type: array
+          title: Categories
+      type: object
+      required:
+      - tool
+      - categories
+      title: ToolInfo
+      description: Summary of a red team tool's capabilities.
     CreateCampaignRequest:
       properties:
         team_id:
@@ -667,12 +588,91 @@ components:
       - categories
       title: CreateCampaignRequest
       description: Request body for creating a red team campaign.
-    HTTPValidationError:
+    AttackCategory:
+      type: string
+      enum:
+      - injection
+      - jailbreak
+      - harmful
+      - pii
+      - toxicity
+      - hallucination
+      - overreliance
+      - custom
+      title: AttackCategory
+      description: 'Abstract attack categories (tool-agnostic).
+
+
+        Each adapter maps these to tool-native plugin/probe/strategy names.
+
+        Use CUSTOM with custom_plugins for tool-native passthrough.'
+    Finding:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
+        category:
+          type: string
+          title: Category
+          description: Attack category that produced this finding
+        severity:
+          type: string
+          title: Severity
+          description: Severity level (critical, high, medium, low)
+        attack_prompt:
+          type: string
+          title: Attack Prompt
+          description: The adversarial input sent to the agent
+        agent_response:
+          type: string
+          title: Agent Response
+          description: The agent's response to the attack
+        passed:
+          type: boolean
+          title: Passed
+          description: Whether the agent resisted the attack
+        metadata:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Metadata
+          description: 'Normalized structured extras: fields the adapter has explicitly parsed and named (e.g. plugin_id, score_reason). Use when the adapter can provide typed context. Distinct from raw_metadata, which is the verbatim tool output.'
+        attack_type:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Attack Type
+          description: Tool's native attack category name
+        phenotype_category:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Phenotype Category
+          description: Mapped taxonomy path (e.g., 'security.integrity.prompt_injection')
+        attack_score:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Attack Score
+          description: 0-1 score for this specific attack type
+        detector_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Detector Id
+          description: Which detector/plugin scored this
+        raw_metadata:
+          additionalProperties: true
+          type: object
+          title: Raw Metadata
+          description: Verbatim tool-native output preserved as-is for debugging and auditability. Always populated by adapters. Distinct from metadata, which contains selectively parsed and normalized fields.
       type: object
-      title: HTTPValidationError
+      required:
+      - category
+      - severity
+      - attack_prompt
+      - agent_response
+      - passed
+      title: Finding
+      description: 'A single vulnerability finding, normalized across all tools.
+
+
+        Each tool adapter maps its native output format into this structure.'

@@ -6254,3 +6254,9 @@ components:
       - stage
       title: AgentTrustCard
       description: A single agent card on the Kanban board.
+x-provenance:
+  method: harvested
+  publisher: Vijil
+  source: https://docs.vijil.ai/openapi/api.json
+  note: split by refine-openapis from the provider's own published document, verified by fetch (openapi/_original/*.fetch.json);
+    stamped by stamp-openapi-provenance.py (roadmap#793)

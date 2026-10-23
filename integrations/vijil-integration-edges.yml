@@ -48,6 +48,28 @@ edges:
   detected: '2026-10-21'
   detected_by: mirror-platform-listings.py
   category: Security
+- partner_name: Hugging Face (hugging-face-hub)
+  partner: hugging-face
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: hugging-face-hub
+  evidence: https://huggingface.co/vijil
+  mirror_of: hugging-face/integrations/hugging-face-integration-edges.yml
+  apps:
+  - vijil/vijil_dome_toxic_content_detection
+  - vijil/prompt-injection-v5-20260827
+  - vijil/stereotype-detector-v8-20260911
+  - vijil
+  listing_count: 2
+  detected: '2026-10-23'
+  detected_by: mirror-platform-listings.py
+  category: Hugging Face Hub models
+  badges:
+  - Verified publisher (Hugging Face verified organisation)
 generated: '2026-10-15'
 method: searched
 source:
@@ -58,3 +80,4 @@ checked:
 - https://github.com/cncf/k8s-conformance
 - https://github.com/cncf/landscape
 - digital-ocean/integrations/digital-ocean-integration-edges.yml
+- hugging-face/integrations/hugging-face-integration-edges.yml

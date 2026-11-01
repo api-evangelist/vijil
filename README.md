@@ -64,6 +64,156 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Vijil is a company surfaced as a portfolio company of mayfield and added to the API Evangelist network as a stub for enrichment. This profile is a lead awaiting the enrichment pipeline.
+Vijil is an AI agent trust platform (Mayfield-backed, ~$23M raised) that helps enterprises make AI agents reliable, secure, and safe for production. Its Console API and CLI span four products across the agent lifecycle: Diamond (pre-deployment red-team evaluation that returns a Trust Score across reliability, security, and safety), Dome (runtime Guardrails, Guards, and Detectors that defend agent inputs/outputs), Darwin (reinforcement-learning evolution that continuously improves agents), and Depot (hardened models and a secure MCP proxy). The platform is programmable via a JWT-authenticated REST API, the `vijil` CLI, an official `vijil-mcp` MCP server, and Python SDKs.
 
-Backed by: mayfield — https://vijil.ai
+**Areas:** Company · Artificial Intelligence · AI Agents · Agent Security · AI Safety · Trust · Red Teaming · Guardrails · LLM Security · Evaluation · Observability · MCP
+
+## Vijil on APIs.io
+
+Everything profiled for Vijil is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/vijil/](https://apis.io/providers/vijil/)** — or go straight to one of the APIs or properties below.
+
+### APIs (5)
+
+- [Vijil Agent Environment API](https://apis.io/apis/vijil/vijil-agent-environment-api/) — Agent, persona, policy, and harness management
+- [Vijil Diamond API](https://apis.io/apis/vijil/vijil-diamond-api/) — Evaluation management and report retrieval
+- [Vijil Dome API](https://apis.io/apis/vijil/vijil-dome-api/) — Protection, guardrails, and telemetry
+- [Vijil Red Team API](https://apis.io/apis/vijil/vijil-red-team-api/) — Red team campaigns
+- [Vijil Teams API](https://apis.io/apis/vijil/vijil-teams-api/) — Authentication, users, and team management
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [vijil](https://apis.io/servers/vijil/vijil/)
+
+#### Agentic access (1)
+
+Which operations an agent can call, which act, and which need a human in the loop.
+
+- [Vijil Agentic Access](https://apis.io/agentic-access/vijil/vijil-agentic-access/)
+
+#### Collections (28)
+
+Postman and Open Collection request collections.
+
+- [Vijil Console API (Combined) agent-configurations API](https://apis.io/collections/vijil/open-vijil-agent-configurations-api/)
+- [Vijil Console API (Combined) agent-configurations Agent Environment API](https://apis.io/collections/vijil/open-vijil-agent-environment-api/)
+- [Vijil Console API (Combined) agent-configurations agent-import API](https://apis.io/collections/vijil/open-vijil-agent-import-api/)
+- [Vijil Console API (Combined) agent-configurations auth API](https://apis.io/collections/vijil/open-vijil-auth-api/)
+- [Vijil Console API (Combined) agent-configurations custom-harnesses API](https://apis.io/collections/vijil/open-vijil-custom-harnesses-api/)
+- [Vijil Console API (Combined) agent-configurations dashboard API](https://apis.io/collections/vijil/open-vijil-dashboard-api/)
+- [Vijil Console API (Combined) agent-configurations demographics API](https://apis.io/collections/vijil/open-vijil-demographics-api/)
+- [Vijil Console API (Combined) agent-configurations detections API](https://apis.io/collections/vijil/open-vijil-detections-api/)
+- [Vijil Console API (Combined) agent-configurations Diamond API](https://apis.io/collections/vijil/open-vijil-diamond-api/)
+- [Vijil Console API (Combined) agent-configurations Dome API](https://apis.io/collections/vijil/open-vijil-dome-api/)
+- [Vijil Console API (Combined) agent-configurations dome-configs API](https://apis.io/collections/vijil/open-vijil-dome-configs-api/)
+- [Vijil Console API (Combined) agent-configurations evaluation-results API](https://apis.io/collections/vijil/open-vijil-evaluation-results-api/)
+- [Vijil Console API (Combined) agent-configurations evaluation-summaries API](https://apis.io/collections/vijil/open-vijil-evaluation-summaries-api/)
+- [Vijil Console API (Combined) agent-configurations evaluations API](https://apis.io/collections/vijil/open-vijil-evaluations-api/)
+- [Vijil Console API (Combined) agent-configurations evolution API](https://apis.io/collections/vijil/open-vijil-evolution-api/)
+- [Vijil Console API (Combined) agent-configurations genomes API](https://apis.io/collections/vijil/open-vijil-genomes-api/)
+- [Vijil Console API (Combined) agent-configurations harnesses API](https://apis.io/collections/vijil/open-vijil-harnesses-api/)
+- [Vijil Console API (Combined) agent-configurations personas API](https://apis.io/collections/vijil/open-vijil-personas-api/)
+- [Vijil Console API (Combined) agent-configurations policies API](https://apis.io/collections/vijil/open-vijil-policies-api/)
+- [Vijil Console API (Combined) agent-configurations policy-rules API](https://apis.io/collections/vijil/open-vijil-policy-rules-api/)
+- [Vijil Console API (Combined) agent-configurations proposals API](https://apis.io/collections/vijil/open-vijil-proposals-api/)
+- [Vijil Console API (Combined) agent-configurations Red Team API](https://apis.io/collections/vijil/open-vijil-red-team-api/)
+- [Vijil Console API (Combined) agent-configurations redteam API](https://apis.io/collections/vijil/open-vijil-redteam-api/)
+- [Vijil Console API (Combined) agent-configurations Teams API](https://apis.io/collections/vijil/open-vijil-teams-api/)
+- [Vijil Console API (Combined) agent-configurations Telemetry API](https://apis.io/collections/vijil/open-vijil-telemetry-api/)
+- …and 3 more published on APIs.io
+
+#### Overlays (1)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Vijil Openapi Overlay](https://apis.io/overlays/vijil/vijil-openapi-overlay/)
+
+#### Security (3)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Vijil Authentication](https://apis.io/security/vijil/vijil-authentication/)
+- [Vijil Domain Security](https://apis.io/security/vijil/vijil-domain-security/)
+- [Vijil Trust Center](https://apis.io/security/vijil/vijil-trust-center/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Vijil Plans Pricing](https://apis.io/plans/vijil/vijil-plans-pricing/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://vijil.ai)
+- [Documentation](https://docs.vijil.ai/developer-guide/getting-started/introduction)
+- [Getting started](https://docs.vijil.ai/developer-guide/agentic/quickstart)
+- [API reference](https://docs.vijil.ai/api-reference)
+- [Pricing](https://www.vijil.ai/pricing/)
+- [Sign up](https://vijil.ai/try-vijil)
+- [Support](https://vijil.ai/contact-us)
+- [Blog](https://www.vijil.ai/blog)
+- [Compliance](https://vijil.ai/policies/trust-center)
+- [Terms of service](https://vijil.ai/policies/terms-of-service)
+- [Privacy policy](https://vijil.ai/policies/privacy-policy)
+
+## API Evangelist rating
+
+**Kin Score 56.5** — strong · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 71.7 |
+| Contract quality | 44.2 |
+| Contract governance | 4.5 |
+| Operational transparency | 13.2 |
+| Developer ergonomics | 68.5 |
+| Access clarity | 92.1 |
+
+**Agent readiness 29.2** — agent-ready
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | documented (partial credit) |
+| MCP Server | documented (partial credit) |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | verified |
+| OpenAPI Examples | — |
+| Rate Limit Signal | — |
+| Event Surface Described | — |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | partial |
+| Operation Distinctiveness | — |
+
+**Regulatory alignment 27.3** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/vijil/](https://apis.io/providers/vijil/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Vijil: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/vijil/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
